@@ -147,6 +147,32 @@ func TestInvoiceListWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestInvoiceDeleteLineItem(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	err := client.Invoices.DeleteLineItem(
+		context.TODO(),
+		"invoice_id",
+		"line_item_id",
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestInvoiceFetch(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -212,6 +238,48 @@ func TestInvoiceIssueWithOptionalParams(t *testing.T) {
 			Synchronous: orb.F(true),
 		},
 	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestInvoiceListSummaryWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Invoices.ListSummary(context.TODO(), orb.InvoiceListSummaryParams{
+		Amount:             orb.F("amount"),
+		AmountGt:           orb.F("amount[gt]"),
+		AmountLt:           orb.F("amount[lt]"),
+		Cursor:             orb.F("cursor"),
+		CustomerID:         orb.F("customer_id"),
+		DateType:           orb.F(orb.InvoiceListSummaryParamsDateTypeDueDate),
+		DueDate:            orb.F(time.Now()),
+		DueDateWindow:      orb.F("due_date_window"),
+		DueDateGt:          orb.F(time.Now()),
+		DueDateLt:          orb.F(time.Now()),
+		ExternalCustomerID: orb.F("external_customer_id"),
+		InvoiceDateGt:      orb.F(time.Now()),
+		InvoiceDateGte:     orb.F(time.Now()),
+		InvoiceDateLt:      orb.F(time.Now()),
+		InvoiceDateLte:     orb.F(time.Now()),
+		IsRecurring:        orb.F(true),
+		Limit:              orb.F(int64(1)),
+		Status:             orb.F(orb.InvoiceListSummaryParamsStatusDraft),
+		SubscriptionID:     orb.F("subscription_id"),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

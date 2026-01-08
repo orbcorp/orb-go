@@ -7,14 +7,17 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"reflect"
 	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
+	"github.com/orbcorp/orb-go/internal/apiquery"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/packages/pagination"
 	"github.com/orbcorp/orb-go/shared"
 	"github.com/tidwall/gjson"
 )
@@ -56,6 +59,33 @@ func (r *SubscriptionChangeService) Get(ctx context.Context, subscriptionChangeI
 	path := fmt.Sprintf("subscription_changes/%s", subscriptionChangeID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
+}
+
+// This endpoint returns a list of pending subscription changes for a customer. Use
+// the [Fetch Subscription Change](fetch-subscription-change) endpoint to retrieve
+// the expected subscription state after the pending change is applied.
+func (r *SubscriptionChangeService) List(ctx context.Context, query SubscriptionChangeListParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionChangeListResponse], err error) {
+	var raw *http.Response
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "subscription_changes"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// This endpoint returns a list of pending subscription changes for a customer. Use
+// the [Fetch Subscription Change](fetch-subscription-change) endpoint to retrieve
+// the expected subscription state after the pending change is applied.
+func (r *SubscriptionChangeService) ListAutoPaging(ctx context.Context, query SubscriptionChangeListParams, opts ...option.RequestOption) *pagination.PageAutoPager[SubscriptionChangeListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // Apply a subscription change to perform the intended action. If a positive amount
@@ -421,6 +451,56 @@ func (r SubscriptionChangeGetResponseStatus) IsKnown() bool {
 	return false
 }
 
+type SubscriptionChangeListResponse struct {
+	ID string `json:"id,required"`
+	// Subscription change will be cancelled at this time and can no longer be applied.
+	ExpirationTime time.Time                            `json:"expiration_time,required" format:"date-time"`
+	Status         SubscriptionChangeListResponseStatus `json:"status,required"`
+	SubscriptionID string                               `json:"subscription_id,required,nullable"`
+	// When this change was applied.
+	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	// When this change was cancelled.
+	CancelledAt time.Time                          `json:"cancelled_at,nullable" format:"date-time"`
+	JSON        subscriptionChangeListResponseJSON `json:"-"`
+}
+
+// subscriptionChangeListResponseJSON contains the JSON metadata for the struct
+// [SubscriptionChangeListResponse]
+type subscriptionChangeListResponseJSON struct {
+	ID             apijson.Field
+	ExpirationTime apijson.Field
+	Status         apijson.Field
+	SubscriptionID apijson.Field
+	AppliedAt      apijson.Field
+	CancelledAt    apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *SubscriptionChangeListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionChangeListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionChangeListResponseStatus string
+
+const (
+	SubscriptionChangeListResponseStatusPending   SubscriptionChangeListResponseStatus = "pending"
+	SubscriptionChangeListResponseStatusApplied   SubscriptionChangeListResponseStatus = "applied"
+	SubscriptionChangeListResponseStatusCancelled SubscriptionChangeListResponseStatus = "cancelled"
+)
+
+func (r SubscriptionChangeListResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionChangeListResponseStatusPending, SubscriptionChangeListResponseStatusApplied, SubscriptionChangeListResponseStatusCancelled:
+		return true
+	}
+	return false
+}
+
 // A subscription change represents a desired new subscription / pending change to
 // an existing subscription. It is a way to first preview the effects on the
 // subscription as well as any changes/creation of invoices (see
@@ -556,6 +636,42 @@ const (
 func (r SubscriptionChangeCancelResponseStatus) IsKnown() bool {
 	switch r {
 	case SubscriptionChangeCancelResponseStatusPending, SubscriptionChangeCancelResponseStatusApplied, SubscriptionChangeCancelResponseStatusCancelled:
+		return true
+	}
+	return false
+}
+
+type SubscriptionChangeListParams struct {
+	// Cursor for pagination. This can be populated by the `next_cursor` value returned
+	// from the initial request.
+	Cursor             param.Field[string] `query:"cursor"`
+	CustomerID         param.Field[string] `query:"customer_id"`
+	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
+	// The number of items to fetch. Defaults to 20.
+	Limit  param.Field[int64]                              `query:"limit"`
+	Status param.Field[SubscriptionChangeListParamsStatus] `query:"status"`
+}
+
+// URLQuery serializes [SubscriptionChangeListParams]'s query parameters as
+// `url.Values`.
+func (r SubscriptionChangeListParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type SubscriptionChangeListParamsStatus string
+
+const (
+	SubscriptionChangeListParamsStatusPending   SubscriptionChangeListParamsStatus = "pending"
+	SubscriptionChangeListParamsStatusApplied   SubscriptionChangeListParamsStatus = "applied"
+	SubscriptionChangeListParamsStatusCancelled SubscriptionChangeListParamsStatus = "cancelled"
+)
+
+func (r SubscriptionChangeListParamsStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionChangeListParamsStatusPending, SubscriptionChangeListParamsStatusApplied, SubscriptionChangeListParamsStatusCancelled:
 		return true
 	}
 	return false

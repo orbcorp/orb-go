@@ -31,6 +31,7 @@ import (
 type PlanService struct {
 	Options        []option.RequestOption
 	ExternalPlanID *PlanExternalPlanIDService
+	Migrations     *PlanMigrationService
 }
 
 // NewPlanService generates a new service that applies the given options to each
@@ -40,6 +41,7 @@ func NewPlanService(opts ...option.RequestOption) (r *PlanService) {
 	r = &PlanService{}
 	r.Options = opts
 	r.ExternalPlanID = NewPlanExternalPlanIDService(opts...)
+	r.Migrations = NewPlanMigrationService(opts...)
 	return
 }
 
