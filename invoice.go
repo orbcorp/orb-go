@@ -1892,9 +1892,10 @@ type InvoiceListSummaryParams struct {
 	InvoiceDateLte     param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
 	IsRecurring        param.Field[bool]      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
-	Limit          param.Field[int64]                          `query:"limit"`
-	Status         param.Field[InvoiceListSummaryParamsStatus] `query:"status"`
-	SubscriptionID param.Field[string]                         `query:"subscription_id"`
+	Limit          param.Field[int64]                            `query:"limit"`
+	Status         param.Field[InvoiceListSummaryParamsStatus]   `query:"status"`
+	Status         param.Field[[]InvoiceListSummaryParamsStatus] `query:"status"`
+	SubscriptionID param.Field[string]                           `query:"subscription_id"`
 }
 
 // URLQuery serializes [InvoiceListSummaryParams]'s query parameters as
