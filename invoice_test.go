@@ -278,6 +278,7 @@ func TestInvoiceListSummaryWithOptionalParams(t *testing.T) {
 		IsRecurring:        orb.F(true),
 		Limit:              orb.F(int64(1)),
 		Status:             orb.F(orb.InvoiceListSummaryParamsStatusDraft),
+		Status:             orb.F([]orb.InvoiceListSummaryParamsStatus{orb.InvoiceListSummaryParamsStatusDraft}),
 		SubscriptionID:     orb.F("subscription_id"),
 	})
 	if err != nil {
