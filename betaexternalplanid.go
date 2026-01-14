@@ -273,6 +273,7 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice struct {
 	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
 	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
 	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
 	// Configuration for package pricing
 	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
@@ -331,6 +332,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice) ImplementsBetaExte
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
 // [BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPrice],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePrice],
 // [BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPrice],
@@ -930,6 +932,143 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGro
 	return false
 }
 
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for minimum pricing
+	MinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceMinimumConfig] `json:"minimum_config,required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPrice) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceMinimumConfig struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelTypeMinimum BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelType = "minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
@@ -1260,13 +1399,14 @@ const (
 	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk           BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
 	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedAllocation     BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "cumulative_grouped_allocation"
 	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMinimum                         BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMinimumComposite                BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "minimum_composite"
 	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePercent                         BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "percent"
 	BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeEventOutput                     BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType = "event_output"
 )
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeEventOutput:
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeMinimumComposite, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -1472,6 +1612,7 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice struct {
 	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
 	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
 	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
 	// Configuration for package pricing
 	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
@@ -1530,6 +1671,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice) ImplementsBeta
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
 // [BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPrice],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePrice],
 // [BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPrice],
@@ -2129,6 +2271,143 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativ
 	return false
 }
 
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for minimum pricing
+	MinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceMinimumConfig] `json:"minimum_config,required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPrice) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceMinimumConfig struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelTypeMinimum BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelType = "minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                              `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
@@ -2459,13 +2738,14 @@ const (
 	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
 	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation     BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "cumulative_grouped_allocation"
 	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMinimum                         BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMinimumComposite                BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "minimum_composite"
 	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePercent                         BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "percent"
 	BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeEventOutput                     BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType = "event_output"
 )
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeEventOutput:
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeMinimumComposite, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
