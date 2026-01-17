@@ -653,7 +653,6 @@ type PlanNewParamsPricesPrice struct {
 	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}]                            `json:"metadata"`
 	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
-	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
 	// Configuration for package pricing
 	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
 	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
@@ -710,7 +709,6 @@ func (r PlanNewParamsPricesPrice) ImplementsPlanNewParamsPricesPriceUnion() {}
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
 // [PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPrice],
-// [PlanNewParamsPricesPriceNewPlanMinimumPrice],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [PlanNewParamsPricesPriceNewPlanPercentCompositePrice],
 // [PlanNewParamsPricesPriceNewPlanEventOutputPrice], [PlanNewParamsPricesPrice].
@@ -1309,142 +1307,6 @@ func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversio
 	return false
 }
 
-type PlanNewParamsPricesPriceNewPlanMinimumPrice struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
-	// Configuration for minimum pricing
-	MinimumConfig param.Field[PlanNewParamsPricesPriceNewPlanMinimumPriceMinimumConfig] `json:"minimum_config,required"`
-	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanMinimumPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency param.Field[string] `json:"currency"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-	// A transient ID that can be used to reference this price when adding adjustments
-	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
-}
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPrice) ImplementsPlanNewParamsPricesPriceUnion() {}
-
-// The cadence to bill for this price on.
-type PlanNewParamsPricesPriceNewPlanMinimumPriceCadence string
-
-const (
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceAnnual     PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "annual"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceSemiAnnual PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "semi_annual"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceMonthly    PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "monthly"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceQuarterly  PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "quarterly"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceOneTime    PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "one_time"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceCustom     PlanNewParamsPricesPriceNewPlanMinimumPriceCadence = "custom"
-)
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceCadence) IsKnown() bool {
-	switch r {
-	case PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceAnnual, PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceSemiAnnual, PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceMonthly, PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceQuarterly, PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceOneTime, PlanNewParamsPricesPriceNewPlanMinimumPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-// Configuration for minimum pricing
-type PlanNewParamsPricesPriceNewPlanMinimumPriceMinimumConfig struct {
-	// The minimum amount to apply
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// If true, subtotals from this price are prorated based on the service period
-	Prorated param.Field[bool] `json:"prorated"`
-}
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceMinimumConfig) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// The pricing model type
-type PlanNewParamsPricesPriceNewPlanMinimumPriceModelType string
-
-const (
-	PlanNewParamsPricesPriceNewPlanMinimumPriceModelTypeMinimum PlanNewParamsPricesPriceNewPlanMinimumPriceModelType = "minimum"
-)
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceModelType) IsKnown() bool {
-	switch r {
-	case PlanNewParamsPricesPriceNewPlanMinimumPriceModelTypeMinimum:
-		return true
-	}
-	return false
-}
-
-type PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                              `json:"unit_config"`
-}
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfig) ImplementsPlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigUnion() {
-}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfig].
-type PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigUnion interface {
-	ImplementsPlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigUnion()
-}
-
-type PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit   PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "unit"
-	PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeUnit, PlanNewParamsPricesPriceNewPlanMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PlanNewParamsPricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
@@ -1773,7 +1635,6 @@ const (
 	PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk           PlanNewParamsPricesPriceModelType = "cumulative_grouped_bulk"
 	PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation     PlanNewParamsPricesPriceModelType = "cumulative_grouped_allocation"
-	PlanNewParamsPricesPriceModelTypeMinimum                         PlanNewParamsPricesPriceModelType = "minimum"
 	PlanNewParamsPricesPriceModelTypeMinimumComposite                PlanNewParamsPricesPriceModelType = "minimum_composite"
 	PlanNewParamsPricesPriceModelTypePercent                         PlanNewParamsPricesPriceModelType = "percent"
 	PlanNewParamsPricesPriceModelTypeEventOutput                     PlanNewParamsPricesPriceModelType = "event_output"
@@ -1781,7 +1642,7 @@ const (
 
 func (r PlanNewParamsPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesPriceModelTypeUnit, PlanNewParamsPricesPriceModelTypeTiered, PlanNewParamsPricesPriceModelTypeBulk, PlanNewParamsPricesPriceModelTypeBulkWithFilters, PlanNewParamsPricesPriceModelTypePackage, PlanNewParamsPricesPriceModelTypeMatrix, PlanNewParamsPricesPriceModelTypeThresholdTotalAmount, PlanNewParamsPricesPriceModelTypeTieredPackage, PlanNewParamsPricesPriceModelTypeTieredWithMinimum, PlanNewParamsPricesPriceModelTypeGroupedTiered, PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum, PlanNewParamsPricesPriceModelTypePackageWithAllocation, PlanNewParamsPricesPriceModelTypeUnitWithPercent, PlanNewParamsPricesPriceModelTypeMatrixWithAllocation, PlanNewParamsPricesPriceModelTypeTieredWithProration, PlanNewParamsPricesPriceModelTypeUnitWithProration, PlanNewParamsPricesPriceModelTypeGroupedAllocation, PlanNewParamsPricesPriceModelTypeBulkWithProration, PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMinMaxThresholds, PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName, PlanNewParamsPricesPriceModelTypeGroupedTieredPackage, PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage, PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk, PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation, PlanNewParamsPricesPriceModelTypeMinimum, PlanNewParamsPricesPriceModelTypeMinimumComposite, PlanNewParamsPricesPriceModelTypePercent, PlanNewParamsPricesPriceModelTypeEventOutput:
+	case PlanNewParamsPricesPriceModelTypeUnit, PlanNewParamsPricesPriceModelTypeTiered, PlanNewParamsPricesPriceModelTypeBulk, PlanNewParamsPricesPriceModelTypeBulkWithFilters, PlanNewParamsPricesPriceModelTypePackage, PlanNewParamsPricesPriceModelTypeMatrix, PlanNewParamsPricesPriceModelTypeThresholdTotalAmount, PlanNewParamsPricesPriceModelTypeTieredPackage, PlanNewParamsPricesPriceModelTypeTieredWithMinimum, PlanNewParamsPricesPriceModelTypeGroupedTiered, PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum, PlanNewParamsPricesPriceModelTypePackageWithAllocation, PlanNewParamsPricesPriceModelTypeUnitWithPercent, PlanNewParamsPricesPriceModelTypeMatrixWithAllocation, PlanNewParamsPricesPriceModelTypeTieredWithProration, PlanNewParamsPricesPriceModelTypeUnitWithProration, PlanNewParamsPricesPriceModelTypeGroupedAllocation, PlanNewParamsPricesPriceModelTypeBulkWithProration, PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMinMaxThresholds, PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName, PlanNewParamsPricesPriceModelTypeGroupedTieredPackage, PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage, PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk, PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation, PlanNewParamsPricesPriceModelTypeMinimumComposite, PlanNewParamsPricesPriceModelTypePercent, PlanNewParamsPricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false

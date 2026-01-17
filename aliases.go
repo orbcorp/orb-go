@@ -8500,110 +8500,6 @@ const PriceCumulativeGroupedAllocationPricePriceTypeFixedPrice = shared.PriceCum
 const PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice = shared.PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice
 
 // This is an alias to an internal type.
-type PriceMinimumPrice = shared.PriceMinimumPrice
-
-// This is an alias to an internal type.
-type PriceMinimumPriceBillingMode = shared.PriceMinimumPriceBillingMode
-
-// This is an alias to an internal value.
-const PriceMinimumPriceBillingModeInAdvance = shared.PriceMinimumPriceBillingModeInAdvance
-
-// This is an alias to an internal value.
-const PriceMinimumPriceBillingModeInArrear = shared.PriceMinimumPriceBillingModeInArrear
-
-// This is an alias to an internal type.
-type PriceMinimumPriceCadence = shared.PriceMinimumPriceCadence
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceOneTime = shared.PriceMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceMonthly = shared.PriceMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceQuarterly = shared.PriceMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceSemiAnnual = shared.PriceMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceAnnual = shared.PriceMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCadenceCustom = shared.PriceMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceMinimumPriceCompositePriceFilter = shared.PriceMinimumPriceCompositePriceFilter
-
-// The property of the price to filter on.
-//
-// This is an alias to an internal type.
-type PriceMinimumPriceCompositePriceFiltersField = shared.PriceMinimumPriceCompositePriceFiltersField
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersFieldPriceID = shared.PriceMinimumPriceCompositePriceFiltersFieldPriceID
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersFieldItemID = shared.PriceMinimumPriceCompositePriceFiltersFieldItemID
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersFieldPriceType = shared.PriceMinimumPriceCompositePriceFiltersFieldPriceType
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersFieldCurrency = shared.PriceMinimumPriceCompositePriceFiltersFieldCurrency
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMinimumPriceCompositePriceFiltersFieldPricingUnitID
-
-// Should prices that match the filter be included or excluded.
-//
-// This is an alias to an internal type.
-type PriceMinimumPriceCompositePriceFiltersOperator = shared.PriceMinimumPriceCompositePriceFiltersOperator
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersOperatorIncludes = shared.PriceMinimumPriceCompositePriceFiltersOperatorIncludes
-
-// This is an alias to an internal value.
-const PriceMinimumPriceCompositePriceFiltersOperatorExcludes = shared.PriceMinimumPriceCompositePriceFiltersOperatorExcludes
-
-// This is an alias to an internal type.
-type PriceMinimumPriceConversionRateConfig = shared.PriceMinimumPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMinimumPriceConversionRateConfigConversionRateType = shared.PriceMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMinimumPriceConversionRateConfigConversionRateTypeTiered
-
-// Configuration for minimum pricing
-//
-// This is an alias to an internal type.
-type PriceMinimumPriceMinimumConfig = shared.PriceMinimumPriceMinimumConfig
-
-// The pricing model type
-//
-// This is an alias to an internal type.
-type PriceMinimumPriceModelType = shared.PriceMinimumPriceModelType
-
-// This is an alias to an internal value.
-const PriceMinimumPriceModelTypeMinimum = shared.PriceMinimumPriceModelTypeMinimum
-
-// This is an alias to an internal type.
-type PriceMinimumPricePriceType = shared.PriceMinimumPricePriceType
-
-// This is an alias to an internal value.
-const PriceMinimumPricePriceTypeUsagePrice = shared.PriceMinimumPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceMinimumPricePriceTypeFixedPrice = shared.PriceMinimumPricePriceTypeFixedPrice
-
-// This is an alias to an internal value.
-const PriceMinimumPricePriceTypeCompositePrice = shared.PriceMinimumPricePriceTypeCompositePrice
-
-// This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
 
 // This is an alias to an internal type.
@@ -9033,9 +8929,6 @@ const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroup
 
 // This is an alias to an internal value.
 const PriceModelTypeCumulativeGroupedAllocation = shared.PriceModelTypeCumulativeGroupedAllocation
-
-// This is an alias to an internal value.
-const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimumComposite = shared.PriceModelTypeMinimumComposite
