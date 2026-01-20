@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.51.0 (2026-01-20)
+
+Full Changelog: [v1.50.0...v1.51.0](https://github.com/orbcorp/orb-go/compare/v1.50.0...v1.51.0)
+
+### Features
+
+* **api:** api update ([fe64fde](https://github.com/orbcorp/orb-go/commit/fe64fde919140e64bec3b46e7751bbfe2f0b17df))
+* **api:** api update ([a8981d9](https://github.com/orbcorp/orb-go/commit/a8981d9be4e2b9de652e3cdef72666a3d435b9ca))
+
+
+### Bug Fixes
+
+* **docs:** add missing pointer prefix to api.md return types ([776f946](https://github.com/orbcorp/orb-go/commit/776f9461a08728cc1066f924e1ef3759ce3e65bb))
+
+
+### Chores
+
+* **internal:** codegen related update ([de60542](https://github.com/orbcorp/orb-go/commit/de60542855d8c9ce7220d933574078851ce5a748))
+* **internal:** codegen related update ([d107628](https://github.com/orbcorp/orb-go/commit/d1076280eb9d1e0fab20773e4fb40c462c56b451))
+* **internal:** update `actions/checkout` version ([eea5a2d](https://github.com/orbcorp/orb-go/commit/eea5a2d498bd1b7d106df0bbe4955df8f61a48b0))
+
 ## 1.50.0 (2026-01-08)
 
 Full Changelog: [v1.49.0...v1.50.0](https://github.com/orbcorp/orb-go/compare/v1.49.0...v1.50.0)
