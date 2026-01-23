@@ -397,6 +397,7 @@ type InvoiceFetchUpcomingResponse struct {
 	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Poland                 | `pl_nip`     | Polish Tax ID Number                                                                                    |
 	// | Portugal               | `eu_vat`     | European VAT Number                                                                                     |
 	// | Romania                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Romania                | `ro_tin`     | Romanian Tax ID Number                                                                                  |
@@ -1274,6 +1275,7 @@ type InvoiceListSummaryResponse struct {
 	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Poland                 | `pl_nip`     | Polish Tax ID Number                                                                                    |
 	// | Portugal               | `eu_vat`     | European VAT Number                                                                                     |
 	// | Romania                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Romania                | `ro_tin`     | Romanian Tax ID Number                                                                                  |
