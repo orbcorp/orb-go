@@ -224,7 +224,9 @@ type Alert struct {
 	// The current status of the alert. This field is only present for credit balance
 	// alerts.
 	BalanceAlertStatus []AlertBalanceAlertStatus `json:"balance_alert_status,nullable"`
-	JSON               alertJSON                 `json:"-"`
+	// Minified license type for alert serialization.
+	LicenseType AlertLicenseType `json:"license_type,nullable"`
+	JSON        alertJSON        `json:"-"`
 }
 
 // alertJSON contains the JSON metadata for the struct [Alert]
@@ -240,6 +242,7 @@ type alertJSON struct {
 	Thresholds         apijson.Field
 	Type               apijson.Field
 	BalanceAlertStatus apijson.Field
+	LicenseType        apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -307,16 +310,17 @@ func (r alertPlanJSON) RawJSON() string {
 type AlertType string
 
 const (
-	AlertTypeCreditBalanceDepleted  AlertType = "credit_balance_depleted"
-	AlertTypeCreditBalanceDropped   AlertType = "credit_balance_dropped"
-	AlertTypeCreditBalanceRecovered AlertType = "credit_balance_recovered"
-	AlertTypeUsageExceeded          AlertType = "usage_exceeded"
-	AlertTypeCostExceeded           AlertType = "cost_exceeded"
+	AlertTypeCreditBalanceDepleted          AlertType = "credit_balance_depleted"
+	AlertTypeCreditBalanceDropped           AlertType = "credit_balance_dropped"
+	AlertTypeCreditBalanceRecovered         AlertType = "credit_balance_recovered"
+	AlertTypeUsageExceeded                  AlertType = "usage_exceeded"
+	AlertTypeCostExceeded                   AlertType = "cost_exceeded"
+	AlertTypeLicenseBalanceThresholdReached AlertType = "license_balance_threshold_reached"
 )
 
 func (r AlertType) IsKnown() bool {
 	switch r {
-	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered, AlertTypeUsageExceeded, AlertTypeCostExceeded:
+	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered, AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeLicenseBalanceThresholdReached:
 		return true
 	}
 	return false
@@ -345,6 +349,28 @@ func (r *AlertBalanceAlertStatus) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r alertBalanceAlertStatusJSON) RawJSON() string {
+	return r.raw
+}
+
+// Minified license type for alert serialization.
+type AlertLicenseType struct {
+	ID   string               `json:"id,required"`
+	JSON alertLicenseTypeJSON `json:"-"`
+}
+
+// alertLicenseTypeJSON contains the JSON metadata for the struct
+// [AlertLicenseType]
+type alertLicenseTypeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AlertLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertLicenseTypeJSON) RawJSON() string {
 	return r.raw
 }
 
