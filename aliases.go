@@ -5631,6 +5631,13 @@ const PriceUnitPricePriceTypeFixedPrice = shared.PriceUnitPricePriceTypeFixedPri
 // This is an alias to an internal value.
 const PriceUnitPricePriceTypeCompositePrice = shared.PriceUnitPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceUnitPriceLicenseType = shared.PriceUnitPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceTieredPrice = shared.PriceTieredPrice
 
@@ -5730,6 +5737,13 @@ const PriceTieredPricePriceTypeFixedPrice = shared.PriceTieredPricePriceTypeFixe
 // This is an alias to an internal value.
 const PriceTieredPricePriceTypeCompositePrice = shared.PriceTieredPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredPriceLicenseType = shared.PriceTieredPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceBulkPrice = shared.PriceBulkPrice
 
@@ -5828,6 +5842,13 @@ const PriceBulkPricePriceTypeFixedPrice = shared.PriceBulkPricePriceTypeFixedPri
 
 // This is an alias to an internal value.
 const PriceBulkPricePriceTypeCompositePrice = shared.PriceBulkPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceBulkPriceLicenseType = shared.PriceBulkPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceBulkWithFiltersPrice = shared.PriceBulkWithFiltersPrice
@@ -5943,6 +5964,13 @@ const PriceBulkWithFiltersPricePriceTypeFixedPrice = shared.PriceBulkWithFilters
 // This is an alias to an internal value.
 const PriceBulkWithFiltersPricePriceTypeCompositePrice = shared.PriceBulkWithFiltersPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceLicenseType = shared.PriceBulkWithFiltersPriceLicenseType
+
 // This is an alias to an internal type.
 type PricePackagePrice = shared.PricePackagePrice
 
@@ -6042,6 +6070,13 @@ const PricePackagePricePriceTypeFixedPrice = shared.PricePackagePricePriceTypeFi
 // This is an alias to an internal value.
 const PricePackagePricePriceTypeCompositePrice = shared.PricePackagePricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PricePackagePriceLicenseType = shared.PricePackagePriceLicenseType
+
 // This is an alias to an internal type.
 type PriceMatrixPrice = shared.PriceMatrixPrice
 
@@ -6140,6 +6175,13 @@ const PriceMatrixPricePriceTypeFixedPrice = shared.PriceMatrixPricePriceTypeFixe
 
 // This is an alias to an internal value.
 const PriceMatrixPricePriceTypeCompositePrice = shared.PriceMatrixPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMatrixPriceLicenseType = shared.PriceMatrixPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPrice = shared.PriceThresholdTotalAmountPrice
@@ -6250,6 +6292,13 @@ type PriceThresholdTotalAmountPriceThresholdTotalAmountConfig = shared.PriceThre
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable = shared.PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceLicenseType = shared.PriceThresholdTotalAmountPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceTieredPackagePrice = shared.PriceTieredPackagePrice
 
@@ -6358,6 +6407,13 @@ type PriceTieredPackagePriceTieredPackageConfig = shared.PriceTieredPackagePrice
 //
 // This is an alias to an internal type.
 type PriceTieredPackagePriceTieredPackageConfigTier = shared.PriceTieredPackagePriceTieredPackageConfigTier
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredPackagePriceLicenseType = shared.PriceTieredPackagePriceLicenseType
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPrice = shared.PriceTieredWithMinimumPrice
@@ -6468,6 +6524,13 @@ type PriceTieredWithMinimumPriceTieredWithMinimumConfig = shared.PriceTieredWith
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPriceTieredWithMinimumConfigTier = shared.PriceTieredWithMinimumPriceTieredWithMinimumConfigTier
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceLicenseType = shared.PriceTieredWithMinimumPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceGroupedTieredPrice = shared.PriceGroupedTieredPrice
 
@@ -6576,6 +6639,13 @@ const PriceGroupedTieredPricePriceTypeFixedPrice = shared.PriceGroupedTieredPric
 
 // This is an alias to an internal value.
 const PriceGroupedTieredPricePriceTypeCompositePrice = shared.PriceGroupedTieredPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceLicenseType = shared.PriceGroupedTieredPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPrice = shared.PriceTieredPackageWithMinimumPrice
@@ -6686,6 +6756,13 @@ type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig = shared.P
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier = shared.PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceLicenseType = shared.PriceTieredPackageWithMinimumPriceLicenseType
+
 // This is an alias to an internal type.
 type PricePackageWithAllocationPrice = shared.PricePackageWithAllocationPrice
 
@@ -6789,6 +6866,13 @@ const PricePackageWithAllocationPricePriceTypeFixedPrice = shared.PricePackageWi
 
 // This is an alias to an internal value.
 const PricePackageWithAllocationPricePriceTypeCompositePrice = shared.PricePackageWithAllocationPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PricePackageWithAllocationPriceLicenseType = shared.PricePackageWithAllocationPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceUnitWithPercentPrice = shared.PriceUnitWithPercentPrice
@@ -6894,6 +6978,13 @@ const PriceUnitWithPercentPricePriceTypeCompositePrice = shared.PriceUnitWithPer
 // This is an alias to an internal type.
 type PriceUnitWithPercentPriceUnitWithPercentConfig = shared.PriceUnitWithPercentPriceUnitWithPercentConfig
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceLicenseType = shared.PriceUnitWithPercentPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceMatrixWithAllocationPrice = shared.PriceMatrixWithAllocationPrice
 
@@ -6992,6 +7083,13 @@ const PriceMatrixWithAllocationPricePriceTypeFixedPrice = shared.PriceMatrixWith
 
 // This is an alias to an internal value.
 const PriceMatrixWithAllocationPricePriceTypeCompositePrice = shared.PriceMatrixWithAllocationPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithAllocationPriceLicenseType = shared.PriceMatrixWithAllocationPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceTieredWithProrationPrice = shared.PriceTieredWithProrationPrice
@@ -7102,6 +7200,13 @@ type PriceTieredWithProrationPriceTieredWithProrationConfig = shared.PriceTiered
 // This is an alias to an internal type.
 type PriceTieredWithProrationPriceTieredWithProrationConfigTier = shared.PriceTieredWithProrationPriceTieredWithProrationConfigTier
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceLicenseType = shared.PriceTieredWithProrationPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceUnitWithProrationPrice = shared.PriceUnitWithProrationPrice
 
@@ -7206,6 +7311,13 @@ const PriceUnitWithProrationPricePriceTypeCompositePrice = shared.PriceUnitWithP
 // This is an alias to an internal type.
 type PriceUnitWithProrationPriceUnitWithProrationConfig = shared.PriceUnitWithProrationPriceUnitWithProrationConfig
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceUnitWithProrationPriceLicenseType = shared.PriceUnitWithProrationPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceGroupedAllocationPrice = shared.PriceGroupedAllocationPrice
 
@@ -7309,6 +7421,13 @@ const PriceGroupedAllocationPricePriceTypeFixedPrice = shared.PriceGroupedAlloca
 
 // This is an alias to an internal value.
 const PriceGroupedAllocationPricePriceTypeCompositePrice = shared.PriceGroupedAllocationPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedAllocationPriceLicenseType = shared.PriceGroupedAllocationPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceBulkWithProrationPrice = shared.PriceBulkWithProrationPrice
@@ -7419,6 +7538,13 @@ const PriceBulkWithProrationPricePriceTypeFixedPrice = shared.PriceBulkWithProra
 // This is an alias to an internal value.
 const PriceBulkWithProrationPricePriceTypeCompositePrice = shared.PriceBulkWithProrationPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceLicenseType = shared.PriceBulkWithProrationPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPrice = shared.PriceGroupedWithProratedMinimumPrice
 
@@ -7522,6 +7648,13 @@ const PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice = shared.PriceGrou
 
 // This is an alias to an internal value.
 const PriceGroupedWithProratedMinimumPricePriceTypeCompositePrice = shared.PriceGroupedWithProratedMinimumPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceLicenseType = shared.PriceGroupedWithProratedMinimumPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPrice = shared.PriceGroupedWithMeteredMinimumPrice
@@ -7637,6 +7770,13 @@ const PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice = shared.PriceGroup
 // This is an alias to an internal value.
 const PriceGroupedWithMeteredMinimumPricePriceTypeCompositePrice = shared.PriceGroupedWithMeteredMinimumPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceLicenseType = shared.PriceGroupedWithMeteredMinimumPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceGroupedWithMinMaxThresholdsPrice = shared.PriceGroupedWithMinMaxThresholdsPrice
 
@@ -7740,6 +7880,13 @@ const PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice = shared.PriceGro
 
 // This is an alias to an internal value.
 const PriceGroupedWithMinMaxThresholdsPricePriceTypeCompositePrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceLicenseType = shared.PriceGroupedWithMinMaxThresholdsPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePrice = shared.PriceMatrixWithDisplayNamePrice
@@ -7850,6 +7997,13 @@ const PriceMatrixWithDisplayNamePricePriceTypeFixedPrice = shared.PriceMatrixWit
 // This is an alias to an internal value.
 const PriceMatrixWithDisplayNamePricePriceTypeCompositePrice = shared.PriceMatrixWithDisplayNamePricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceLicenseType = shared.PriceMatrixWithDisplayNamePriceLicenseType
+
 // This is an alias to an internal type.
 type PriceGroupedTieredPackagePrice = shared.PriceGroupedTieredPackagePrice
 
@@ -7958,6 +8112,13 @@ const PriceGroupedTieredPackagePricePriceTypeFixedPrice = shared.PriceGroupedTie
 
 // This is an alias to an internal value.
 const PriceGroupedTieredPackagePricePriceTypeCompositePrice = shared.PriceGroupedTieredPackagePricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceLicenseType = shared.PriceGroupedTieredPackagePriceLicenseType
 
 // This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePrice = shared.PriceMaxGroupTieredPackagePrice
@@ -8068,6 +8229,13 @@ const PriceMaxGroupTieredPackagePricePriceTypeFixedPrice = shared.PriceMaxGroupT
 // This is an alias to an internal value.
 const PriceMaxGroupTieredPackagePricePriceTypeCompositePrice = shared.PriceMaxGroupTieredPackagePricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceLicenseType = shared.PriceMaxGroupTieredPackagePriceLicenseType
+
 // This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPrice = shared.PriceScalableMatrixWithUnitPricingPrice
 
@@ -8176,6 +8344,13 @@ type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig 
 //
 // This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor = shared.PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceLicenseType = shared.PriceScalableMatrixWithUnitPricingPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPrice = shared.PriceScalableMatrixWithTieredPricingPrice
@@ -8291,6 +8466,13 @@ type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingCon
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier = shared.PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceLicenseType = shared.PriceScalableMatrixWithTieredPricingPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPrice = shared.PriceCumulativeGroupedBulkPrice
 
@@ -8400,6 +8582,13 @@ const PriceCumulativeGroupedBulkPricePriceTypeFixedPrice = shared.PriceCumulativ
 // This is an alias to an internal value.
 const PriceCumulativeGroupedBulkPricePriceTypeCompositePrice = shared.PriceCumulativeGroupedBulkPricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceLicenseType = shared.PriceCumulativeGroupedBulkPriceLicenseType
+
 // This is an alias to an internal type.
 type PriceCumulativeGroupedAllocationPrice = shared.PriceCumulativeGroupedAllocationPrice
 
@@ -8503,6 +8692,13 @@ const PriceCumulativeGroupedAllocationPricePriceTypeFixedPrice = shared.PriceCum
 
 // This is an alias to an internal value.
 const PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice = shared.PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceLicenseType = shared.PriceCumulativeGroupedAllocationPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
@@ -8608,6 +8804,13 @@ const PriceMinimumCompositePricePriceTypeFixedPrice = shared.PriceMinimumComposi
 // This is an alias to an internal value.
 const PriceMinimumCompositePricePriceTypeCompositePrice = shared.PriceMinimumCompositePricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceLicenseType = shared.PriceMinimumCompositePriceLicenseType
+
 // This is an alias to an internal type.
 type PricePercentCompositePrice = shared.PricePercentCompositePrice
 
@@ -8712,6 +8915,13 @@ const PricePercentCompositePricePriceTypeFixedPrice = shared.PricePercentComposi
 // This is an alias to an internal value.
 const PricePercentCompositePricePriceTypeCompositePrice = shared.PricePercentCompositePricePriceTypeCompositePrice
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PricePercentCompositePriceLicenseType = shared.PricePercentCompositePriceLicenseType
+
 // This is an alias to an internal type.
 type PriceEventOutputPrice = shared.PriceEventOutputPrice
 
@@ -8815,6 +9025,13 @@ const PriceEventOutputPricePriceTypeFixedPrice = shared.PriceEventOutputPricePri
 
 // This is an alias to an internal value.
 const PriceEventOutputPricePriceTypeCompositePrice = shared.PriceEventOutputPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceEventOutputPriceLicenseType = shared.PriceEventOutputPriceLicenseType
 
 // This is an alias to an internal type.
 type PriceBillingMode = shared.PriceBillingMode

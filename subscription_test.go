@@ -64,6 +64,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Values:   orb.F([]string{"string"}),
 				}}),
 				ItemID:           orb.F("item_id"),
+				LicenseTypeID:    orb.F("license_type_id"),
 				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
@@ -112,6 +113,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Duration:     orb.F(int64(0)),
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
+				LicenseTypeID: orb.F("license_type_id"),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
@@ -192,6 +194,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Values:   orb.F([]string{"string"}),
 				}}),
 				ItemID:           orb.F("item_id"),
+				LicenseTypeID:    orb.F("license_type_id"),
 				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
@@ -239,6 +242,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Duration:     orb.F(int64(0)),
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
+				LicenseTypeID: orb.F("license_type_id"),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
@@ -515,6 +519,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						Values:   orb.F([]string{"string"}),
 					}}),
 					ItemID:           orb.F("item_id"),
+					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				CanDeferBilling: orb.F(true),
@@ -566,6 +571,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						Duration:     orb.F(int64(0)),
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
+					LicenseTypeID: orb.F("license_type_id"),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
@@ -709,6 +715,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Values:   orb.F([]string{"string"}),
 					}}),
 					ItemID:           orb.F("item_id"),
+					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
@@ -757,6 +764,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Duration:     orb.F(int64(0)),
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
+					LicenseTypeID: orb.F("license_type_id"),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
@@ -828,6 +836,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Values:   orb.F([]string{"string"}),
 					}}),
 					ItemID:           orb.F("item_id"),
+					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
@@ -875,6 +884,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Duration:     orb.F(int64(0)),
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
+					LicenseTypeID: orb.F("license_type_id"),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),

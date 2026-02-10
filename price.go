@@ -468,6 +468,8 @@ type PriceNewParamsNewFloatingUnitPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -590,6 +592,8 @@ type PriceNewParamsNewFloatingTieredPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -712,6 +716,8 @@ type PriceNewParamsNewFloatingBulkPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -834,6 +840,8 @@ type PriceNewParamsNewFloatingBulkWithFiltersPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -992,6 +1000,8 @@ type PriceNewParamsNewFloatingPackagePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1114,6 +1124,8 @@ type PriceNewParamsNewFloatingMatrixPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1236,6 +1248,8 @@ type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1382,6 +1396,8 @@ type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1529,6 +1545,8 @@ type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1678,6 +1696,8 @@ type PriceNewParamsNewFloatingGroupedTieredPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1824,6 +1844,8 @@ type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1969,6 +1991,8 @@ type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2102,6 +2126,8 @@ type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2236,6 +2262,8 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2358,6 +2386,8 @@ type PriceNewParamsNewFloatingTieredWithProrationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2503,6 +2533,8 @@ type PriceNewParamsNewFloatingUnitWithProrationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2635,6 +2667,8 @@ type PriceNewParamsNewFloatingGroupedAllocationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2771,6 +2805,8 @@ type PriceNewParamsNewFloatingBulkWithProrationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2915,6 +2951,8 @@ type PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3051,6 +3089,8 @@ type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3216,6 +3256,8 @@ type PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3354,6 +3396,8 @@ type PriceNewParamsNewFloatingMatrixWithDisplayNamePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3502,6 +3546,8 @@ type PriceNewParamsNewFloatingGroupedTieredPackagePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3649,6 +3695,8 @@ type PriceNewParamsNewFloatingMaxGroupTieredPackagePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3795,6 +3843,8 @@ type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -3946,6 +3996,8 @@ type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4104,6 +4156,8 @@ type PriceNewParamsNewFloatingCumulativeGroupedBulkPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4251,6 +4305,8 @@ type PriceNewParamsNewFloatingCumulativeGroupedAllocationPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4389,6 +4445,8 @@ type PriceNewParamsNewFloatingMinimumCompositePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4523,6 +4581,8 @@ type PriceNewParamsNewFloatingPercentCompositePrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4655,6 +4715,8 @@ type PriceNewParamsNewFloatingEventOutputPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -4893,6 +4955,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// Configuration for matrix pricing
 	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
 	// Configuration for matrix_with_allocation pricing
@@ -5001,6 +5065,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersP
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5158,6 +5224,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMa
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5295,6 +5363,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupe
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5432,6 +5502,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentComposite
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5563,6 +5635,8 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPrice
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5838,6 +5912,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// Configuration for matrix pricing
 	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
 	// Configuration for matrix_with_allocation pricing
@@ -5946,6 +6022,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFil
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6103,6 +6181,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWith
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6240,6 +6320,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeG
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6377,6 +6459,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentComp
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6508,6 +6592,8 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutput
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.

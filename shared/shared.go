@@ -251,6 +251,7 @@ type Allocation struct {
 	Currency         string             `json:"currency,required"`
 	CustomExpiration CustomExpiration   `json:"custom_expiration,required,nullable"`
 	Filters          []AllocationFilter `json:"filters"`
+	LicenseTypeID    string             `json:"license_type_id,nullable"`
 	JSON             allocationJSON     `json:"-"`
 }
 
@@ -260,6 +261,7 @@ type allocationJSON struct {
 	Currency         apijson.Field
 	CustomExpiration apijson.Field
 	Filters          apijson.Field
+	LicenseTypeID    apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
 }
@@ -5391,6 +5393,8 @@ type NewAllocationPriceParam struct {
 	// associated with. If not provided, the default allocation item for the currency
 	// will be used (e.g. 'Included Allocation (USD)').
 	ItemID param.Field[string] `json:"item_id"`
+	// The license type ID to associate the price with license allocation.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// The (per-unit) cost basis of each created block. If non-zero, a customer will be
 	// invoiced according to the quantity and per unit cost basis specified for the
 	// allocation each cadence.
@@ -5690,6 +5694,8 @@ type NewFloatingBulkPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5816,6 +5822,8 @@ type NewFloatingBulkWithProrationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -5965,6 +5973,8 @@ type NewFloatingCumulativeGroupedBulkPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6117,6 +6127,8 @@ type NewFloatingGroupedAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6258,6 +6270,8 @@ type NewFloatingGroupedTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6410,6 +6424,8 @@ type NewFloatingGroupedTieredPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6561,6 +6577,8 @@ type NewFloatingGroupedWithMeteredMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6731,6 +6749,8 @@ type NewFloatingGroupedWithProratedMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6872,6 +6892,8 @@ type NewFloatingMatrixPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -6998,6 +7020,8 @@ type NewFloatingMatrixWithAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7125,6 +7149,8 @@ type NewFloatingMatrixWithDisplayNamePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7278,6 +7304,8 @@ type NewFloatingMaxGroupTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7429,6 +7457,8 @@ type NewFloatingMinimumCompositePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7568,6 +7598,8 @@ type NewFloatingPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7694,6 +7726,8 @@ type NewFloatingPackageWithAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7832,6 +7866,8 @@ type NewFloatingScalableMatrixWithTieredPricingPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7995,6 +8031,8 @@ type NewFloatingScalableMatrixWithUnitPricingPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8151,6 +8189,8 @@ type NewFloatingThresholdTotalAmountPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8302,6 +8342,8 @@ type NewFloatingTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8454,6 +8496,8 @@ type NewFloatingTieredPackageWithMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8604,6 +8648,8 @@ type NewFloatingTieredPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8730,6 +8776,8 @@ type NewFloatingTieredWithMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -8884,6 +8932,8 @@ type NewFloatingTieredWithProrationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -9034,6 +9084,8 @@ type NewFloatingUnitPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -9160,6 +9212,8 @@ type NewFloatingUnitWithPercentPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -9299,6 +9353,8 @@ type NewFloatingUnitWithProrationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -9875,6 +9931,8 @@ type NewPlanBulkPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10009,6 +10067,8 @@ type NewPlanBulkWithProrationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10166,6 +10226,8 @@ type NewPlanCumulativeGroupedBulkPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10327,6 +10389,8 @@ type NewPlanGroupedAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10476,6 +10540,8 @@ type NewPlanGroupedTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10637,6 +10703,8 @@ type NewPlanGroupedTieredPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10795,6 +10863,8 @@ type NewPlanGroupedWithMeteredMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -10974,6 +11044,8 @@ type NewPlanGroupedWithProratedMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11124,6 +11196,8 @@ type NewPlanMatrixPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11258,6 +11332,8 @@ type NewPlanMatrixWithAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11394,6 +11470,8 @@ type NewPlanMatrixWithDisplayNamePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11556,6 +11634,8 @@ type NewPlanMaxGroupTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11716,6 +11796,8 @@ type NewPlanMinimumCompositePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11863,6 +11945,8 @@ type NewPlanPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -11997,6 +12081,8 @@ type NewPlanPackageWithAllocationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12144,6 +12230,8 @@ type NewPlanScalableMatrixWithTieredPricingPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12316,6 +12404,8 @@ type NewPlanScalableMatrixWithUnitPricingPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12481,6 +12571,8 @@ type NewPlanThresholdTotalAmountPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12641,6 +12733,8 @@ type NewPlanTieredPackagePriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12800,6 +12894,8 @@ type NewPlanTieredPackageWithMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -12959,6 +13055,8 @@ type NewPlanTieredPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -13093,6 +13191,8 @@ type NewPlanTieredWithMinimumPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -13255,6 +13355,8 @@ type NewPlanUnitPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -13389,6 +13491,8 @@ type NewPlanUnitWithPercentPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -13536,6 +13640,8 @@ type NewPlanUnitWithProrationPriceParam struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -15010,6 +15116,33 @@ type Price struct {
 	// This field can have the runtime type of
 	// [PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig].
 	GroupedWithProratedMinimumConfig interface{} `json:"grouped_with_prorated_minimum_config"`
+	// This field can have the runtime type of [PriceUnitPriceLicenseType],
+	// [PriceTieredPriceLicenseType], [PriceBulkPriceLicenseType],
+	// [PriceBulkWithFiltersPriceLicenseType], [PricePackagePriceLicenseType],
+	// [PriceMatrixPriceLicenseType], [PriceThresholdTotalAmountPriceLicenseType],
+	// [PriceTieredPackagePriceLicenseType], [PriceTieredWithMinimumPriceLicenseType],
+	// [PriceGroupedTieredPriceLicenseType],
+	// [PriceTieredPackageWithMinimumPriceLicenseType],
+	// [PricePackageWithAllocationPriceLicenseType],
+	// [PriceUnitWithPercentPriceLicenseType],
+	// [PriceMatrixWithAllocationPriceLicenseType],
+	// [PriceTieredWithProrationPriceLicenseType],
+	// [PriceUnitWithProrationPriceLicenseType],
+	// [PriceGroupedAllocationPriceLicenseType],
+	// [PriceBulkWithProrationPriceLicenseType],
+	// [PriceGroupedWithProratedMinimumPriceLicenseType],
+	// [PriceGroupedWithMeteredMinimumPriceLicenseType],
+	// [PriceGroupedWithMinMaxThresholdsPriceLicenseType],
+	// [PriceMatrixWithDisplayNamePriceLicenseType],
+	// [PriceGroupedTieredPackagePriceLicenseType],
+	// [PriceMaxGroupTieredPackagePriceLicenseType],
+	// [PriceScalableMatrixWithUnitPricingPriceLicenseType],
+	// [PriceScalableMatrixWithTieredPricingPriceLicenseType],
+	// [PriceCumulativeGroupedBulkPriceLicenseType],
+	// [PriceCumulativeGroupedAllocationPriceLicenseType],
+	// [PriceMinimumCompositePriceLicenseType],
+	// [PricePercentCompositePriceLicenseType], [PriceEventOutputPriceLicenseType].
+	LicenseType interface{} `json:"license_type"`
 	// Configuration for matrix pricing
 	MatrixConfig MatrixConfig `json:"matrix_config"`
 	// Configuration for matrix_with_allocation pricing
@@ -15107,6 +15240,7 @@ type priceJSON struct {
 	GroupedWithMeteredMinimumConfig       apijson.Field
 	GroupedWithMinMaxThresholdsConfig     apijson.Field
 	GroupedWithProratedMinimumConfig      apijson.Field
+	LicenseType                           apijson.Field
 	MatrixConfig                          apijson.Field
 	MatrixWithAllocationConfig            apijson.Field
 	MatrixWithDisplayNameConfig           apijson.Field
@@ -15401,7 +15535,11 @@ type PriceUnitPrice struct {
 	// Configuration for unit pricing
 	UnitConfig                    UnitConfig                    `json:"unit_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceUnitPriceJSON            `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceUnitPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceUnitPriceJSON        `json:"-"`
 }
 
 // priceUnitPriceJSON contains the JSON metadata for the struct [PriceUnitPrice]
@@ -15434,6 +15572,7 @@ type priceUnitPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	UnitConfig                    apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -15653,6 +15792,38 @@ func (r PriceUnitPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceUnitPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                        `json:"name,required"`
+	JSON priceUnitPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceUnitPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceUnitPriceLicenseType]
+type priceUnitPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPrice struct {
 	ID                        string                                 `json:"id,required"`
 	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
@@ -15697,7 +15868,11 @@ type PriceTieredPrice struct {
 	// Configuration for tiered pricing
 	TieredConfig                  TieredConfig                  `json:"tiered_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredPriceJSON          `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceTieredPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceTieredPriceJSON        `json:"-"`
 }
 
 // priceTieredPriceJSON contains the JSON metadata for the struct
@@ -15731,6 +15906,7 @@ type priceTieredPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	TieredConfig                  apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -15950,6 +16126,38 @@ func (r PriceTieredPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceTieredPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                          `json:"name,required"`
+	JSON priceTieredPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceTieredPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceTieredPriceLicenseType]
+type priceTieredPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkPrice struct {
 	ID                        string                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
@@ -15994,7 +16202,11 @@ type PriceBulkPrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBulkPriceJSON            `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceBulkPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceBulkPriceJSON        `json:"-"`
 }
 
 // priceBulkPriceJSON contains the JSON metadata for the struct [PriceBulkPrice]
@@ -16027,6 +16239,7 @@ type priceBulkPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -16246,6 +16459,38 @@ func (r PriceBulkPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceBulkPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                        `json:"name,required"`
+	JSON priceBulkPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceBulkPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceBulkPriceLicenseType]
+type priceBulkPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkWithFiltersPrice struct {
 	ID                        string                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
@@ -16290,7 +16535,11 @@ type PriceBulkWithFiltersPrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBulkWithFiltersPriceJSON `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceBulkWithFiltersPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceBulkWithFiltersPriceJSON        `json:"-"`
 }
 
 // priceBulkWithFiltersPriceJSON contains the JSON metadata for the struct
@@ -16324,6 +16573,7 @@ type priceBulkWithFiltersPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -16621,6 +16871,38 @@ func (r PriceBulkWithFiltersPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceBulkWithFiltersPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                   `json:"name,required"`
+	JSON priceBulkWithFiltersPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceBulkWithFiltersPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceBulkWithFiltersPriceLicenseType]
+type priceBulkWithFiltersPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkWithFiltersPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkWithFiltersPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackagePrice struct {
 	ID                        string                                  `json:"id,required"`
 	BillableMetric            BillableMetricTiny                      `json:"billable_metric,required,nullable"`
@@ -16665,7 +16947,11 @@ type PricePackagePrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          pricePackagePriceJSON         `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PricePackagePriceLicenseType `json:"license_type,nullable"`
+	JSON        pricePackagePriceJSON        `json:"-"`
 }
 
 // pricePackagePriceJSON contains the JSON metadata for the struct
@@ -16699,6 +16985,7 @@ type pricePackagePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -16918,6 +17205,38 @@ func (r PricePackagePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PricePackagePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                           `json:"name,required"`
+	JSON pricePackagePriceLicenseTypeJSON `json:"-"`
+}
+
+// pricePackagePriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PricePackagePriceLicenseType]
+type pricePackagePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePackagePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixPrice struct {
 	ID                        string                                 `json:"id,required"`
 	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
@@ -16962,7 +17281,11 @@ type PriceMatrixPrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMatrixPriceJSON          `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMatrixPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceMatrixPriceJSON        `json:"-"`
 }
 
 // priceMatrixPriceJSON contains the JSON metadata for the struct
@@ -16996,6 +17319,7 @@ type priceMatrixPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -17215,6 +17539,38 @@ func (r PriceMatrixPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMatrixPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                          `json:"name,required"`
+	JSON priceMatrixPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMatrixPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceMatrixPriceLicenseType]
+type priceMatrixPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceThresholdTotalAmountPrice struct {
 	ID                        string                                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
@@ -17259,7 +17615,11 @@ type PriceThresholdTotalAmountPrice struct {
 	// Configuration for threshold_total_amount pricing
 	ThresholdTotalAmountConfig    PriceThresholdTotalAmountPriceThresholdTotalAmountConfig `json:"threshold_total_amount_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration                            `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceThresholdTotalAmountPriceJSON                       `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceThresholdTotalAmountPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceThresholdTotalAmountPriceJSON        `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceJSON contains the JSON metadata for the struct
@@ -17293,6 +17653,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	ThresholdTotalAmountConfig    apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -17566,6 +17927,38 @@ func (r priceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceThresholdTotalAmountPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                        `json:"name,required"`
+	JSON priceThresholdTotalAmountPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceThresholdTotalAmountPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceThresholdTotalAmountPriceLicenseType]
+type priceThresholdTotalAmountPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceThresholdTotalAmountPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPackagePrice struct {
 	ID                        string                                        `json:"id,required"`
 	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
@@ -17610,7 +18003,11 @@ type PriceTieredPackagePrice struct {
 	// Configuration for tiered_package pricing
 	TieredPackageConfig           PriceTieredPackagePriceTieredPackageConfig `json:"tiered_package_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration              `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredPackagePriceJSON                `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	JSON        priceTieredPackagePriceJSON        `json:"-"`
 }
 
 // priceTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -17644,6 +18041,7 @@ type priceTieredPackagePriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	TieredPackageConfig           apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -17916,6 +18314,38 @@ func (r priceTieredPackagePriceTieredPackageConfigTierJSON) RawJSON() string {
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceTieredPackagePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                 `json:"name,required"`
+	JSON priceTieredPackagePriceLicenseTypeJSON `json:"-"`
+}
+
+// priceTieredPackagePriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceTieredPackagePriceLicenseType]
+type priceTieredPackagePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackagePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredWithMinimumPrice struct {
 	ID                        string                                            `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
@@ -17960,7 +18390,11 @@ type PriceTieredWithMinimumPrice struct {
 	// Configuration for tiered_with_minimum pricing
 	TieredWithMinimumConfig       PriceTieredWithMinimumPriceTieredWithMinimumConfig `json:"tiered_with_minimum_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredWithMinimumPriceJSON                    `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceTieredWithMinimumPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceTieredWithMinimumPriceJSON        `json:"-"`
 }
 
 // priceTieredWithMinimumPriceJSON contains the JSON metadata for the struct
@@ -17994,6 +18428,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	TieredWithMinimumConfig       apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -18270,6 +18705,38 @@ func (r priceTieredWithMinimumPriceTieredWithMinimumConfigTierJSON) RawJSON() st
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceTieredWithMinimumPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                     `json:"name,required"`
+	JSON priceTieredWithMinimumPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceTieredWithMinimumPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceTieredWithMinimumPriceLicenseType]
+type priceTieredWithMinimumPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredWithMinimumPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedTieredPrice struct {
 	ID                        string                                        `json:"id,required"`
 	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
@@ -18314,7 +18781,11 @@ type PriceGroupedTieredPrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedTieredPriceJSON   `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedTieredPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedTieredPriceJSON        `json:"-"`
 }
 
 // priceGroupedTieredPriceJSON contains the JSON metadata for the struct
@@ -18348,6 +18819,7 @@ type priceGroupedTieredPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -18619,6 +19091,38 @@ func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedTieredPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                 `json:"name,required"`
+	JSON priceGroupedTieredPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceGroupedTieredPriceLicenseType]
+type priceGroupedTieredPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPackageWithMinimumPrice struct {
 	ID                        string                                                   `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
@@ -18663,7 +19167,11 @@ type PriceTieredPackageWithMinimumPrice struct {
 	// Configuration for tiered_package_with_minimum pricing
 	TieredPackageWithMinimumConfig PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig `json:"tiered_package_with_minimum_config,required"`
 	DimensionalPriceConfiguration  DimensionalPriceConfiguration                                    `json:"dimensional_price_configuration,nullable"`
-	JSON                           priceTieredPackageWithMinimumPriceJSON                           `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceTieredPackageWithMinimumPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceTieredPackageWithMinimumPriceJSON        `json:"-"`
 }
 
 // priceTieredPackageWithMinimumPriceJSON contains the JSON metadata for the struct
@@ -18697,6 +19205,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	ReplacesPriceID                apijson.Field
 	TieredPackageWithMinimumConfig apijson.Field
 	DimensionalPriceConfiguration  apijson.Field
+	LicenseType                    apijson.Field
 	raw                            string
 	ExtraFields                    map[string]apijson.Field
 }
@@ -18970,6 +19479,38 @@ func (r priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierJSON
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceTieredPackageWithMinimumPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                            `json:"name,required"`
+	JSON priceTieredPackageWithMinimumPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceLicenseTypeJSON contains the JSON metadata for
+// the struct [PriceTieredPackageWithMinimumPriceLicenseType]
+type priceTieredPackageWithMinimumPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackageWithAllocationPrice struct {
 	ID                        string                                                `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
@@ -19012,9 +19553,13 @@ type PricePackageWithAllocationPrice struct {
 	PriceType                   PricePackageWithAllocationPricePriceType                   `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
-	JSON                          pricePackageWithAllocationPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PricePackageWithAllocationPriceLicenseType `json:"license_type,nullable"`
+	JSON        pricePackageWithAllocationPriceJSON        `json:"-"`
 }
 
 // pricePackageWithAllocationPriceJSON contains the JSON metadata for the struct
@@ -19048,6 +19593,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -19294,6 +19840,38 @@ func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PricePackageWithAllocationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                         `json:"name,required"`
+	JSON pricePackageWithAllocationPriceLicenseTypeJSON `json:"-"`
+}
+
+// pricePackageWithAllocationPriceLicenseTypeJSON contains the JSON metadata for
+// the struct [PricePackageWithAllocationPriceLicenseType]
+type pricePackageWithAllocationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePackageWithAllocationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceUnitWithPercentPrice struct {
 	ID                        string                                          `json:"id,required"`
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
@@ -19338,7 +19916,11 @@ type PriceUnitWithPercentPrice struct {
 	// Configuration for unit_with_percent pricing
 	UnitWithPercentConfig         PriceUnitWithPercentPriceUnitWithPercentConfig `json:"unit_with_percent_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration                  `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceUnitWithPercentPriceJSON                  `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceUnitWithPercentPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceUnitWithPercentPriceJSON        `json:"-"`
 }
 
 // priceUnitWithPercentPriceJSON contains the JSON metadata for the struct
@@ -19372,6 +19954,7 @@ type priceUnitWithPercentPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	UnitWithPercentConfig         apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -19617,6 +20200,38 @@ func (r priceUnitWithPercentPriceUnitWithPercentConfigJSON) RawJSON() string {
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceUnitWithPercentPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                   `json:"name,required"`
+	JSON priceUnitWithPercentPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceUnitWithPercentPriceLicenseType]
+type priceUnitWithPercentPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixWithAllocationPrice struct {
 	ID                        string                                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
@@ -19659,9 +20274,13 @@ type PriceMatrixWithAllocationPrice struct {
 	PriceType      PriceMatrixWithAllocationPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                             `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMatrixWithAllocationPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMatrixWithAllocationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceMatrixWithAllocationPriceJSON        `json:"-"`
 }
 
 // priceMatrixWithAllocationPriceJSON contains the JSON metadata for the struct
@@ -19695,6 +20314,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -19914,6 +20534,38 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMatrixWithAllocationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                        `json:"name,required"`
+	JSON priceMatrixWithAllocationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceMatrixWithAllocationPriceLicenseType]
+type priceMatrixWithAllocationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredWithProrationPrice struct {
 	ID                        string                                              `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
@@ -19958,7 +20610,11 @@ type PriceTieredWithProrationPrice struct {
 	// Configuration for tiered_with_proration pricing
 	TieredWithProrationConfig     PriceTieredWithProrationPriceTieredWithProrationConfig `json:"tiered_with_proration_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration                          `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredWithProrationPriceJSON                      `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceTieredWithProrationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceTieredWithProrationPriceJSON        `json:"-"`
 }
 
 // priceTieredWithProrationPriceJSON contains the JSON metadata for the struct
@@ -19992,6 +20648,7 @@ type priceTieredWithProrationPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	TieredWithProrationConfig     apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -20262,6 +20919,38 @@ func (r priceTieredWithProrationPriceTieredWithProrationConfigTierJSON) RawJSON(
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceTieredWithProrationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                       `json:"name,required"`
+	JSON priceTieredWithProrationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceTieredWithProrationPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceTieredWithProrationPriceLicenseType]
+type priceTieredWithProrationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredWithProrationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithProrationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceUnitWithProrationPrice struct {
 	ID                        string                                            `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
@@ -20306,7 +20995,11 @@ type PriceUnitWithProrationPrice struct {
 	// Configuration for unit_with_proration pricing
 	UnitWithProrationConfig       PriceUnitWithProrationPriceUnitWithProrationConfig `json:"unit_with_proration_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceUnitWithProrationPriceJSON                    `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceUnitWithProrationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceUnitWithProrationPriceJSON        `json:"-"`
 }
 
 // priceUnitWithProrationPriceJSON contains the JSON metadata for the struct
@@ -20340,6 +21033,7 @@ type priceUnitWithProrationPriceJSON struct {
 	ReplacesPriceID               apijson.Field
 	UnitWithProrationConfig       apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -20582,6 +21276,38 @@ func (r priceUnitWithProrationPriceUnitWithProrationConfigJSON) RawJSON() string
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceUnitWithProrationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                     `json:"name,required"`
+	JSON priceUnitWithProrationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceUnitWithProrationPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceUnitWithProrationPriceLicenseType]
+type priceUnitWithProrationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithProrationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithProrationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedAllocationPrice struct {
 	ID                        string                                            `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
@@ -20624,9 +21350,13 @@ type PriceGroupedAllocationPrice struct {
 	PriceType      PriceGroupedAllocationPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedAllocationPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedAllocationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedAllocationPriceJSON        `json:"-"`
 }
 
 // priceGroupedAllocationPriceJSON contains the JSON metadata for the struct
@@ -20660,6 +21390,7 @@ type priceGroupedAllocationPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -20908,6 +21639,38 @@ func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedAllocationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                     `json:"name,required"`
+	JSON priceGroupedAllocationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedAllocationPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceGroupedAllocationPriceLicenseType]
+type priceGroupedAllocationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedAllocationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedAllocationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkWithProrationPrice struct {
 	ID                        string                                 `json:"id,required"`
 	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
@@ -20950,9 +21713,13 @@ type PriceBulkWithProrationPrice struct {
 	PriceType      PriceBulkWithProrationPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBulkWithProrationPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceBulkWithProrationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceBulkWithProrationPriceJSON        `json:"-"`
 }
 
 // priceBulkWithProrationPriceJSON contains the JSON metadata for the struct
@@ -20986,6 +21753,7 @@ type priceBulkWithProrationPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -21254,6 +22022,38 @@ func (r PriceBulkWithProrationPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceBulkWithProrationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                     `json:"name,required"`
+	JSON priceBulkWithProrationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceBulkWithProrationPriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceBulkWithProrationPriceLicenseType]
+type priceBulkWithProrationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkWithProrationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkWithProrationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedWithProratedMinimumPrice struct {
 	ID                        string                                                     `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                         `json:"billable_metric,required,nullable"`
@@ -21296,9 +22096,13 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	PriceType      PriceGroupedWithProratedMinimumPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                                   `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedWithProratedMinimumPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedWithProratedMinimumPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedWithProratedMinimumPriceJSON        `json:"-"`
 }
 
 // priceGroupedWithProratedMinimumPriceJSON contains the JSON metadata for the
@@ -21332,6 +22136,7 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	PriceType                        apijson.Field
 	ReplacesPriceID                  apijson.Field
 	DimensionalPriceConfiguration    apijson.Field
+	LicenseType                      apijson.Field
 	raw                              string
 	ExtraFields                      map[string]apijson.Field
 }
@@ -21584,6 +22389,38 @@ func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedWithProratedMinimumPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                              `json:"name,required"`
+	JSON priceGroupedWithProratedMinimumPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceLicenseTypeJSON contains the JSON metadata
+// for the struct [PriceGroupedWithProratedMinimumPriceLicenseType]
+type priceGroupedWithProratedMinimumPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedWithMeteredMinimumPrice struct {
 	ID                        string                                                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
@@ -21626,9 +22463,13 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	PriceType      PriceGroupedWithMeteredMinimumPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                                  `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration           `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedWithMeteredMinimumPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedWithMeteredMinimumPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedWithMeteredMinimumPriceJSON        `json:"-"`
 }
 
 // priceGroupedWithMeteredMinimumPriceJSON contains the JSON metadata for the
@@ -21662,6 +22503,7 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	PriceType                       apijson.Field
 	ReplacesPriceID                 apijson.Field
 	DimensionalPriceConfiguration   apijson.Field
+	LicenseType                     apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -21975,6 +22817,38 @@ func (r PriceGroupedWithMeteredMinimumPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedWithMeteredMinimumPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                             `json:"name,required"`
+	JSON priceGroupedWithMeteredMinimumPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedWithMeteredMinimumPriceLicenseTypeJSON contains the JSON metadata
+// for the struct [PriceGroupedWithMeteredMinimumPriceLicenseType]
+type priceGroupedWithMeteredMinimumPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithMeteredMinimumPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithMeteredMinimumPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedWithMinMaxThresholdsPrice struct {
 	ID                        string                                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
@@ -22017,9 +22891,13 @@ type PriceGroupedWithMinMaxThresholdsPrice struct {
 	PriceType      PriceGroupedWithMinMaxThresholdsPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                                    `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration             `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedWithMinMaxThresholdsPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedWithMinMaxThresholdsPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedWithMinMaxThresholdsPriceJSON        `json:"-"`
 }
 
 // priceGroupedWithMinMaxThresholdsPriceJSON contains the JSON metadata for the
@@ -22053,6 +22931,7 @@ type priceGroupedWithMinMaxThresholdsPriceJSON struct {
 	PriceType                         apijson.Field
 	ReplacesPriceID                   apijson.Field
 	DimensionalPriceConfiguration     apijson.Field
+	LicenseType                       apijson.Field
 	raw                               string
 	ExtraFields                       map[string]apijson.Field
 }
@@ -22308,6 +23187,38 @@ func (r PriceGroupedWithMinMaxThresholdsPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedWithMinMaxThresholdsPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                               `json:"name,required"`
+	JSON priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON contains the JSON metadata
+// for the struct [PriceGroupedWithMinMaxThresholdsPriceLicenseType]
+type priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithMinMaxThresholdsPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixWithDisplayNamePrice struct {
 	ID                        string                                                `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
@@ -22350,9 +23261,13 @@ type PriceMatrixWithDisplayNamePrice struct {
 	PriceType      PriceMatrixWithDisplayNamePricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMatrixWithDisplayNamePriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMatrixWithDisplayNamePriceLicenseType `json:"license_type,nullable"`
+	JSON        priceMatrixWithDisplayNamePriceJSON        `json:"-"`
 }
 
 // priceMatrixWithDisplayNamePriceJSON contains the JSON metadata for the struct
@@ -22386,6 +23301,7 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -22662,6 +23578,38 @@ func (r PriceMatrixWithDisplayNamePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMatrixWithDisplayNamePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                         `json:"name,required"`
+	JSON priceMatrixWithDisplayNamePriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMatrixWithDisplayNamePriceLicenseTypeJSON contains the JSON metadata for
+// the struct [PriceMatrixWithDisplayNamePriceLicenseType]
+type priceMatrixWithDisplayNamePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithDisplayNamePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithDisplayNamePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceGroupedTieredPackagePrice struct {
 	ID                        string                                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
@@ -22704,9 +23652,13 @@ type PriceGroupedTieredPackagePrice struct {
 	PriceType      PriceGroupedTieredPackagePricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                             `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedTieredPackagePriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceGroupedTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	JSON        priceGroupedTieredPackagePriceJSON        `json:"-"`
 }
 
 // priceGroupedTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -22740,6 +23692,7 @@ type priceGroupedTieredPackagePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -23015,6 +23968,38 @@ func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceGroupedTieredPackagePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                        `json:"name,required"`
+	JSON priceGroupedTieredPackagePriceLicenseTypeJSON `json:"-"`
+}
+
+// priceGroupedTieredPackagePriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceGroupedTieredPackagePriceLicenseType]
+type priceGroupedTieredPackagePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPackagePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPackagePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMaxGroupTieredPackagePrice struct {
 	ID                        string                                                `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
@@ -23057,9 +24042,13 @@ type PriceMaxGroupTieredPackagePrice struct {
 	PriceType      PriceMaxGroupTieredPackagePricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMaxGroupTieredPackagePriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMaxGroupTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	JSON        priceMaxGroupTieredPackagePriceJSON        `json:"-"`
 }
 
 // priceMaxGroupTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -23093,6 +24082,7 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -23367,6 +24357,38 @@ func (r PriceMaxGroupTieredPackagePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMaxGroupTieredPackagePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                         `json:"name,required"`
+	JSON priceMaxGroupTieredPackagePriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMaxGroupTieredPackagePriceLicenseTypeJSON contains the JSON metadata for
+// the struct [PriceMaxGroupTieredPackagePriceLicenseType]
+type priceMaxGroupTieredPackagePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMaxGroupTieredPackagePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMaxGroupTieredPackagePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceScalableMatrixWithUnitPricingPrice struct {
 	ID                        string                                                        `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
@@ -23411,7 +24433,11 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	// Configuration for scalable_matrix_with_unit_pricing pricing
 	ScalableMatrixWithUnitPricingConfig PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig `json:"scalable_matrix_with_unit_pricing_config,required"`
 	DimensionalPriceConfiguration       DimensionalPriceConfiguration                                              `json:"dimensional_price_configuration,nullable"`
-	JSON                                priceScalableMatrixWithUnitPricingPriceJSON                                `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceScalableMatrixWithUnitPricingPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceScalableMatrixWithUnitPricingPriceJSON        `json:"-"`
 }
 
 // priceScalableMatrixWithUnitPricingPriceJSON contains the JSON metadata for the
@@ -23445,6 +24471,7 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	ReplacesPriceID                     apijson.Field
 	ScalableMatrixWithUnitPricingConfig apijson.Field
 	DimensionalPriceConfiguration       apijson.Field
+	LicenseType                         apijson.Field
 	raw                                 string
 	ExtraFields                         map[string]apijson.Field
 }
@@ -23730,6 +24757,38 @@ func (r priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConf
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceScalableMatrixWithUnitPricingPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                                 `json:"name,required"`
+	JSON priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON contains the JSON
+// metadata for the struct [PriceScalableMatrixWithUnitPricingPriceLicenseType]
+type priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithUnitPricingPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceScalableMatrixWithTieredPricingPrice struct {
 	ID                        string                                                          `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                              `json:"billable_metric,required,nullable"`
@@ -23774,7 +24833,11 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
 	ScalableMatrixWithTieredPricingConfig PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig `json:"scalable_matrix_with_tiered_pricing_config,required"`
 	DimensionalPriceConfiguration         DimensionalPriceConfiguration                                                  `json:"dimensional_price_configuration,nullable"`
-	JSON                                  priceScalableMatrixWithTieredPricingPriceJSON                                  `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceScalableMatrixWithTieredPricingPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceScalableMatrixWithTieredPricingPriceJSON        `json:"-"`
 }
 
 // priceScalableMatrixWithTieredPricingPriceJSON contains the JSON metadata for the
@@ -23808,6 +24871,7 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	ReplacesPriceID                       apijson.Field
 	ScalableMatrixWithTieredPricingConfig apijson.Field
 	DimensionalPriceConfiguration         apijson.Field
+	LicenseType                           apijson.Field
 	raw                                   string
 	ExtraFields                           map[string]apijson.Field
 }
@@ -24114,6 +25178,38 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 	return r.raw
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceScalableMatrixWithTieredPricingPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                                   `json:"name,required"`
+	JSON priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON contains the JSON
+// metadata for the struct [PriceScalableMatrixWithTieredPricingPriceLicenseType]
+type priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithTieredPricingPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceCumulativeGroupedBulkPrice struct {
 	ID                        string                                                `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
@@ -24156,9 +25252,13 @@ type PriceCumulativeGroupedBulkPrice struct {
 	PriceType      PriceCumulativeGroupedBulkPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceCumulativeGroupedBulkPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceCumulativeGroupedBulkPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceCumulativeGroupedBulkPriceJSON        `json:"-"`
 }
 
 // priceCumulativeGroupedBulkPriceJSON contains the JSON metadata for the struct
@@ -24192,6 +25292,7 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -24467,6 +25568,38 @@ func (r PriceCumulativeGroupedBulkPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceCumulativeGroupedBulkPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                         `json:"name,required"`
+	JSON priceCumulativeGroupedBulkPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceCumulativeGroupedBulkPriceLicenseTypeJSON contains the JSON metadata for
+// the struct [PriceCumulativeGroupedBulkPriceLicenseType]
+type priceCumulativeGroupedBulkPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceCumulativeGroupedBulkPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceCumulativeGroupedBulkPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceCumulativeGroupedAllocationPrice struct {
 	ID                        string                                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
@@ -24509,9 +25642,13 @@ type PriceCumulativeGroupedAllocationPrice struct {
 	PriceType      PriceCumulativeGroupedAllocationPricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                                    `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration             `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceCumulativeGroupedAllocationPriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceCumulativeGroupedAllocationPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceCumulativeGroupedAllocationPriceJSON        `json:"-"`
 }
 
 // priceCumulativeGroupedAllocationPriceJSON contains the JSON metadata for the
@@ -24545,6 +25682,7 @@ type priceCumulativeGroupedAllocationPriceJSON struct {
 	PriceType                         apijson.Field
 	ReplacesPriceID                   apijson.Field
 	DimensionalPriceConfiguration     apijson.Field
+	LicenseType                       apijson.Field
 	raw                               string
 	ExtraFields                       map[string]apijson.Field
 }
@@ -24800,6 +25938,38 @@ func (r PriceCumulativeGroupedAllocationPricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceCumulativeGroupedAllocationPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                               `json:"name,required"`
+	JSON priceCumulativeGroupedAllocationPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceCumulativeGroupedAllocationPriceLicenseTypeJSON contains the JSON metadata
+// for the struct [PriceCumulativeGroupedAllocationPriceLicenseType]
+type priceCumulativeGroupedAllocationPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceCumulativeGroupedAllocationPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceCumulativeGroupedAllocationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMinimumCompositePrice struct {
 	ID                        string                                           `json:"id,required"`
 	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
@@ -24842,9 +26012,13 @@ type PriceMinimumCompositePrice struct {
 	PriceType      PriceMinimumCompositePricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                         `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration  `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMinimumCompositePriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMinimumCompositePriceLicenseType `json:"license_type,nullable"`
+	JSON        priceMinimumCompositePriceJSON        `json:"-"`
 }
 
 // priceMinimumCompositePriceJSON contains the JSON metadata for the struct
@@ -24878,6 +26052,7 @@ type priceMinimumCompositePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -25123,6 +26298,38 @@ func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMinimumCompositePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                    `json:"name,required"`
+	JSON priceMinimumCompositePriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMinimumCompositePriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PriceMinimumCompositePriceLicenseType]
+type priceMinimumCompositePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMinimumCompositePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMinimumCompositePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePercentCompositePrice struct {
 	ID                        string                                           `json:"id,required"`
 	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
@@ -25165,9 +26372,13 @@ type PricePercentCompositePrice struct {
 	PriceType      PricePercentCompositePricePriceType     `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                         `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration  `json:"dimensional_price_configuration,nullable"`
-	JSON                          pricePercentCompositePriceJSON `json:"-"`
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PricePercentCompositePriceLicenseType `json:"license_type,nullable"`
+	JSON        pricePercentCompositePriceJSON        `json:"-"`
 }
 
 // pricePercentCompositePriceJSON contains the JSON metadata for the struct
@@ -25201,6 +26412,7 @@ type pricePercentCompositePriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -25443,6 +26655,38 @@ func (r PricePercentCompositePricePriceType) IsKnown() bool {
 	return false
 }
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PricePercentCompositePriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                                    `json:"name,required"`
+	JSON pricePercentCompositePriceLicenseTypeJSON `json:"-"`
+}
+
+// pricePercentCompositePriceLicenseTypeJSON contains the JSON metadata for the
+// struct [PricePercentCompositePriceLicenseType]
+type pricePercentCompositePriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePercentCompositePriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePercentCompositePriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceEventOutputPrice struct {
 	ID                        string                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
@@ -25487,7 +26731,11 @@ type PriceEventOutputPrice struct {
 	// price in plan version migrations.
 	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceEventOutputPriceJSON     `json:"-"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceEventOutputPriceLicenseType `json:"license_type,nullable"`
+	JSON        priceEventOutputPriceJSON        `json:"-"`
 }
 
 // priceEventOutputPriceJSON contains the JSON metadata for the struct
@@ -25521,6 +26769,7 @@ type priceEventOutputPriceJSON struct {
 	PriceType                     apijson.Field
 	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
+	LicenseType                   apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -25770,6 +27019,38 @@ func (r PriceEventOutputPricePriceType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceEventOutputPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id,required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key,required"`
+	// The name of the license type.
+	Name string                               `json:"name,required"`
+	JSON priceEventOutputPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceEventOutputPriceLicenseTypeJSON contains the JSON metadata for the struct
+// [PriceEventOutputPriceLicenseType]
+type priceEventOutputPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceEventOutputPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEventOutputPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBillingMode string
