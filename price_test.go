@@ -62,6 +62,7 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 			Duration:     orb.F(int64(0)),
 			DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 		}),
+		LicenseTypeID: orb.F("license_type_id"),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
@@ -219,6 +220,7 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 					Duration:     orb.F(int64(0)),
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
+				LicenseTypeID: orb.F("license_type_id"),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
@@ -300,6 +302,7 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 					Duration:     orb.F(int64(0)),
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
+				LicenseTypeID: orb.F("license_type_id"),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),

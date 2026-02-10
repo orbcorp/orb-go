@@ -65,6 +65,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Values:   orb.F([]string{"string"}),
 					}}),
 					ItemID:           orb.F("item_id"),
+					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
@@ -103,6 +104,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Duration:     orb.F(int64(0)),
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
+					LicenseTypeID: orb.F("license_type_id"),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
@@ -153,6 +155,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Values:   orb.F([]string{"string"}),
 					}}),
 					ItemID:           orb.F("item_id"),
+					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
@@ -191,6 +194,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Duration:     orb.F(int64(0)),
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
+					LicenseTypeID: orb.F("license_type_id"),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
