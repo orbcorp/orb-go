@@ -81,9 +81,14 @@ type CreditBlockGetResponse struct {
 	ExpiryDate            time.Time                      `json:"expiry_date,required,nullable" format:"date-time"`
 	Filters               []CreditBlockGetResponseFilter `json:"filters,required"`
 	MaximumInitialBalance float64                        `json:"maximum_initial_balance,required,nullable"`
-	PerUnitCostBasis      string                         `json:"per_unit_cost_basis,required,nullable"`
-	Status                CreditBlockGetResponseStatus   `json:"status,required"`
-	JSON                  creditBlockGetResponseJSON     `json:"-"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata         map[string]string            `json:"metadata,required"`
+	PerUnitCostBasis string                       `json:"per_unit_cost_basis,required,nullable"`
+	Status           CreditBlockGetResponseStatus `json:"status,required"`
+	JSON             creditBlockGetResponseJSON   `json:"-"`
 }
 
 // creditBlockGetResponseJSON contains the JSON metadata for the struct
@@ -95,6 +100,7 @@ type creditBlockGetResponseJSON struct {
 	ExpiryDate            apijson.Field
 	Filters               apijson.Field
 	MaximumInitialBalance apijson.Field
+	Metadata              apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
 	raw                   string

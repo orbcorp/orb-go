@@ -7,6 +7,7 @@ import (
 	"errors"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
@@ -31,6 +32,10 @@ func TestCustomerCreditListWithOptionalParams(t *testing.T) {
 		orb.CustomerCreditListParams{
 			Currency:         orb.F("currency"),
 			Cursor:           orb.F("cursor"),
+			EffectiveDateGt:  orb.F(time.Now()),
+			EffectiveDateGte: orb.F(time.Now()),
+			EffectiveDateLt:  orb.F(time.Now()),
+			EffectiveDateLte: orb.F(time.Now()),
 			IncludeAllBlocks: orb.F(true),
 			Limit:            orb.F(int64(1)),
 		},
@@ -62,6 +67,10 @@ func TestCustomerCreditListByExternalIDWithOptionalParams(t *testing.T) {
 		orb.CustomerCreditListByExternalIDParams{
 			Currency:         orb.F("currency"),
 			Cursor:           orb.F("cursor"),
+			EffectiveDateGt:  orb.F(time.Now()),
+			EffectiveDateGte: orb.F(time.Now()),
+			EffectiveDateLt:  orb.F(time.Now()),
+			EffectiveDateLte: orb.F(time.Now()),
 			IncludeAllBlocks: orb.F(true),
 			Limit:            orb.F(int64(1)),
 		},
