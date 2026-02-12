@@ -49,6 +49,11 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
+//
+// Results can be filtered by the block's `effective_date` using the
+// `effective_date[gte]`, `effective_date[gt]`, `effective_date[lt]`, and
+// `effective_date[lte]` query parameters. This filters on when the credit block
+// becomes effective, which may differ from creation time for backdated credits.
 func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -77,6 +82,11 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
+//
+// Results can be filtered by the block's `effective_date` using the
+// `effective_date[gte]`, `effective_date[gt]`, `effective_date[lt]`, and
+// `effective_date[lte]` query parameters. This filters on when the credit block
+// becomes effective, which may differ from creation time for backdated credits.
 func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
@@ -88,6 +98,11 @@ func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID s
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
+//
+// Results can be filtered by the block's `effective_date` using the
+// `effective_date[gte]`, `effective_date[gt]`, `effective_date[lt]`, and
+// `effective_date[lte]` query parameters. This filters on when the credit block
+// becomes effective, which may differ from creation time for backdated credits.
 func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -116,6 +131,11 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
+//
+// Results can be filtered by the block's `effective_date` using the
+// `effective_date[gte]`, `effective_date[gt]`, `effective_date[lt]`, and
+// `effective_date[lte]` query parameters. This filters on when the credit block
+// becomes effective, which may differ from creation time for backdated credits.
 func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListByExternalIDResponse] {
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
@@ -127,9 +147,14 @@ type CustomerCreditListResponse struct {
 	ExpiryDate            time.Time                          `json:"expiry_date,required,nullable" format:"date-time"`
 	Filters               []CustomerCreditListResponseFilter `json:"filters,required"`
 	MaximumInitialBalance float64                            `json:"maximum_initial_balance,required,nullable"`
-	PerUnitCostBasis      string                             `json:"per_unit_cost_basis,required,nullable"`
-	Status                CustomerCreditListResponseStatus   `json:"status,required"`
-	JSON                  customerCreditListResponseJSON     `json:"-"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata         map[string]string                `json:"metadata,required"`
+	PerUnitCostBasis string                           `json:"per_unit_cost_basis,required,nullable"`
+	Status           CustomerCreditListResponseStatus `json:"status,required"`
+	JSON             customerCreditListResponseJSON   `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
@@ -141,6 +166,7 @@ type customerCreditListResponseJSON struct {
 	ExpiryDate            apijson.Field
 	Filters               apijson.Field
 	MaximumInitialBalance apijson.Field
+	Metadata              apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
 	raw                   string
@@ -237,9 +263,14 @@ type CustomerCreditListByExternalIDResponse struct {
 	ExpiryDate            time.Time                                      `json:"expiry_date,required,nullable" format:"date-time"`
 	Filters               []CustomerCreditListByExternalIDResponseFilter `json:"filters,required"`
 	MaximumInitialBalance float64                                        `json:"maximum_initial_balance,required,nullable"`
-	PerUnitCostBasis      string                                         `json:"per_unit_cost_basis,required,nullable"`
-	Status                CustomerCreditListByExternalIDResponseStatus   `json:"status,required"`
-	JSON                  customerCreditListByExternalIDResponseJSON     `json:"-"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata         map[string]string                            `json:"metadata,required"`
+	PerUnitCostBasis string                                       `json:"per_unit_cost_basis,required,nullable"`
+	Status           CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
+	JSON             customerCreditListByExternalIDResponseJSON   `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
@@ -251,6 +282,7 @@ type customerCreditListByExternalIDResponseJSON struct {
 	ExpiryDate            apijson.Field
 	Filters               apijson.Field
 	MaximumInitialBalance apijson.Field
+	Metadata              apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
 	raw                   string
@@ -345,7 +377,11 @@ type CustomerCreditListParams struct {
 	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor param.Field[string] `query:"cursor"`
+	Cursor           param.Field[string]    `query:"cursor"`
+	EffectiveDateGt  param.Field[time.Time] `query:"effective_date[gt]" format:"date-time"`
+	EffectiveDateGte param.Field[time.Time] `query:"effective_date[gte]" format:"date-time"`
+	EffectiveDateLt  param.Field[time.Time] `query:"effective_date[lt]" format:"date-time"`
+	EffectiveDateLte param.Field[time.Time] `query:"effective_date[lte]" format:"date-time"`
 	// If set to True, all expired and depleted blocks, as well as active block will be
 	// returned.
 	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
@@ -367,7 +403,11 @@ type CustomerCreditListByExternalIDParams struct {
 	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor param.Field[string] `query:"cursor"`
+	Cursor           param.Field[string]    `query:"cursor"`
+	EffectiveDateGt  param.Field[time.Time] `query:"effective_date[gt]" format:"date-time"`
+	EffectiveDateGte param.Field[time.Time] `query:"effective_date[gte]" format:"date-time"`
+	EffectiveDateLt  param.Field[time.Time] `query:"effective_date[lt]" format:"date-time"`
+	EffectiveDateLte param.Field[time.Time] `query:"effective_date[lte]" format:"date-time"`
 	// If set to True, all expired and depleted blocks, as well as active block will be
 	// returned.
 	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
