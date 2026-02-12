@@ -13,7 +13,7 @@ import (
 	"github.com/orbcorp/orb-go/option"
 )
 
-func TestCreditBlockGet(t *testing.T) {
+func TestLicenseTypeNew(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -25,7 +25,10 @@ func TestCreditBlockGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.CreditBlocks.Get(context.TODO(), "block_id")
+	_, err := client.LicenseTypes.New(context.TODO(), orb.LicenseTypeNewParams{
+		GroupingKey: orb.F("grouping_key"),
+		Name:        orb.F("name"),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -35,7 +38,7 @@ func TestCreditBlockGet(t *testing.T) {
 	}
 }
 
-func TestCreditBlockDelete(t *testing.T) {
+func TestLicenseTypeGet(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -47,7 +50,7 @@ func TestCreditBlockDelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.CreditBlocks.Delete(context.TODO(), "block_id")
+	_, err := client.LicenseTypes.Get(context.TODO(), "license_type_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -57,7 +60,7 @@ func TestCreditBlockDelete(t *testing.T) {
 	}
 }
 
-func TestCreditBlockListInvoices(t *testing.T) {
+func TestLicenseTypeListWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -69,7 +72,10 @@ func TestCreditBlockListInvoices(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.CreditBlocks.ListInvoices(context.TODO(), "block_id")
+	_, err := client.LicenseTypes.List(context.TODO(), orb.LicenseTypeListParams{
+		Cursor: orb.F("cursor"),
+		Limit:  orb.F(int64(1)),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

@@ -7,13 +7,14 @@ import (
 	"errors"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
 )
 
-func TestCreditBlockGet(t *testing.T) {
+func TestLicenseUsageGetAllUsageWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -25,7 +26,15 @@ func TestCreditBlockGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.CreditBlocks.Get(context.TODO(), "block_id")
+	_, err := client.Licenses.Usage.GetAllUsage(context.TODO(), orb.LicenseUsageGetAllUsageParams{
+		LicenseTypeID:  orb.F("license_type_id"),
+		SubscriptionID: orb.F("subscription_id"),
+		Cursor:         orb.F("cursor"),
+		EndDate:        orb.F(time.Now()),
+		GroupBy:        orb.F([]string{"string"}),
+		Limit:          orb.F(int64(1)),
+		StartDate:      orb.F(time.Now()),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -35,7 +44,7 @@ func TestCreditBlockGet(t *testing.T) {
 	}
 }
 
-func TestCreditBlockDelete(t *testing.T) {
+func TestLicenseUsageGetUsageWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -47,29 +56,17 @@ func TestCreditBlockDelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.CreditBlocks.Delete(context.TODO(), "block_id")
-	if err != nil {
-		var apierr *orb.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestCreditBlockListInvoices(t *testing.T) {
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := orb.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
+	_, err := client.Licenses.Usage.GetUsage(
+		context.TODO(),
+		"license_id",
+		orb.LicenseUsageGetUsageParams{
+			Cursor:    orb.F("cursor"),
+			EndDate:   orb.F(time.Now()),
+			GroupBy:   orb.F([]string{"string"}),
+			Limit:     orb.F(int64(1)),
+			StartDate: orb.F(time.Now()),
+		},
 	)
-	_, err := client.CreditBlocks.ListInvoices(context.TODO(), "block_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
