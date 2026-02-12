@@ -175,6 +175,26 @@ func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body Invoi
 	return
 }
 
+// This endpoint allows an eligible invoice to be issued manually. This is only
+// possible with invoices where status is `draft`, `will_auto_issue` is false, and
+// an `eligible_to_issue_at` is a time in the past. Issuing an invoice could
+// possibly trigger side effects, some of which could be customer-visible (e.g.
+// sending emails, auto-collecting payment, syncing the invoice to external
+// providers, etc).
+//
+// This is a lighter-weight alternative to the issue invoice endpoint, returning an
+// invoice summary without any line item details.
+func (r *InvoiceService) IssueSummary(ctx context.Context, invoiceID string, body InvoiceIssueSummaryParams, opts ...option.RequestOption) (res *InvoiceIssueSummaryResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
+	path := fmt.Sprintf("invoices/summary/%s/issue", invoiceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // This is a lighter-weight endpoint that returns a list of all
 // [`Invoice`](/core-concepts#invoice) summaries for an account in a list format.
 //
@@ -1154,6 +1174,530 @@ func (r InvoiceFetchUpcomingResponseStatus) IsKnown() bool {
 }
 
 // #InvoiceApiResourceWithoutLineItems
+type InvoiceIssueSummaryResponse struct {
+	ID string `json:"id,required"`
+	// This is the final amount required to be charged to the customer and reflects the
+	// application of the customer balance to the `total` of the invoice.
+	AmountDue      string                                    `json:"amount_due,required"`
+	AutoCollection InvoiceIssueSummaryResponseAutoCollection `json:"auto_collection,required"`
+	BillingAddress shared.Address                            `json:"billing_address,required,nullable"`
+	// The creation time of the resource in Orb.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// A list of credit notes associated with the invoice
+	CreditNotes []InvoiceIssueSummaryResponseCreditNote `json:"credit_notes,required"`
+	// An ISO 4217 currency string or `credits`
+	Currency                    string                                                  `json:"currency,required"`
+	Customer                    shared.CustomerMinified                                 `json:"customer,required"`
+	CustomerBalanceTransactions []InvoiceIssueSummaryResponseCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	// Tax IDs are commonly required to be displayed on customer invoices, which are
+	// added to the headers of invoices.
+	//
+	// ### Supported Tax ID Countries and Types
+	//
+	// | Country                | Type         | Description                                                                                             |
+	// | ---------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Albania                | `al_tin`     | Albania Tax Identification Number                                                                       |
+	// | Andorra                | `ad_nrt`     | Andorran NRT Number                                                                                     |
+	// | Angola                 | `ao_tin`     | Angola Tax Identification Number                                                                        |
+	// | Argentina              | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
+	// | Armenia                | `am_tin`     | Armenia Tax Identification Number                                                                       |
+	// | Aruba                  | `aw_tin`     | Aruba Tax Identification Number                                                                         |
+	// | Australia              | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
+	// | Australia              | `au_arn`     | Australian Taxation Office Reference Number                                                             |
+	// | Austria                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Azerbaijan             | `az_tin`     | Azerbaijan Tax Identification Number                                                                    |
+	// | Bahamas                | `bs_tin`     | Bahamas Tax Identification Number                                                                       |
+	// | Bahrain                | `bh_vat`     | Bahraini VAT Number                                                                                     |
+	// | Bangladesh             | `bd_bin`     | Bangladesh Business Identification Number                                                               |
+	// | Barbados               | `bb_tin`     | Barbados Tax Identification Number                                                                      |
+	// | Belarus                | `by_tin`     | Belarus TIN Number                                                                                      |
+	// | Belgium                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Benin                  | `bj_ifu`     | Benin Tax Identification Number (Identifiant Fiscal Unique)                                             |
+	// | Bolivia                | `bo_tin`     | Bolivian Tax ID                                                                                         |
+	// | Bosnia and Herzegovina | `ba_tin`     | Bosnia and Herzegovina Tax Identification Number                                                        |
+	// | Brazil                 | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
+	// | Brazil                 | `br_cpf`     | Brazilian CPF Number                                                                                    |
+	// | Bulgaria               | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
+	// | Bulgaria               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Burkina Faso           | `bf_ifu`     | Burkina Faso Tax Identification Number (Numéro d'Identifiant Fiscal Unique)                             |
+	// | Cambodia               | `kh_tin`     | Cambodia Tax Identification Number                                                                      |
+	// | Cameroon               | `cm_niu`     | Cameroon Tax Identification Number (Numéro d'Identifiant fiscal Unique)                                 |
+	// | Canada                 | `ca_bn`      | Canadian BN                                                                                             |
+	// | Canada                 | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
+	// | Canada                 | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
+	// | Canada                 | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
+	// | Canada                 | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
+	// | Canada                 | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
+	// | Cape Verde             | `cv_nif`     | Cape Verde Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Chile                  | `cl_tin`     | Chilean TIN                                                                                             |
+	// | China                  | `cn_tin`     | Chinese Tax ID                                                                                          |
+	// | Colombia               | `co_nit`     | Colombian NIT Number                                                                                    |
+	// | Congo-Kinshasa         | `cd_nif`     | Congo (DR) Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Costa Rica             | `cr_tin`     | Costa Rican Tax ID                                                                                      |
+	// | Croatia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Croatia                | `hr_oib`     | Croatian Personal Identification Number (OIB)                                                           |
+	// | Cyprus                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Czech Republic         | `eu_vat`     | European VAT Number                                                                                     |
+	// | Denmark                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Dominican Republic     | `do_rcn`     | Dominican RCN Number                                                                                    |
+	// | Ecuador                | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
+	// | Egypt                  | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
+	// | El Salvador            | `sv_nit`     | El Salvadorian NIT Number                                                                               |
+	// | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
+	// | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+	// | Finland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | France                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
+	// | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
+	// | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
+	// | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
+	// | Hungary                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Hungary                | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
+	// | Iceland                | `is_vat`     | Icelandic VAT                                                                                           |
+	// | India                  | `in_gst`     | Indian GST Number                                                                                       |
+	// | Indonesia              | `id_npwp`    | Indonesian NPWP Number                                                                                  |
+	// | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Israel                 | `il_vat`     | Israel VAT                                                                                              |
+	// | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
+	// | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
+	// | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
+	// | Kazakhstan             | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
+	// | Kenya                  | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
+	// | Kyrgyzstan             | `kg_tin`     | Kyrgyzstan Tax Identification Number                                                                    |
+	// | Laos                   | `la_tin`     | Laos Tax Identification Number                                                                          |
+	// | Latvia                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Liechtenstein          | `li_uid`     | Liechtensteinian UID Number                                                                             |
+	// | Liechtenstein          | `li_vat`     | Liechtenstein VAT Number                                                                                |
+	// | Lithuania              | `eu_vat`     | European VAT Number                                                                                     |
+	// | Luxembourg             | `eu_vat`     | European VAT Number                                                                                     |
+	// | Malaysia               | `my_frp`     | Malaysian FRP Number                                                                                    |
+	// | Malaysia               | `my_itn`     | Malaysian ITN                                                                                           |
+	// | Malaysia               | `my_sst`     | Malaysian SST Number                                                                                    |
+	// | Malta                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Mauritania             | `mr_nif`     | Mauritania Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Mexico                 | `mx_rfc`     | Mexican RFC Number                                                                                      |
+	// | Moldova                | `md_vat`     | Moldova VAT Number                                                                                      |
+	// | Montenegro             | `me_pib`     | Montenegro PIB Number                                                                                   |
+	// | Morocco                | `ma_vat`     | Morocco VAT Number                                                                                      |
+	// | Nepal                  | `np_pan`     | Nepal PAN Number                                                                                        |
+	// | Netherlands            | `eu_vat`     | European VAT Number                                                                                     |
+	// | New Zealand            | `nz_gst`     | New Zealand GST Number                                                                                  |
+	// | Nigeria                | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
+	// | North Macedonia        | `mk_vat`     | North Macedonia VAT Number                                                                              |
+	// | Northern Ireland       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
+	// | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
+	// | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
+	// | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
+	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
+	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Poland                 | `pl_nip`     | Polish Tax ID Number                                                                                    |
+	// | Portugal               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `ro_tin`     | Romanian Tax ID Number                                                                                  |
+	// | Russia                 | `ru_inn`     | Russian INN                                                                                             |
+	// | Russia                 | `ru_kpp`     | Russian KPP                                                                                             |
+	// | Saudi Arabia           | `sa_vat`     | Saudi Arabia VAT                                                                                        |
+	// | Senegal                | `sn_ninea`   | Senegal NINEA Number                                                                                    |
+	// | Serbia                 | `rs_pib`     | Serbian PIB Number                                                                                      |
+	// | Singapore              | `sg_gst`     | Singaporean GST                                                                                         |
+	// | Singapore              | `sg_uen`     | Singaporean UEN                                                                                         |
+	// | Slovakia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
+	// | South Africa           | `za_vat`     | South African VAT Number                                                                                |
+	// | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
+	// | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
+	// | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
+	// | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
+	// | Switzerland            | `ch_vat`     | Switzerland VAT Number                                                                                  |
+	// | Taiwan                 | `tw_vat`     | Taiwanese VAT                                                                                           |
+	// | Tajikistan             | `tj_tin`     | Tajikistan Tax Identification Number                                                                    |
+	// | Tanzania               | `tz_vat`     | Tanzania VAT Number                                                                                     |
+	// | Thailand               | `th_vat`     | Thai VAT                                                                                                |
+	// | Turkey                 | `tr_tin`     | Turkish Tax Identification Number                                                                       |
+	// | Uganda                 | `ug_tin`     | Uganda Tax Identification Number                                                                        |
+	// | Ukraine                | `ua_vat`     | Ukrainian VAT                                                                                           |
+	// | United Arab Emirates   | `ae_trn`     | United Arab Emirates TRN                                                                                |
+	// | United Kingdom         | `gb_vat`     | United Kingdom VAT Number                                                                               |
+	// | United States          | `us_ein`     | United States EIN                                                                                       |
+	// | Uruguay                | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
+	// | Uzbekistan             | `uz_tin`     | Uzbekistan TIN Number                                                                                   |
+	// | Uzbekistan             | `uz_vat`     | Uzbekistan VAT Number                                                                                   |
+	// | Venezuela              | `ve_rif`     | Venezuelan RIF Number                                                                                   |
+	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
+	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
+	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
+	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	// When the invoice payment is due. The due date is null if the invoice is not yet
+	// finalized.
+	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	// If the invoice has a status of `draft`, this will be the time that the invoice
+	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
+	// true, the invoice will automatically begin issuing at this time.
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
+	// invoice's due date, or 60 days after being re-generated through the UI.
+	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	// The scheduled date of the invoice
+	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	// Automatically generated invoice number to help track and reconcile invoices.
+	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
+	// account or customer.
+	InvoiceNumber string `json:"invoice_number,required"`
+	// The link to download the PDF representation of the `Invoice`.
+	InvoicePdf    string                                   `json:"invoice_pdf,required,nullable"`
+	InvoiceSource InvoiceIssueSummaryResponseInvoiceSource `json:"invoice_source,required"`
+	// If the invoice failed to issue, this will be the last time it failed to issue
+	// (even if it is now in a different state.)
+	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	// If the invoice has been issued, this will be the time it transitioned to
+	// `issued` (even if it is now in a different state.)
+	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
+	Memo string `json:"memo,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
+	// was paid.
+	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	// A list of payment attempts associated with the invoice
+	PaymentAttempts []InvoiceIssueSummaryResponsePaymentAttempt `json:"payment_attempts,required"`
+	// If payment was attempted on this invoice but failed, this will be the time of
+	// the most recent attempt.
+	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	// If payment was attempted on this invoice, this will be the start time of the
+	// most recent attempt. This field is especially useful for delayed-notification
+	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
+	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	// If the invoice is in draft, this timestamp will reflect when the invoice is
+	// scheduled to be issued.
+	ScheduledIssueAt time.Time                         `json:"scheduled_issue_at,required,nullable" format:"date-time"`
+	ShippingAddress  shared.Address                    `json:"shipping_address,required,nullable"`
+	Status           InvoiceIssueSummaryResponseStatus `json:"status,required"`
+	Subscription     shared.SubscriptionMinified       `json:"subscription,required,nullable"`
+	// If the invoice failed to sync, this will be the last time an external invoicing
+	// provider sync was attempted. This field will always be `null` for invoices using
+	// Orb Invoicing.
+	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	// The total after any minimums and discounts have been applied.
+	Total string `json:"total,required"`
+	// If the invoice has a status of `void`, this gives a timestamp when the invoice
+	// was voided.
+	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	// This is true if the invoice will be automatically issued in the future, and
+	// false otherwise.
+	WillAutoIssue bool                            `json:"will_auto_issue,required"`
+	JSON          invoiceIssueSummaryResponseJSON `json:"-"`
+}
+
+// invoiceIssueSummaryResponseJSON contains the JSON metadata for the struct
+// [InvoiceIssueSummaryResponse]
+type invoiceIssueSummaryResponseJSON struct {
+	ID                          apijson.Field
+	AmountDue                   apijson.Field
+	AutoCollection              apijson.Field
+	BillingAddress              apijson.Field
+	CreatedAt                   apijson.Field
+	CreditNotes                 apijson.Field
+	Currency                    apijson.Field
+	Customer                    apijson.Field
+	CustomerBalanceTransactions apijson.Field
+	CustomerTaxID               apijson.Field
+	DueDate                     apijson.Field
+	EligibleToIssueAt           apijson.Field
+	HostedInvoiceURL            apijson.Field
+	InvoiceDate                 apijson.Field
+	InvoiceNumber               apijson.Field
+	InvoicePdf                  apijson.Field
+	InvoiceSource               apijson.Field
+	IssueFailedAt               apijson.Field
+	IssuedAt                    apijson.Field
+	Memo                        apijson.Field
+	Metadata                    apijson.Field
+	PaidAt                      apijson.Field
+	PaymentAttempts             apijson.Field
+	PaymentFailedAt             apijson.Field
+	PaymentStartedAt            apijson.Field
+	ScheduledIssueAt            apijson.Field
+	ShippingAddress             apijson.Field
+	Status                      apijson.Field
+	Subscription                apijson.Field
+	SyncFailedAt                apijson.Field
+	Total                       apijson.Field
+	VoidedAt                    apijson.Field
+	WillAutoIssue               apijson.Field
+	raw                         string
+	ExtraFields                 map[string]apijson.Field
+}
+
+func (r *InvoiceIssueSummaryResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceIssueSummaryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type InvoiceIssueSummaryResponseAutoCollection struct {
+	// True only if auto-collection is enabled for this invoice.
+	Enabled bool `json:"enabled,required,nullable"`
+	// If the invoice is scheduled for auto-collection, this field will reflect when
+	// the next attempt will occur. If dunning has been exhausted, or auto-collection
+	// is not enabled for this invoice, this field will be `null`.
+	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	// Number of auto-collection payment attempts.
+	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	// If Orb has ever attempted payment auto-collection for this invoice, this field
+	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
+	// this can be used to tell whether the invoice is currently in dunning (that is,
+	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
+	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
+	// `next_attempt_time` is null).
+	PreviouslyAttemptedAt time.Time                                     `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	JSON                  invoiceIssueSummaryResponseAutoCollectionJSON `json:"-"`
+}
+
+// invoiceIssueSummaryResponseAutoCollectionJSON contains the JSON metadata for the
+// struct [InvoiceIssueSummaryResponseAutoCollection]
+type invoiceIssueSummaryResponseAutoCollectionJSON struct {
+	Enabled               apijson.Field
+	NextAttemptAt         apijson.Field
+	NumAttempts           apijson.Field
+	PreviouslyAttemptedAt apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *InvoiceIssueSummaryResponseAutoCollection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceIssueSummaryResponseAutoCollectionJSON) RawJSON() string {
+	return r.raw
+}
+
+type InvoiceIssueSummaryResponseCreditNote struct {
+	ID               string `json:"id,required"`
+	CreditNoteNumber string `json:"credit_note_number,required"`
+	// An optional memo supplied on the credit note.
+	Memo   string `json:"memo,required,nullable"`
+	Reason string `json:"reason,required"`
+	Total  string `json:"total,required"`
+	Type   string `json:"type,required"`
+	// If the credit note has a status of `void`, this gives a timestamp when the
+	// credit note was voided.
+	VoidedAt time.Time                                 `json:"voided_at,required,nullable" format:"date-time"`
+	JSON     invoiceIssueSummaryResponseCreditNoteJSON `json:"-"`
+}
+
+// invoiceIssueSummaryResponseCreditNoteJSON contains the JSON metadata for the
+// struct [InvoiceIssueSummaryResponseCreditNote]
+type invoiceIssueSummaryResponseCreditNoteJSON struct {
+	ID               apijson.Field
+	CreditNoteNumber apijson.Field
+	Memo             apijson.Field
+	Reason           apijson.Field
+	Total            apijson.Field
+	Type             apijson.Field
+	VoidedAt         apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *InvoiceIssueSummaryResponseCreditNote) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceIssueSummaryResponseCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
+type InvoiceIssueSummaryResponseCustomerBalanceTransaction struct {
+	// A unique id for this transaction.
+	ID     string                                                       `json:"id,required"`
+	Action InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction `json:"action,required"`
+	// The value of the amount changed in the transaction.
+	Amount string `json:"amount,required"`
+	// The creation time of this transaction.
+	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	// An optional description provided for manual customer balance adjustments.
+	Description string `json:"description,required,nullable"`
+	// The new value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	EndingBalance string             `json:"ending_balance,required"`
+	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	// The original value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	StartingBalance string                                                     `json:"starting_balance,required"`
+	Type            InvoiceIssueSummaryResponseCustomerBalanceTransactionsType `json:"type,required"`
+	JSON            invoiceIssueSummaryResponseCustomerBalanceTransactionJSON  `json:"-"`
+}
+
+// invoiceIssueSummaryResponseCustomerBalanceTransactionJSON contains the JSON
+// metadata for the struct [InvoiceIssueSummaryResponseCustomerBalanceTransaction]
+type invoiceIssueSummaryResponseCustomerBalanceTransactionJSON struct {
+	ID              apijson.Field
+	Action          apijson.Field
+	Amount          apijson.Field
+	CreatedAt       apijson.Field
+	CreditNote      apijson.Field
+	Description     apijson.Field
+	EndingBalance   apijson.Field
+	Invoice         apijson.Field
+	StartingBalance apijson.Field
+	Type            apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
+}
+
+func (r *InvoiceIssueSummaryResponseCustomerBalanceTransaction) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceIssueSummaryResponseCustomerBalanceTransactionJSON) RawJSON() string {
+	return r.raw
+}
+
+type InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction string
+
+const (
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionAppliedToInvoice      InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "applied_to_invoice"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionManualAdjustment      InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "manual_adjustment"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionProratedRefund        InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "prorated_refund"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionRevertProratedRefund  InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "revert_prorated_refund"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionReturnFromVoiding     InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "return_from_voiding"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionCreditNoteApplied     InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "credit_note_applied"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionCreditNoteVoided      InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "credit_note_voided"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionOverpaymentRefund     InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "overpayment_refund"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionExternalPayment       InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "external_payment"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionSmallInvoiceCarryover InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction = "small_invoice_carryover"
+)
+
+func (r InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction) IsKnown() bool {
+	switch r {
+	case InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionManualAdjustment, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionProratedRefund, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionOverpaymentRefund, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionExternalPayment, InvoiceIssueSummaryResponseCustomerBalanceTransactionsActionSmallInvoiceCarryover:
+		return true
+	}
+	return false
+}
+
+type InvoiceIssueSummaryResponseCustomerBalanceTransactionsType string
+
+const (
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsTypeIncrement InvoiceIssueSummaryResponseCustomerBalanceTransactionsType = "increment"
+	InvoiceIssueSummaryResponseCustomerBalanceTransactionsTypeDecrement InvoiceIssueSummaryResponseCustomerBalanceTransactionsType = "decrement"
+)
+
+func (r InvoiceIssueSummaryResponseCustomerBalanceTransactionsType) IsKnown() bool {
+	switch r {
+	case InvoiceIssueSummaryResponseCustomerBalanceTransactionsTypeIncrement, InvoiceIssueSummaryResponseCustomerBalanceTransactionsTypeDecrement:
+		return true
+	}
+	return false
+}
+
+type InvoiceIssueSummaryResponseInvoiceSource string
+
+const (
+	InvoiceIssueSummaryResponseInvoiceSourceSubscription InvoiceIssueSummaryResponseInvoiceSource = "subscription"
+	InvoiceIssueSummaryResponseInvoiceSourcePartial      InvoiceIssueSummaryResponseInvoiceSource = "partial"
+	InvoiceIssueSummaryResponseInvoiceSourceOneOff       InvoiceIssueSummaryResponseInvoiceSource = "one_off"
+)
+
+func (r InvoiceIssueSummaryResponseInvoiceSource) IsKnown() bool {
+	switch r {
+	case InvoiceIssueSummaryResponseInvoiceSourceSubscription, InvoiceIssueSummaryResponseInvoiceSourcePartial, InvoiceIssueSummaryResponseInvoiceSourceOneOff:
+		return true
+	}
+	return false
+}
+
+type InvoiceIssueSummaryResponsePaymentAttempt struct {
+	// The ID of the payment attempt.
+	ID string `json:"id,required"`
+	// The amount of the payment attempt.
+	Amount string `json:"amount,required"`
+	// The time at which the payment attempt was created.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// The payment provider that attempted to collect the payment.
+	PaymentProvider InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	// The ID of the payment attempt in the payment provider.
+	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// URL to the downloadable PDF version of the receipt. This field will be `null`
+	// for payment attempts that did not succeed.
+	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	// Whether the payment attempt succeeded.
+	Succeeded bool                                          `json:"succeeded,required"`
+	JSON      invoiceIssueSummaryResponsePaymentAttemptJSON `json:"-"`
+}
+
+// invoiceIssueSummaryResponsePaymentAttemptJSON contains the JSON metadata for the
+// struct [InvoiceIssueSummaryResponsePaymentAttempt]
+type invoiceIssueSummaryResponsePaymentAttemptJSON struct {
+	ID                apijson.Field
+	Amount            apijson.Field
+	CreatedAt         apijson.Field
+	PaymentProvider   apijson.Field
+	PaymentProviderID apijson.Field
+	ReceiptPdf        apijson.Field
+	Succeeded         apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceIssueSummaryResponsePaymentAttempt) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceIssueSummaryResponsePaymentAttemptJSON) RawJSON() string {
+	return r.raw
+}
+
+// The payment provider that attempted to collect the payment.
+type InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider string
+
+const (
+	InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderStripe InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider = "stripe"
+)
+
+func (r InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider) IsKnown() bool {
+	switch r {
+	case InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderStripe:
+		return true
+	}
+	return false
+}
+
+type InvoiceIssueSummaryResponseStatus string
+
+const (
+	InvoiceIssueSummaryResponseStatusIssued InvoiceIssueSummaryResponseStatus = "issued"
+	InvoiceIssueSummaryResponseStatusPaid   InvoiceIssueSummaryResponseStatus = "paid"
+	InvoiceIssueSummaryResponseStatusSynced InvoiceIssueSummaryResponseStatus = "synced"
+	InvoiceIssueSummaryResponseStatusVoid   InvoiceIssueSummaryResponseStatus = "void"
+	InvoiceIssueSummaryResponseStatusDraft  InvoiceIssueSummaryResponseStatus = "draft"
+)
+
+func (r InvoiceIssueSummaryResponseStatus) IsKnown() bool {
+	switch r {
+	case InvoiceIssueSummaryResponseStatusIssued, InvoiceIssueSummaryResponseStatusPaid, InvoiceIssueSummaryResponseStatusSynced, InvoiceIssueSummaryResponseStatusVoid, InvoiceIssueSummaryResponseStatusDraft:
+		return true
+	}
+	return false
+}
+
+// #InvoiceApiResourceWithoutLineItems
 type InvoiceListSummaryResponse struct {
 	ID string `json:"id,required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -1867,6 +2411,19 @@ type InvoiceIssueParams struct {
 }
 
 func (r InvoiceIssueParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type InvoiceIssueSummaryParams struct {
+	// If true, the invoice will be issued synchronously. If false, the invoice will be
+	// issued asynchronously. The synchronous option is only available for invoices
+	// that have no usage fees. If the invoice is configured to sync to an external
+	// provider, a successful response from this endpoint guarantees the invoice is
+	// present in the provider.
+	Synchronous param.Field[bool] `json:"synchronous"`
+}
+
+func (r InvoiceIssueSummaryParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 

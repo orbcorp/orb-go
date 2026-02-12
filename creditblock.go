@@ -13,6 +13,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // CreditBlockService contains methods and other services that help with
@@ -70,6 +71,31 @@ func (r *CreditBlockService) Delete(ctx context.Context, blockID string, opts ..
 	}
 	path := fmt.Sprintf("credit_blocks/%s", blockID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return
+}
+
+// This endpoint returns the credit block and its associated purchasing invoices.
+//
+// If a credit block was purchased (as opposed to being manually added or allocated
+// from a subscription), this endpoint returns the invoices that were created to
+// charge the customer for the credit block. For credit blocks with payment
+// schedules spanning multiple periods (e.g., monthly payments over 12 months),
+// multiple invoices will be returned.
+//
+// If the credit block was not purchased (e.g., manual increment, allocation), an
+// empty invoices list is returned.
+//
+// **Note: This endpoint is currently experimental and its interface may change in
+// future releases. Please contact support before building production integrations
+// against this endpoint.**
+func (r *CreditBlockService) ListInvoices(ctx context.Context, blockID string, opts ...option.RequestOption) (res *CreditBlockListInvoicesResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if blockID == "" {
+		err = errors.New("missing required block_id parameter")
+		return
+	}
+	path := fmt.Sprintf("credit_blocks/%s/invoices", blockID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
@@ -188,6 +214,197 @@ const (
 func (r CreditBlockGetResponseStatus) IsKnown() bool {
 	switch r {
 	case CreditBlockGetResponseStatusActive, CreditBlockGetResponseStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
+type CreditBlockListInvoicesResponse struct {
+	// The Credit Block resource models prepaid credits within Orb.
+	Block    CreditBlockListInvoicesResponseBlock     `json:"block,required"`
+	Invoices []CreditBlockListInvoicesResponseInvoice `json:"invoices,required"`
+	JSON     creditBlockListInvoicesResponseJSON      `json:"-"`
+}
+
+// creditBlockListInvoicesResponseJSON contains the JSON metadata for the struct
+// [CreditBlockListInvoicesResponse]
+type creditBlockListInvoicesResponseJSON struct {
+	Block       apijson.Field
+	Invoices    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditBlockListInvoicesResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockListInvoicesResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Credit Block resource models prepaid credits within Orb.
+type CreditBlockListInvoicesResponseBlock struct {
+	ID                    string                                       `json:"id,required"`
+	Balance               float64                                      `json:"balance,required"`
+	EffectiveDate         time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
+	Filters               []CreditBlockListInvoicesResponseBlockFilter `json:"filters,required"`
+	MaximumInitialBalance float64                                      `json:"maximum_initial_balance,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata         map[string]string                          `json:"metadata,required"`
+	PerUnitCostBasis string                                     `json:"per_unit_cost_basis,required,nullable"`
+	Status           CreditBlockListInvoicesResponseBlockStatus `json:"status,required"`
+	JSON             creditBlockListInvoicesResponseBlockJSON   `json:"-"`
+}
+
+// creditBlockListInvoicesResponseBlockJSON contains the JSON metadata for the
+// struct [CreditBlockListInvoicesResponseBlock]
+type creditBlockListInvoicesResponseBlockJSON struct {
+	ID                    apijson.Field
+	Balance               apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	Filters               apijson.Field
+	MaximumInitialBalance apijson.Field
+	Metadata              apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CreditBlockListInvoicesResponseBlock) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockListInvoicesResponseBlockJSON) RawJSON() string {
+	return r.raw
+}
+
+type CreditBlockListInvoicesResponseBlockFilter struct {
+	// The property of the price to filter on.
+	Field CreditBlockListInvoicesResponseBlockFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CreditBlockListInvoicesResponseBlockFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                       `json:"values,required"`
+	JSON   creditBlockListInvoicesResponseBlockFilterJSON `json:"-"`
+}
+
+// creditBlockListInvoicesResponseBlockFilterJSON contains the JSON metadata for
+// the struct [CreditBlockListInvoicesResponseBlockFilter]
+type creditBlockListInvoicesResponseBlockFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditBlockListInvoicesResponseBlockFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockListInvoicesResponseBlockFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CreditBlockListInvoicesResponseBlockFiltersField string
+
+const (
+	CreditBlockListInvoicesResponseBlockFiltersFieldPriceID       CreditBlockListInvoicesResponseBlockFiltersField = "price_id"
+	CreditBlockListInvoicesResponseBlockFiltersFieldItemID        CreditBlockListInvoicesResponseBlockFiltersField = "item_id"
+	CreditBlockListInvoicesResponseBlockFiltersFieldPriceType     CreditBlockListInvoicesResponseBlockFiltersField = "price_type"
+	CreditBlockListInvoicesResponseBlockFiltersFieldCurrency      CreditBlockListInvoicesResponseBlockFiltersField = "currency"
+	CreditBlockListInvoicesResponseBlockFiltersFieldPricingUnitID CreditBlockListInvoicesResponseBlockFiltersField = "pricing_unit_id"
+)
+
+func (r CreditBlockListInvoicesResponseBlockFiltersField) IsKnown() bool {
+	switch r {
+	case CreditBlockListInvoicesResponseBlockFiltersFieldPriceID, CreditBlockListInvoicesResponseBlockFiltersFieldItemID, CreditBlockListInvoicesResponseBlockFiltersFieldPriceType, CreditBlockListInvoicesResponseBlockFiltersFieldCurrency, CreditBlockListInvoicesResponseBlockFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CreditBlockListInvoicesResponseBlockFiltersOperator string
+
+const (
+	CreditBlockListInvoicesResponseBlockFiltersOperatorIncludes CreditBlockListInvoicesResponseBlockFiltersOperator = "includes"
+	CreditBlockListInvoicesResponseBlockFiltersOperatorExcludes CreditBlockListInvoicesResponseBlockFiltersOperator = "excludes"
+)
+
+func (r CreditBlockListInvoicesResponseBlockFiltersOperator) IsKnown() bool {
+	switch r {
+	case CreditBlockListInvoicesResponseBlockFiltersOperatorIncludes, CreditBlockListInvoicesResponseBlockFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type CreditBlockListInvoicesResponseBlockStatus string
+
+const (
+	CreditBlockListInvoicesResponseBlockStatusActive         CreditBlockListInvoicesResponseBlockStatus = "active"
+	CreditBlockListInvoicesResponseBlockStatusPendingPayment CreditBlockListInvoicesResponseBlockStatus = "pending_payment"
+)
+
+func (r CreditBlockListInvoicesResponseBlockStatus) IsKnown() bool {
+	switch r {
+	case CreditBlockListInvoicesResponseBlockStatusActive, CreditBlockListInvoicesResponseBlockStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
+type CreditBlockListInvoicesResponseInvoice struct {
+	ID            string                                        `json:"id,required"`
+	Customer      shared.CustomerMinified                       `json:"customer,required"`
+	InvoiceNumber string                                        `json:"invoice_number,required"`
+	Status        CreditBlockListInvoicesResponseInvoicesStatus `json:"status,required"`
+	Subscription  shared.SubscriptionMinified                   `json:"subscription,required,nullable"`
+	JSON          creditBlockListInvoicesResponseInvoiceJSON    `json:"-"`
+}
+
+// creditBlockListInvoicesResponseInvoiceJSON contains the JSON metadata for the
+// struct [CreditBlockListInvoicesResponseInvoice]
+type creditBlockListInvoicesResponseInvoiceJSON struct {
+	ID            apijson.Field
+	Customer      apijson.Field
+	InvoiceNumber apijson.Field
+	Status        apijson.Field
+	Subscription  apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *CreditBlockListInvoicesResponseInvoice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockListInvoicesResponseInvoiceJSON) RawJSON() string {
+	return r.raw
+}
+
+type CreditBlockListInvoicesResponseInvoicesStatus string
+
+const (
+	CreditBlockListInvoicesResponseInvoicesStatusIssued CreditBlockListInvoicesResponseInvoicesStatus = "issued"
+	CreditBlockListInvoicesResponseInvoicesStatusPaid   CreditBlockListInvoicesResponseInvoicesStatus = "paid"
+	CreditBlockListInvoicesResponseInvoicesStatusSynced CreditBlockListInvoicesResponseInvoicesStatus = "synced"
+	CreditBlockListInvoicesResponseInvoicesStatusVoid   CreditBlockListInvoicesResponseInvoicesStatus = "void"
+	CreditBlockListInvoicesResponseInvoicesStatusDraft  CreditBlockListInvoicesResponseInvoicesStatus = "draft"
+)
+
+func (r CreditBlockListInvoicesResponseInvoicesStatus) IsKnown() bool {
+	switch r {
+	case CreditBlockListInvoicesResponseInvoicesStatusIssued, CreditBlockListInvoicesResponseInvoicesStatusPaid, CreditBlockListInvoicesResponseInvoicesStatusSynced, CreditBlockListInvoicesResponseInvoicesStatusVoid, CreditBlockListInvoicesResponseInvoicesStatusDraft:
 		return true
 	}
 	return false
