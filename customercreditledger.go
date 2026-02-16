@@ -2232,6 +2232,8 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// The ID of the Item to be used for the invoice line item. If not provided, a
 	// default 'Credits' item will be used.
 	ItemID param.Field[string] `json:"item_id"`
+	// If true, the new credits purchase invoice will be marked as paid.
+	MarkAsPaid param.Field[bool] `json:"mark_as_paid"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// The net terms determines the due date of the invoice. Due date is calculated
@@ -2568,6 +2570,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// The ID of the Item to be used for the invoice line item. If not provided, a
 	// default 'Credits' item will be used.
 	ItemID param.Field[string] `json:"item_id"`
+	// If true, the new credits purchase invoice will be marked as paid.
+	MarkAsPaid param.Field[bool] `json:"mark_as_paid"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// The net terms determines the due date of the invoice. Due date is calculated
