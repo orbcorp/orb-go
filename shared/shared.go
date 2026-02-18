@@ -27191,8 +27191,11 @@ type PriceInterval struct {
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// A list of customer IDs whose usage events will be aggregated and billed under
 	// this price interval.
-	UsageCustomerIDs []string          `json:"usage_customer_ids,required,nullable"`
-	JSON             priceIntervalJSON `json:"-"`
+	UsageCustomerIDs []string `json:"usage_customer_ids,required,nullable"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values.
+	MetricParameterOverrides map[string]interface{} `json:"metric_parameter_overrides,nullable"`
+	JSON                     priceIntervalJSON      `json:"-"`
 }
 
 // priceIntervalJSON contains the JSON metadata for the struct [PriceInterval]
@@ -27208,6 +27211,7 @@ type priceIntervalJSON struct {
 	Price                         apijson.Field
 	StartDate                     apijson.Field
 	UsageCustomerIDs              apijson.Field
+	MetricParameterOverrides      apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }

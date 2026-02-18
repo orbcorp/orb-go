@@ -76,8 +76,11 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			EndDate:         orb.F(time.Now()),
 			ExternalPriceID: orb.F("external_price_id"),
 			MaximumAmount:   orb.F("1.23"),
-			MinimumAmount:   orb.F("1.23"),
-			PlanPhaseOrder:  orb.F(int64(0)),
+			MetricParameterOverrides: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
+			MinimumAmount:  orb.F("1.23"),
+			PlanPhaseOrder: orb.F(int64(0)),
 			Price: orb.F[orb.SubscriptionNewParamsAddPricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
 				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
@@ -206,7 +209,10 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			ExternalPriceID:    orb.F("external_price_id"),
 			FixedPriceQuantity: orb.F(2.000000),
 			MaximumAmount:      orb.F("1.23"),
-			MinimumAmount:      orb.F("1.23"),
+			MetricParameterOverrides: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
+			MinimumAmount: orb.F("1.23"),
 			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
 				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
@@ -535,6 +541,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Quantity:      orb.F(int64(5)),
 				}}),
 				MaximumAmount: orb.F(0.000000),
+				MetricParameterOverrides: orb.F(map[string]interface{}{
+					"foo": "bar",
+				}),
 				MinimumAmount: orb.F(0.000000),
 				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](shared.NewFloatingUnitPriceParam{
 					Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
@@ -611,6 +620,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					EffectiveDate: orb.F(time.Now()),
 					Quantity:      orb.F(int64(5)),
 				}}),
+				MetricParameterOverrides: orb.F(map[string]interface{}{
+					"foo": "bar",
+				}),
 				StartDate:        orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
 				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
@@ -727,8 +739,11 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				EndDate:         orb.F(time.Now()),
 				ExternalPriceID: orb.F("external_price_id"),
 				MaximumAmount:   orb.F("1.23"),
-				MinimumAmount:   orb.F("1.23"),
-				PlanPhaseOrder:  orb.F(int64(0)),
+				MetricParameterOverrides: orb.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				MinimumAmount:  orb.F("1.23"),
+				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
 					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
@@ -848,7 +863,10 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				ExternalPriceID:    orb.F("external_price_id"),
 				FixedPriceQuantity: orb.F(2.000000),
 				MaximumAmount:      orb.F("1.23"),
-				MinimumAmount:      orb.F("1.23"),
+				MetricParameterOverrides: orb.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				MinimumAmount: orb.F("1.23"),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
 					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
