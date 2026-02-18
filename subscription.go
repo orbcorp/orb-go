@@ -5901,6 +5901,9 @@ type SubscriptionNewParamsAddPrice struct {
 	//
 	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// this price.
 	//
@@ -7150,6 +7153,9 @@ type SubscriptionNewParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// the replacement price.
 	//
@@ -8515,6 +8521,9 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	// The maximum amount that will be billed for this price interval for a given
 	// billing period.
 	MaximumAmount param.Field[float64] `json:"maximum_amount"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values (number or string).
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// The minimum amount that will be billed for this price interval for a given
 	// billing period.
 	MinimumAmount param.Field[float64] `json:"minimum_amount"`
@@ -9744,6 +9753,9 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// that this list will overwrite all existing fixed fee quantity transitions on the
 	// price interval.
 	FixedFeeQuantityTransitions param.Field[[]SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition] `json:"fixed_fee_quantity_transitions"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values (number or string).
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// The updated start date of this price interval. If not specified, the start date
 	// will not be updated.
 	StartDate param.Field[SubscriptionPriceIntervalsParamsEditStartDateUnion] `json:"start_date" format:"date-time"`
@@ -10088,6 +10100,9 @@ type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 	//
 	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// this price.
 	//
@@ -11341,6 +11356,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Override values for parameterized billable metric variables. Keys are parameter
+	// names, values are the override values.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// the replacement price.
 	//
