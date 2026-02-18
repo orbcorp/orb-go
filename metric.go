@@ -116,22 +116,24 @@ type BillableMetric struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string    `json:"metadata,required"`
-	Name     string               `json:"name,required"`
-	Status   BillableMetricStatus `json:"status,required"`
-	JSON     billableMetricJSON   `json:"-"`
+	Metadata             map[string]string        `json:"metadata,required"`
+	Name                 string                   `json:"name,required"`
+	Status               BillableMetricStatus     `json:"status,required"`
+	ParameterDefinitions []map[string]interface{} `json:"parameter_definitions,nullable"`
+	JSON                 billableMetricJSON       `json:"-"`
 }
 
 // billableMetricJSON contains the JSON metadata for the struct [BillableMetric]
 type billableMetricJSON struct {
-	ID          apijson.Field
-	Description apijson.Field
-	Item        apijson.Field
-	Metadata    apijson.Field
-	Name        apijson.Field
-	Status      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID                   apijson.Field
+	Description          apijson.Field
+	Item                 apijson.Field
+	Metadata             apijson.Field
+	Name                 apijson.Field
+	Status               apijson.Field
+	ParameterDefinitions apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *BillableMetric) UnmarshalJSON(data []byte) (err error) {

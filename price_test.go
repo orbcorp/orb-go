@@ -153,6 +153,9 @@ func TestPriceEvaluateWithOptionalParams(t *testing.T) {
 			ExternalCustomerID: orb.F("external_customer_id"),
 			Filter:             orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
 			GroupingKeys:       orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			MetricParameterOverrides: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 		},
 	)
 	if err != nil {
@@ -185,6 +188,9 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 			ExternalPriceID: orb.F("external_price_id"),
 			Filter:          orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
 			GroupingKeys:    orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			MetricParameterOverrides: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Price: orb.F[orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion](shared.NewFloatingUnitPriceParam{
 				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
 				Currency:  orb.F("currency"),
@@ -267,6 +273,9 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 			ExternalPriceID: orb.F("external_price_id"),
 			Filter:          orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
 			GroupingKeys:    orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			MetricParameterOverrides: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Price: orb.F[orb.PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion](shared.NewFloatingUnitPriceParam{
 				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
 				Currency:  orb.F("currency"),

@@ -4862,6 +4862,9 @@ type PriceEvaluateParams struct {
 	// [computed properties](/extensibility/advanced-metrics#computed-properties)) used
 	// to group the underlying billable metric
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
+	// Optional overrides for parameterized billable metric parameters. If the metric
+	// has parameter definitions and no overrides are provided, defaults will be used.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 }
 
 func (r PriceEvaluateParams) MarshalJSON() (data []byte, err error) {
@@ -4896,6 +4899,9 @@ type PriceEvaluateMultipleParamsPriceEvaluation struct {
 	// [computed properties](/extensibility/advanced-metrics#computed-properties)) used
 	// to group the underlying billable metric
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
+	// Optional overrides for parameterized billable metric parameters. If the metric
+	// has parameter definitions and no overrides are provided, defaults will be used.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// New floating price request body params.
 	Price param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion] `json:"price"`
 	// The ID of a price to evaluate that exists in your Orb account.
@@ -5853,6 +5859,9 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluation struct {
 	// [computed properties](/extensibility/advanced-metrics#computed-properties)) used
 	// to group the underlying billable metric
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
+	// Optional overrides for parameterized billable metric parameters. If the metric
+	// has parameter definitions and no overrides are provided, defaults will be used.
+	MetricParameterOverrides param.Field[map[string]interface{}] `json:"metric_parameter_overrides"`
 	// New floating price request body params.
 	Price param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion] `json:"price"`
 	// The ID of a price to evaluate that exists in your Orb account.
