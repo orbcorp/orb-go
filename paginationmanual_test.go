@@ -31,7 +31,7 @@ func TestManualPagination(t *testing.T) {
 	for _, coupon := range page.Data {
 		t.Logf("%+v\n", coupon.ID)
 	}
-	// Prism mock isn't going to give us real pagination
+	// The mock server isn't going to give us real pagination
 	page, err = page.GetNextPage()
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
