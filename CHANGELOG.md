@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.61.0 (2026-02-21)
+
+Full Changelog: [v1.60.0...v1.61.0](https://github.com/orbcorp/orb-go/compare/v1.60.0...v1.61.0)
+
+### Features
+
+* **api:** api update ([80003cd](https://github.com/orbcorp/orb-go/commit/80003cd9d878879c073cd9d39e8703c260ebf858))
+
+
+### Bug Fixes
+
+* allow canceling a request while it is waiting to retry ([3ff50c7](https://github.com/orbcorp/orb-go/commit/3ff50c7e594c8e2848376ad0c4ab48e1242f483b))
+
+
+### Chores
+
+* update mock server docs ([518778b](https://github.com/orbcorp/orb-go/commit/518778b14501f678902553525920da08703fd639))
+
 ## 1.60.0 (2026-02-19)
 
 Full Changelog: [v1.59.0...v1.60.0](https://github.com/orbcorp/orb-go/compare/v1.59.0...v1.60.0)
