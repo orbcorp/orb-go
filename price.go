@@ -3902,6 +3902,8 @@ type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWi
 	MatrixScalingFactors param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors,required"`
 	// The final unit price to rate against the output of the matrix
 	UnitPrice param.Field[string] `json:"unit_price,required"`
+	// The property used to group this price
+	GroupingKey param.Field[string] `json:"grouping_key"`
 	// If true, the unit price will be prorated to the billing period
 	Prorate param.Field[bool] `json:"prorate"`
 	// Used to determine the unit rate (optional)
