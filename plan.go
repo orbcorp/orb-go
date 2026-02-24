@@ -132,67 +132,67 @@ func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.R
 // subscription. You can see more about how to configure prices in the
 // [Price resource](/reference/price).
 type Plan struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Adjustments for this plan. If the plan has phases, this includes adjustments
 	// across all phases of the plan.
-	Adjustments []PlanAdjustment `json:"adjustments,required"`
+	Adjustments []PlanAdjustment `json:"adjustments" api:"required"`
 	// Legacy field representing the parent plan if the current plan is a 'child plan',
 	// overriding prices from the parent.
 	//
 	// Deprecated: deprecated
-	BasePlan PlanBasePlan `json:"base_plan,required,nullable"`
+	BasePlan PlanBasePlan `json:"base_plan" api:"required,nullable"`
 	// Legacy field representing the parent plan ID if the current plan is a 'child
 	// plan', overriding prices from the parent.
 	//
 	// Deprecated: deprecated
-	BasePlanID string    `json:"base_plan_id,required,nullable"`
-	CreatedAt  time.Time `json:"created_at,required" format:"date-time"`
+	BasePlanID string    `json:"base_plan_id" api:"required,nullable"`
+	CreatedAt  time.Time `json:"created_at" api:"required" format:"date-time"`
 	// An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's
 	// prices.
 	//
 	// Deprecated: deprecated
-	Currency string `json:"currency,required"`
+	Currency string `json:"currency" api:"required"`
 	// The default memo text on the invoices corresponding to subscriptions on this
 	// plan. Note that each subscription may configure its own memo.
-	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	Description        string `json:"description,required"`
+	DefaultInvoiceMemo string `json:"default_invoice_memo" api:"required,nullable"`
+	Description        string `json:"description" api:"required"`
 	// Deprecated: deprecated
-	Discount shared.Discount `json:"discount,required,nullable"`
+	Discount shared.Discount `json:"discount" api:"required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string `json:"external_plan_id,required,nullable"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
 	// An ISO 4217 currency string for which this plan is billed in. Matches `currency`
 	// unless `currency` is a custom pricing unit.
-	InvoicingCurrency string `json:"invoicing_currency,required"`
+	InvoicingCurrency string `json:"invoicing_currency" api:"required"`
 	// Deprecated: deprecated
-	Maximum shared.Maximum `json:"maximum,required,nullable"`
+	Maximum shared.Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum shared.Minimum `json:"minimum,required,nullable"`
+	Minimum shared.Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
-	Name          string `json:"name,required"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
+	Name          string `json:"name" api:"required"`
 	// Determines the difference between the invoice issue date and the due date. A
 	// value of "0" here signifies that invoices are due on issue, whereas a value of
 	// "30" means that the customer has a month to pay the invoice before its overdue.
 	// Note that individual subscriptions or invoices may set a different net terms
 	// configuration.
-	NetTerms   int64           `json:"net_terms,required,nullable"`
-	PlanPhases []PlanPlanPhase `json:"plan_phases,required,nullable"`
+	NetTerms   int64           `json:"net_terms" api:"required,nullable"`
+	PlanPhases []PlanPlanPhase `json:"plan_phases" api:"required,nullable"`
 	// Prices for this plan. If the plan has phases, this includes prices across all
 	// phases of the plan.
-	Prices      []shared.Price  `json:"prices,required"`
-	Product     PlanProduct     `json:"product,required"`
-	Status      PlanStatus      `json:"status,required"`
-	TrialConfig PlanTrialConfig `json:"trial_config,required"`
-	Version     int64           `json:"version,required"`
+	Prices      []shared.Price  `json:"prices" api:"required"`
+	Product     PlanProduct     `json:"product" api:"required"`
+	Status      PlanStatus      `json:"status" api:"required"`
+	TrialConfig PlanTrialConfig `json:"trial_config" api:"required"`
+	Version     int64           `json:"version" api:"required"`
 	JSON        planJSON        `json:"-"`
 }
 
@@ -235,27 +235,27 @@ func (r planJSON) RawJSON() string {
 }
 
 type PlanAdjustment struct {
-	ID             string                        `json:"id,required"`
-	AdjustmentType PlanAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	ID             string                        `json:"id" api:"required"`
+	AdjustmentType PlanAdjustmentsAdjustmentType `json:"adjustment_type" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]shared.PlanPhaseUsageDiscountAdjustmentFilter],
 	// [[]shared.PlanPhaseAmountDiscountAdjustmentFilter],
 	// [[]shared.PlanPhasePercentageDiscountAdjustmentFilter],
 	// [[]shared.PlanPhaseMinimumAdjustmentFilter],
 	// [[]shared.PlanPhaseMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -385,12 +385,12 @@ func (r PlanAdjustmentsAdjustmentType) IsKnown() bool {
 //
 // Deprecated: deprecated
 type PlanBasePlan struct {
-	ID string `json:"id,required,nullable"`
+	ID string `json:"id" api:"required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string           `json:"external_plan_id,required,nullable"`
-	Name           string           `json:"name,required,nullable"`
+	ExternalPlanID string           `json:"external_plan_id" api:"required,nullable"`
+	Name           string           `json:"name" api:"required,nullable"`
 	JSON           planBasePlanJSON `json:"-"`
 }
 
@@ -412,20 +412,20 @@ func (r planBasePlanJSON) RawJSON() string {
 }
 
 type PlanPlanPhase struct {
-	ID          string          `json:"id,required"`
-	Description string          `json:"description,required,nullable"`
-	Discount    shared.Discount `json:"discount,required,nullable"`
+	ID          string          `json:"id" api:"required"`
+	Description string          `json:"description" api:"required,nullable"`
+	Discount    shared.Discount `json:"discount" api:"required,nullable"`
 	// How many terms of length `duration_unit` this phase is active for. If null, this
 	// phase is evergreen and active indefinitely
-	Duration      int64                      `json:"duration,required,nullable"`
-	DurationUnit  PlanPlanPhasesDurationUnit `json:"duration_unit,required,nullable"`
-	Maximum       shared.Maximum             `json:"maximum,required,nullable"`
-	MaximumAmount string                     `json:"maximum_amount,required,nullable"`
-	Minimum       shared.Minimum             `json:"minimum,required,nullable"`
-	MinimumAmount string                     `json:"minimum_amount,required,nullable"`
-	Name          string                     `json:"name,required"`
+	Duration      int64                      `json:"duration" api:"required,nullable"`
+	DurationUnit  PlanPlanPhasesDurationUnit `json:"duration_unit" api:"required,nullable"`
+	Maximum       shared.Maximum             `json:"maximum" api:"required,nullable"`
+	MaximumAmount string                     `json:"maximum_amount" api:"required,nullable"`
+	Minimum       shared.Minimum             `json:"minimum" api:"required,nullable"`
+	MinimumAmount string                     `json:"minimum_amount" api:"required,nullable"`
+	Name          string                     `json:"name" api:"required"`
 	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
-	Order int64             `json:"order,required"`
+	Order int64             `json:"order" api:"required"`
 	JSON  planPlanPhaseJSON `json:"-"`
 }
 
@@ -473,9 +473,9 @@ func (r PlanPlanPhasesDurationUnit) IsKnown() bool {
 }
 
 type PlanProduct struct {
-	ID        string          `json:"id,required"`
-	CreatedAt time.Time       `json:"created_at,required" format:"date-time"`
-	Name      string          `json:"name,required"`
+	ID        string          `json:"id" api:"required"`
+	CreatedAt time.Time       `json:"created_at" api:"required" format:"date-time"`
+	Name      string          `json:"name" api:"required"`
 	JSON      planProductJSON `json:"-"`
 }
 
@@ -513,8 +513,8 @@ func (r PlanStatus) IsKnown() bool {
 }
 
 type PlanTrialConfig struct {
-	TrialPeriod     int64                          `json:"trial_period,required,nullable"`
-	TrialPeriodUnit PlanTrialConfigTrialPeriodUnit `json:"trial_period_unit,required"`
+	TrialPeriod     int64                          `json:"trial_period" api:"required,nullable"`
+	TrialPeriodUnit PlanTrialConfigTrialPeriodUnit `json:"trial_period_unit" api:"required"`
 	JSON            planTrialConfigJSON            `json:"-"`
 }
 
@@ -551,11 +551,11 @@ func (r PlanTrialConfigTrialPeriodUnit) IsKnown() bool {
 type PlanNewParams struct {
 	// An ISO 4217 currency string for invoices generated by subscriptions on this
 	// plan.
-	Currency param.Field[string] `json:"currency,required"`
-	Name     param.Field[string] `json:"name,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
+	Name     param.Field[string] `json:"name" api:"required"`
 	// Prices for this plan. If the plan has phases, this includes prices across all
 	// phases of the plan.
-	Prices param.Field[[]PlanNewParamsPrice] `json:"prices,required"`
+	Prices param.Field[[]PlanNewParamsPrice] `json:"prices" api:"required"`
 	// Adjustments for this plan. If the plan has phases, this includes adjustments
 	// across all phases of the plan.
 	Adjustments param.Field[[]PlanNewParamsAdjustment] `json:"adjustments"`
@@ -598,13 +598,13 @@ func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
 // New plan price request body params.
 type PlanNewParamsPricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -720,15 +720,15 @@ type PlanNewParamsPricesPriceUnion interface {
 
 type PlanNewParamsPricesPriceNewPlanBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -778,9 +778,9 @@ func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPrice) ImplementsPlanNewPa
 // Configuration for bulk_with_filters pricing
 type PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -790,9 +790,9 @@ func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig
 // Configuration for a single property filter
 type PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -802,7 +802,7 @@ func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig
 // Configuration for a single bulk pricing tier
 type PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -847,7 +847,7 @@ func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceModelType) IsKnown() 
 }
 
 type PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -883,15 +883,15 @@ func (r PlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigC
 
 type PlanNewParamsPricesPriceNewPlanTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -977,7 +977,7 @@ func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceModelType) IsKnow
 type PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -987,9 +987,9 @@ func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrati
 // Configuration for a single tiered with proration tier
 type PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -997,7 +997,7 @@ func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceTieredWithProrati
 }
 
 type PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                        `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                          `json:"unit_config"`
 }
@@ -1033,15 +1033,15 @@ func (r PlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateCon
 
 type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1111,13 +1111,13 @@ func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence) 
 // Configuration for grouped_with_min_max_thresholds pricing
 type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -1140,7 +1140,7 @@ func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType
 }
 
 type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                  `json:"unit_config"`
 }
@@ -1176,15 +1176,15 @@ func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversio
 
 type PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1254,13 +1254,13 @@ func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCadence) 
 // Configuration for cumulative_grouped_allocation pricing
 type PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -1283,7 +1283,7 @@ func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceModelType
 }
 
 type PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                  `json:"unit_config"`
 }
@@ -1319,15 +1319,15 @@ func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversio
 
 type PlanNewParamsPricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1412,7 +1412,7 @@ func (r PlanNewParamsPricesPriceNewPlanPercentCompositePriceModelType) IsKnown()
 // Configuration for percent pricing
 type PlanNewParamsPricesPriceNewPlanPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r PlanNewParamsPricesPriceNewPlanPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -1420,7 +1420,7 @@ func (r PlanNewParamsPricesPriceNewPlanPercentCompositePricePercentConfig) Marsh
 }
 
 type PlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                       `json:"unit_config"`
 }
@@ -1456,15 +1456,15 @@ func (r PlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfig
 
 type PlanNewParamsPricesPriceNewPlanEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1533,7 +1533,7 @@ func (r PlanNewParamsPricesPriceNewPlanEventOutputPriceCadence) IsKnown() bool {
 // Configuration for event_output pricing
 type PlanNewParamsPricesPriceNewPlanEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -1563,7 +1563,7 @@ func (r PlanNewParamsPricesPriceNewPlanEventOutputPriceModelType) IsKnown() bool
 }
 
 type PlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -1664,7 +1664,7 @@ func (r PlanNewParamsPricesPriceModelType) IsKnown() bool {
 
 type PlanNewParamsAdjustment struct {
 	// The definition of a new adjustment to create and add to the plan.
-	Adjustment param.Field[PlanNewParamsAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[PlanNewParamsAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The phase to add this adjustment to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 }
@@ -1675,7 +1675,7 @@ func (r PlanNewParamsAdjustment) MarshalJSON() (data []byte, err error) {
 
 // The definition of a new adjustment to create and add to the plan.
 type PlanNewParamsAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[PlanNewParamsAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[PlanNewParamsAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                           `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[PlanNewParamsAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -1767,7 +1767,7 @@ func (r PlanNewParamsAdjustmentsAdjustmentPriceType) IsKnown() bool {
 
 type PlanNewParamsPlanPhase struct {
 	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
-	Order param.Field[int64] `json:"order,required"`
+	Order param.Field[int64] `json:"order" api:"required"`
 	// Align billing cycle day with phase start date.
 	AlignBillingWithPhaseStartDate param.Field[bool] `json:"align_billing_with_phase_start_date"`
 	// How many terms of length `duration_unit` this phase is active for. If null, this

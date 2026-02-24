@@ -58,31 +58,31 @@ func (r *InvoiceLineItemService) New(ctx context.Context, body InvoiceLineItemNe
 
 type InvoiceLineItemNewResponse struct {
 	// A unique ID for this line item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
-	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
 	// discounts -> minimums -> maximums).
-	Adjustments []InvoiceLineItemNewResponseAdjustment `json:"adjustments,required"`
+	Adjustments []InvoiceLineItemNewResponseAdjustment `json:"adjustments" api:"required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The number of prepaid credits applied.
-	CreditsApplied string `json:"credits_applied,required"`
+	CreditsApplied string `json:"credits_applied" api:"required"`
 	// The end date of the range of time applied for this line item's price.
-	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
-	Filter string `json:"filter,required,nullable"`
+	Filter string `json:"filter" api:"required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
-	Grouping string `json:"grouping,required,nullable"`
+	Grouping string `json:"grouping" api:"required,nullable"`
 	// The name of the price associated with this line item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Any amount applied from a partial invoice
-	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount" api:"required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -93,21 +93,21 @@ type InvoiceLineItemNewResponse struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price shared.Price `json:"price,required"`
+	Price shared.Price `json:"price" api:"required"`
 	// Either the fixed fee quantity or the usage during the service period.
-	Quantity float64 `json:"quantity,required"`
+	Quantity float64 `json:"quantity" api:"required"`
 	// The start date of the range of time applied for this line item's price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
-	SubLineItems []InvoiceLineItemNewResponseSubLineItem `json:"sub_line_items,required"`
+	SubLineItems []InvoiceLineItemNewResponseSubLineItem `json:"sub_line_items" api:"required"`
 	// The line amount before any adjustments.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
-	TaxAmounts []shared.TaxAmount `json:"tax_amounts,required"`
+	TaxAmounts []shared.TaxAmount `json:"tax_amounts" api:"required"`
 	// A list of customer ids that were used to calculate the usage for this line item.
-	UsageCustomerIDs []string                       `json:"usage_customer_ids,required,nullable"`
+	UsageCustomerIDs []string                       `json:"usage_customer_ids" api:"required,nullable"`
 	JSON             invoiceLineItemNewResponseJSON `json:"-"`
 }
 
@@ -144,27 +144,27 @@ func (r invoiceLineItemNewResponseJSON) RawJSON() string {
 }
 
 type InvoiceLineItemNewResponseAdjustment struct {
-	ID             string                                              `json:"id,required"`
-	AdjustmentType InvoiceLineItemNewResponseAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                              `json:"id" api:"required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]shared.MonetaryUsageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryAmountDiscountAdjustmentFilter],
 	// [[]shared.MonetaryPercentageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryMinimumAdjustmentFilter],
 	// [[]shared.MonetaryMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -292,14 +292,14 @@ func (r InvoiceLineItemNewResponseAdjustmentsAdjustmentType) IsKnown() bool {
 
 type InvoiceLineItemNewResponseSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                                     `json:"amount,required"`
-	Grouping     shared.SubLineItemGrouping                 `json:"grouping,required,nullable"`
-	Name         string                                     `json:"name,required"`
-	Quantity     float64                                    `json:"quantity,required"`
-	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
+	Amount       string                                     `json:"amount" api:"required"`
+	Grouping     shared.SubLineItemGrouping                 `json:"grouping" api:"required,nullable"`
+	Name         string                                     `json:"name" api:"required"`
+	Quantity     float64                                    `json:"quantity" api:"required"`
+	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type" api:"required"`
 	MatrixConfig shared.SubLineItemMatrixConfig             `json:"matrix_config"`
 	// The scaled quantity for this line item for specific pricing structures
-	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
+	ScaledQuantity float64 `json:"scaled_quantity" api:"nullable"`
 	// This field can have the runtime type of [shared.TierSubLineItemTierConfig].
 	TierConfig interface{}                               `json:"tier_config"`
 	JSON       invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
@@ -389,15 +389,15 @@ func (r InvoiceLineItemNewResponseSubLineItemsType) IsKnown() bool {
 
 type InvoiceLineItemNewParams struct {
 	// The total amount in the invoice's currency to add to the line item.
-	Amount param.Field[string] `json:"amount,required"`
+	Amount param.Field[string] `json:"amount" api:"required"`
 	// A date string to specify the line item's end date in the customer's timezone.
-	EndDate param.Field[time.Time] `json:"end_date,required" format:"date"`
+	EndDate param.Field[time.Time] `json:"end_date" api:"required" format:"date"`
 	// The id of the Invoice to add this line item.
-	InvoiceID param.Field[string] `json:"invoice_id,required"`
+	InvoiceID param.Field[string] `json:"invoice_id" api:"required"`
 	// The number of units on the line item
-	Quantity param.Field[float64] `json:"quantity,required"`
+	Quantity param.Field[float64] `json:"quantity" api:"required"`
 	// A date string to specify the line item's start date in the customer's timezone.
-	StartDate param.Field[time.Time] `json:"start_date,required" format:"date"`
+	StartDate param.Field[time.Time] `json:"start_date" api:"required" format:"date"`
 	// The id of the item to associate with this line item. If provided without `name`,
 	// the item's name will be used for the price/line item. If provided with `name`,
 	// the item will be associated but `name` will be used for the line item. At least

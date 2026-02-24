@@ -297,20 +297,20 @@ func (r *InvoiceService) Void(ctx context.Context, invoiceID string, opts ...opt
 }
 
 type InvoiceFetchUpcomingResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
 	// application of the customer balance to the `total` of the invoice.
-	AmountDue      string                                     `json:"amount_due,required"`
-	AutoCollection InvoiceFetchUpcomingResponseAutoCollection `json:"auto_collection,required"`
-	BillingAddress shared.Address                             `json:"billing_address,required,nullable"`
+	AmountDue      string                                     `json:"amount_due" api:"required"`
+	AutoCollection InvoiceFetchUpcomingResponseAutoCollection `json:"auto_collection" api:"required"`
+	BillingAddress shared.Address                             `json:"billing_address" api:"required,nullable"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
-	CreditNotes []InvoiceFetchUpcomingResponseCreditNote `json:"credit_notes,required"`
+	CreditNotes []InvoiceFetchUpcomingResponseCreditNote `json:"credit_notes" api:"required"`
 	// An ISO 4217 currency string or `credits`
-	Currency                    string                                                   `json:"currency,required"`
-	Customer                    shared.CustomerMinified                                  `json:"customer,required"`
-	CustomerBalanceTransactions []InvoiceFetchUpcomingResponseCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	Currency                    string                                                   `json:"currency" api:"required"`
+	Customer                    shared.CustomerMinified                                  `json:"customer" api:"required"`
+	CustomerBalanceTransactions []InvoiceFetchUpcomingResponseCustomerBalanceTransaction `json:"customer_balance_transactions" api:"required"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -456,84 +456,84 @@ type InvoiceFetchUpcomingResponse struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id" api:"required,nullable"`
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
 	//
 	// Deprecated: deprecated
-	Discount  interface{}                   `json:"discount,required"`
-	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
+	Discount  interface{}                   `json:"discount" api:"required"`
+	Discounts []shared.InvoiceLevelDiscount `json:"discounts" api:"required"`
 	// When the invoice payment is due. The due date is null if the invoice is not yet
 	// finalized.
-	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	DueDate time.Time `json:"due_date" api:"required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
-	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
 	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
 	// invoice's due date, or 60 days after being re-generated through the UI.
-	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
 	// account or customer.
-	InvoiceNumber string `json:"invoice_number,required"`
+	InvoiceNumber string `json:"invoice_number" api:"required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf    string                                    `json:"invoice_pdf,required,nullable"`
-	InvoiceSource InvoiceFetchUpcomingResponseInvoiceSource `json:"invoice_source,required"`
+	InvoicePdf    string                                    `json:"invoice_pdf" api:"required,nullable"`
+	InvoiceSource InvoiceFetchUpcomingResponseInvoiceSource `json:"invoice_source" api:"required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
-	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	IssueFailedAt time.Time `json:"issue_failed_at" api:"required,nullable" format:"date-time"`
 	// If the invoice has been issued, this will be the time it transitioned to
 	// `issued` (even if it is now in a different state.)
-	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	IssuedAt time.Time `json:"issued_at" api:"required,nullable" format:"date-time"`
 	// The breakdown of prices in this invoice.
-	LineItems     []InvoiceFetchUpcomingResponseLineItem `json:"line_items,required"`
-	Maximum       shared.Maximum                         `json:"maximum,required,nullable"`
-	MaximumAmount string                                 `json:"maximum_amount,required,nullable"`
+	LineItems     []InvoiceFetchUpcomingResponseLineItem `json:"line_items" api:"required"`
+	Maximum       shared.Maximum                         `json:"maximum" api:"required,nullable"`
+	MaximumAmount string                                 `json:"maximum_amount" api:"required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata      map[string]string `json:"metadata,required"`
-	Minimum       shared.Minimum    `json:"minimum,required,nullable"`
-	MinimumAmount string            `json:"minimum_amount,required,nullable"`
+	Metadata      map[string]string `json:"metadata" api:"required"`
+	Minimum       shared.Minimum    `json:"minimum" api:"required,nullable"`
+	MinimumAmount string            `json:"minimum_amount" api:"required,nullable"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
-	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	PaidAt time.Time `json:"paid_at" api:"required,nullable" format:"date-time"`
 	// A list of payment attempts associated with the invoice
-	PaymentAttempts []InvoiceFetchUpcomingResponsePaymentAttempt `json:"payment_attempts,required"`
+	PaymentAttempts []InvoiceFetchUpcomingResponsePaymentAttempt `json:"payment_attempts" api:"required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
-	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
-	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                          `json:"scheduled_issue_at,required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                     `json:"shipping_address,required,nullable"`
-	Status           InvoiceFetchUpcomingResponseStatus `json:"status,required"`
-	Subscription     shared.SubscriptionMinified        `json:"subscription,required,nullable"`
+	ScheduledIssueAt time.Time                          `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	ShippingAddress  shared.Address                     `json:"shipping_address" api:"required,nullable"`
+	Status           InvoiceFetchUpcomingResponseStatus `json:"status" api:"required"`
+	Subscription     shared.SubscriptionMinified        `json:"subscription" api:"required,nullable"`
 	// The total before any discounts and minimums are applied.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
-	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	SyncFailedAt time.Time `json:"sync_failed_at" api:"required,nullable" format:"date-time"`
 	// The scheduled date of the invoice
-	TargetDate time.Time `json:"target_date,required" format:"date-time"`
+	TargetDate time.Time `json:"target_date" api:"required" format:"date-time"`
 	// The total after any minimums and discounts have been applied.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// If the invoice has a status of `void`, this gives a timestamp when the invoice
 	// was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool                             `json:"will_auto_issue,required"`
+	WillAutoIssue bool                             `json:"will_auto_issue" api:"required"`
 	JSON          invoiceFetchUpcomingResponseJSON `json:"-"`
 }
 
@@ -595,20 +595,20 @@ func (r invoiceFetchUpcomingResponseJSON) RawJSON() string {
 
 type InvoiceFetchUpcomingResponseAutoCollection struct {
 	// True only if auto-collection is enabled for this invoice.
-	Enabled bool `json:"enabled,required,nullable"`
+	Enabled bool `json:"enabled" api:"required,nullable"`
 	// If the invoice is scheduled for auto-collection, this field will reflect when
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
-	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	NextAttemptAt time.Time `json:"next_attempt_at" api:"required,nullable" format:"date-time"`
 	// Number of auto-collection payment attempts.
-	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	NumAttempts int64 `json:"num_attempts" api:"required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time                                      `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	PreviouslyAttemptedAt time.Time                                      `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceFetchUpcomingResponseAutoCollectionJSON `json:"-"`
 }
 
@@ -632,16 +632,16 @@ func (r invoiceFetchUpcomingResponseAutoCollectionJSON) RawJSON() string {
 }
 
 type InvoiceFetchUpcomingResponseCreditNote struct {
-	ID               string `json:"id,required"`
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	ID               string `json:"id" api:"required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// An optional memo supplied on the credit note.
-	Memo   string `json:"memo,required,nullable"`
-	Reason string `json:"reason,required"`
-	Total  string `json:"total,required"`
-	Type   string `json:"type,required"`
+	Memo   string `json:"memo" api:"required,nullable"`
+	Reason string `json:"reason" api:"required"`
+	Total  string `json:"total" api:"required"`
+	Type   string `json:"type" api:"required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time                                  `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time                                  `json:"voided_at" api:"required,nullable" format:"date-time"`
 	JSON     invoiceFetchUpcomingResponseCreditNoteJSON `json:"-"`
 }
 
@@ -669,23 +669,23 @@ func (r invoiceFetchUpcomingResponseCreditNoteJSON) RawJSON() string {
 
 type InvoiceFetchUpcomingResponseCustomerBalanceTransaction struct {
 	// A unique id for this transaction.
-	ID     string                                                        `json:"id,required"`
-	Action InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction `json:"action,required"`
+	ID     string                                                        `json:"id" api:"required"`
+	Action InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
-	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at" api:"required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string             `json:"ending_balance,required"`
-	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance" api:"required"`
+	Invoice       shared.InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                                      `json:"starting_balance,required"`
-	Type            InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType `json:"type,required"`
+	StartingBalance string                                                      `json:"starting_balance" api:"required"`
+	Type            InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType `json:"type" api:"required"`
 	JSON            invoiceFetchUpcomingResponseCustomerBalanceTransactionJSON  `json:"-"`
 }
 
@@ -770,31 +770,31 @@ func (r InvoiceFetchUpcomingResponseInvoiceSource) IsKnown() bool {
 
 type InvoiceFetchUpcomingResponseLineItem struct {
 	// A unique ID for this line item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
-	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
 	// discounts -> minimums -> maximums).
-	Adjustments []InvoiceFetchUpcomingResponseLineItemsAdjustment `json:"adjustments,required"`
+	Adjustments []InvoiceFetchUpcomingResponseLineItemsAdjustment `json:"adjustments" api:"required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The number of prepaid credits applied.
-	CreditsApplied string `json:"credits_applied,required"`
+	CreditsApplied string `json:"credits_applied" api:"required"`
 	// The end date of the range of time applied for this line item's price.
-	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
-	Filter string `json:"filter,required,nullable"`
+	Filter string `json:"filter" api:"required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
-	Grouping string `json:"grouping,required,nullable"`
+	Grouping string `json:"grouping" api:"required,nullable"`
 	// The name of the price associated with this line item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Any amount applied from a partial invoice
-	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount" api:"required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -805,21 +805,21 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price shared.Price `json:"price,required"`
+	Price shared.Price `json:"price" api:"required"`
 	// Either the fixed fee quantity or the usage during the service period.
-	Quantity float64 `json:"quantity,required"`
+	Quantity float64 `json:"quantity" api:"required"`
 	// The start date of the range of time applied for this line item's price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
-	SubLineItems []InvoiceFetchUpcomingResponseLineItemsSubLineItem `json:"sub_line_items,required"`
+	SubLineItems []InvoiceFetchUpcomingResponseLineItemsSubLineItem `json:"sub_line_items" api:"required"`
 	// The line amount before any adjustments.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
-	TaxAmounts []shared.TaxAmount `json:"tax_amounts,required"`
+	TaxAmounts []shared.TaxAmount `json:"tax_amounts" api:"required"`
 	// A list of customer ids that were used to calculate the usage for this line item.
-	UsageCustomerIDs []string                                 `json:"usage_customer_ids,required,nullable"`
+	UsageCustomerIDs []string                                 `json:"usage_customer_ids" api:"required,nullable"`
 	JSON             invoiceFetchUpcomingResponseLineItemJSON `json:"-"`
 }
 
@@ -856,27 +856,27 @@ func (r invoiceFetchUpcomingResponseLineItemJSON) RawJSON() string {
 }
 
 type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
-	ID             string                                                         `json:"id,required"`
-	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                                         `json:"id" api:"required"`
+	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]shared.MonetaryUsageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryAmountDiscountAdjustmentFilter],
 	// [[]shared.MonetaryPercentageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryMinimumAdjustmentFilter],
 	// [[]shared.MonetaryMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -1004,14 +1004,14 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType) IsKnown(
 
 type InvoiceFetchUpcomingResponseLineItemsSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                                                `json:"amount,required"`
-	Grouping     shared.SubLineItemGrouping                            `json:"grouping,required,nullable"`
-	Name         string                                                `json:"name,required"`
-	Quantity     float64                                               `json:"quantity,required"`
-	Type         InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type,required"`
+	Amount       string                                                `json:"amount" api:"required"`
+	Grouping     shared.SubLineItemGrouping                            `json:"grouping" api:"required,nullable"`
+	Name         string                                                `json:"name" api:"required"`
+	Quantity     float64                                               `json:"quantity" api:"required"`
+	Type         InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type" api:"required"`
 	MatrixConfig shared.SubLineItemMatrixConfig                        `json:"matrix_config"`
 	// The scaled quantity for this line item for specific pricing structures
-	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
+	ScaledQuantity float64 `json:"scaled_quantity" api:"nullable"`
 	// This field can have the runtime type of [shared.TierSubLineItemTierConfig].
 	TierConfig interface{}                                          `json:"tier_config"`
 	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemJSON `json:"-"`
@@ -1101,20 +1101,20 @@ func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsType) IsKnown() bool {
 
 type InvoiceFetchUpcomingResponsePaymentAttempt struct {
 	// The ID of the payment attempt.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the payment attempt.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The time at which the payment attempt was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The payment provider that attempted to collect the payment.
-	PaymentProvider InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of the payment attempt in the payment provider.
-	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
 	// URL to the downloadable PDF version of the receipt. This field will be `null`
 	// for payment attempts that did not succeed.
-	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	ReceiptPdf string `json:"receipt_pdf" api:"required,nullable"`
 	// Whether the payment attempt succeeded.
-	Succeeded bool                                           `json:"succeeded,required"`
+	Succeeded bool                                           `json:"succeeded" api:"required"`
 	JSON      invoiceFetchUpcomingResponsePaymentAttemptJSON `json:"-"`
 }
 
@@ -1175,20 +1175,20 @@ func (r InvoiceFetchUpcomingResponseStatus) IsKnown() bool {
 
 // #InvoiceApiResourceWithoutLineItems
 type InvoiceIssueSummaryResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
 	// application of the customer balance to the `total` of the invoice.
-	AmountDue      string                                    `json:"amount_due,required"`
-	AutoCollection InvoiceIssueSummaryResponseAutoCollection `json:"auto_collection,required"`
-	BillingAddress shared.Address                            `json:"billing_address,required,nullable"`
+	AmountDue      string                                    `json:"amount_due" api:"required"`
+	AutoCollection InvoiceIssueSummaryResponseAutoCollection `json:"auto_collection" api:"required"`
+	BillingAddress shared.Address                            `json:"billing_address" api:"required,nullable"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
-	CreditNotes []InvoiceIssueSummaryResponseCreditNote `json:"credit_notes,required"`
+	CreditNotes []InvoiceIssueSummaryResponseCreditNote `json:"credit_notes" api:"required"`
 	// An ISO 4217 currency string or `credits`
-	Currency                    string                                                  `json:"currency,required"`
-	Customer                    shared.CustomerMinified                                 `json:"customer,required"`
-	CustomerBalanceTransactions []InvoiceIssueSummaryResponseCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	Currency                    string                                                  `json:"currency" api:"required"`
+	Customer                    shared.CustomerMinified                                 `json:"customer" api:"required"`
+	CustomerBalanceTransactions []InvoiceIssueSummaryResponseCustomerBalanceTransaction `json:"customer_balance_transactions" api:"required"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -1334,69 +1334,69 @@ type InvoiceIssueSummaryResponse struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id" api:"required,nullable"`
 	// When the invoice payment is due. The due date is null if the invoice is not yet
 	// finalized.
-	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	DueDate time.Time `json:"due_date" api:"required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
-	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
 	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
 	// invoice's due date, or 60 days after being re-generated through the UI.
-	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
-	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
 	// account or customer.
-	InvoiceNumber string `json:"invoice_number,required"`
+	InvoiceNumber string `json:"invoice_number" api:"required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf    string                                   `json:"invoice_pdf,required,nullable"`
-	InvoiceSource InvoiceIssueSummaryResponseInvoiceSource `json:"invoice_source,required"`
+	InvoicePdf    string                                   `json:"invoice_pdf" api:"required,nullable"`
+	InvoiceSource InvoiceIssueSummaryResponseInvoiceSource `json:"invoice_source" api:"required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
-	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	IssueFailedAt time.Time `json:"issue_failed_at" api:"required,nullable" format:"date-time"`
 	// If the invoice has been issued, this will be the time it transitioned to
 	// `issued` (even if it is now in a different state.)
-	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	IssuedAt time.Time `json:"issued_at" api:"required,nullable" format:"date-time"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
-	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	PaidAt time.Time `json:"paid_at" api:"required,nullable" format:"date-time"`
 	// A list of payment attempts associated with the invoice
-	PaymentAttempts []InvoiceIssueSummaryResponsePaymentAttempt `json:"payment_attempts,required"`
+	PaymentAttempts []InvoiceIssueSummaryResponsePaymentAttempt `json:"payment_attempts" api:"required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
-	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
-	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                         `json:"scheduled_issue_at,required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                    `json:"shipping_address,required,nullable"`
-	Status           InvoiceIssueSummaryResponseStatus `json:"status,required"`
-	Subscription     shared.SubscriptionMinified       `json:"subscription,required,nullable"`
+	ScheduledIssueAt time.Time                         `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	ShippingAddress  shared.Address                    `json:"shipping_address" api:"required,nullable"`
+	Status           InvoiceIssueSummaryResponseStatus `json:"status" api:"required"`
+	Subscription     shared.SubscriptionMinified       `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
-	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	SyncFailedAt time.Time `json:"sync_failed_at" api:"required,nullable" format:"date-time"`
 	// The total after any minimums and discounts have been applied.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// If the invoice has a status of `void`, this gives a timestamp when the invoice
 	// was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool                            `json:"will_auto_issue,required"`
+	WillAutoIssue bool                            `json:"will_auto_issue" api:"required"`
 	JSON          invoiceIssueSummaryResponseJSON `json:"-"`
 }
 
@@ -1450,20 +1450,20 @@ func (r invoiceIssueSummaryResponseJSON) RawJSON() string {
 
 type InvoiceIssueSummaryResponseAutoCollection struct {
 	// True only if auto-collection is enabled for this invoice.
-	Enabled bool `json:"enabled,required,nullable"`
+	Enabled bool `json:"enabled" api:"required,nullable"`
 	// If the invoice is scheduled for auto-collection, this field will reflect when
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
-	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	NextAttemptAt time.Time `json:"next_attempt_at" api:"required,nullable" format:"date-time"`
 	// Number of auto-collection payment attempts.
-	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	NumAttempts int64 `json:"num_attempts" api:"required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time                                     `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	PreviouslyAttemptedAt time.Time                                     `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceIssueSummaryResponseAutoCollectionJSON `json:"-"`
 }
 
@@ -1487,16 +1487,16 @@ func (r invoiceIssueSummaryResponseAutoCollectionJSON) RawJSON() string {
 }
 
 type InvoiceIssueSummaryResponseCreditNote struct {
-	ID               string `json:"id,required"`
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	ID               string `json:"id" api:"required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// An optional memo supplied on the credit note.
-	Memo   string `json:"memo,required,nullable"`
-	Reason string `json:"reason,required"`
-	Total  string `json:"total,required"`
-	Type   string `json:"type,required"`
+	Memo   string `json:"memo" api:"required,nullable"`
+	Reason string `json:"reason" api:"required"`
+	Total  string `json:"total" api:"required"`
+	Type   string `json:"type" api:"required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time                                 `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time                                 `json:"voided_at" api:"required,nullable" format:"date-time"`
 	JSON     invoiceIssueSummaryResponseCreditNoteJSON `json:"-"`
 }
 
@@ -1524,23 +1524,23 @@ func (r invoiceIssueSummaryResponseCreditNoteJSON) RawJSON() string {
 
 type InvoiceIssueSummaryResponseCustomerBalanceTransaction struct {
 	// A unique id for this transaction.
-	ID     string                                                       `json:"id,required"`
-	Action InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction `json:"action,required"`
+	ID     string                                                       `json:"id" api:"required"`
+	Action InvoiceIssueSummaryResponseCustomerBalanceTransactionsAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
-	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at" api:"required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string             `json:"ending_balance,required"`
-	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance" api:"required"`
+	Invoice       shared.InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                                     `json:"starting_balance,required"`
-	Type            InvoiceIssueSummaryResponseCustomerBalanceTransactionsType `json:"type,required"`
+	StartingBalance string                                                     `json:"starting_balance" api:"required"`
+	Type            InvoiceIssueSummaryResponseCustomerBalanceTransactionsType `json:"type" api:"required"`
 	JSON            invoiceIssueSummaryResponseCustomerBalanceTransactionJSON  `json:"-"`
 }
 
@@ -1625,20 +1625,20 @@ func (r InvoiceIssueSummaryResponseInvoiceSource) IsKnown() bool {
 
 type InvoiceIssueSummaryResponsePaymentAttempt struct {
 	// The ID of the payment attempt.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the payment attempt.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The time at which the payment attempt was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The payment provider that attempted to collect the payment.
-	PaymentProvider InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of the payment attempt in the payment provider.
-	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
 	// URL to the downloadable PDF version of the receipt. This field will be `null`
 	// for payment attempts that did not succeed.
-	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	ReceiptPdf string `json:"receipt_pdf" api:"required,nullable"`
 	// Whether the payment attempt succeeded.
-	Succeeded bool                                          `json:"succeeded,required"`
+	Succeeded bool                                          `json:"succeeded" api:"required"`
 	JSON      invoiceIssueSummaryResponsePaymentAttemptJSON `json:"-"`
 }
 
@@ -1699,20 +1699,20 @@ func (r InvoiceIssueSummaryResponseStatus) IsKnown() bool {
 
 // #InvoiceApiResourceWithoutLineItems
 type InvoiceListSummaryResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
 	// application of the customer balance to the `total` of the invoice.
-	AmountDue      string                                   `json:"amount_due,required"`
-	AutoCollection InvoiceListSummaryResponseAutoCollection `json:"auto_collection,required"`
-	BillingAddress shared.Address                           `json:"billing_address,required,nullable"`
+	AmountDue      string                                   `json:"amount_due" api:"required"`
+	AutoCollection InvoiceListSummaryResponseAutoCollection `json:"auto_collection" api:"required"`
+	BillingAddress shared.Address                           `json:"billing_address" api:"required,nullable"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
-	CreditNotes []InvoiceListSummaryResponseCreditNote `json:"credit_notes,required"`
+	CreditNotes []InvoiceListSummaryResponseCreditNote `json:"credit_notes" api:"required"`
 	// An ISO 4217 currency string or `credits`
-	Currency                    string                                                 `json:"currency,required"`
-	Customer                    shared.CustomerMinified                                `json:"customer,required"`
-	CustomerBalanceTransactions []InvoiceListSummaryResponseCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	Currency                    string                                                 `json:"currency" api:"required"`
+	Customer                    shared.CustomerMinified                                `json:"customer" api:"required"`
+	CustomerBalanceTransactions []InvoiceListSummaryResponseCustomerBalanceTransaction `json:"customer_balance_transactions" api:"required"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -1858,69 +1858,69 @@ type InvoiceListSummaryResponse struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id" api:"required,nullable"`
 	// When the invoice payment is due. The due date is null if the invoice is not yet
 	// finalized.
-	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	DueDate time.Time `json:"due_date" api:"required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
-	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
 	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
 	// invoice's due date, or 60 days after being re-generated through the UI.
-	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
-	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
 	// account or customer.
-	InvoiceNumber string `json:"invoice_number,required"`
+	InvoiceNumber string `json:"invoice_number" api:"required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf    string                                  `json:"invoice_pdf,required,nullable"`
-	InvoiceSource InvoiceListSummaryResponseInvoiceSource `json:"invoice_source,required"`
+	InvoicePdf    string                                  `json:"invoice_pdf" api:"required,nullable"`
+	InvoiceSource InvoiceListSummaryResponseInvoiceSource `json:"invoice_source" api:"required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
-	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	IssueFailedAt time.Time `json:"issue_failed_at" api:"required,nullable" format:"date-time"`
 	// If the invoice has been issued, this will be the time it transitioned to
 	// `issued` (even if it is now in a different state.)
-	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	IssuedAt time.Time `json:"issued_at" api:"required,nullable" format:"date-time"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
-	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	PaidAt time.Time `json:"paid_at" api:"required,nullable" format:"date-time"`
 	// A list of payment attempts associated with the invoice
-	PaymentAttempts []InvoiceListSummaryResponsePaymentAttempt `json:"payment_attempts,required"`
+	PaymentAttempts []InvoiceListSummaryResponsePaymentAttempt `json:"payment_attempts" api:"required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
-	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
-	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                        `json:"scheduled_issue_at,required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                   `json:"shipping_address,required,nullable"`
-	Status           InvoiceListSummaryResponseStatus `json:"status,required"`
-	Subscription     shared.SubscriptionMinified      `json:"subscription,required,nullable"`
+	ScheduledIssueAt time.Time                        `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	ShippingAddress  shared.Address                   `json:"shipping_address" api:"required,nullable"`
+	Status           InvoiceListSummaryResponseStatus `json:"status" api:"required"`
+	Subscription     shared.SubscriptionMinified      `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
-	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	SyncFailedAt time.Time `json:"sync_failed_at" api:"required,nullable" format:"date-time"`
 	// The total after any minimums and discounts have been applied.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// If the invoice has a status of `void`, this gives a timestamp when the invoice
 	// was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool                           `json:"will_auto_issue,required"`
+	WillAutoIssue bool                           `json:"will_auto_issue" api:"required"`
 	JSON          invoiceListSummaryResponseJSON `json:"-"`
 }
 
@@ -1974,20 +1974,20 @@ func (r invoiceListSummaryResponseJSON) RawJSON() string {
 
 type InvoiceListSummaryResponseAutoCollection struct {
 	// True only if auto-collection is enabled for this invoice.
-	Enabled bool `json:"enabled,required,nullable"`
+	Enabled bool `json:"enabled" api:"required,nullable"`
 	// If the invoice is scheduled for auto-collection, this field will reflect when
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
-	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	NextAttemptAt time.Time `json:"next_attempt_at" api:"required,nullable" format:"date-time"`
 	// Number of auto-collection payment attempts.
-	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	NumAttempts int64 `json:"num_attempts" api:"required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time                                    `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	PreviouslyAttemptedAt time.Time                                    `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceListSummaryResponseAutoCollectionJSON `json:"-"`
 }
 
@@ -2011,16 +2011,16 @@ func (r invoiceListSummaryResponseAutoCollectionJSON) RawJSON() string {
 }
 
 type InvoiceListSummaryResponseCreditNote struct {
-	ID               string `json:"id,required"`
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	ID               string `json:"id" api:"required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// An optional memo supplied on the credit note.
-	Memo   string `json:"memo,required,nullable"`
-	Reason string `json:"reason,required"`
-	Total  string `json:"total,required"`
-	Type   string `json:"type,required"`
+	Memo   string `json:"memo" api:"required,nullable"`
+	Reason string `json:"reason" api:"required"`
+	Total  string `json:"total" api:"required"`
+	Type   string `json:"type" api:"required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time                                `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time                                `json:"voided_at" api:"required,nullable" format:"date-time"`
 	JSON     invoiceListSummaryResponseCreditNoteJSON `json:"-"`
 }
 
@@ -2048,23 +2048,23 @@ func (r invoiceListSummaryResponseCreditNoteJSON) RawJSON() string {
 
 type InvoiceListSummaryResponseCustomerBalanceTransaction struct {
 	// A unique id for this transaction.
-	ID     string                                                      `json:"id,required"`
-	Action InvoiceListSummaryResponseCustomerBalanceTransactionsAction `json:"action,required"`
+	ID     string                                                      `json:"id" api:"required"`
+	Action InvoiceListSummaryResponseCustomerBalanceTransactionsAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
-	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at" api:"required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string             `json:"ending_balance,required"`
-	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance" api:"required"`
+	Invoice       shared.InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                                    `json:"starting_balance,required"`
-	Type            InvoiceListSummaryResponseCustomerBalanceTransactionsType `json:"type,required"`
+	StartingBalance string                                                    `json:"starting_balance" api:"required"`
+	Type            InvoiceListSummaryResponseCustomerBalanceTransactionsType `json:"type" api:"required"`
 	JSON            invoiceListSummaryResponseCustomerBalanceTransactionJSON  `json:"-"`
 }
 
@@ -2149,20 +2149,20 @@ func (r InvoiceListSummaryResponseInvoiceSource) IsKnown() bool {
 
 type InvoiceListSummaryResponsePaymentAttempt struct {
 	// The ID of the payment attempt.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the payment attempt.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The time at which the payment attempt was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The payment provider that attempted to collect the payment.
-	PaymentProvider InvoiceListSummaryResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider InvoiceListSummaryResponsePaymentAttemptsPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of the payment attempt in the payment provider.
-	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
 	// URL to the downloadable PDF version of the receipt. This field will be `null`
 	// for payment attempts that did not succeed.
-	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	ReceiptPdf string `json:"receipt_pdf" api:"required,nullable"`
 	// Whether the payment attempt succeeded.
-	Succeeded bool                                         `json:"succeeded,required"`
+	Succeeded bool                                         `json:"succeeded" api:"required"`
 	JSON      invoiceListSummaryResponsePaymentAttemptJSON `json:"-"`
 }
 
@@ -2224,11 +2224,11 @@ func (r InvoiceListSummaryResponseStatus) IsKnown() bool {
 type InvoiceNewParams struct {
 	// An ISO 4217 currency string. Must be the same as the customer's currency if it
 	// is set.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Optional invoice date to set. Must be in the past, if not set, `invoice_date` is
 	// set to the current time in the customer's timezone.
-	InvoiceDate param.Field[time.Time]                  `json:"invoice_date,required" format:"date-time"`
-	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items,required"`
+	InvoiceDate param.Field[time.Time]                  `json:"invoice_date" api:"required" format:"date-time"`
+	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items" api:"required"`
 	// The id of the `Customer` to create this invoice for. One of `customer_id` and
 	// `external_customer_id` are required.
 	CustomerID param.Field[string] `json:"customer_id"`
@@ -2265,17 +2265,17 @@ func (r InvoiceNewParams) MarshalJSON() (data []byte, err error) {
 
 type InvoiceNewParamsLineItem struct {
 	// A date string to specify the line item's end date in the customer's timezone.
-	EndDate   param.Field[time.Time]                          `json:"end_date,required" format:"date"`
-	ItemID    param.Field[string]                             `json:"item_id,required"`
-	ModelType param.Field[InvoiceNewParamsLineItemsModelType] `json:"model_type,required"`
+	EndDate   param.Field[time.Time]                          `json:"end_date" api:"required" format:"date"`
+	ItemID    param.Field[string]                             `json:"item_id" api:"required"`
+	ModelType param.Field[InvoiceNewParamsLineItemsModelType] `json:"model_type" api:"required"`
 	// The name of the line item.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The number of units on the line item
-	Quantity param.Field[float64] `json:"quantity,required"`
+	Quantity param.Field[float64] `json:"quantity" api:"required"`
 	// A date string to specify the line item's start date in the customer's timezone.
-	StartDate param.Field[time.Time] `json:"start_date,required" format:"date"`
+	StartDate param.Field[time.Time] `json:"start_date" api:"required" format:"date"`
 	// Configuration for unit pricing
-	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config,required"`
+	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config" api:"required"`
 }
 
 func (r InvoiceNewParamsLineItem) MarshalJSON() (data []byte, err error) {
@@ -2389,7 +2389,7 @@ func (r InvoiceListParamsStatus) IsKnown() bool {
 }
 
 type InvoiceFetchUpcomingParams struct {
-	SubscriptionID param.Field[string] `query:"subscription_id,required"`
+	SubscriptionID param.Field[string] `query:"subscription_id" api:"required"`
 }
 
 // URLQuery serializes [InvoiceFetchUpcomingParams]'s query parameters as
@@ -2500,7 +2500,7 @@ func (r InvoiceListSummaryParamsStatus) IsKnown() bool {
 
 type InvoiceMarkPaidParams struct {
 	// A date string to specify the date of the payment.
-	PaymentReceivedDate param.Field[time.Time] `json:"payment_received_date,required" format:"date"`
+	PaymentReceivedDate param.Field[time.Time] `json:"payment_received_date" api:"required" format:"date"`
 	// An optional external ID to associate with the payment.
 	ExternalID param.Field[string] `json:"external_id"`
 	// An optional note to associate with the payment.

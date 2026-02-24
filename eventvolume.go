@@ -56,7 +56,7 @@ func (r *EventVolumeService) List(ctx context.Context, query EventVolumeListPara
 }
 
 type EventVolumes struct {
-	Data []EventVolumesData `json:"data,required"`
+	Data []EventVolumesData `json:"data" api:"required"`
 	JSON eventVolumesJSON   `json:"-"`
 }
 
@@ -79,9 +79,9 @@ func (r eventVolumesJSON) RawJSON() string {
 // timestamp used for the aggregation is the `timestamp` datetime field on events.
 type EventVolumesData struct {
 	// The number of events ingested with a timestamp between the timeframe
-	Count          int64                `json:"count,required"`
-	TimeframeEnd   time.Time            `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time            `json:"timeframe_start,required" format:"date-time"`
+	Count          int64                `json:"count" api:"required"`
+	TimeframeEnd   time.Time            `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time            `json:"timeframe_start" api:"required" format:"date-time"`
 	JSON           eventVolumesDataJSON `json:"-"`
 }
 
@@ -108,7 +108,7 @@ type EventVolumeListParams struct {
 	// datetime values are converted to UTC time. If the specified time isn't
 	// hour-aligned, the response includes the event volume count for the hour the time
 	// falls in.
-	TimeframeStart param.Field[time.Time] `query:"timeframe_start,required" format:"date-time"`
+	TimeframeStart param.Field[time.Time] `query:"timeframe_start" api:"required" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`

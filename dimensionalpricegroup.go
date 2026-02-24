@@ -108,22 +108,22 @@ func (r *DimensionalPriceGroupService) ListAutoPaging(ctx context.Context, query
 // by a set of dimensions. Prices in a price group must specify the parition used
 // to derive their usage.
 type DimensionalPriceGroup struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The billable metric associated with this dimensional price group. All prices
 	// associated with this dimensional price group will be computed using this
 	// billable metric.
-	BillableMetricID string `json:"billable_metric_id,required"`
+	BillableMetricID string `json:"billable_metric_id" api:"required"`
 	// The dimensions that this dimensional price group is defined over
-	Dimensions []string `json:"dimensions,required"`
+	Dimensions []string `json:"dimensions" api:"required"`
 	// An alias for the dimensional price group
-	ExternalDimensionalPriceGroupID string `json:"external_dimensional_price_group_id,required,nullable"`
+	ExternalDimensionalPriceGroupID string `json:"external_dimensional_price_group_id" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// The name of the dimensional price group
-	Name string                    `json:"name,required"`
+	Name string                    `json:"name" api:"required"`
 	JSON dimensionalPriceGroupJSON `json:"-"`
 }
 
@@ -149,8 +149,8 @@ func (r dimensionalPriceGroupJSON) RawJSON() string {
 }
 
 type DimensionalPriceGroups struct {
-	Data               []DimensionalPriceGroup    `json:"data,required"`
-	PaginationMetadata shared.PaginationMetadata  `json:"pagination_metadata,required"`
+	Data               []DimensionalPriceGroup    `json:"data" api:"required"`
+	PaginationMetadata shared.PaginationMetadata  `json:"pagination_metadata" api:"required"`
 	JSON               dimensionalPriceGroupsJSON `json:"-"`
 }
 
@@ -172,10 +172,10 @@ func (r dimensionalPriceGroupsJSON) RawJSON() string {
 }
 
 type DimensionalPriceGroupNewParams struct {
-	BillableMetricID param.Field[string] `json:"billable_metric_id,required"`
+	BillableMetricID param.Field[string] `json:"billable_metric_id" api:"required"`
 	// The set of keys (in order) used to disambiguate prices in the group.
-	Dimensions                      param.Field[[]string] `json:"dimensions,required"`
-	Name                            param.Field[string]   `json:"name,required"`
+	Dimensions                      param.Field[[]string] `json:"dimensions" api:"required"`
+	Name                            param.Field[string]   `json:"name" api:"required"`
 	ExternalDimensionalPriceGroupID param.Field[string]   `json:"external_dimensional_price_group_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared

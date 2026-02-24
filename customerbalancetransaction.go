@@ -121,23 +121,23 @@ func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, 
 
 type CustomerBalanceTransactionNewResponse struct {
 	// A unique id for this transaction.
-	ID     string                                      `json:"id,required"`
-	Action CustomerBalanceTransactionNewResponseAction `json:"action,required"`
+	ID     string                                      `json:"id" api:"required"`
+	Action CustomerBalanceTransactionNewResponseAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
-	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at" api:"required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string             `json:"ending_balance,required"`
-	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance" api:"required"`
+	Invoice       shared.InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                    `json:"starting_balance,required"`
-	Type            CustomerBalanceTransactionNewResponseType `json:"type,required"`
+	StartingBalance string                                    `json:"starting_balance" api:"required"`
+	Type            CustomerBalanceTransactionNewResponseType `json:"type" api:"required"`
 	JSON            customerBalanceTransactionNewResponseJSON `json:"-"`
 }
 
@@ -206,23 +206,23 @@ func (r CustomerBalanceTransactionNewResponseType) IsKnown() bool {
 
 type CustomerBalanceTransactionListResponse struct {
 	// A unique id for this transaction.
-	ID     string                                       `json:"id,required"`
-	Action CustomerBalanceTransactionListResponseAction `json:"action,required"`
+	ID     string                                       `json:"id" api:"required"`
+	Action CustomerBalanceTransactionListResponseAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
-	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at" api:"required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string             `json:"ending_balance,required"`
-	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance" api:"required"`
+	Invoice       shared.InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                     `json:"starting_balance,required"`
-	Type            CustomerBalanceTransactionListResponseType `json:"type,required"`
+	StartingBalance string                                     `json:"starting_balance" api:"required"`
+	Type            CustomerBalanceTransactionListResponseType `json:"type" api:"required"`
 	JSON            customerBalanceTransactionListResponseJSON `json:"-"`
 }
 
@@ -290,8 +290,8 @@ func (r CustomerBalanceTransactionListResponseType) IsKnown() bool {
 }
 
 type CustomerBalanceTransactionNewParams struct {
-	Amount param.Field[string]                                  `json:"amount,required"`
-	Type   param.Field[CustomerBalanceTransactionNewParamsType] `json:"type,required"`
+	Amount param.Field[string]                                  `json:"amount" api:"required"`
+	Type   param.Field[CustomerBalanceTransactionNewParamsType] `json:"type" api:"required"`
 	// An optional description that can be specified around this entry.
 	Description param.Field[string] `json:"description"`
 }
