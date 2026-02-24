@@ -106,10 +106,10 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 }
 
 type PlanMigrationGetResponse struct {
-	ID            string                                     `json:"id,required"`
-	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time,required,nullable" format:"date"`
-	PlanID        string                                     `json:"plan_id,required"`
-	Status        PlanMigrationGetResponseStatus             `json:"status,required"`
+	ID            string                                     `json:"id" api:"required"`
+	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	PlanID        string                                     `json:"plan_id" api:"required"`
+	Status        PlanMigrationGetResponseStatus             `json:"status" api:"required"`
 	JSON          planMigrationGetResponseJSON               `json:"-"`
 }
 
@@ -193,10 +193,10 @@ func (r PlanMigrationGetResponseStatus) IsKnown() bool {
 }
 
 type PlanMigrationListResponse struct {
-	ID            string                                      `json:"id,required"`
-	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time,required,nullable" format:"date"`
-	PlanID        string                                      `json:"plan_id,required"`
-	Status        PlanMigrationListResponseStatus             `json:"status,required"`
+	ID            string                                      `json:"id" api:"required"`
+	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	PlanID        string                                      `json:"plan_id" api:"required"`
+	Status        PlanMigrationListResponseStatus             `json:"status" api:"required"`
 	JSON          planMigrationListResponseJSON               `json:"-"`
 }
 
@@ -280,10 +280,10 @@ func (r PlanMigrationListResponseStatus) IsKnown() bool {
 }
 
 type PlanMigrationCancelResponse struct {
-	ID            string                                        `json:"id,required"`
-	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time,required,nullable" format:"date"`
-	PlanID        string                                        `json:"plan_id,required"`
-	Status        PlanMigrationCancelResponseStatus             `json:"status,required"`
+	ID            string                                        `json:"id" api:"required"`
+	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	PlanID        string                                        `json:"plan_id" api:"required"`
+	Status        PlanMigrationCancelResponseStatus             `json:"status" api:"required"`
 	JSON          planMigrationCancelResponseJSON               `json:"-"`
 }
 

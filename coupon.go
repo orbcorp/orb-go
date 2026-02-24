@@ -120,21 +120,21 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 // for use by end users.
 type Coupon struct {
 	// Also referred to as coupon_id in this documentation.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// An archived coupon can no longer be redeemed. Active coupons will have a value
 	// of null for `archived_at`; this field will be non-null for archived coupons.
-	ArchivedAt time.Time      `json:"archived_at,required,nullable" format:"date-time"`
-	Discount   CouponDiscount `json:"discount,required"`
+	ArchivedAt time.Time      `json:"archived_at" api:"required,nullable" format:"date-time"`
+	Discount   CouponDiscount `json:"discount" api:"required"`
 	// This allows for a coupon's discount to apply for a limited time (determined in
 	// months); a `null` value here means "unlimited time".
-	DurationInMonths int64 `json:"duration_in_months,required,nullable"`
+	DurationInMonths int64 `json:"duration_in_months" api:"required,nullable"`
 	// The maximum number of redemptions allowed for this coupon before it is
 	// exhausted; `null` here means "unlimited".
-	MaxRedemptions int64 `json:"max_redemptions,required,nullable"`
+	MaxRedemptions int64 `json:"max_redemptions" api:"required,nullable"`
 	// This string can be used to redeem this coupon for a given subscription.
-	RedemptionCode string `json:"redemption_code,required"`
+	RedemptionCode string `json:"redemption_code" api:"required"`
 	// The number of times this coupon has been redeemed.
-	TimesRedeemed int64      `json:"times_redeemed,required"`
+	TimesRedeemed int64      `json:"times_redeemed" api:"required"`
 	JSON          couponJSON `json:"-"`
 }
 
@@ -160,7 +160,7 @@ func (r couponJSON) RawJSON() string {
 }
 
 type CouponDiscount struct {
-	DiscountType CouponDiscountDiscountType `json:"discount_type,required"`
+	DiscountType CouponDiscountDiscountType `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
@@ -171,7 +171,7 @@ type CouponDiscount struct {
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64            `json:"percentage_discount"`
-	Reason             string             `json:"reason,nullable"`
+	Reason             string             `json:"reason" api:"nullable"`
 	JSON               couponDiscountJSON `json:"-"`
 	union              CouponDiscountUnion
 }
@@ -248,9 +248,9 @@ func (r CouponDiscountDiscountType) IsKnown() bool {
 }
 
 type CouponNewParams struct {
-	Discount param.Field[CouponNewParamsDiscountUnion] `json:"discount,required"`
+	Discount param.Field[CouponNewParamsDiscountUnion] `json:"discount" api:"required"`
 	// This string can be used to redeem this coupon for a given subscription.
-	RedemptionCode param.Field[string] `json:"redemption_code,required"`
+	RedemptionCode param.Field[string] `json:"redemption_code" api:"required"`
 	// This allows for a coupon's discount to apply for a limited time (determined in
 	// months); a `null` value here means "unlimited time".
 	DurationInMonths param.Field[int64] `json:"duration_in_months"`
@@ -264,7 +264,7 @@ func (r CouponNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type CouponNewParamsDiscount struct {
-	DiscountType       param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType       param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type" api:"required"`
 	AmountDiscount     param.Field[string]                              `json:"amount_discount"`
 	PercentageDiscount param.Field[float64]                             `json:"percentage_discount"`
 }
@@ -282,8 +282,8 @@ type CouponNewParamsDiscountUnion interface {
 }
 
 type CouponNewParamsDiscountNewCouponPercentageDiscount struct {
-	DiscountType       param.Field[CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType] `json:"discount_type,required"`
-	PercentageDiscount param.Field[float64]                                                        `json:"percentage_discount,required"`
+	DiscountType       param.Field[CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType] `json:"discount_type" api:"required"`
+	PercentageDiscount param.Field[float64]                                                        `json:"percentage_discount" api:"required"`
 }
 
 func (r CouponNewParamsDiscountNewCouponPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -308,8 +308,8 @@ func (r CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType) IsKnown(
 }
 
 type CouponNewParamsDiscountNewCouponAmountDiscount struct {
-	AmountDiscount param.Field[string]                                                     `json:"amount_discount,required"`
-	DiscountType   param.Field[CouponNewParamsDiscountNewCouponAmountDiscountDiscountType] `json:"discount_type,required"`
+	AmountDiscount param.Field[string]                                                     `json:"amount_discount" api:"required"`
+	DiscountType   param.Field[CouponNewParamsDiscountNewCouponAmountDiscountDiscountType] `json:"discount_type" api:"required"`
 }
 
 func (r CouponNewParamsDiscountNewCouponAmountDiscount) MarshalJSON() (data []byte, err error) {

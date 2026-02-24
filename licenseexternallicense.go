@@ -54,8 +54,8 @@ func (r *LicenseExternalLicenseService) GetUsage(ctx context.Context, externalLi
 }
 
 type LicenseExternalLicenseGetUsageResponse struct {
-	Data               []LicenseExternalLicenseGetUsageResponseData `json:"data,required"`
-	PaginationMetadata shared.PaginationMetadata                    `json:"pagination_metadata,required"`
+	Data               []LicenseExternalLicenseGetUsageResponseData `json:"data" api:"required"`
+	PaginationMetadata shared.PaginationMetadata                    `json:"pagination_metadata" api:"required"`
 	JSON               licenseExternalLicenseGetUsageResponseJSON   `json:"-"`
 }
 
@@ -83,31 +83,31 @@ func (r licenseExternalLicenseGetUsageResponseJSON) RawJSON() string {
 // the data is aggregated across all licenses.
 type LicenseExternalLicenseGetUsageResponseData struct {
 	// The total credits allocated to this license for the period.
-	AllocatedCredits float64 `json:"allocated_credits,required"`
+	AllocatedCredits float64 `json:"allocated_credits" api:"required"`
 	// The credits consumed by this license for the period.
-	ConsumedCredits float64 `json:"consumed_credits,required"`
+	ConsumedCredits float64 `json:"consumed_credits" api:"required"`
 	// The end date of the usage period.
-	EndDate time.Time `json:"end_date,required" format:"date"`
+	EndDate time.Time `json:"end_date" api:"required" format:"date"`
 	// The unique identifier for the license type.
-	LicenseTypeID string `json:"license_type_id,required"`
+	LicenseTypeID string `json:"license_type_id" api:"required"`
 	// The pricing unit for the credits (e.g., 'credits').
-	PricingUnit string `json:"pricing_unit,required"`
+	PricingUnit string `json:"pricing_unit" api:"required"`
 	// The remaining credits available for this license (allocated - consumed).
-	RemainingCredits float64 `json:"remaining_credits,required"`
+	RemainingCredits float64 `json:"remaining_credits" api:"required"`
 	// The start date of the usage period.
-	StartDate time.Time `json:"start_date,required" format:"date"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date"`
 	// The unique identifier for the subscription.
-	SubscriptionID string `json:"subscription_id,required"`
+	SubscriptionID string `json:"subscription_id" api:"required"`
 	// Credits consumed while the license was active (eligible for individual
 	// allocation deduction).
-	AllocationEligibleCredits float64 `json:"allocation_eligible_credits,nullable"`
+	AllocationEligibleCredits float64 `json:"allocation_eligible_credits" api:"nullable"`
 	// The external identifier for the license. Null when grouped by day only.
-	ExternalLicenseID string `json:"external_license_id,nullable"`
+	ExternalLicenseID string `json:"external_license_id" api:"nullable"`
 	// The unique identifier for the license. Null when grouped by day only.
-	LicenseID string `json:"license_id,nullable"`
+	LicenseID string `json:"license_id" api:"nullable"`
 	// Credits consumed while the license was inactive (draws from shared pool, not
 	// individual allocation).
-	SharedPoolCredits float64                                        `json:"shared_pool_credits,nullable"`
+	SharedPoolCredits float64                                        `json:"shared_pool_credits" api:"nullable"`
 	JSON              licenseExternalLicenseGetUsageResponseDataJSON `json:"-"`
 }
 
@@ -140,9 +140,9 @@ func (r licenseExternalLicenseGetUsageResponseDataJSON) RawJSON() string {
 
 type LicenseExternalLicenseGetUsageParams struct {
 	// The license type ID to filter licenses by.
-	LicenseTypeID param.Field[string] `query:"license_type_id,required"`
+	LicenseTypeID param.Field[string] `query:"license_type_id" api:"required"`
 	// The subscription ID to get license usage for.
-	SubscriptionID param.Field[string] `query:"subscription_id,required"`
+	SubscriptionID param.Field[string] `query:"subscription_id" api:"required"`
 	// Pagination cursor from a previous request.
 	Cursor param.Field[string] `query:"cursor"`
 	// End date for the usage period (YYYY-MM-DD). Defaults to end of current billing

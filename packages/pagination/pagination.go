@@ -11,8 +11,8 @@ import (
 )
 
 type PagePaginationMetadata struct {
-	HasMore    bool                       `json:"has_more,required"`
-	NextCursor string                     `json:"next_cursor,required,nullable"`
+	HasMore    bool                       `json:"has_more" api:"required"`
+	NextCursor string                     `json:"next_cursor" api:"required,nullable"`
 	JSON       pagePaginationMetadataJSON `json:"-"`
 }
 
@@ -35,7 +35,7 @@ func (r pagePaginationMetadataJSON) RawJSON() string {
 
 type Page[T any] struct {
 	Data               []T                    `json:"data"`
-	PaginationMetadata PagePaginationMetadata `json:"pagination_metadata,required"`
+	PaginationMetadata PagePaginationMetadata `json:"pagination_metadata" api:"required"`
 	JSON               pageJSON               `json:"-"`
 	cfg                *requestconfig.RequestConfig
 	res                *http.Response

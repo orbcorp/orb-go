@@ -78,7 +78,7 @@ func (r *BetaExternalPlanIDService) SetDefaultPlanVersion(ctx context.Context, e
 
 type BetaExternalPlanIDNewPlanVersionParams struct {
 	// New version number.
-	Version param.Field[int64] `json:"version,required"`
+	Version param.Field[int64] `json:"version" api:"required"`
 	// Additional adjustments to be added to the plan.
 	AddAdjustments param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddAdjustment] `json:"add_adjustments"`
 	// Additional prices to be added to the plan.
@@ -101,7 +101,7 @@ func (r BetaExternalPlanIDNewPlanVersionParams) MarshalJSON() (data []byte, err 
 
 type BetaExternalPlanIDNewPlanVersionParamsAddAdjustment struct {
 	// The definition of a new adjustment to create and add to the plan.
-	Adjustment param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The phase to add this adjustment to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 }
@@ -112,7 +112,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustment) MarshalJSON() (data
 
 // The definition of a new adjustment to create and add to the plan.
 type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                                       `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -219,13 +219,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPrice) MarshalJSON() (data []by
 // New plan price request body params.
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -343,15 +343,15 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion interface {
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -401,9 +401,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFilte
 // Configuration for bulk_with_filters pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -413,9 +413,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFilte
 // Configuration for a single property filter
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -425,7 +425,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFilte
 // Configuration for a single bulk pricing tier
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -470,7 +470,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFilte
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                  `json:"unit_config"`
 }
@@ -506,15 +506,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFilte
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -600,7 +600,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithPro
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -610,9 +610,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithPro
 // Configuration for a single tiered with proration tier
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -620,7 +620,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithPro
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                      `json:"unit_config"`
 }
@@ -656,15 +656,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithPro
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -734,13 +734,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMi
 // Configuration for grouped_with_min_max_thresholds pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -763,7 +763,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMi
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                              `json:"unit_config"`
 }
@@ -799,15 +799,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMi
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -877,13 +877,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGro
 // Configuration for cumulative_grouped_allocation pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -906,7 +906,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGro
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                              `json:"unit_config"`
 }
@@ -942,15 +942,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGro
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1035,7 +1035,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompos
 // Configuration for percent pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -1043,7 +1043,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompos
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                   `json:"unit_config"`
 }
@@ -1079,15 +1079,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompos
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1157,7 +1157,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPr
 // Configuration for event_output pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -1187,7 +1187,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPr
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                              `json:"unit_config"`
 }
@@ -1288,7 +1288,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceModelType) IsKnown()
 
 type BetaExternalPlanIDNewPlanVersionParamsRemoveAdjustment struct {
 	// The id of the adjustment to remove from on the plan.
-	AdjustmentID param.Field[string] `json:"adjustment_id,required"`
+	AdjustmentID param.Field[string] `json:"adjustment_id" api:"required"`
 	// The phase to remove this adjustment from.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 }
@@ -1299,7 +1299,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsRemoveAdjustment) MarshalJSON() (d
 
 type BetaExternalPlanIDNewPlanVersionParamsRemovePrice struct {
 	// The id of the price to remove from the plan.
-	PriceID param.Field[string] `json:"price_id,required"`
+	PriceID param.Field[string] `json:"price_id" api:"required"`
 	// The phase to remove this price from.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 }
@@ -1310,9 +1310,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsRemovePrice) MarshalJSON() (data [
 
 type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustment struct {
 	// The definition of a new adjustment to create and add to the plan.
-	Adjustment param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The id of the adjustment on the plan to replace in the plan.
-	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id,required"`
+	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id" api:"required"`
 	// The phase to replace this adjustment from.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 }
@@ -1323,7 +1323,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustment) MarshalJSON() (
 
 // The definition of a new adjustment to create and add to the plan.
 type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                                           `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -1416,7 +1416,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceT
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the plan.
-	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	ReplacesPriceID param.Field[string] `json:"replaces_price_id" api:"required"`
 	// The allocation price to add to the plan.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// The phase to replace this price from.
@@ -1432,13 +1432,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePrice) MarshalJSON() (data 
 // New plan price request body params.
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1556,15 +1556,15 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion interface {
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1614,9 +1614,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithF
 // Configuration for bulk_with_filters pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -1626,9 +1626,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithF
 // Configuration for a single property filter
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -1638,7 +1638,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithF
 // Configuration for a single bulk pricing tier
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -1683,7 +1683,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithF
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                      `json:"unit_config"`
 }
@@ -1719,15 +1719,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithF
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1813,7 +1813,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWit
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -1823,9 +1823,9 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWit
 // Configuration for a single tiered with proration tier
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -1833,7 +1833,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWit
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                        `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                          `json:"unit_config"`
 }
@@ -1869,15 +1869,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWit
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1947,13 +1947,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWi
 // Configuration for grouped_with_min_max_thresholds pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -1976,7 +1976,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWi
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                  `json:"unit_config"`
 }
@@ -2012,15 +2012,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWi
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2090,13 +2090,13 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativ
 // Configuration for cumulative_grouped_allocation pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -2119,7 +2119,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativ
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                  `json:"unit_config"`
 }
@@ -2155,15 +2155,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativ
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2248,7 +2248,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCo
 // Configuration for percent pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -2256,7 +2256,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCo
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                       `json:"unit_config"`
 }
@@ -2292,15 +2292,15 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCo
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2370,7 +2370,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutp
 // Configuration for event_output pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -2400,7 +2400,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutp
 }
 
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                  `json:"unit_config"`
 }
@@ -2501,7 +2501,7 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceModelType) IsKno
 
 type BetaExternalPlanIDSetDefaultPlanVersionParams struct {
 	// Plan version to set as the default.
-	Version param.Field[int64] `json:"version,required"`
+	Version param.Field[int64] `json:"version" api:"required"`
 }
 
 func (r BetaExternalPlanIDSetDefaultPlanVersionParams) MarshalJSON() (data []byte, err error) {

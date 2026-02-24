@@ -141,19 +141,19 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID                    string                             `json:"id,required"`
-	Balance               float64                            `json:"balance,required"`
-	EffectiveDate         time.Time                          `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                          `json:"expiry_date,required,nullable" format:"date-time"`
-	Filters               []CustomerCreditListResponseFilter `json:"filters,required"`
-	MaximumInitialBalance float64                            `json:"maximum_initial_balance,required,nullable"`
+	ID                    string                             `json:"id" api:"required"`
+	Balance               float64                            `json:"balance" api:"required"`
+	EffectiveDate         time.Time                          `json:"effective_date" api:"required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                          `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListResponseFilter `json:"filters" api:"required"`
+	MaximumInitialBalance float64                            `json:"maximum_initial_balance" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata         map[string]string                `json:"metadata,required"`
-	PerUnitCostBasis string                           `json:"per_unit_cost_basis,required,nullable"`
-	Status           CustomerCreditListResponseStatus `json:"status,required"`
+	Metadata         map[string]string                `json:"metadata" api:"required"`
+	PerUnitCostBasis string                           `json:"per_unit_cost_basis" api:"required,nullable"`
+	Status           CustomerCreditListResponseStatus `json:"status" api:"required"`
 	JSON             customerCreditListResponseJSON   `json:"-"`
 }
 
@@ -184,11 +184,11 @@ func (r customerCreditListResponseJSON) RawJSON() string {
 // A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditListResponseFilter struct {
 	// The property of the price the block applies to. Only item_id is supported.
-	Field CustomerCreditListResponseFiltersField `json:"field,required"`
+	Field CustomerCreditListResponseFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator CustomerCreditListResponseFiltersOperator `json:"operator,required"`
+	Operator CustomerCreditListResponseFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                             `json:"values,required"`
+	Values []string                             `json:"values" api:"required"`
 	JSON   customerCreditListResponseFilterJSON `json:"-"`
 }
 
@@ -257,19 +257,19 @@ func (r CustomerCreditListResponseStatus) IsKnown() bool {
 }
 
 type CustomerCreditListByExternalIDResponse struct {
-	ID                    string                                         `json:"id,required"`
-	Balance               float64                                        `json:"balance,required"`
-	EffectiveDate         time.Time                                      `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                                      `json:"expiry_date,required,nullable" format:"date-time"`
-	Filters               []CustomerCreditListByExternalIDResponseFilter `json:"filters,required"`
-	MaximumInitialBalance float64                                        `json:"maximum_initial_balance,required,nullable"`
+	ID                    string                                         `json:"id" api:"required"`
+	Balance               float64                                        `json:"balance" api:"required"`
+	EffectiveDate         time.Time                                      `json:"effective_date" api:"required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                      `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListByExternalIDResponseFilter `json:"filters" api:"required"`
+	MaximumInitialBalance float64                                        `json:"maximum_initial_balance" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata         map[string]string                            `json:"metadata,required"`
-	PerUnitCostBasis string                                       `json:"per_unit_cost_basis,required,nullable"`
-	Status           CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
+	Metadata         map[string]string                            `json:"metadata" api:"required"`
+	PerUnitCostBasis string                                       `json:"per_unit_cost_basis" api:"required,nullable"`
+	Status           CustomerCreditListByExternalIDResponseStatus `json:"status" api:"required"`
 	JSON             customerCreditListByExternalIDResponseJSON   `json:"-"`
 }
 
@@ -300,11 +300,11 @@ func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 // A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditListByExternalIDResponseFilter struct {
 	// The property of the price the block applies to. Only item_id is supported.
-	Field CustomerCreditListByExternalIDResponseFiltersField `json:"field,required"`
+	Field CustomerCreditListByExternalIDResponseFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator CustomerCreditListByExternalIDResponseFiltersOperator `json:"operator,required"`
+	Operator CustomerCreditListByExternalIDResponseFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                         `json:"values,required"`
+	Values []string                                         `json:"values" api:"required"`
 	JSON   customerCreditListByExternalIDResponseFilterJSON `json:"-"`
 }
 

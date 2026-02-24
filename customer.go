@@ -222,8 +222,8 @@ func (r *CustomerService) UpdateByExternalID(ctx context.Context, id string, bod
 }
 
 type AccountingProviderConfigParam struct {
-	ExternalProviderID param.Field[string] `json:"external_provider_id,required"`
-	ProviderType       param.Field[string] `json:"provider_type,required"`
+	ExternalProviderID param.Field[string] `json:"external_provider_id" api:"required"`
+	ProviderType       param.Field[string] `json:"provider_type" api:"required"`
 }
 
 func (r AccountingProviderConfigParam) MarshalJSON() (data []byte, err error) {
@@ -262,46 +262,46 @@ func (r AddressInputParam) MarshalJSON() (data []byte, err error) {
 // your account's timezone. See [Timezone localization](/essentials/timezones) for
 // information on what this timezone parameter influences within Orb.
 type Customer struct {
-	ID               string   `json:"id,required"`
-	AdditionalEmails []string `json:"additional_emails,required"`
-	AutoCollection   bool     `json:"auto_collection,required"`
+	ID               string   `json:"id" api:"required"`
+	AdditionalEmails []string `json:"additional_emails" api:"required"`
+	AutoCollection   bool     `json:"auto_collection" api:"required"`
 	// Whether invoices for this customer should be automatically issued. If true,
 	// invoices will be automatically issued. If false, invoices will require manual
 	// approval. If null, inherits the account-level setting.
-	AutoIssuance bool `json:"auto_issuance,required,nullable"`
+	AutoIssuance bool `json:"auto_issuance" api:"required,nullable"`
 	// The customer's current balance in their currency.
-	Balance        string         `json:"balance,required"`
-	BillingAddress shared.Address `json:"billing_address,required,nullable"`
-	CreatedAt      time.Time      `json:"created_at,required" format:"date-time"`
-	Currency       string         `json:"currency,required,nullable"`
+	Balance        string         `json:"balance" api:"required"`
+	BillingAddress shared.Address `json:"billing_address" api:"required,nullable"`
+	CreatedAt      time.Time      `json:"created_at" api:"required" format:"date-time"`
+	Currency       string         `json:"currency" api:"required,nullable"`
 	// A valid customer email, to be used for notifications. When Orb triggers payment
 	// through a payment gateway, this email will be used for any automatically issued
 	// receipts.
-	Email                  string `json:"email,required"`
-	EmailDelivery          bool   `json:"email_delivery,required"`
-	ExemptFromAutomatedTax bool   `json:"exempt_from_automated_tax,required,nullable"`
+	Email                  string `json:"email" api:"required"`
+	EmailDelivery          bool   `json:"email_delivery" api:"required"`
+	ExemptFromAutomatedTax bool   `json:"exempt_from_automated_tax" api:"required,nullable"`
 	// An optional user-defined ID for this customer resource, used throughout the
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
+	ExternalCustomerID string `json:"external_customer_id" api:"required,nullable"`
 	// The hierarchical relationships for this customer.
-	Hierarchy CustomerHierarchy `json:"hierarchy,required"`
+	Hierarchy CustomerHierarchy `json:"hierarchy" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// The full name of the customer
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode, the connection must first be configured in the Orb
 	// webapp.
-	PaymentProvider CustomerPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider CustomerPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of this customer in an external payments solution, such as Stripe. This
 	// is used for creating charges or invoices in the external system via Orb.
-	PaymentProviderID string         `json:"payment_provider_id,required,nullable"`
-	PortalURL         string         `json:"portal_url,required,nullable"`
-	ShippingAddress   shared.Address `json:"shipping_address,required,nullable"`
+	PaymentProviderID string         `json:"payment_provider_id" api:"required,nullable"`
+	PortalURL         string         `json:"portal_url" api:"required,nullable"`
+	ShippingAddress   shared.Address `json:"shipping_address" api:"required,nullable"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -447,19 +447,19 @@ type Customer struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	TaxID shared.CustomerTaxID `json:"tax_id,required,nullable"`
+	TaxID shared.CustomerTaxID `json:"tax_id" api:"required,nullable"`
 	// A timezone identifier from the IANA timezone database, such as
 	// "America/Los_Angeles". This "defaults to your account's timezone if not set.
 	// This cannot be changed after customer creation.
-	Timezone                    string                              `json:"timezone,required"`
-	AccountingSyncConfiguration CustomerAccountingSyncConfiguration `json:"accounting_sync_configuration,nullable"`
+	Timezone                    string                              `json:"timezone" api:"required"`
+	AccountingSyncConfiguration CustomerAccountingSyncConfiguration `json:"accounting_sync_configuration" api:"nullable"`
 	// Whether automatic tax calculation is enabled for this customer. This field is
 	// nullable for backwards compatibility but will always return a boolean value.
-	AutomaticTaxEnabled bool `json:"automatic_tax_enabled,nullable"`
+	AutomaticTaxEnabled bool `json:"automatic_tax_enabled" api:"nullable"`
 	// Payment configuration for the customer, applicable when using Orb Invoicing with
 	// a supported payment provider such as Stripe.
-	PaymentConfiguration   CustomerPaymentConfiguration   `json:"payment_configuration,nullable"`
-	ReportingConfiguration CustomerReportingConfiguration `json:"reporting_configuration,nullable"`
+	PaymentConfiguration   CustomerPaymentConfiguration   `json:"payment_configuration" api:"nullable"`
+	ReportingConfiguration CustomerReportingConfiguration `json:"reporting_configuration" api:"nullable"`
 	JSON                   customerJSON                   `json:"-"`
 }
 
@@ -504,8 +504,8 @@ func (r customerJSON) RawJSON() string {
 
 // The hierarchical relationships for this customer.
 type CustomerHierarchy struct {
-	Children []shared.CustomerMinified `json:"children,required"`
-	Parent   shared.CustomerMinified   `json:"parent,required,nullable"`
+	Children []shared.CustomerMinified `json:"children" api:"required"`
+	Parent   shared.CustomerMinified   `json:"parent" api:"required,nullable"`
 	JSON     customerHierarchyJSON     `json:"-"`
 }
 
@@ -548,8 +548,8 @@ func (r CustomerPaymentProvider) IsKnown() bool {
 }
 
 type CustomerAccountingSyncConfiguration struct {
-	AccountingProviders []CustomerAccountingSyncConfigurationAccountingProvider `json:"accounting_providers,required"`
-	Excluded            bool                                                    `json:"excluded,required"`
+	AccountingProviders []CustomerAccountingSyncConfigurationAccountingProvider `json:"accounting_providers" api:"required"`
+	Excluded            bool                                                    `json:"excluded" api:"required"`
 	JSON                customerAccountingSyncConfigurationJSON                 `json:"-"`
 }
 
@@ -571,8 +571,8 @@ func (r customerAccountingSyncConfigurationJSON) RawJSON() string {
 }
 
 type CustomerAccountingSyncConfigurationAccountingProvider struct {
-	ExternalProviderID string                                                             `json:"external_provider_id,required,nullable"`
-	ProviderType       CustomerAccountingSyncConfigurationAccountingProvidersProviderType `json:"provider_type,required"`
+	ExternalProviderID string                                                             `json:"external_provider_id" api:"required,nullable"`
+	ProviderType       CustomerAccountingSyncConfigurationAccountingProvidersProviderType `json:"provider_type" api:"required"`
 	JSON               customerAccountingSyncConfigurationAccountingProviderJSON          `json:"-"`
 }
 
@@ -634,7 +634,7 @@ func (r customerPaymentConfigurationJSON) RawJSON() string {
 
 type CustomerPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
-	ProviderType CustomerPaymentConfigurationPaymentProvidersProviderType `json:"provider_type,required"`
+	ProviderType CustomerPaymentConfigurationPaymentProvidersProviderType `json:"provider_type" api:"required"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -677,7 +677,7 @@ func (r CustomerPaymentConfigurationPaymentProvidersProviderType) IsKnown() bool
 }
 
 type CustomerReportingConfiguration struct {
-	Exempt bool                               `json:"exempt,required"`
+	Exempt bool                               `json:"exempt" api:"required"`
 	JSON   customerReportingConfigurationJSON `json:"-"`
 }
 
@@ -720,8 +720,8 @@ func (r NewAccountingSyncConfigurationParam) MarshalJSON() (data []byte, err err
 }
 
 type NewAvalaraTaxConfigurationParam struct {
-	TaxExempt   param.Field[bool]                                  `json:"tax_exempt,required"`
-	TaxProvider param.Field[NewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                  `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[NewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
@@ -754,7 +754,7 @@ func (r NewAvalaraTaxConfigurationTaxProvider) IsKnown() bool {
 }
 
 type NewReportingConfigurationParam struct {
-	Exempt param.Field[bool] `json:"exempt,required"`
+	Exempt param.Field[bool] `json:"exempt" api:"required"`
 }
 
 func (r NewReportingConfigurationParam) MarshalJSON() (data []byte, err error) {
@@ -762,8 +762,8 @@ func (r NewReportingConfigurationParam) MarshalJSON() (data []byte, err error) {
 }
 
 type NewSphereConfigurationParam struct {
-	TaxExempt   param.Field[bool]                              `json:"tax_exempt,required"`
-	TaxProvider param.Field[NewSphereConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                              `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[NewSphereConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -795,8 +795,8 @@ func (r NewSphereConfigurationTaxProvider) IsKnown() bool {
 }
 
 type NewTaxJarConfigurationParam struct {
-	TaxExempt   param.Field[bool]                              `json:"tax_exempt,required"`
-	TaxProvider param.Field[NewTaxJarConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                              `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[NewTaxJarConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -831,9 +831,9 @@ type CustomerNewParams struct {
 	// A valid customer email, to be used for notifications. When Orb triggers payment
 	// through a payment gateway, this email will be used for any automatically issued
 	// receipts.
-	Email param.Field[string] `json:"email,required" format:"email"`
+	Email param.Field[string] `json:"email" api:"required" format:"email"`
 	// The full name of the customer
-	Name                        param.Field[string]                              `json:"name,required"`
+	Name                        param.Field[string]                              `json:"name" api:"required"`
 	AccountingSyncConfiguration param.Field[NewAccountingSyncConfigurationParam] `json:"accounting_sync_configuration"`
 	// Additional email addresses for this customer. If populated, these email
 	// addresses will be CC'd for customer communications. The total number of email
@@ -1045,7 +1045,7 @@ func (r CustomerNewParamsPaymentConfiguration) MarshalJSON() (data []byte, err e
 
 type CustomerNewParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
-	ProviderType param.Field[CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	ProviderType param.Field[CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -1095,8 +1095,8 @@ func (r CustomerNewParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerNewParamsTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                         `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerNewParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                         `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
@@ -1120,8 +1120,8 @@ type CustomerNewParamsTaxConfigurationUnion interface {
 }
 
 type CustomerNewParamsTaxConfigurationNewNumeralConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1149,8 +1149,8 @@ func (r CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider) IsK
 }
 
 type CustomerNewParamsTaxConfigurationNewAnrokConfiguration struct {
-	TaxExempt   param.Field[bool]                                                              `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                              `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1178,8 +1178,8 @@ func (r CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider) IsKno
 }
 
 type CustomerNewParamsTaxConfigurationNewStripeTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                  `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                  `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1443,7 +1443,7 @@ func (r CustomerUpdateParamsPaymentConfiguration) MarshalJSON() (data []byte, er
 
 type CustomerUpdateParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
-	ProviderType param.Field[CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	ProviderType param.Field[CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -1497,8 +1497,8 @@ func (r CustomerUpdateParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerUpdateParamsTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                            `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                            `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
@@ -1522,8 +1522,8 @@ type CustomerUpdateParamsTaxConfigurationUnion interface {
 }
 
 type CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                   `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                   `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1551,8 +1551,8 @@ func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider) 
 }
 
 type CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                 `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                 `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1580,8 +1580,8 @@ func (r CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider) Is
 }
 
 type CustomerUpdateParamsTaxConfigurationNewStripeTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                     `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                     `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1865,7 +1865,7 @@ func (r CustomerUpdateByExternalIDParamsPaymentConfiguration) MarshalJSON() (dat
 
 type CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
-	ProviderType param.Field[CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	ProviderType param.Field[CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -1919,8 +1919,8 @@ func (r CustomerUpdateByExternalIDParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                                        `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                        `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
@@ -1945,8 +1945,8 @@ type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                               `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                               `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -1974,8 +1974,8 @@ func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationT
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                             `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                             `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
@@ -2003,8 +2003,8 @@ func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTax
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfiguration struct {
-	TaxExempt   param.Field[bool]                                                                                 `json:"tax_exempt,required"`
-	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExempt   param.Field[bool]                                                                                 `json:"tax_exempt" api:"required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider" api:"required"`
 	// Whether to automatically calculate tax for this customer. When null, inherits
 	// from account-level setting. When true or false, overrides the account setting.
 	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`

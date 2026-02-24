@@ -117,32 +117,32 @@ func (r *SubscriptionChangeService) Cancel(ctx context.Context, subscriptionChan
 }
 
 type MutatedSubscription struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
-	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order" api:"required,nullable"`
 	// The adjustment intervals for this subscription sorted by the start_date of the
 	// adjustment interval.
-	AdjustmentIntervals []shared.AdjustmentInterval `json:"adjustment_intervals,required"`
+	AdjustmentIntervals []shared.AdjustmentInterval `json:"adjustment_intervals" api:"required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
 	// the plan's behavior. If null, defaults to the customer's setting.
-	AutoCollection                  bool                                   `json:"auto_collection,required,nullable"`
-	BillingCycleAnchorConfiguration shared.BillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	AutoCollection                  bool                                   `json:"auto_collection" api:"required,nullable"`
+	BillingCycleAnchorConfiguration shared.BillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration" api:"required"`
 	// The day of the month on which the billing cycle is anchored. If the maximum
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	BillingCycleDay int64     `json:"billing_cycle_day,required"`
-	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	BillingCycleDay int64     `json:"billing_cycle_day" api:"required"`
+	CreatedAt       time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is not part of the billing period. Set to null for
 	// subscriptions that are not currently active.
-	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date" api:"required,nullable" format:"date-time"`
 	// The start date of the current billing period. This is an inclusive timestamp;
 	// the instant returned is exactly the beginning of the billing period. Set to null
 	// if the subscription is not currently active.
-	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date" api:"required,nullable" format:"date-time"`
 	// A customer is a buyer of your products, and the other party to the billing
 	// relationship.
 	//
@@ -161,59 +161,59 @@ type MutatedSubscription struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer Customer `json:"customer,required"`
+	Customer Customer `json:"customer" api:"required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
-	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	DefaultInvoiceMemo string `json:"default_invoice_memo" api:"required,nullable"`
 	// The discount intervals for this subscription sorted by the start_date. This
 	// field is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	DiscountIntervals []MutatedSubscriptionDiscountInterval `json:"discount_intervals,required"`
+	DiscountIntervals []MutatedSubscriptionDiscountInterval `json:"discount_intervals" api:"required"`
 	// The date Orb stops billing for this subscription.
-	EndDate                  time.Time                              `json:"end_date,required,nullable" format:"date-time"`
-	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule,required"`
-	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
+	EndDate                  time.Time                              `json:"end_date" api:"required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule" api:"required"`
+	InvoicingThreshold       string                                 `json:"invoicing_threshold" api:"required,nullable"`
 	// The maximum intervals for this subscription sorted by the start_date. This field
 	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals,required"`
+	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// The minimum intervals for this subscription sorted by the start_date. This field
 	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals,required"`
+	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals" api:"required"`
 	// The name of the subscription.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
-	NetTerms int64 `json:"net_terms,required"`
+	NetTerms int64 `json:"net_terms" api:"required"`
 	// A pending subscription change if one exists on this subscription.
-	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change,required,nullable"`
+	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change" api:"required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
-	Plan Plan `json:"plan,required,nullable"`
+	Plan Plan `json:"plan" api:"required,nullable"`
 	// The price intervals for this subscription.
-	PriceIntervals []shared.PriceInterval  `json:"price_intervals,required"`
-	RedeemedCoupon shared.CouponRedemption `json:"redeemed_coupon,required,nullable"`
+	PriceIntervals []shared.PriceInterval  `json:"price_intervals" api:"required"`
+	RedeemedCoupon shared.CouponRedemption `json:"redeemed_coupon" api:"required,nullable"`
 	// The date Orb starts billing for this subscription.
-	StartDate time.Time                    `json:"start_date,required" format:"date-time"`
-	Status    MutatedSubscriptionStatus    `json:"status,required"`
-	TrialInfo shared.SubscriptionTrialInfo `json:"trial_info,required"`
+	StartDate time.Time                    `json:"start_date" api:"required" format:"date-time"`
+	Status    MutatedSubscriptionStatus    `json:"status" api:"required"`
+	TrialInfo shared.SubscriptionTrialInfo `json:"trial_info" api:"required"`
 	// The resources that were changed as part of this operation. Only present when
 	// fetched through the subscription changes API or if the
 	// `include_changed_resources` parameter was passed in the request.
-	ChangedResources shared.ChangedSubscriptionResources `json:"changed_resources,nullable"`
+	ChangedResources shared.ChangedSubscriptionResources `json:"changed_resources" api:"nullable"`
 	JSON             mutatedSubscriptionJSON             `json:"-"`
 }
 
@@ -262,16 +262,16 @@ func (r mutatedSubscriptionJSON) RawJSON() string {
 
 type MutatedSubscriptionDiscountInterval struct {
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{}                                      `json:"applies_to_price_interval_ids,required"`
-	DiscountType              MutatedSubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
+	AppliesToPriceIntervalIDs interface{}                                      `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              MutatedSubscriptionDiscountIntervalsDiscountType `json:"discount_type" api:"required"`
 	// The end date of the discount interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// This field can have the runtime type of [[]shared.AmountDiscountIntervalFilter],
 	// [[]shared.PercentageDiscountIntervalFilter],
 	// [[]shared.UsageDiscountIntervalFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// The start date of the discount interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
 	// Only available if discount_type is `percentage`.This is a number between 0
@@ -386,26 +386,26 @@ func (r MutatedSubscriptionStatus) IsKnown() bool {
 // subscription as well as any changes/creation of invoices (see
 // `subscription.changed_resources`).
 type SubscriptionChangeGetResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
-	ChangeType string `json:"change_type,required"`
+	ChangeType string `json:"change_type" api:"required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
-	ExpirationTime time.Time                           `json:"expiration_time,required" format:"date-time"`
-	Status         SubscriptionChangeGetResponseStatus `json:"status,required"`
-	Subscription   MutatedSubscription                 `json:"subscription,required,nullable"`
+	ExpirationTime time.Time                           `json:"expiration_time" api:"required" format:"date-time"`
+	Status         SubscriptionChangeGetResponseStatus `json:"status" api:"required"`
+	Subscription   MutatedSubscription                 `json:"subscription" api:"required,nullable"`
 	// When this change was applied.
-	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	AppliedAt time.Time `json:"applied_at" api:"nullable" format:"date-time"`
 	// Billing cycle alignment for plan changes.
-	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
+	BillingCycleAlignment string `json:"billing_cycle_alignment" api:"nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	CancelledAt time.Time `json:"cancelled_at" api:"nullable" format:"date-time"`
 	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
 	// 'requested_date').
-	ChangeOption string `json:"change_option,nullable"`
+	ChangeOption string `json:"change_option" api:"nullable"`
 	// When this change will take effect.
-	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	EffectiveDate time.Time `json:"effective_date" api:"nullable" format:"date-time"`
 	// The target plan ID for plan changes.
-	PlanID string                            `json:"plan_id,nullable"`
+	PlanID string                            `json:"plan_id" api:"nullable"`
 	JSON   subscriptionChangeGetResponseJSON `json:"-"`
 }
 
@@ -452,15 +452,15 @@ func (r SubscriptionChangeGetResponseStatus) IsKnown() bool {
 }
 
 type SubscriptionChangeListResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
-	ExpirationTime time.Time                            `json:"expiration_time,required" format:"date-time"`
-	Status         SubscriptionChangeListResponseStatus `json:"status,required"`
-	SubscriptionID string                               `json:"subscription_id,required,nullable"`
+	ExpirationTime time.Time                            `json:"expiration_time" api:"required" format:"date-time"`
+	Status         SubscriptionChangeListResponseStatus `json:"status" api:"required"`
+	SubscriptionID string                               `json:"subscription_id" api:"required,nullable"`
 	// When this change was applied.
-	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	AppliedAt time.Time `json:"applied_at" api:"nullable" format:"date-time"`
 	// When this change was cancelled.
-	CancelledAt time.Time                          `json:"cancelled_at,nullable" format:"date-time"`
+	CancelledAt time.Time                          `json:"cancelled_at" api:"nullable" format:"date-time"`
 	JSON        subscriptionChangeListResponseJSON `json:"-"`
 }
 
@@ -506,26 +506,26 @@ func (r SubscriptionChangeListResponseStatus) IsKnown() bool {
 // subscription as well as any changes/creation of invoices (see
 // `subscription.changed_resources`).
 type SubscriptionChangeApplyResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
-	ChangeType string `json:"change_type,required"`
+	ChangeType string `json:"change_type" api:"required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
-	ExpirationTime time.Time                             `json:"expiration_time,required" format:"date-time"`
-	Status         SubscriptionChangeApplyResponseStatus `json:"status,required"`
-	Subscription   MutatedSubscription                   `json:"subscription,required,nullable"`
+	ExpirationTime time.Time                             `json:"expiration_time" api:"required" format:"date-time"`
+	Status         SubscriptionChangeApplyResponseStatus `json:"status" api:"required"`
+	Subscription   MutatedSubscription                   `json:"subscription" api:"required,nullable"`
 	// When this change was applied.
-	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	AppliedAt time.Time `json:"applied_at" api:"nullable" format:"date-time"`
 	// Billing cycle alignment for plan changes.
-	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
+	BillingCycleAlignment string `json:"billing_cycle_alignment" api:"nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	CancelledAt time.Time `json:"cancelled_at" api:"nullable" format:"date-time"`
 	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
 	// 'requested_date').
-	ChangeOption string `json:"change_option,nullable"`
+	ChangeOption string `json:"change_option" api:"nullable"`
 	// When this change will take effect.
-	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	EffectiveDate time.Time `json:"effective_date" api:"nullable" format:"date-time"`
 	// The target plan ID for plan changes.
-	PlanID string                              `json:"plan_id,nullable"`
+	PlanID string                              `json:"plan_id" api:"nullable"`
 	JSON   subscriptionChangeApplyResponseJSON `json:"-"`
 }
 
@@ -576,26 +576,26 @@ func (r SubscriptionChangeApplyResponseStatus) IsKnown() bool {
 // subscription as well as any changes/creation of invoices (see
 // `subscription.changed_resources`).
 type SubscriptionChangeCancelResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
-	ChangeType string `json:"change_type,required"`
+	ChangeType string `json:"change_type" api:"required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
-	ExpirationTime time.Time                              `json:"expiration_time,required" format:"date-time"`
-	Status         SubscriptionChangeCancelResponseStatus `json:"status,required"`
-	Subscription   MutatedSubscription                    `json:"subscription,required,nullable"`
+	ExpirationTime time.Time                              `json:"expiration_time" api:"required" format:"date-time"`
+	Status         SubscriptionChangeCancelResponseStatus `json:"status" api:"required"`
+	Subscription   MutatedSubscription                    `json:"subscription" api:"required,nullable"`
 	// When this change was applied.
-	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	AppliedAt time.Time `json:"applied_at" api:"nullable" format:"date-time"`
 	// Billing cycle alignment for plan changes.
-	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
+	BillingCycleAlignment string `json:"billing_cycle_alignment" api:"nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	CancelledAt time.Time `json:"cancelled_at" api:"nullable" format:"date-time"`
 	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
 	// 'requested_date').
-	ChangeOption string `json:"change_option,nullable"`
+	ChangeOption string `json:"change_option" api:"nullable"`
 	// When this change will take effect.
-	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	EffectiveDate time.Time `json:"effective_date" api:"nullable" format:"date-time"`
 	// The target plan ID for plan changes.
-	PlanID string                               `json:"plan_id,nullable"`
+	PlanID string                               `json:"plan_id" api:"nullable"`
 	JSON   subscriptionChangeCancelResponseJSON `json:"-"`
 }
 

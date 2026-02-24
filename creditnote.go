@@ -114,9 +114,9 @@ func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts
 }
 
 type CreditNoteNewParams struct {
-	LineItems param.Field[[]CreditNoteNewParamsLineItem] `json:"line_items,required"`
+	LineItems param.Field[[]CreditNoteNewParamsLineItem] `json:"line_items" api:"required"`
 	// An optional reason for the credit note.
-	Reason param.Field[CreditNoteNewParamsReason] `json:"reason,required"`
+	Reason param.Field[CreditNoteNewParamsReason] `json:"reason" api:"required"`
 	// A date string to specify the global credit note service period end date in the
 	// customer's timezone. This will be applied to all line items that don't have
 	// their own individual service periods specified. If not provided, line items will
@@ -137,9 +137,9 @@ func (r CreditNoteNewParams) MarshalJSON() (data []byte, err error) {
 
 type CreditNoteNewParamsLineItem struct {
 	// The total amount in the invoice's currency to credit this line item.
-	Amount param.Field[string] `json:"amount,required"`
+	Amount param.Field[string] `json:"amount" api:"required"`
 	// The ID of the line item to credit.
-	InvoiceLineItemID param.Field[string] `json:"invoice_line_item_id,required"`
+	InvoiceLineItemID param.Field[string] `json:"invoice_line_item_id" api:"required"`
 	// A date string to specify this line item's credit note service period end date in
 	// the customer's timezone. If provided, this will be used for this specific line
 	// item. If not provided, will use the global end_date if available, otherwise

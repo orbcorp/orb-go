@@ -1126,7 +1126,7 @@ func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID st
 }
 
 type DiscountOverrideParam struct {
-	DiscountType param.Field[DiscountOverrideDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[DiscountOverrideDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
 	// Only available if discount_type is `percentage`. This is a number between 0
@@ -1159,15 +1159,15 @@ func (r DiscountOverrideDiscountType) IsKnown() bool {
 
 type NewSubscriptionBulkPriceParam struct {
 	// Configuration for bulk pricing
-	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config,required"`
+	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionBulkPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1257,7 +1257,7 @@ func (r NewSubscriptionBulkPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                           `json:"unit_config"`
 }
@@ -1293,15 +1293,15 @@ func (r NewSubscriptionBulkPriceConversionRateConfigConversionRateType) IsKnown(
 
 type NewSubscriptionBulkWithProrationPriceParam struct {
 	// Configuration for bulk_with_proration pricing
-	BulkWithProrationConfig param.Field[NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config,required"`
+	BulkWithProrationConfig param.Field[NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1360,7 +1360,7 @@ func (r NewSubscriptionBulkWithProrationPriceParam) implementsSubscriptionSchedu
 // Configuration for bulk_with_proration pricing
 type NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1370,7 +1370,7 @@ func (r NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam) Marsh
 // Configuration for a single bulk pricing tier with proration
 type NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam struct {
 	// Cost per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -1415,7 +1415,7 @@ func (r NewSubscriptionBulkWithProrationPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionBulkWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
@@ -1451,15 +1451,15 @@ func (r NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateT
 
 type NewSubscriptionCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_bulk pricing
-	CumulativeGroupedBulkConfig param.Field[NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config,required"`
+	CumulativeGroupedBulkConfig param.Field[NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1538,8 +1538,8 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 // Configuration for cumulative_grouped_bulk pricing
 type NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
 	// Each tier lower bound must have the same group of values.
-	DimensionValues param.Field[[]NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
-	Group           param.Field[string]                                                                                    `json:"group,required"`
+	DimensionValues param.Field[[]NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                                    `json:"group" api:"required"`
 }
 
 func (r NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1549,11 +1549,11 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigPara
 // Configuration for a dimension value entry
 type NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam struct {
 	// Grouping key value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Tier lower bound
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Unit amount for this combination
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam) MarshalJSON() (data []byte, err error) {
@@ -1576,7 +1576,7 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
@@ -1612,15 +1612,15 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionR
 
 type NewSubscriptionGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_allocation pricing
-	GroupedAllocationConfig param.Field[NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config,required"`
+	GroupedAllocationConfig param.Field[NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1699,11 +1699,11 @@ func (r NewSubscriptionGroupedAllocationPriceCadence) IsKnown() bool {
 // Configuration for grouped_allocation pricing
 type NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam struct {
 	// Usage allocation per group
-	Allocation param.Field[string] `json:"allocation,required"`
+	Allocation param.Field[string] `json:"allocation" api:"required"`
 	// How to determine the groups that should each be allocated some quantity
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Unit rate for post-allocation
-	OverageUnitRate param.Field[string] `json:"overage_unit_rate,required"`
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
 }
 
 func (r NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1726,7 +1726,7 @@ func (r NewSubscriptionGroupedAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionGroupedAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
@@ -1762,15 +1762,15 @@ func (r NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateT
 
 type NewSubscriptionGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_tiered_package pricing
-	GroupedTieredPackageConfig param.Field[NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config,required"`
+	GroupedTieredPackageConfig param.Field[NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1849,11 +1849,11 @@ func (r NewSubscriptionGroupedTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered_package pricing
 type NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
 	// The event property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1863,8 +1863,8 @@ func (r NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam)
 // Configuration for a single tier
 type NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
 	// Per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -1887,7 +1887,7 @@ func (r NewSubscriptionGroupedTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionGroupedTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -1923,15 +1923,15 @@ func (r NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRa
 
 type NewSubscriptionGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionGroupedTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionGroupedTieredPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_tiered pricing
-	GroupedTieredConfig param.Field[NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config,required"`
+	GroupedTieredConfig param.Field[NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionGroupedTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionGroupedTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2010,10 +2010,10 @@ func (r NewSubscriptionGroupedTieredPriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered pricing
 type NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam struct {
 	// The billable metric property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Apply tiered pricing to each segment generated after grouping with the provided
 	// key
-	Tiers param.Field[[]NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data []byte, err error) {
@@ -2022,9 +2022,9 @@ func (r NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON()
 
 // Configuration for a single tier
 type NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -2047,7 +2047,7 @@ func (r NewSubscriptionGroupedTieredPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionGroupedTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                    `json:"unit_config"`
 }
@@ -2083,15 +2083,15 @@ func (r NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType)
 
 type NewSubscriptionGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_metered_minimum pricing
-	GroupedWithMeteredMinimumConfig param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2171,18 +2171,18 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam struct {
 	// Used to partition the usage into groups. The minimum amount is applied to each
 	// group.
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group per unit
-	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount,required"`
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
 	// Used to determine the unit rate
-	PricingKey param.Field[string] `json:"pricing_key,required"`
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
 	// Scale the unit rates by the scaling factor.
-	ScalingFactors param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors,required"`
+	ScalingFactors param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors" api:"required"`
 	// Used to determine the unit rate scaling factor
-	ScalingKey param.Field[string] `json:"scaling_key,required"`
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
 	// Apply per unit pricing to each pricing value. The minimum amount is applied any
 	// unmatched usage.
-	UnitAmounts param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -2191,8 +2191,8 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumCo
 
 // Configuration for a scaling factor
 type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	ScalingValue  param.Field[string] `json:"scaling_value,required"`
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
 }
 
 func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
@@ -2201,9 +2201,9 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumCo
 
 // Configuration for a unit amount
 type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
-	PricingValue param.Field[string] `json:"pricing_value,required"`
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -2226,7 +2226,7 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                `json:"unit_config"`
 }
@@ -2262,15 +2262,15 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConvers
 
 type NewSubscriptionGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_prorated_minimum pricing
-	GroupedWithProratedMinimumConfig param.Field[NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2349,11 +2349,11 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 // Configuration for grouped_with_prorated_minimum pricing
 type NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam struct {
 	// How to determine the groups that should each have a minimum
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group
-	Minimum param.Field[string] `json:"minimum,required"`
+	Minimum param.Field[string] `json:"minimum" api:"required"`
 	// The amount to charge per unit
-	UnitRate param.Field[string] `json:"unit_rate,required"`
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
 }
 
 func (r NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -2376,7 +2376,7 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceModelType) IsKnown() bool 
 }
 
 type NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                               `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                 `json:"unit_config"`
 }
@@ -2412,15 +2412,15 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConver
 
 type NewSubscriptionMatrixPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionMatrixPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix pricing
-	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config,required"`
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionMatrixPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionMatrixPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2510,7 +2510,7 @@ func (r NewSubscriptionMatrixPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionMatrixPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                           `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                             `json:"unit_config"`
 }
@@ -2546,15 +2546,15 @@ func (r NewSubscriptionMatrixPriceConversionRateConfigConversionRateType) IsKnow
 
 type NewSubscriptionMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_allocation pricing
-	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config,required"`
+	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionMatrixWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2646,7 +2646,7 @@ func (r NewSubscriptionMatrixWithAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionMatrixWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -2682,15 +2682,15 @@ func (r NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRa
 
 type NewSubscriptionMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_display_name pricing
-	MatrixWithDisplayNameConfig param.Field[NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config,required"`
+	MatrixWithDisplayNameConfig param.Field[NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2769,9 +2769,9 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 // Configuration for matrix_with_display_name pricing
 type NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam struct {
 	// Used to determine the unit rate
-	Dimension param.Field[string] `json:"dimension,required"`
+	Dimension param.Field[string] `json:"dimension" api:"required"`
 	// Apply per unit pricing to each dimension value
-	UnitAmounts param.Field[[]NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) MarshalJSON() (data []byte, err error) {
@@ -2781,11 +2781,11 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigPara
 // Configuration for a unit amount item
 type NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam struct {
 	// The dimension value
-	DimensionValue param.Field[string] `json:"dimension_value,required"`
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
 	// Display name for this dimension value
-	DisplayName param.Field[string] `json:"display_name,required"`
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -2808,7 +2808,7 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
@@ -2844,15 +2844,15 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionR
 
 type NewSubscriptionMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for max_group_tiered_package pricing
-	MaxGroupTieredPackageConfig param.Field[NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config,required"`
+	MaxGroupTieredPackageConfig param.Field[NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2931,10 +2931,10 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for max_group_tiered_package pricing
 type NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
 	// The event property used to group before tiering the group with the highest value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
-	Tiers param.Field[[]NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -2943,9 +2943,9 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigPara
 
 // Configuration for a single tier
 type NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -2968,7 +2968,7 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
@@ -3004,15 +3004,15 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionR
 
 type NewSubscriptionMinimumCompositePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionMinimumCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionMinimumCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for minimum_composite pricing
-	MinimumCompositeConfig param.Field[NewSubscriptionMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config,required"`
+	MinimumCompositeConfig param.Field[NewSubscriptionMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionMinimumCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionMinimumCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3091,7 +3091,7 @@ func (r NewSubscriptionMinimumCompositePriceCadence) IsKnown() bool {
 // Configuration for minimum_composite pricing
 type NewSubscriptionMinimumCompositePriceMinimumCompositeConfigParam struct {
 	// The minimum amount to apply
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -3116,7 +3116,7 @@ func (r NewSubscriptionMinimumCompositePriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionMinimumCompositePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -3152,15 +3152,15 @@ func (r NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateTy
 
 type NewSubscriptionPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package pricing
-	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config,required"`
+	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3250,7 +3250,7 @@ func (r NewSubscriptionPackagePriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                              `json:"unit_config"`
 }
@@ -3286,15 +3286,15 @@ func (r NewSubscriptionPackagePriceConversionRateConfigConversionRateType) IsKno
 
 type NewSubscriptionPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package_with_allocation pricing
-	PackageWithAllocationConfig param.Field[NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config,required"`
+	PackageWithAllocationConfig param.Field[NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3387,9 +3387,9 @@ func (r NewSubscriptionPackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam struct {
-	Allocation    param.Field[string] `json:"allocation,required"`
-	PackageAmount param.Field[string] `json:"package_amount,required"`
-	PackageSize   param.Field[string] `json:"package_size,required"`
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
 }
 
 func (r NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -3397,7 +3397,7 @@ func (r NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigPara
 }
 
 type NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
@@ -3433,15 +3433,15 @@ func (r NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionR
 
 type NewSubscriptionScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
-	ScalableMatrixWithTieredPricingConfig param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	ScalableMatrixWithTieredPricingConfig param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3535,10 +3535,10 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceModelType) IsKnown() 
 // Configuration for scalable_matrix_with_tiered_pricing pricing
 type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam struct {
 	// Used for the scalable matrix first dimension
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
-	Tiers                param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers,required"`
+	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers" api:"required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -3549,8 +3549,8 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTie
 
 // Configuration for a single matrix scaling factor
 type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -3560,8 +3560,8 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTie
 
 // Configuration for a single tier entry with business logic
 type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	UnitAmount     param.Field[string] `json:"unit_amount,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -3569,7 +3569,7 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTie
 }
 
 type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -3605,15 +3605,15 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigC
 
 type NewSubscriptionScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_unit_pricing pricing
-	ScalableMatrixWithUnitPricingConfig param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config,required"`
+	ScalableMatrixWithUnitPricingConfig param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3707,11 +3707,11 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceModelType) IsKnown() bo
 // Configuration for scalable_matrix_with_unit_pricing pricing
 type NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam struct {
 	// Used to determine the unit rate
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
+	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
 	// The final unit price to rate against the output of the matrix
-	UnitPrice param.Field[string] `json:"unit_price,required"`
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
 	// The property used to group this price
 	GroupingKey param.Field[string] `json:"grouping_key"`
 	// If true, the unit price will be prorated to the billing period
@@ -3726,8 +3726,8 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitP
 
 // Configuration for a single matrix scaling factor
 type NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -3736,7 +3736,7 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitP
 }
 
 type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                    `json:"unit_config"`
 }
@@ -3772,15 +3772,15 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigCon
 
 type NewSubscriptionThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for threshold_total_amount pricing
-	ThresholdTotalAmountConfig param.Field[NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config,required"`
+	ThresholdTotalAmountConfig param.Field[NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3875,7 +3875,7 @@ func (r NewSubscriptionThresholdTotalAmountPriceModelType) IsKnown() bool {
 type NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam struct {
 	// When the quantity consumed passes a provided threshold, the configured total
 	// will be charged
-	ConsumptionTable param.Field[[]NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table,required"`
+	ConsumptionTable param.Field[[]NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table" api:"required"`
 	// If true, the unit price will be prorated to the billing period
 	Prorate param.Field[bool] `json:"prorate"`
 }
@@ -3886,9 +3886,9 @@ func (r NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam)
 
 // Configuration for a single threshold
 type NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
-	Threshold param.Field[string] `json:"threshold,required"`
+	Threshold param.Field[string] `json:"threshold" api:"required"`
 	// Total amount for this threshold
-	TotalAmount param.Field[string] `json:"total_amount,required"`
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
 }
 
 func (r NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam) MarshalJSON() (data []byte, err error) {
@@ -3896,7 +3896,7 @@ func (r NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsum
 }
 
 type NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -3932,15 +3932,15 @@ func (r NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRa
 
 type NewSubscriptionTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package pricing
-	TieredPackageConfig param.Field[NewSubscriptionTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config,required"`
+	TieredPackageConfig param.Field[NewSubscriptionTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4033,12 +4033,12 @@ func (r NewSubscriptionTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type NewSubscriptionTieredPackagePriceTieredPackageConfigParam struct {
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
 	// the total quantity rather than the number of packages, so they must be multiples
 	// of the package size.
-	Tiers param.Field[[]NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4048,8 +4048,8 @@ func (r NewSubscriptionTieredPackagePriceTieredPackageConfigParam) MarshalJSON()
 // Configuration for a single tier with business logic
 type NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam struct {
 	// Price per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -4057,7 +4057,7 @@ func (r NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam) MarshalJS
 }
 
 type NewSubscriptionTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                    `json:"unit_config"`
 }
@@ -4093,15 +4093,15 @@ func (r NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType)
 
 type NewSubscriptionTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package_with_minimum pricing
-	TieredPackageWithMinimumConfig param.Field[NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config,required"`
+	TieredPackageWithMinimumConfig param.Field[NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4194,10 +4194,10 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
-	PackageSize param.Field[float64] `json:"package_size,required"`
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4206,9 +4206,9 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConf
 
 // Configuration for a single tier
 type NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -4216,7 +4216,7 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConf
 }
 
 type NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -4252,15 +4252,15 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversi
 
 type NewSubscriptionTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionTieredPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered pricing
-	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config,required"`
+	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4350,7 +4350,7 @@ func (r NewSubscriptionTieredPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                           `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                             `json:"unit_config"`
 }
@@ -4386,15 +4386,15 @@ func (r NewSubscriptionTieredPriceConversionRateConfigConversionRateType) IsKnow
 
 type NewSubscriptionTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_minimum pricing
-	TieredWithMinimumConfig param.Field[NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config,required"`
+	TieredWithMinimumConfig param.Field[NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4489,7 +4489,7 @@ func (r NewSubscriptionTieredWithMinimumPriceModelType) IsKnown() bool {
 type NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam struct {
 	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
 	// defined using exclusive lower bounds.
-	Tiers param.Field[[]NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 	// If true, tiers with an accrued amount of 0 will not be included in the rating.
 	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
 	// If true, the unit price will be prorated to the billing period
@@ -4502,10 +4502,10 @@ func (r NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam) Marsh
 
 // Configuration for a single tier
 type NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -4513,7 +4513,7 @@ func (r NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam) M
 }
 
 type NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
@@ -4549,15 +4549,15 @@ func (r NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateT
 
 type NewSubscriptionUnitPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionUnitPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionUnitPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionUnitPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit pricing
-	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config,required"`
+	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4647,7 +4647,7 @@ func (r NewSubscriptionUnitPriceModelType) IsKnown() bool {
 }
 
 type NewSubscriptionUnitPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                           `json:"unit_config"`
 }
@@ -4683,15 +4683,15 @@ func (r NewSubscriptionUnitPriceConversionRateConfigConversionRateType) IsKnown(
 
 type NewSubscriptionUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_percent pricing
-	UnitWithPercentConfig param.Field[NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config,required"`
+	UnitWithPercentConfig param.Field[NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4785,9 +4785,9 @@ func (r NewSubscriptionUnitWithPercentPriceModelType) IsKnown() bool {
 // Configuration for unit_with_percent pricing
 type NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam struct {
 	// What percent, out of 100, of the calculated total to charge
-	Percent param.Field[string] `json:"percent,required"`
+	Percent param.Field[string] `json:"percent" api:"required"`
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4795,7 +4795,7 @@ func (r NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJS
 }
 
 type NewSubscriptionUnitWithPercentPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                      `json:"unit_config"`
 }
@@ -4831,15 +4831,15 @@ func (r NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateTyp
 
 type NewSubscriptionUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewSubscriptionUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewSubscriptionUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_proration pricing
-	UnitWithProrationConfig param.Field[NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config,required"`
+	UnitWithProrationConfig param.Field[NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4933,7 +4933,7 @@ func (r NewSubscriptionUnitWithProrationPriceModelType) IsKnown() bool {
 // Configuration for unit_with_proration pricing
 type NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam struct {
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4941,7 +4941,7 @@ func (r NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam) Marsh
 }
 
 type NewSubscriptionUnitWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
@@ -4995,32 +4995,32 @@ func (r NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateT
 // invoice to contain usage-based charges for the previous period, and a recurring
 // fee for the following period.
 type Subscription struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
-	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order" api:"required,nullable"`
 	// The adjustment intervals for this subscription sorted by the start_date of the
 	// adjustment interval.
-	AdjustmentIntervals []shared.AdjustmentInterval `json:"adjustment_intervals,required"`
+	AdjustmentIntervals []shared.AdjustmentInterval `json:"adjustment_intervals" api:"required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
 	// the plan's behavior. If null, defaults to the customer's setting.
-	AutoCollection                  bool                                   `json:"auto_collection,required,nullable"`
-	BillingCycleAnchorConfiguration shared.BillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	AutoCollection                  bool                                   `json:"auto_collection" api:"required,nullable"`
+	BillingCycleAnchorConfiguration shared.BillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration" api:"required"`
 	// The day of the month on which the billing cycle is anchored. If the maximum
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	BillingCycleDay int64     `json:"billing_cycle_day,required"`
-	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	BillingCycleDay int64     `json:"billing_cycle_day" api:"required"`
+	CreatedAt       time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is not part of the billing period. Set to null for
 	// subscriptions that are not currently active.
-	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date" api:"required,nullable" format:"date-time"`
 	// The start date of the current billing period. This is an inclusive timestamp;
 	// the instant returned is exactly the beginning of the billing period. Set to null
 	// if the subscription is not currently active.
-	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date" api:"required,nullable" format:"date-time"`
 	// A customer is a buyer of your products, and the other party to the billing
 	// relationship.
 	//
@@ -5039,55 +5039,55 @@ type Subscription struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer Customer `json:"customer,required"`
+	Customer Customer `json:"customer" api:"required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
-	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	DefaultInvoiceMemo string `json:"default_invoice_memo" api:"required,nullable"`
 	// The discount intervals for this subscription sorted by the start_date. This
 	// field is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	DiscountIntervals []SubscriptionDiscountInterval `json:"discount_intervals,required"`
+	DiscountIntervals []SubscriptionDiscountInterval `json:"discount_intervals" api:"required"`
 	// The date Orb stops billing for this subscription.
-	EndDate                  time.Time                              `json:"end_date,required,nullable" format:"date-time"`
-	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule,required"`
-	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
+	EndDate                  time.Time                              `json:"end_date" api:"required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule" api:"required"`
+	InvoicingThreshold       string                                 `json:"invoicing_threshold" api:"required,nullable"`
 	// The maximum intervals for this subscription sorted by the start_date. This field
 	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals,required"`
+	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// The minimum intervals for this subscription sorted by the start_date. This field
 	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
-	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals,required"`
+	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals" api:"required"`
 	// The name of the subscription.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
-	NetTerms int64 `json:"net_terms,required"`
+	NetTerms int64 `json:"net_terms" api:"required"`
 	// A pending subscription change if one exists on this subscription.
-	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change,required,nullable"`
+	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change" api:"required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
-	Plan Plan `json:"plan,required,nullable"`
+	Plan Plan `json:"plan" api:"required,nullable"`
 	// The price intervals for this subscription.
-	PriceIntervals []shared.PriceInterval  `json:"price_intervals,required"`
-	RedeemedCoupon shared.CouponRedemption `json:"redeemed_coupon,required,nullable"`
+	PriceIntervals []shared.PriceInterval  `json:"price_intervals" api:"required"`
+	RedeemedCoupon shared.CouponRedemption `json:"redeemed_coupon" api:"required,nullable"`
 	// The date Orb starts billing for this subscription.
-	StartDate time.Time                    `json:"start_date,required" format:"date-time"`
-	Status    SubscriptionStatus           `json:"status,required"`
-	TrialInfo shared.SubscriptionTrialInfo `json:"trial_info,required"`
+	StartDate time.Time                    `json:"start_date" api:"required" format:"date-time"`
+	Status    SubscriptionStatus           `json:"status" api:"required"`
+	TrialInfo shared.SubscriptionTrialInfo `json:"trial_info" api:"required"`
 	JSON      subscriptionJSON             `json:"-"`
 }
 
@@ -5134,16 +5134,16 @@ func (r subscriptionJSON) RawJSON() string {
 
 type SubscriptionDiscountInterval struct {
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{}                               `json:"applies_to_price_interval_ids,required"`
-	DiscountType              SubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
+	AppliesToPriceIntervalIDs interface{}                               `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              SubscriptionDiscountIntervalsDiscountType `json:"discount_type" api:"required"`
 	// The end date of the discount interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// This field can have the runtime type of [[]shared.AmountDiscountIntervalFilter],
 	// [[]shared.PercentageDiscountIntervalFilter],
 	// [[]shared.UsageDiscountIntervalFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// The start date of the discount interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
 	// Only available if discount_type is `percentage`.This is a number between 0
@@ -5257,8 +5257,8 @@ type SubscriptionUsage struct {
 	// This field can have the runtime type of
 	// [[]SubscriptionUsageUngroupedSubscriptionUsageData],
 	// [[]SubscriptionUsageGroupedSubscriptionUsageData].
-	Data               interface{}               `json:"data,required"`
-	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,nullable"`
+	Data               interface{}               `json:"data" api:"required"`
+	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata" api:"nullable"`
 	JSON               subscriptionUsageJSON     `json:"-"`
 	union              SubscriptionUsageUnion
 }
@@ -5329,7 +5329,7 @@ func init() {
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsage struct {
-	Data []SubscriptionUsageUngroupedSubscriptionUsageData `json:"data,required"`
+	Data []SubscriptionUsageUngroupedSubscriptionUsageData `json:"data" api:"required"`
 	JSON subscriptionUsageUngroupedSubscriptionUsageJSON   `json:"-"`
 }
 
@@ -5352,9 +5352,9 @@ func (r subscriptionUsageUngroupedSubscriptionUsageJSON) RawJSON() string {
 func (r SubscriptionUsageUngroupedSubscriptionUsage) implementsSubscriptionUsage() {}
 
 type SubscriptionUsageUngroupedSubscriptionUsageData struct {
-	BillableMetric SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric `json:"billable_metric,required"`
-	Usage          []SubscriptionUsageUngroupedSubscriptionUsageDataUsage        `json:"usage,required"`
-	ViewMode       SubscriptionUsageUngroupedSubscriptionUsageDataViewMode       `json:"view_mode,required"`
+	BillableMetric SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric `json:"billable_metric" api:"required"`
+	Usage          []SubscriptionUsageUngroupedSubscriptionUsageDataUsage        `json:"usage" api:"required"`
+	ViewMode       SubscriptionUsageUngroupedSubscriptionUsageDataViewMode       `json:"view_mode" api:"required"`
 	JSON           subscriptionUsageUngroupedSubscriptionUsageDataJSON           `json:"-"`
 }
 
@@ -5377,8 +5377,8 @@ func (r subscriptionUsageUngroupedSubscriptionUsageDataJSON) RawJSON() string {
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric struct {
-	ID   string                                                            `json:"id,required"`
-	Name string                                                            `json:"name,required"`
+	ID   string                                                            `json:"id" api:"required"`
+	Name string                                                            `json:"name" api:"required"`
 	JSON subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON `json:"-"`
 }
 
@@ -5401,9 +5401,9 @@ func (r subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON) RawJS
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataUsage struct {
-	Quantity       float64                                                  `json:"quantity,required"`
-	TimeframeEnd   time.Time                                                `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                                                `json:"timeframe_start,required" format:"date-time"`
+	Quantity       float64                                                  `json:"quantity" api:"required"`
+	TimeframeEnd   time.Time                                                `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                                                `json:"timeframe_start" api:"required" format:"date-time"`
 	JSON           subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON `json:"-"`
 }
 
@@ -5441,8 +5441,8 @@ func (r SubscriptionUsageUngroupedSubscriptionUsageDataViewMode) IsKnown() bool 
 }
 
 type SubscriptionUsageGroupedSubscriptionUsage struct {
-	Data               []SubscriptionUsageGroupedSubscriptionUsageData `json:"data,required"`
-	PaginationMetadata shared.PaginationMetadata                       `json:"pagination_metadata,nullable"`
+	Data               []SubscriptionUsageGroupedSubscriptionUsageData `json:"data" api:"required"`
+	PaginationMetadata shared.PaginationMetadata                       `json:"pagination_metadata" api:"nullable"`
 	JSON               subscriptionUsageGroupedSubscriptionUsageJSON   `json:"-"`
 }
 
@@ -5466,10 +5466,10 @@ func (r subscriptionUsageGroupedSubscriptionUsageJSON) RawJSON() string {
 func (r SubscriptionUsageGroupedSubscriptionUsage) implementsSubscriptionUsage() {}
 
 type SubscriptionUsageGroupedSubscriptionUsageData struct {
-	BillableMetric SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric `json:"billable_metric,required"`
-	MetricGroup    SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup    `json:"metric_group,required"`
-	Usage          []SubscriptionUsageGroupedSubscriptionUsageDataUsage        `json:"usage,required"`
-	ViewMode       SubscriptionUsageGroupedSubscriptionUsageDataViewMode       `json:"view_mode,required"`
+	BillableMetric SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric `json:"billable_metric" api:"required"`
+	MetricGroup    SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup    `json:"metric_group" api:"required"`
+	Usage          []SubscriptionUsageGroupedSubscriptionUsageDataUsage        `json:"usage" api:"required"`
+	ViewMode       SubscriptionUsageGroupedSubscriptionUsageDataViewMode       `json:"view_mode" api:"required"`
 	JSON           subscriptionUsageGroupedSubscriptionUsageDataJSON           `json:"-"`
 }
 
@@ -5493,8 +5493,8 @@ func (r subscriptionUsageGroupedSubscriptionUsageDataJSON) RawJSON() string {
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric struct {
-	ID   string                                                          `json:"id,required"`
-	Name string                                                          `json:"name,required"`
+	ID   string                                                          `json:"id" api:"required"`
+	Name string                                                          `json:"name" api:"required"`
 	JSON subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON `json:"-"`
 }
 
@@ -5517,8 +5517,8 @@ func (r subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON) RawJSON
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup struct {
-	PropertyKey   string                                                       `json:"property_key,required"`
-	PropertyValue string                                                       `json:"property_value,required"`
+	PropertyKey   string                                                       `json:"property_key" api:"required"`
+	PropertyValue string                                                       `json:"property_value" api:"required"`
 	JSON          subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON `json:"-"`
 }
 
@@ -5541,9 +5541,9 @@ func (r subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON) RawJSON() 
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataUsage struct {
-	Quantity       float64                                                `json:"quantity,required"`
-	TimeframeEnd   time.Time                                              `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                                              `json:"timeframe_start,required" format:"date-time"`
+	Quantity       float64                                                `json:"quantity" api:"required"`
+	TimeframeEnd   time.Time                                              `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                                              `json:"timeframe_start" api:"required" format:"date-time"`
 	JSON           subscriptionUsageGroupedSubscriptionUsageDataUsageJSON `json:"-"`
 }
 
@@ -5581,8 +5581,8 @@ func (r SubscriptionUsageGroupedSubscriptionUsageDataViewMode) IsKnown() bool {
 }
 
 type Subscriptions struct {
-	Data               []Subscription            `json:"data,required"`
-	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,required"`
+	Data               []Subscription            `json:"data" api:"required"`
+	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata" api:"required"`
 	JSON               subscriptionsJSON         `json:"-"`
 }
 
@@ -5603,7 +5603,7 @@ func (r subscriptionsJSON) RawJSON() string {
 }
 
 type SubscriptionFetchCostsResponse struct {
-	Data []shared.AggregatedCost            `json:"data,required"`
+	Data []shared.AggregatedCost            `json:"data" api:"required"`
 	JSON subscriptionFetchCostsResponseJSON `json:"-"`
 }
 
@@ -5624,10 +5624,10 @@ func (r subscriptionFetchCostsResponseJSON) RawJSON() string {
 }
 
 type SubscriptionFetchScheduleResponse struct {
-	CreatedAt time.Time                             `json:"created_at,required" format:"date-time"`
-	EndDate   time.Time                             `json:"end_date,required,nullable" format:"date-time"`
-	Plan      SubscriptionFetchScheduleResponsePlan `json:"plan,required,nullable"`
-	StartDate time.Time                             `json:"start_date,required" format:"date-time"`
+	CreatedAt time.Time                             `json:"created_at" api:"required" format:"date-time"`
+	EndDate   time.Time                             `json:"end_date" api:"required,nullable" format:"date-time"`
+	Plan      SubscriptionFetchScheduleResponsePlan `json:"plan" api:"required,nullable"`
+	StartDate time.Time                             `json:"start_date" api:"required" format:"date-time"`
 	JSON      subscriptionFetchScheduleResponseJSON `json:"-"`
 }
 
@@ -5651,12 +5651,12 @@ func (r subscriptionFetchScheduleResponseJSON) RawJSON() string {
 }
 
 type SubscriptionFetchScheduleResponsePlan struct {
-	ID string `json:"id,required,nullable"`
+	ID string `json:"id" api:"required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                    `json:"external_plan_id,required,nullable"`
-	Name           string                                    `json:"name,required,nullable"`
+	ExternalPlanID string                                    `json:"external_plan_id" api:"required,nullable"`
+	Name           string                                    `json:"name" api:"required,nullable"`
 	JSON           subscriptionFetchScheduleResponsePlanJSON `json:"-"`
 }
 
@@ -5775,7 +5775,7 @@ func (r SubscriptionNewParams) MarshalJSON() (data []byte, err error) {
 
 type SubscriptionNewParamsAddAdjustment struct {
 	// The definition of a new adjustment to create and add to the subscription.
-	Adjustment param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The end date of the adjustment interval. This is the date that the adjustment
 	// will stop affecting prices on the subscription.
 	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
@@ -5793,7 +5793,7 @@ func (r SubscriptionNewParamsAddAdjustment) MarshalJSON() (data []byte, err erro
 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionNewParamsAddAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                      `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -5930,13 +5930,13 @@ func (r SubscriptionNewParamsAddPrice) MarshalJSON() (data []byte, err error) {
 // New subscription price request body params.
 type SubscriptionNewParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6053,15 +6053,15 @@ type SubscriptionNewParamsAddPricesPriceUnion interface {
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6111,9 +6111,9 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPrice) 
 // Configuration for bulk_with_filters pricing
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -6123,9 +6123,9 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBu
 // Configuration for a single property filter
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -6135,7 +6135,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBu
 // Configuration for a single bulk pricing tier
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -6180,7 +6180,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceMo
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                         `json:"unit_config"`
 }
@@ -6216,15 +6216,15 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCo
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6310,7 +6310,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPri
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -6320,9 +6320,9 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPri
 // Configuration for a single tiered with proration tier
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -6330,7 +6330,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPri
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                           `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                             `json:"unit_config"`
 }
@@ -6366,15 +6366,15 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPri
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6444,13 +6444,13 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 // Configuration for grouped_with_min_max_thresholds pricing
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -6473,7 +6473,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                     `json:"unit_config"`
 }
@@ -6509,15 +6509,15 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6587,13 +6587,13 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAlloc
 // Configuration for cumulative_grouped_allocation pricing
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -6616,7 +6616,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAlloc
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                     `json:"unit_config"`
 }
@@ -6652,15 +6652,15 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAlloc
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6745,7 +6745,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceM
 // Configuration for percent pricing
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -6753,7 +6753,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceP
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                        `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                          `json:"unit_config"`
 }
@@ -6789,15 +6789,15 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceC
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6867,7 +6867,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenc
 // Configuration for event_output pricing
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -6897,7 +6897,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceModelT
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                     `json:"unit_config"`
 }
@@ -7014,7 +7014,7 @@ func (r SubscriptionNewParamsExternalMarketplace) IsKnown() bool {
 
 type SubscriptionNewParamsRemoveAdjustment struct {
 	// The id of the adjustment to remove on the subscription.
-	AdjustmentID param.Field[string] `json:"adjustment_id,required"`
+	AdjustmentID param.Field[string] `json:"adjustment_id" api:"required"`
 }
 
 func (r SubscriptionNewParamsRemoveAdjustment) MarshalJSON() (data []byte, err error) {
@@ -7034,9 +7034,9 @@ func (r SubscriptionNewParamsRemovePrice) MarshalJSON() (data []byte, err error)
 
 type SubscriptionNewParamsReplaceAdjustment struct {
 	// The definition of a new adjustment to create and add to the subscription.
-	Adjustment param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The id of the adjustment on the plan to replace in the subscription.
-	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id,required"`
+	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustment) MarshalJSON() (data []byte, err error) {
@@ -7045,7 +7045,7 @@ func (r SubscriptionNewParamsReplaceAdjustment) MarshalJSON() (data []byte, err 
 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionNewParamsReplaceAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                          `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -7138,7 +7138,7 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentPriceType) IsKnown() bo
 
 type SubscriptionNewParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
-	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	ReplacesPriceID param.Field[string] `json:"replaces_price_id" api:"required"`
 	// The definition of a new allocation price to create and add to the subscription.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
@@ -7176,13 +7176,13 @@ func (r SubscriptionNewParamsReplacePrice) MarshalJSON() (data []byte, err error
 // New subscription price request body params.
 type SubscriptionNewParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7300,15 +7300,15 @@ type SubscriptionNewParamsReplacePricesPriceUnion interface {
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7358,9 +7358,9 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 // Configuration for bulk_with_filters pricing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -7370,9 +7370,9 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 // Configuration for a single property filter
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -7382,7 +7382,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 // Configuration for a single bulk pricing tier
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -7427,7 +7427,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                           `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                             `json:"unit_config"`
 }
@@ -7463,15 +7463,15 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7557,7 +7557,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProratio
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -7567,9 +7567,9 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProratio
 // Configuration for a single tiered with proration tier
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -7577,7 +7577,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProratio
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                               `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                 `json:"unit_config"`
 }
@@ -7613,15 +7613,15 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProratio
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7691,13 +7691,13 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 // Configuration for grouped_with_min_max_thresholds pricing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -7720,7 +7720,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                         `json:"unit_config"`
 }
@@ -7756,15 +7756,15 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7834,13 +7834,13 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedA
 // Configuration for cumulative_grouped_allocation pricing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -7863,7 +7863,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedA
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                         `json:"unit_config"`
 }
@@ -7899,15 +7899,15 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedA
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7992,7 +7992,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePr
 // Configuration for percent pricing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -8000,7 +8000,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePr
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                              `json:"unit_config"`
 }
@@ -8036,15 +8036,15 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePr
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8114,7 +8114,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCa
 // Configuration for event_output pricing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -8144,7 +8144,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceMo
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                         `json:"unit_config"`
 }
@@ -8313,7 +8313,7 @@ func (r SubscriptionListParamsStatus) IsKnown() bool {
 
 type SubscriptionCancelParams struct {
 	// Determines the timing of subscription cancellation
-	CancelOption param.Field[SubscriptionCancelParamsCancelOption] `json:"cancel_option,required"`
+	CancelOption param.Field[SubscriptionCancelParamsCancelOption] `json:"cancel_option" api:"required"`
 	// If false, this request will fail if it would void an issued invoice or create a
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
@@ -8499,7 +8499,7 @@ func (r SubscriptionPriceIntervalsParams) MarshalJSON() (data []byte, err error)
 type SubscriptionPriceIntervalsParamsAdd struct {
 	// The start date of the price interval. This is the date that the price will start
 	// billing on the subscription.
-	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDateUnion] `json:"start_date,required" format:"date-time"`
+	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDateUnion] `json:"start_date" api:"required" format:"date-time"`
 	// The definition of a new allocation price to create and add to the subscription.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// If true, an in-arrears price interval ending mid-cycle will defer billing the
@@ -8555,7 +8555,7 @@ type SubscriptionPriceIntervalsParamsAddStartDateUnion interface {
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscount struct {
-	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[float64] `json:"amount_discount"`
 	// Only available if discount_type is `percentage`. This is a number between 0
@@ -8584,8 +8584,8 @@ type SubscriptionPriceIntervalsParamsAddDiscountUnion interface {
 
 type SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[float64]                                                                              `json:"amount_discount,required"`
-	DiscountType   param.Field[SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountType] `json:"discount_type,required"`
+	AmountDiscount param.Field[float64]                                                                              `json:"amount_discount" api:"required"`
+	DiscountType   param.Field[SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountType] `json:"discount_type" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams) MarshalJSON() (data []byte, err error) {
@@ -8610,10 +8610,10 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams struct {
-	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
+	PercentageDiscount param.Field[float64] `json:"percentage_discount" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams) MarshalJSON() (data []byte, err error) {
@@ -8638,10 +8638,10 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationPa
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams struct {
-	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for.
-	UsageDiscount param.Field[float64] `json:"usage_discount,required"`
+	UsageDiscount param.Field[float64] `json:"usage_discount" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams) MarshalJSON() (data []byte, err error) {
@@ -8691,9 +8691,9 @@ type SubscriptionPriceIntervalsParamsAddEndDateUnion interface {
 
 type SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
-	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date-time"`
+	EffectiveDate param.Field[time.Time] `json:"effective_date" api:"required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
-	Quantity param.Field[int64] `json:"quantity,required"`
+	Quantity param.Field[int64] `json:"quantity" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJSON() (data []byte, err error) {
@@ -8703,15 +8703,15 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 // New floating price request body params.
 type SubscriptionPriceIntervalsParamsAddPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8823,17 +8823,17 @@ type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8877,9 +8877,9 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPrice)
 // Configuration for bulk_with_filters pricing
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -8889,9 +8889,9 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceB
 // Configuration for a single property filter
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -8901,7 +8901,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceB
 // Configuration for a single bulk pricing tier
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -8946,7 +8946,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceM
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                        `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                          `json:"unit_config"`
 }
@@ -8982,17 +8982,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceC
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9056,13 +9056,13 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 // Configuration for grouped_with_min_max_thresholds pricing
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -9085,7 +9085,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                      `json:"unit_config"`
 }
@@ -9121,17 +9121,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9195,13 +9195,13 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllo
 // Configuration for cumulative_grouped_allocation pricing
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -9224,7 +9224,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllo
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                      `json:"unit_config"`
 }
@@ -9260,17 +9260,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllo
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9349,7 +9349,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice
 // Configuration for percent pricing
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -9357,7 +9357,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                           `json:"unit_config"`
 }
@@ -9393,17 +9393,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9467,7 +9467,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCaden
 // Configuration for event_output pricing
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -9497,7 +9497,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceModel
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                      `json:"unit_config"`
 }
@@ -9601,7 +9601,7 @@ type SubscriptionPriceIntervalsParamsAddAdjustment struct {
 	// will start affecting prices on the subscription. The adjustment will apply to
 	// invoice dates that overlap with this `start_date`. This `start_date` is treated
 	// as inclusive for in-advance prices, and exclusive for in-arrears prices.
-	StartDate param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion] `json:"start_date,required" format:"date-time"`
+	StartDate param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion] `json:"start_date" api:"required" format:"date-time"`
 	// The definition of a new adjustment to create and add to the subscription.
 	Adjustment param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment"`
 	// The ID of the adjustment to add to the subscription. Adjustment IDs can be
@@ -9631,7 +9631,7 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion interface {
 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                                 `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -9734,7 +9734,7 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion interface {
 
 type SubscriptionPriceIntervalsParamsEdit struct {
 	// The id of the price interval to edit.
-	PriceIntervalID param.Field[string] `json:"price_interval_id,required"`
+	PriceIntervalID param.Field[string] `json:"price_interval_id" api:"required"`
 	// The updated billing cycle day for this price interval. If not specified, the
 	// billing cycle day will not be updated. Note that overlapping price intervals
 	// must have the same billing cycle day.
@@ -9784,9 +9784,9 @@ type SubscriptionPriceIntervalsParamsEditEndDateUnion interface {
 
 type SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
-	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date-time"`
+	EffectiveDate param.Field[time.Time] `json:"effective_date" api:"required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
-	Quantity param.Field[int64] `json:"quantity,required"`
+	Quantity param.Field[int64] `json:"quantity" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition) MarshalJSON() (data []byte, err error) {
@@ -9803,7 +9803,7 @@ type SubscriptionPriceIntervalsParamsEditStartDateUnion interface {
 
 type SubscriptionPriceIntervalsParamsEditAdjustment struct {
 	// The id of the adjustment interval to edit.
-	AdjustmentIntervalID param.Field[string] `json:"adjustment_interval_id,required"`
+	AdjustmentIntervalID param.Field[string] `json:"adjustment_interval_id" api:"required"`
 	// The updated end date of this adjustment interval. If not specified, the end date
 	// will not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion] `json:"end_date" format:"date-time"`
@@ -9833,7 +9833,7 @@ type SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion interface {
 }
 
 type SubscriptionRedeemCouponParams struct {
-	ChangeOption param.Field[SubscriptionRedeemCouponParamsChangeOption] `json:"change_option,required"`
+	ChangeOption param.Field[SubscriptionRedeemCouponParamsChangeOption] `json:"change_option" api:"required"`
 	// If false, this request will fail if it would void an issued invoice or create a
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
@@ -9868,7 +9868,7 @@ func (r SubscriptionRedeemCouponParamsChangeOption) IsKnown() bool {
 }
 
 type SubscriptionSchedulePlanChangeParams struct {
-	ChangeOption param.Field[SubscriptionSchedulePlanChangeParamsChangeOption] `json:"change_option,required"`
+	ChangeOption param.Field[SubscriptionSchedulePlanChangeParamsChangeOption] `json:"change_option" api:"required"`
 	// Additional adjustments to be added to the subscription. (Only available for
 	// accounts that have migrated off of legacy subscription overrides)
 	AddAdjustments param.Field[[]SubscriptionSchedulePlanChangeParamsAddAdjustment] `json:"add_adjustments"`
@@ -9974,7 +9974,7 @@ func (r SubscriptionSchedulePlanChangeParamsChangeOption) IsKnown() bool {
 
 type SubscriptionSchedulePlanChangeParamsAddAdjustment struct {
 	// The definition of a new adjustment to create and add to the subscription.
-	Adjustment param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The end date of the adjustment interval. This is the date that the adjustment
 	// will stop affecting prices on the subscription.
 	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
@@ -9992,7 +9992,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustment) MarshalJSON() (data [
 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                                     `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -10129,13 +10129,13 @@ func (r SubscriptionSchedulePlanChangeParamsAddPrice) MarshalJSON() (data []byte
 // New subscription price request body params.
 type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10253,15 +10253,15 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion interface {
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10311,9 +10311,9 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 // Configuration for bulk_with_filters pricing
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -10323,9 +10323,9 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 // Configuration for a single property filter
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -10335,7 +10335,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 // Configuration for a single bulk pricing tier
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -10380,7 +10380,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                        `json:"unit_config"`
 }
@@ -10416,15 +10416,15 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10510,7 +10510,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -10520,9 +10520,9 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 // Configuration for a single tiered with proration tier
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -10530,7 +10530,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                            `json:"unit_config"`
 }
@@ -10566,15 +10566,15 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10644,13 +10644,13 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 // Configuration for grouped_with_min_max_thresholds pricing
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -10673,7 +10673,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                    `json:"unit_config"`
 }
@@ -10709,15 +10709,15 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10787,13 +10787,13 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulat
 // Configuration for cumulative_grouped_allocation pricing
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -10816,7 +10816,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulat
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                    `json:"unit_config"`
 }
@@ -10852,15 +10852,15 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulat
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10945,7 +10945,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercent
 // Configuration for percent pricing
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -10953,7 +10953,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercent
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                         `json:"unit_config"`
 }
@@ -10989,15 +10989,15 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercent
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11067,7 +11067,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOu
 // Configuration for event_output pricing
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -11097,7 +11097,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOu
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                    `json:"unit_config"`
 }
@@ -11217,7 +11217,7 @@ func (r SubscriptionSchedulePlanChangeParamsBillingCycleAlignment) IsKnown() boo
 
 type SubscriptionSchedulePlanChangeParamsRemoveAdjustment struct {
 	// The id of the adjustment to remove on the subscription.
-	AdjustmentID param.Field[string] `json:"adjustment_id,required"`
+	AdjustmentID param.Field[string] `json:"adjustment_id" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsRemoveAdjustment) MarshalJSON() (data []byte, err error) {
@@ -11237,9 +11237,9 @@ func (r SubscriptionSchedulePlanChangeParamsRemovePrice) MarshalJSON() (data []b
 
 type SubscriptionSchedulePlanChangeParamsReplaceAdjustment struct {
 	// The definition of a new adjustment to create and add to the subscription.
-	Adjustment param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	Adjustment param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment" api:"required"`
 	// The id of the adjustment on the plan to replace in the subscription.
-	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id,required"`
+	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustment) MarshalJSON() (data []byte, err error) {
@@ -11248,7 +11248,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustment) MarshalJSON() (da
 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustment struct {
-	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type" api:"required"`
 	AmountDiscount param.Field[string]                                                                         `json:"amount_discount"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll      param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
@@ -11341,7 +11341,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentPriceTyp
 
 type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
-	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	ReplacesPriceID param.Field[string] `json:"replaces_price_id" api:"required"`
 	// The definition of a new allocation price to create and add to the subscription.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
@@ -11379,13 +11379,13 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePrice) MarshalJSON() (data []
 // New subscription price request body params.
 type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11503,15 +11503,15 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion interface {
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11561,9 +11561,9 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 // Configuration for bulk_with_filters pricing
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -11573,9 +11573,9 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 // Configuration for a single property filter
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -11585,7 +11585,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 // Configuration for a single bulk pricing tier
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -11630,7 +11630,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                            `json:"unit_config"`
 }
@@ -11666,15 +11666,15 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11760,7 +11760,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -11770,9 +11770,9 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 // Configuration for a single tiered with proration tier
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -11780,7 +11780,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                              `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                `json:"unit_config"`
 }
@@ -11816,15 +11816,15 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11894,13 +11894,13 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 // Configuration for grouped_with_min_max_thresholds pricing
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -11923,7 +11923,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                        `json:"unit_config"`
 }
@@ -11959,15 +11959,15 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12037,13 +12037,13 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCum
 // Configuration for cumulative_grouped_allocation pricing
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -12066,7 +12066,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCum
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                        `json:"unit_config"`
 }
@@ -12102,15 +12102,15 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCum
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12195,7 +12195,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPer
 // Configuration for percent pricing
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -12203,7 +12203,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPer
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                           `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                             `json:"unit_config"`
 }
@@ -12239,15 +12239,15 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPer
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12317,7 +12317,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEve
 // Configuration for event_output pricing
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -12347,7 +12347,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEve
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                        `json:"unit_config"`
 }
@@ -12462,7 +12462,7 @@ func (r SubscriptionTriggerPhaseParams) MarshalJSON() (data []byte, err error) {
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesParams struct {
 	// Price for which the updates should be cleared. Must be a fixed fee.
-	PriceID param.Field[string] `json:"price_id,required"`
+	PriceID param.Field[string] `json:"price_id" api:"required"`
 }
 
 func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesParams) MarshalJSON() (data []byte, err error) {
@@ -12471,8 +12471,8 @@ func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesParams) MarshalJSON() (data
 
 type SubscriptionUpdateFixedFeeQuantityParams struct {
 	// Price for which the quantity should be updated. Must be a fixed fee.
-	PriceID  param.Field[string]  `json:"price_id,required"`
-	Quantity param.Field[float64] `json:"quantity,required"`
+	PriceID  param.Field[string]  `json:"price_id" api:"required"`
+	Quantity param.Field[float64] `json:"quantity" api:"required"`
 	// If false, this request will fail if it would void an issued invoice or create a
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
@@ -12513,7 +12513,7 @@ func (r SubscriptionUpdateFixedFeeQuantityParamsChangeOption) IsKnown() bool {
 type SubscriptionUpdateTrialParams struct {
 	// The new date that the trial should end, or the literal string `immediate` to end
 	// the trial immediately.
-	TrialEndDate param.Field[SubscriptionUpdateTrialParamsTrialEndDateUnion] `json:"trial_end_date,required" format:"date-time"`
+	TrialEndDate param.Field[SubscriptionUpdateTrialParamsTrialEndDateUnion] `json:"trial_end_date" api:"required" format:"date-time"`
 	// If true, shifts subsequent price and adjustment intervals (preserving their
 	// durations, but adjusting their absolute dates).
 	Shift param.Field[bool] `json:"shift"`

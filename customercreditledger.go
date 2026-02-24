@@ -672,10 +672,10 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 }
 
 type AffectedBlock struct {
-	ID               string                `json:"id,required"`
-	ExpiryDate       time.Time             `json:"expiry_date,required,nullable" format:"date-time"`
-	Filters          []AffectedBlockFilter `json:"filters,required"`
-	PerUnitCostBasis string                `json:"per_unit_cost_basis,required,nullable"`
+	ID               string                `json:"id" api:"required"`
+	ExpiryDate       time.Time             `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters          []AffectedBlockFilter `json:"filters" api:"required"`
+	PerUnitCostBasis string                `json:"per_unit_cost_basis" api:"required,nullable"`
 	JSON             affectedBlockJSON     `json:"-"`
 }
 
@@ -699,11 +699,11 @@ func (r affectedBlockJSON) RawJSON() string {
 
 type AffectedBlockFilter struct {
 	// The property of the price to filter on.
-	Field AffectedBlockFiltersField `json:"field,required"`
+	Field AffectedBlockFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator AffectedBlockFiltersOperator `json:"operator,required"`
+	Operator AffectedBlockFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                `json:"values,required"`
+	Values []string                `json:"values" api:"required"`
 	JSON   affectedBlockFilterJSON `json:"-"`
 }
 
@@ -761,23 +761,23 @@ func (r AffectedBlockFiltersOperator) IsKnown() bool {
 }
 
 type AmendmentLedgerEntry struct {
-	ID                   string                          `json:"id,required"`
-	Amount               float64                         `json:"amount,required"`
-	CreatedAt            time.Time                       `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                   `json:"credit_block,required"`
-	Currency             string                          `json:"currency,required"`
-	Customer             shared.CustomerMinified         `json:"customer,required"`
-	Description          string                          `json:"description,required,nullable"`
-	EndingBalance        float64                         `json:"ending_balance,required"`
-	EntryStatus          AmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            AmendmentLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                           `json:"ledger_sequence_number,required"`
+	ID                   string                          `json:"id" api:"required"`
+	Amount               float64                         `json:"amount" api:"required"`
+	CreatedAt            time.Time                       `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                   `json:"credit_block" api:"required"`
+	Currency             string                          `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified         `json:"customer" api:"required"`
+	Description          string                          `json:"description" api:"required,nullable"`
+	EndingBalance        float64                         `json:"ending_balance" api:"required"`
+	EntryStatus          AmendmentLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            AmendmentLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                           `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string        `json:"metadata,required"`
-	StartingBalance float64                  `json:"starting_balance,required"`
+	Metadata        map[string]string        `json:"metadata" api:"required"`
+	StartingBalance float64                  `json:"starting_balance" api:"required"`
 	JSON            amendmentLedgerEntryJSON `json:"-"`
 }
 
@@ -847,23 +847,23 @@ func (r AmendmentLedgerEntryEntryType) IsKnown() bool {
 }
 
 type CreditBlockExpiryLedgerEntry struct {
-	ID                   string                                  `json:"id,required"`
-	Amount               float64                                 `json:"amount,required"`
-	CreatedAt            time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                           `json:"credit_block,required"`
-	Currency             string                                  `json:"currency,required"`
-	Customer             shared.CustomerMinified                 `json:"customer,required"`
-	Description          string                                  `json:"description,required,nullable"`
-	EndingBalance        float64                                 `json:"ending_balance,required"`
-	EntryStatus          CreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                   `json:"ledger_sequence_number,required"`
+	ID                   string                                  `json:"id" api:"required"`
+	Amount               float64                                 `json:"amount" api:"required"`
+	CreatedAt            time.Time                               `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                           `json:"credit_block" api:"required"`
+	Currency             string                                  `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                 `json:"customer" api:"required"`
+	Description          string                                  `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                 `json:"ending_balance" api:"required"`
+	EntryStatus          CreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            CreditBlockExpiryLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                   `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string                `json:"metadata,required"`
-	StartingBalance float64                          `json:"starting_balance,required"`
+	Metadata        map[string]string                `json:"metadata" api:"required"`
+	StartingBalance float64                          `json:"starting_balance" api:"required"`
 	JSON            creditBlockExpiryLedgerEntryJSON `json:"-"`
 }
 
@@ -933,26 +933,26 @@ func (r CreditBlockExpiryLedgerEntryEntryType) IsKnown() bool {
 }
 
 type DecrementLedgerEntry struct {
-	ID                   string                          `json:"id,required"`
-	Amount               float64                         `json:"amount,required"`
-	CreatedAt            time.Time                       `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                   `json:"credit_block,required"`
-	Currency             string                          `json:"currency,required"`
-	Customer             shared.CustomerMinified         `json:"customer,required"`
-	Description          string                          `json:"description,required,nullable"`
-	EndingBalance        float64                         `json:"ending_balance,required"`
-	EntryStatus          DecrementLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            DecrementLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                           `json:"ledger_sequence_number,required"`
+	ID                   string                          `json:"id" api:"required"`
+	Amount               float64                         `json:"amount" api:"required"`
+	CreatedAt            time.Time                       `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                   `json:"credit_block" api:"required"`
+	Currency             string                          `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified         `json:"customer" api:"required"`
+	Description          string                          `json:"description" api:"required,nullable"`
+	EndingBalance        float64                         `json:"ending_balance" api:"required"`
+	EntryStatus          DecrementLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            DecrementLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                           `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string        `json:"metadata,required"`
-	StartingBalance float64                  `json:"starting_balance,required"`
-	EventID         string                   `json:"event_id,nullable"`
-	InvoiceID       string                   `json:"invoice_id,nullable"`
-	PriceID         string                   `json:"price_id,nullable"`
+	Metadata        map[string]string        `json:"metadata" api:"required"`
+	StartingBalance float64                  `json:"starting_balance" api:"required"`
+	EventID         string                   `json:"event_id" api:"nullable"`
+	InvoiceID       string                   `json:"invoice_id" api:"nullable"`
+	PriceID         string                   `json:"price_id" api:"nullable"`
 	JSON            decrementLedgerEntryJSON `json:"-"`
 }
 
@@ -1025,24 +1025,24 @@ func (r DecrementLedgerEntryEntryType) IsKnown() bool {
 }
 
 type ExpirationChangeLedgerEntry struct {
-	ID                   string                                 `json:"id,required"`
-	Amount               float64                                `json:"amount,required"`
-	CreatedAt            time.Time                              `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                          `json:"credit_block,required"`
-	Currency             string                                 `json:"currency,required"`
-	Customer             shared.CustomerMinified                `json:"customer,required"`
-	Description          string                                 `json:"description,required,nullable"`
-	EndingBalance        float64                                `json:"ending_balance,required"`
-	EntryStatus          ExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            ExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                  `json:"ledger_sequence_number,required"`
+	ID                   string                                 `json:"id" api:"required"`
+	Amount               float64                                `json:"amount" api:"required"`
+	CreatedAt            time.Time                              `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                          `json:"credit_block" api:"required"`
+	Currency             string                                 `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                `json:"customer" api:"required"`
+	Description          string                                 `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                `json:"ending_balance" api:"required"`
+	EntryStatus          ExpirationChangeLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            ExpirationChangeLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                  `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata           map[string]string               `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                       `json:"new_block_expiry_date,required,nullable" format:"date-time"`
-	StartingBalance    float64                         `json:"starting_balance,required"`
+	Metadata           map[string]string               `json:"metadata" api:"required"`
+	NewBlockExpiryDate time.Time                       `json:"new_block_expiry_date" api:"required,nullable" format:"date-time"`
+	StartingBalance    float64                         `json:"starting_balance" api:"required"`
 	JSON               expirationChangeLedgerEntryJSON `json:"-"`
 }
 
@@ -1113,25 +1113,25 @@ func (r ExpirationChangeLedgerEntryEntryType) IsKnown() bool {
 }
 
 type IncrementLedgerEntry struct {
-	ID                   string                          `json:"id,required"`
-	Amount               float64                         `json:"amount,required"`
-	CreatedAt            time.Time                       `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                   `json:"credit_block,required"`
-	Currency             string                          `json:"currency,required"`
-	Customer             shared.CustomerMinified         `json:"customer,required"`
-	Description          string                          `json:"description,required,nullable"`
-	EndingBalance        float64                         `json:"ending_balance,required"`
-	EntryStatus          IncrementLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            IncrementLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                           `json:"ledger_sequence_number,required"`
+	ID                   string                          `json:"id" api:"required"`
+	Amount               float64                         `json:"amount" api:"required"`
+	CreatedAt            time.Time                       `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                   `json:"credit_block" api:"required"`
+	Currency             string                          `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified         `json:"customer" api:"required"`
+	Description          string                          `json:"description" api:"required,nullable"`
+	EndingBalance        float64                         `json:"ending_balance" api:"required"`
+	EntryStatus          IncrementLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            IncrementLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                           `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string `json:"metadata,required"`
-	StartingBalance float64           `json:"starting_balance,required"`
+	Metadata        map[string]string `json:"metadata" api:"required"`
+	StartingBalance float64           `json:"starting_balance" api:"required"`
 	// If the increment resulted in invoice creation, the list of created invoices
-	CreatedInvoices []shared.Invoice         `json:"created_invoices,nullable"`
+	CreatedInvoices []shared.Invoice         `json:"created_invoices" api:"nullable"`
 	JSON            incrementLedgerEntryJSON `json:"-"`
 }
 
@@ -1202,26 +1202,26 @@ func (r IncrementLedgerEntryEntryType) IsKnown() bool {
 }
 
 type VoidInitiatedLedgerEntry struct {
-	ID                   string                              `json:"id,required"`
-	Amount               float64                             `json:"amount,required"`
-	CreatedAt            time.Time                           `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                       `json:"credit_block,required"`
-	Currency             string                              `json:"currency,required"`
-	Customer             shared.CustomerMinified             `json:"customer,required"`
-	Description          string                              `json:"description,required,nullable"`
-	EndingBalance        float64                             `json:"ending_balance,required"`
-	EntryStatus          VoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            VoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                               `json:"ledger_sequence_number,required"`
+	ID                   string                              `json:"id" api:"required"`
+	Amount               float64                             `json:"amount" api:"required"`
+	CreatedAt            time.Time                           `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                       `json:"credit_block" api:"required"`
+	Currency             string                              `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified             `json:"customer" api:"required"`
+	Description          string                              `json:"description" api:"required,nullable"`
+	EndingBalance        float64                             `json:"ending_balance" api:"required"`
+	EntryStatus          VoidInitiatedLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            VoidInitiatedLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                               `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata           map[string]string            `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                    `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance    float64                      `json:"starting_balance,required"`
-	VoidAmount         float64                      `json:"void_amount,required"`
-	VoidReason         string                       `json:"void_reason,required,nullable"`
+	Metadata           map[string]string            `json:"metadata" api:"required"`
+	NewBlockExpiryDate time.Time                    `json:"new_block_expiry_date" api:"required" format:"date-time"`
+	StartingBalance    float64                      `json:"starting_balance" api:"required"`
+	VoidAmount         float64                      `json:"void_amount" api:"required"`
+	VoidReason         string                       `json:"void_reason" api:"required,nullable"`
 	JSON               voidInitiatedLedgerEntryJSON `json:"-"`
 }
 
@@ -1294,25 +1294,25 @@ func (r VoidInitiatedLedgerEntryEntryType) IsKnown() bool {
 }
 
 type VoidLedgerEntry struct {
-	ID                   string                     `json:"id,required"`
-	Amount               float64                    `json:"amount,required"`
-	CreatedAt            time.Time                  `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock              `json:"credit_block,required"`
-	Currency             string                     `json:"currency,required"`
-	Customer             shared.CustomerMinified    `json:"customer,required"`
-	Description          string                     `json:"description,required,nullable"`
-	EndingBalance        float64                    `json:"ending_balance,required"`
-	EntryStatus          VoidLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            VoidLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                      `json:"ledger_sequence_number,required"`
+	ID                   string                     `json:"id" api:"required"`
+	Amount               float64                    `json:"amount" api:"required"`
+	CreatedAt            time.Time                  `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock              `json:"credit_block" api:"required"`
+	Currency             string                     `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified    `json:"customer" api:"required"`
+	Description          string                     `json:"description" api:"required,nullable"`
+	EndingBalance        float64                    `json:"ending_balance" api:"required"`
+	EntryStatus          VoidLedgerEntryEntryStatus `json:"entry_status" api:"required"`
+	EntryType            VoidLedgerEntryEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                      `json:"ledger_sequence_number" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string   `json:"metadata,required"`
-	StartingBalance float64             `json:"starting_balance,required"`
-	VoidAmount      float64             `json:"void_amount,required"`
-	VoidReason      string              `json:"void_reason,required,nullable"`
+	Metadata        map[string]string   `json:"metadata" api:"required"`
+	StartingBalance float64             `json:"starting_balance" api:"required"`
+	VoidAmount      float64             `json:"void_amount" api:"required"`
+	VoidReason      string              `json:"void_reason" api:"required,nullable"`
 	JSON            voidLedgerEntryJSON `json:"-"`
 }
 
@@ -1385,28 +1385,28 @@ func (r VoidLedgerEntryEntryType) IsKnown() bool {
 // The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
 // credits within Orb.
 type CustomerCreditLedgerListResponse struct {
-	ID                   string                                      `json:"id,required"`
-	Amount               float64                                     `json:"amount,required"`
-	CreatedAt            time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                               `json:"credit_block,required"`
-	Currency             string                                      `json:"currency,required"`
-	Customer             shared.CustomerMinified                     `json:"customer,required"`
-	Description          string                                      `json:"description,required,nullable"`
-	EndingBalance        float64                                     `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerListResponseEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerListResponseEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number,required"`
+	ID                   string                                      `json:"id" api:"required"`
+	Amount               float64                                     `json:"amount" api:"required"`
+	CreatedAt            time.Time                                   `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                               `json:"credit_block" api:"required"`
+	Currency             string                                      `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                     `json:"customer" api:"required"`
+	Description          string                                      `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                     `json:"ending_balance" api:"required"`
+	EntryStatus          CustomerCreditLedgerListResponseEntryStatus `json:"entry_status" api:"required"`
+	EntryType            CustomerCreditLedgerListResponseEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number" api:"required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata        interface{} `json:"metadata,required"`
-	StartingBalance float64     `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata" api:"required"`
+	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
 	CreatedInvoices    interface{}                          `json:"created_invoices"`
-	EventID            string                               `json:"event_id,nullable"`
-	InvoiceID          string                               `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date,nullable" format:"date-time"`
-	PriceID            string                               `json:"price_id,nullable"`
+	EventID            string                               `json:"event_id" api:"nullable"`
+	InvoiceID          string                               `json:"invoice_id" api:"nullable"`
+	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
+	PriceID            string                               `json:"price_id" api:"nullable"`
 	VoidAmount         float64                              `json:"void_amount"`
-	VoidReason         string                               `json:"void_reason,nullable"`
+	VoidReason         string                               `json:"void_reason" api:"nullable"`
 	JSON               customerCreditLedgerListResponseJSON `json:"-"`
 	union              CustomerCreditLedgerListResponseUnion
 }
@@ -1552,28 +1552,28 @@ func (r CustomerCreditLedgerListResponseEntryType) IsKnown() bool {
 // The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
 // credits within Orb.
 type CustomerCreditLedgerNewEntryResponse struct {
-	ID                   string                                          `json:"id,required"`
-	Amount               float64                                         `json:"amount,required"`
-	CreatedAt            time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                                   `json:"credit_block,required"`
-	Currency             string                                          `json:"currency,required"`
-	Customer             shared.CustomerMinified                         `json:"customer,required"`
-	Description          string                                          `json:"description,required,nullable"`
-	EndingBalance        float64                                         `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryResponseEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryResponseEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number,required"`
+	ID                   string                                          `json:"id" api:"required"`
+	Amount               float64                                         `json:"amount" api:"required"`
+	CreatedAt            time.Time                                       `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                                   `json:"credit_block" api:"required"`
+	Currency             string                                          `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                         `json:"customer" api:"required"`
+	Description          string                                          `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                         `json:"ending_balance" api:"required"`
+	EntryStatus          CustomerCreditLedgerNewEntryResponseEntryStatus `json:"entry_status" api:"required"`
+	EntryType            CustomerCreditLedgerNewEntryResponseEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number" api:"required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata        interface{} `json:"metadata,required"`
-	StartingBalance float64     `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata" api:"required"`
+	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
 	CreatedInvoices    interface{}                              `json:"created_invoices"`
-	EventID            string                                   `json:"event_id,nullable"`
-	InvoiceID          string                                   `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date,nullable" format:"date-time"`
-	PriceID            string                                   `json:"price_id,nullable"`
+	EventID            string                                   `json:"event_id" api:"nullable"`
+	InvoiceID          string                                   `json:"invoice_id" api:"nullable"`
+	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
+	PriceID            string                                   `json:"price_id" api:"nullable"`
 	VoidAmount         float64                                  `json:"void_amount"`
-	VoidReason         string                                   `json:"void_reason,nullable"`
+	VoidReason         string                                   `json:"void_reason" api:"nullable"`
 	JSON               customerCreditLedgerNewEntryResponseJSON `json:"-"`
 	union              CustomerCreditLedgerNewEntryResponseUnion
 }
@@ -1719,28 +1719,28 @@ func (r CustomerCreditLedgerNewEntryResponseEntryType) IsKnown() bool {
 // The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
 // credits within Orb.
 type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
-	ID                   string                                                      `json:"id,required"`
-	Amount               float64                                                     `json:"amount,required"`
-	CreatedAt            time.Time                                                   `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                                               `json:"credit_block,required"`
-	Currency             string                                                      `json:"currency,required"`
-	Customer             shared.CustomerMinified                                     `json:"customer,required"`
-	Description          string                                                      `json:"description,required,nullable"`
-	EndingBalance        float64                                                     `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number,required"`
+	ID                   string                                                      `json:"id" api:"required"`
+	Amount               float64                                                     `json:"amount" api:"required"`
+	CreatedAt            time.Time                                                   `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                                               `json:"credit_block" api:"required"`
+	Currency             string                                                      `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                                     `json:"customer" api:"required"`
+	Description          string                                                      `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                                     `json:"ending_balance" api:"required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus `json:"entry_status" api:"required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number" api:"required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata        interface{} `json:"metadata,required"`
-	StartingBalance float64     `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata" api:"required"`
+	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
 	CreatedInvoices    interface{}                                          `json:"created_invoices"`
-	EventID            string                                               `json:"event_id,nullable"`
-	InvoiceID          string                                               `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date,nullable" format:"date-time"`
-	PriceID            string                                               `json:"price_id,nullable"`
+	EventID            string                                               `json:"event_id" api:"nullable"`
+	InvoiceID          string                                               `json:"invoice_id" api:"nullable"`
+	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
+	PriceID            string                                               `json:"price_id" api:"nullable"`
 	VoidAmount         float64                                              `json:"void_amount"`
-	VoidReason         string                                               `json:"void_reason,nullable"`
+	VoidReason         string                                               `json:"void_reason" api:"nullable"`
 	JSON               customerCreditLedgerNewEntryByExternalIDResponseJSON `json:"-"`
 	union              CustomerCreditLedgerNewEntryByExternalIDResponseUnion
 }
@@ -1886,28 +1886,28 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseEntryType) IsKnown() boo
 // The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
 // credits within Orb.
 type CustomerCreditLedgerListByExternalIDResponse struct {
-	ID                   string                                                  `json:"id,required"`
-	Amount               float64                                                 `json:"amount,required"`
-	CreatedAt            time.Time                                               `json:"created_at,required" format:"date-time"`
-	CreditBlock          AffectedBlock                                           `json:"credit_block,required"`
-	Currency             string                                                  `json:"currency,required"`
-	Customer             shared.CustomerMinified                                 `json:"customer,required"`
-	Description          string                                                  `json:"description,required,nullable"`
-	EndingBalance        float64                                                 `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerListByExternalIDResponseEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerListByExternalIDResponseEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number,required"`
+	ID                   string                                                  `json:"id" api:"required"`
+	Amount               float64                                                 `json:"amount" api:"required"`
+	CreatedAt            time.Time                                               `json:"created_at" api:"required" format:"date-time"`
+	CreditBlock          AffectedBlock                                           `json:"credit_block" api:"required"`
+	Currency             string                                                  `json:"currency" api:"required"`
+	Customer             shared.CustomerMinified                                 `json:"customer" api:"required"`
+	Description          string                                                  `json:"description" api:"required,nullable"`
+	EndingBalance        float64                                                 `json:"ending_balance" api:"required"`
+	EntryStatus          CustomerCreditLedgerListByExternalIDResponseEntryStatus `json:"entry_status" api:"required"`
+	EntryType            CustomerCreditLedgerListByExternalIDResponseEntryType   `json:"entry_type" api:"required"`
+	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number" api:"required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata        interface{} `json:"metadata,required"`
-	StartingBalance float64     `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata" api:"required"`
+	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
 	CreatedInvoices    interface{}                                      `json:"created_invoices"`
-	EventID            string                                           `json:"event_id,nullable"`
-	InvoiceID          string                                           `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date,nullable" format:"date-time"`
-	PriceID            string                                           `json:"price_id,nullable"`
+	EventID            string                                           `json:"event_id" api:"nullable"`
+	InvoiceID          string                                           `json:"invoice_id" api:"nullable"`
+	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
+	PriceID            string                                           `json:"price_id" api:"nullable"`
 	VoidAmount         float64                                          `json:"void_amount"`
-	VoidReason         string                                           `json:"void_reason,nullable"`
+	VoidReason         string                                           `json:"void_reason" api:"nullable"`
 	JSON               customerCreditLedgerListByExternalIDResponseJSON `json:"-"`
 	union              CustomerCreditLedgerListByExternalIDResponseUnion
 }
@@ -2124,8 +2124,8 @@ type CustomerCreditLedgerNewEntryParams interface {
 type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                               `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                               `json:"amount" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2180,11 +2180,11 @@ func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestPa
 // A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter struct {
 	// The property of the price the block applies to. Only item_id is supported.
-	Field param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field,required"`
+	Field param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator,required"`
+	Operator param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter) MarshalJSON() (data []byte, err error) {
@@ -2229,7 +2229,7 @@ func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestPa
 type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
-	AutoCollection param.Field[bool] `json:"auto_collection,required"`
+	AutoCollection param.Field[bool] `json:"auto_collection" api:"required"`
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	CustomDueDate param.Field[time.Time] `json:"custom_due_date" format:"date-time"`
@@ -2263,8 +2263,8 @@ func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestPa
 type CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                               `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                               `json:"amount" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2301,11 +2301,11 @@ func (r CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestPa
 }
 
 type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
-	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
-	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date,required" format:"date"`
+	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date" api:"required" format:"date"`
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
 	Amount param.Field[float64] `json:"amount"`
@@ -2352,10 +2352,10 @@ func (r CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRe
 type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount param.Field[float64] `json:"amount,required"`
+	Amount param.Field[float64] `json:"amount" api:"required"`
 	// The ID of the block to void.
-	BlockID   param.Field[string]                                                                           `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                           `json:"block_id" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2411,10 +2411,10 @@ func (r CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsV
 type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement or void operations.
-	Amount param.Field[float64] `json:"amount,required"`
+	Amount param.Field[float64] `json:"amount" api:"required"`
 	// The ID of the block to reverse a decrement from.
-	BlockID   param.Field[string]                                                                                `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                                `json:"block_id" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2463,8 +2463,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParams interface {
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                                           `json:"amount" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2519,11 +2519,11 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEn
 // A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter struct {
 	// The property of the price the block applies to. Only item_id is supported.
-	Field param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field,required"`
+	Field param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator,required"`
+	Operator param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter) MarshalJSON() (data []byte, err error) {
@@ -2568,7 +2568,7 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEn
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
-	AutoCollection param.Field[bool] `json:"auto_collection,required"`
+	AutoCollection param.Field[bool] `json:"auto_collection" api:"required"`
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	CustomDueDate param.Field[time.Time] `json:"custom_due_date" format:"date-time"`
@@ -2602,8 +2602,8 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEn
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                                           `json:"amount" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2640,11 +2640,11 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEn
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
-	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date,required" format:"date"`
+	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date" api:"required" format:"date"`
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
 	Amount param.Field[float64] `json:"amount"`
@@ -2691,10 +2691,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditL
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount param.Field[float64] `json:"amount,required"`
+	Amount param.Field[float64] `json:"amount" api:"required"`
 	// The ID of the block to void.
-	BlockID   param.Field[string]                                                                                       `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                                       `json:"block_id" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`
@@ -2750,10 +2750,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRe
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement or void operations.
-	Amount param.Field[float64] `json:"amount,required"`
+	Amount param.Field[float64] `json:"amount" api:"required"`
 	// The ID of the block to reverse a decrement from.
-	BlockID   param.Field[string]                                                                                            `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                                            `json:"block_id" api:"required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
 	// The currency or custom pricing unit to use for this ledger entry. If this is a
 	// real-world currency, it must match the customer's invoicing currency.
 	Currency param.Field[string] `json:"currency"`

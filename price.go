@@ -210,11 +210,11 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 
 type EvaluatePriceGroup struct {
 	// The price's output for the group
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The values for the group in the order specified by `grouping_keys`
-	GroupingValues []EvaluatePriceGroupGroupingValuesUnion `json:"grouping_values,required"`
+	GroupingValues []EvaluatePriceGroupGroupingValuesUnion `json:"grouping_values" api:"required"`
 	// The price's usage quantity for the group
-	Quantity float64                `json:"quantity,required"`
+	Quantity float64                `json:"quantity" api:"required"`
 	JSON     evaluatePriceGroupJSON `json:"-"`
 }
 
@@ -266,7 +266,7 @@ func init() {
 }
 
 type PriceEvaluateResponse struct {
-	Data []EvaluatePriceGroup      `json:"data,required"`
+	Data []EvaluatePriceGroup      `json:"data" api:"required"`
 	JSON priceEvaluateResponseJSON `json:"-"`
 }
 
@@ -287,7 +287,7 @@ func (r priceEvaluateResponseJSON) RawJSON() string {
 }
 
 type PriceEvaluateMultipleResponse struct {
-	Data []PriceEvaluateMultipleResponseData `json:"data,required"`
+	Data []PriceEvaluateMultipleResponseData `json:"data" api:"required"`
 	JSON priceEvaluateMultipleResponseJSON   `json:"-"`
 }
 
@@ -309,15 +309,15 @@ func (r priceEvaluateMultipleResponseJSON) RawJSON() string {
 
 type PriceEvaluateMultipleResponseData struct {
 	// The currency of the price
-	Currency string `json:"currency,required"`
+	Currency string `json:"currency" api:"required"`
 	// The computed price groups associated with input price.
-	PriceGroups []EvaluatePriceGroup `json:"price_groups,required"`
+	PriceGroups []EvaluatePriceGroup `json:"price_groups" api:"required"`
 	// The external ID of the price
-	ExternalPriceID string `json:"external_price_id,nullable"`
+	ExternalPriceID string `json:"external_price_id" api:"nullable"`
 	// The index of the inline price
-	InlinePriceIndex int64 `json:"inline_price_index,nullable"`
+	InlinePriceIndex int64 `json:"inline_price_index" api:"nullable"`
 	// The ID of the price
-	PriceID string                                `json:"price_id,nullable"`
+	PriceID string                                `json:"price_id" api:"nullable"`
 	JSON    priceEvaluateMultipleResponseDataJSON `json:"-"`
 }
 
@@ -342,7 +342,7 @@ func (r priceEvaluateMultipleResponseDataJSON) RawJSON() string {
 }
 
 type PriceEvaluatePreviewEventsResponse struct {
-	Data []PriceEvaluatePreviewEventsResponseData `json:"data,required"`
+	Data []PriceEvaluatePreviewEventsResponseData `json:"data" api:"required"`
 	JSON priceEvaluatePreviewEventsResponseJSON   `json:"-"`
 }
 
@@ -364,15 +364,15 @@ func (r priceEvaluatePreviewEventsResponseJSON) RawJSON() string {
 
 type PriceEvaluatePreviewEventsResponseData struct {
 	// The currency of the price
-	Currency string `json:"currency,required"`
+	Currency string `json:"currency" api:"required"`
 	// The computed price groups associated with input price.
-	PriceGroups []EvaluatePriceGroup `json:"price_groups,required"`
+	PriceGroups []EvaluatePriceGroup `json:"price_groups" api:"required"`
 	// The external ID of the price
-	ExternalPriceID string `json:"external_price_id,nullable"`
+	ExternalPriceID string `json:"external_price_id" api:"nullable"`
 	// The index of the inline price
-	InlinePriceIndex int64 `json:"inline_price_index,nullable"`
+	InlinePriceIndex int64 `json:"inline_price_index" api:"nullable"`
 	// The ID of the price
-	PriceID string                                     `json:"price_id,nullable"`
+	PriceID string                                     `json:"price_id" api:"nullable"`
 	JSON    priceEvaluatePreviewEventsResponseDataJSON `json:"-"`
 }
 
@@ -432,17 +432,17 @@ type PriceNewParams interface {
 
 type PriceNewParamsNewFloatingUnitPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingUnitPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingUnitPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingUnitPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit pricing
-	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config,required"`
+	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -520,7 +520,7 @@ func (r PriceNewParamsNewFloatingUnitPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingUnitPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                     `json:"unit_config"`
 }
@@ -556,17 +556,17 @@ func (r PriceNewParamsNewFloatingUnitPriceConversionRateConfigConversionRateType
 
 type PriceNewParamsNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered pricing
-	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config,required"`
+	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -644,7 +644,7 @@ func (r PriceNewParamsNewFloatingTieredPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingTieredPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -680,17 +680,17 @@ func (r PriceNewParamsNewFloatingTieredPriceConversionRateConfigConversionRateTy
 
 type PriceNewParamsNewFloatingBulkPrice struct {
 	// Configuration for bulk pricing
-	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config,required"`
+	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBulkPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -768,7 +768,7 @@ func (r PriceNewParamsNewFloatingBulkPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingBulkPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                     `json:"unit_config"`
 }
@@ -804,17 +804,17 @@ func (r PriceNewParamsNewFloatingBulkPriceConversionRateConfigConversionRateType
 
 type PriceNewParamsNewFloatingBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -859,9 +859,9 @@ func (PriceNewParamsNewFloatingBulkWithFiltersPrice) ImplementsPriceNewParams() 
 // Configuration for bulk_with_filters pricing
 type PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -871,9 +871,9 @@ func (r PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig) Mars
 // Configuration for a single property filter
 type PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -883,7 +883,7 @@ func (r PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter
 // Configuration for a single bulk pricing tier
 type PriceNewParamsNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -928,7 +928,7 @@ func (r PriceNewParamsNewFloatingBulkWithFiltersPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                `json:"unit_config"`
 }
@@ -964,17 +964,17 @@ func (r PriceNewParamsNewFloatingBulkWithFiltersPriceConversionRateConfigConvers
 
 type PriceNewParamsNewFloatingPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package pricing
-	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config,required"`
+	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1052,7 +1052,7 @@ func (r PriceNewParamsNewFloatingPackagePriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingPackagePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
@@ -1088,17 +1088,17 @@ func (r PriceNewParamsNewFloatingPackagePriceConversionRateConfigConversionRateT
 
 type PriceNewParamsNewFloatingMatrixPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMatrixPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix pricing
-	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config,required"`
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingMatrixPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingMatrixPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1176,7 +1176,7 @@ func (r PriceNewParamsNewFloatingMatrixPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingMatrixPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -1212,17 +1212,17 @@ func (r PriceNewParamsNewFloatingMatrixPriceConversionRateConfigConversionRateTy
 
 type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for threshold_total_amount pricing
-	ThresholdTotalAmountConfig param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfig] `json:"threshold_total_amount_config,required"`
+	ThresholdTotalAmountConfig param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfig] `json:"threshold_total_amount_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1303,7 +1303,7 @@ func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType) IsKnown() b
 type PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfig struct {
 	// When the quantity consumed passes a provided threshold, the configured total
 	// will be charged
-	ConsumptionTable param.Field[[]PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable] `json:"consumption_table,required"`
+	ConsumptionTable param.Field[[]PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable] `json:"consumption_table" api:"required"`
 	// If true, the unit price will be prorated to the billing period
 	Prorate param.Field[bool] `json:"prorate"`
 }
@@ -1314,9 +1314,9 @@ func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountCo
 
 // Configuration for a single threshold
 type PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable struct {
-	Threshold param.Field[string] `json:"threshold,required"`
+	Threshold param.Field[string] `json:"threshold" api:"required"`
 	// Total amount for this threshold
-	TotalAmount param.Field[string] `json:"total_amount,required"`
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable) MarshalJSON() (data []byte, err error) {
@@ -1324,7 +1324,7 @@ func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceThresholdTotalAmountCo
 }
 
 type PriceNewParamsNewFloatingThresholdTotalAmountPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                     `json:"unit_config"`
 }
@@ -1360,17 +1360,17 @@ func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceConversionRateConfigCo
 
 type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package pricing
-	TieredPackageConfig param.Field[PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfig] `json:"tiered_package_config,required"`
+	TieredPackageConfig param.Field[PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfig] `json:"tiered_package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1449,12 +1449,12 @@ func (r PriceNewParamsNewFloatingTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfig struct {
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
 	// the total quantity rather than the number of packages, so they must be multiples
 	// of the package size.
-	Tiers param.Field[[]PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfig) MarshalJSON() (data []byte, err error) {
@@ -1464,8 +1464,8 @@ func (r PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfig) MarshalJ
 // Configuration for a single tier with business logic
 type PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfigTier struct {
 	// Price per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
@@ -1473,7 +1473,7 @@ func (r PriceNewParamsNewFloatingTieredPackagePriceTieredPackageConfigTier) Mars
 }
 
 type PriceNewParamsNewFloatingTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -1509,17 +1509,17 @@ func (r PriceNewParamsNewFloatingTieredPackagePriceConversionRateConfigConversio
 
 type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_minimum pricing
-	TieredWithMinimumConfig param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfig] `json:"tiered_with_minimum_config,required"`
+	TieredWithMinimumConfig param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfig] `json:"tiered_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1600,7 +1600,7 @@ func (r PriceNewParamsNewFloatingTieredWithMinimumPriceModelType) IsKnown() bool
 type PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfig struct {
 	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
 	// defined using exclusive lower bounds.
-	Tiers param.Field[[]PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTier] `json:"tiers" api:"required"`
 	// If true, tiers with an accrued amount of 0 will not be included in the rating.
 	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
 	// If true, the unit price will be prorated to the billing period
@@ -1613,10 +1613,10 @@ func (r PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfig) 
 
 // Configuration for a single tier
 type PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTier struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
@@ -1624,7 +1624,7 @@ func (r PriceNewParamsNewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTi
 }
 
 type PriceNewParamsNewFloatingTieredWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -1660,17 +1660,17 @@ func (r PriceNewParamsNewFloatingTieredWithMinimumPriceConversionRateConfigConve
 
 type PriceNewParamsNewFloatingGroupedTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedTieredPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_tiered pricing
-	GroupedTieredConfig param.Field[PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfig] `json:"grouped_tiered_config,required"`
+	GroupedTieredConfig param.Field[PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfig] `json:"grouped_tiered_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1735,10 +1735,10 @@ func (r PriceNewParamsNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered pricing
 type PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfig struct {
 	// The billable metric property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Apply tiered pricing to each segment generated after grouping with the provided
 	// key
-	Tiers param.Field[[]PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfig) MarshalJSON() (data []byte, err error) {
@@ -1747,9 +1747,9 @@ func (r PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfig) MarshalJ
 
 // Configuration for a single tier
 type PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfigTier struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedTieredPriceGroupedTieredConfigTier) MarshalJSON() (data []byte, err error) {
@@ -1772,7 +1772,7 @@ func (r PriceNewParamsNewFloatingGroupedTieredPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingGroupedTieredPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -1808,17 +1808,17 @@ func (r PriceNewParamsNewFloatingGroupedTieredPriceConversionRateConfigConversio
 
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package_with_minimum pricing
-	TieredPackageWithMinimumConfig param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig] `json:"tiered_package_with_minimum_config,required"`
+	TieredPackageWithMinimumConfig param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig] `json:"tiered_package_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -1897,10 +1897,10 @@ func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType) IsKnown
 
 // Configuration for tiered_package_with_minimum pricing
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig struct {
-	PackageSize param.Field[float64] `json:"package_size,required"`
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig) MarshalJSON() (data []byte, err error) {
@@ -1909,9 +1909,9 @@ func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithM
 
 // Configuration for a single tier
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
@@ -1919,7 +1919,7 @@ func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceTieredPackageWithM
 }
 
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                         `json:"unit_config"`
 }
@@ -1955,17 +1955,17 @@ func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceConversionRateConf
 
 type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package_with_allocation pricing
-	PackageWithAllocationConfig param.Field[PriceNewParamsNewFloatingPackageWithAllocationPricePackageWithAllocationConfig] `json:"package_with_allocation_config,required"`
+	PackageWithAllocationConfig param.Field[PriceNewParamsNewFloatingPackageWithAllocationPricePackageWithAllocationConfig] `json:"package_with_allocation_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2044,9 +2044,9 @@ func (r PriceNewParamsNewFloatingPackageWithAllocationPriceModelType) IsKnown() 
 
 // Configuration for package_with_allocation pricing
 type PriceNewParamsNewFloatingPackageWithAllocationPricePackageWithAllocationConfig struct {
-	Allocation    param.Field[string] `json:"allocation,required"`
-	PackageAmount param.Field[string] `json:"package_amount,required"`
-	PackageSize   param.Field[string] `json:"package_size,required"`
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingPackageWithAllocationPricePackageWithAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -2054,7 +2054,7 @@ func (r PriceNewParamsNewFloatingPackageWithAllocationPricePackageWithAllocation
 }
 
 type PriceNewParamsNewFloatingPackageWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -2090,17 +2090,17 @@ func (r PriceNewParamsNewFloatingPackageWithAllocationPriceConversionRateConfigC
 
 type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_percent pricing
-	UnitWithPercentConfig param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceUnitWithPercentConfig] `json:"unit_with_percent_config,required"`
+	UnitWithPercentConfig param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceUnitWithPercentConfig] `json:"unit_with_percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2180,9 +2180,9 @@ func (r PriceNewParamsNewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
 // Configuration for unit_with_percent pricing
 type PriceNewParamsNewFloatingUnitWithPercentPriceUnitWithPercentConfig struct {
 	// What percent, out of 100, of the calculated total to charge
-	Percent param.Field[string] `json:"percent,required"`
+	Percent param.Field[string] `json:"percent" api:"required"`
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingUnitWithPercentPriceUnitWithPercentConfig) MarshalJSON() (data []byte, err error) {
@@ -2190,7 +2190,7 @@ func (r PriceNewParamsNewFloatingUnitWithPercentPriceUnitWithPercentConfig) Mars
 }
 
 type PriceNewParamsNewFloatingUnitWithPercentPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                `json:"unit_config"`
 }
@@ -2226,17 +2226,17 @@ func (r PriceNewParamsNewFloatingUnitWithPercentPriceConversionRateConfigConvers
 
 type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_allocation pricing
-	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config,required"`
+	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2314,7 +2314,7 @@ func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType) IsKnown() b
 }
 
 type PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                     `json:"unit_config"`
 }
@@ -2350,17 +2350,17 @@ func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigCo
 
 type PriceNewParamsNewFloatingTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2441,7 +2441,7 @@ func (r PriceNewParamsNewFloatingTieredWithProrationPriceModelType) IsKnown() bo
 type PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -2451,9 +2451,9 @@ func (r PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConf
 // Configuration for a single tiered with proration tier
 type PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
@@ -2461,7 +2461,7 @@ func (r PriceNewParamsNewFloatingTieredWithProrationPriceTieredWithProrationConf
 }
 
 type PriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                    `json:"unit_config"`
 }
@@ -2497,17 +2497,17 @@ func (r PriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfigCon
 
 type PriceNewParamsNewFloatingUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_proration pricing
-	UnitWithProrationConfig param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceUnitWithProrationConfig] `json:"unit_with_proration_config,required"`
+	UnitWithProrationConfig param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceUnitWithProrationConfig] `json:"unit_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2587,7 +2587,7 @@ func (r PriceNewParamsNewFloatingUnitWithProrationPriceModelType) IsKnown() bool
 // Configuration for unit_with_proration pricing
 type PriceNewParamsNewFloatingUnitWithProrationPriceUnitWithProrationConfig struct {
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingUnitWithProrationPriceUnitWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -2595,7 +2595,7 @@ func (r PriceNewParamsNewFloatingUnitWithProrationPriceUnitWithProrationConfig) 
 }
 
 type PriceNewParamsNewFloatingUnitWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -2631,17 +2631,17 @@ func (r PriceNewParamsNewFloatingUnitWithProrationPriceConversionRateConfigConve
 
 type PriceNewParamsNewFloatingGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_allocation pricing
-	GroupedAllocationConfig param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceGroupedAllocationConfig] `json:"grouped_allocation_config,required"`
+	GroupedAllocationConfig param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceGroupedAllocationConfig] `json:"grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2706,11 +2706,11 @@ func (r PriceNewParamsNewFloatingGroupedAllocationPriceCadence) IsKnown() bool {
 // Configuration for grouped_allocation pricing
 type PriceNewParamsNewFloatingGroupedAllocationPriceGroupedAllocationConfig struct {
 	// Usage allocation per group
-	Allocation param.Field[string] `json:"allocation,required"`
+	Allocation param.Field[string] `json:"allocation" api:"required"`
 	// How to determine the groups that should each be allocated some quantity
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Unit rate for post-allocation
-	OverageUnitRate param.Field[string] `json:"overage_unit_rate,required"`
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedAllocationPriceGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -2733,7 +2733,7 @@ func (r PriceNewParamsNewFloatingGroupedAllocationPriceModelType) IsKnown() bool
 }
 
 type PriceNewParamsNewFloatingGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -2769,17 +2769,17 @@ func (r PriceNewParamsNewFloatingGroupedAllocationPriceConversionRateConfigConve
 
 type PriceNewParamsNewFloatingBulkWithProrationPrice struct {
 	// Configuration for bulk_with_proration pricing
-	BulkWithProrationConfig param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfig] `json:"bulk_with_proration_config,required"`
+	BulkWithProrationConfig param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfig] `json:"bulk_with_proration_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2824,7 +2824,7 @@ func (PriceNewParamsNewFloatingBulkWithProrationPrice) ImplementsPriceNewParams(
 // Configuration for bulk_with_proration pricing
 type PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfig) MarshalJSON() (data []byte, err error) {
@@ -2834,7 +2834,7 @@ func (r PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfig) 
 // Configuration for a single bulk pricing tier with proration
 type PriceNewParamsNewFloatingBulkWithProrationPriceBulkWithProrationConfigTier struct {
 	// Cost per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -2879,7 +2879,7 @@ func (r PriceNewParamsNewFloatingBulkWithProrationPriceModelType) IsKnown() bool
 }
 
 type PriceNewParamsNewFloatingBulkWithProrationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -2915,17 +2915,17 @@ func (r PriceNewParamsNewFloatingBulkWithProrationPriceConversionRateConfigConve
 
 type PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_prorated_minimum pricing
-	GroupedWithProratedMinimumConfig param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig] `json:"grouped_with_prorated_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2990,11 +2990,11 @@ func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence) IsKnown
 // Configuration for grouped_with_prorated_minimum pricing
 type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig struct {
 	// How to determine the groups that should each have a minimum
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group
-	Minimum param.Field[string] `json:"minimum,required"`
+	Minimum param.Field[string] `json:"minimum" api:"required"`
 	// The amount to charge per unit
-	UnitRate param.Field[string] `json:"unit_rate,required"`
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig) MarshalJSON() (data []byte, err error) {
@@ -3017,7 +3017,7 @@ func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType) IsKno
 }
 
 type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                         `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                           `json:"unit_config"`
 }
@@ -3053,17 +3053,17 @@ func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceConversionRateCo
 
 type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_metered_minimum pricing
-	GroupedWithMeteredMinimumConfig param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig] `json:"grouped_with_metered_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig] `json:"grouped_with_metered_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3129,18 +3129,18 @@ func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceCadence) IsKnown(
 type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig struct {
 	// Used to partition the usage into groups. The minimum amount is applied to each
 	// group.
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group per unit
-	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount,required"`
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
 	// Used to determine the unit rate
-	PricingKey param.Field[string] `json:"pricing_key,required"`
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
 	// Scale the unit rates by the scaling factor.
-	ScalingFactors param.Field[[]PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor] `json:"scaling_factors,required"`
+	ScalingFactors param.Field[[]PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor] `json:"scaling_factors" api:"required"`
 	// Used to determine the unit rate scaling factor
-	ScalingKey param.Field[string] `json:"scaling_key,required"`
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
 	// Apply per unit pricing to each pricing value. The minimum amount is applied any
 	// unmatched usage.
-	UnitAmounts param.Field[[]PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount] `json:"unit_amounts" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig) MarshalJSON() (data []byte, err error) {
@@ -3149,8 +3149,8 @@ func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMetere
 
 // Configuration for a scaling factor
 type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor struct {
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	ScalingValue  param.Field[string] `json:"scaling_value,required"`
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor) MarshalJSON() (data []byte, err error) {
@@ -3159,9 +3159,9 @@ func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMetere
 
 // Configuration for a unit amount
 type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount struct {
-	PricingValue param.Field[string] `json:"pricing_value,required"`
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount) MarshalJSON() (data []byte, err error) {
@@ -3184,7 +3184,7 @@ func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnow
 }
 
 type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                        `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                          `json:"unit_config"`
 }
@@ -3220,17 +3220,17 @@ func (r PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceConversionRateCon
 
 type PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3295,13 +3295,13 @@ func (r PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceCadence) IsKnow
 // Configuration for grouped_with_min_max_thresholds pricing
 type PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -3324,7 +3324,7 @@ func (r PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceModelType) IsKn
 }
 
 type PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                            `json:"unit_config"`
 }
@@ -3360,17 +3360,17 @@ func (r PriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateC
 
 type PriceNewParamsNewFloatingMatrixWithDisplayNamePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_display_name pricing
-	MatrixWithDisplayNameConfig param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig] `json:"matrix_with_display_name_config,required"`
+	MatrixWithDisplayNameConfig param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig] `json:"matrix_with_display_name_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3435,9 +3435,9 @@ func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceCadence) IsKnown() bo
 // Configuration for matrix_with_display_name pricing
 type PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig struct {
 	// Used to determine the unit rate
-	Dimension param.Field[string] `json:"dimension,required"`
+	Dimension param.Field[string] `json:"dimension" api:"required"`
 	// Apply per unit pricing to each dimension value
-	UnitAmounts param.Field[[]PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount] `json:"unit_amounts" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig) MarshalJSON() (data []byte, err error) {
@@ -3447,11 +3447,11 @@ func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayName
 // Configuration for a unit amount item
 type PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount struct {
 	// The dimension value
-	DimensionValue param.Field[string] `json:"dimension_value,required"`
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
 	// Display name for this dimension value
-	DisplayName param.Field[string] `json:"display_name,required"`
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount) MarshalJSON() (data []byte, err error) {
@@ -3474,7 +3474,7 @@ func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() 
 }
 
 type PriceNewParamsNewFloatingMatrixWithDisplayNamePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -3510,17 +3510,17 @@ func (r PriceNewParamsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigC
 
 type PriceNewParamsNewFloatingGroupedTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_tiered_package pricing
-	GroupedTieredPackageConfig param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfig] `json:"grouped_tiered_package_config,required"`
+	GroupedTieredPackageConfig param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfig] `json:"grouped_tiered_package_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3585,11 +3585,11 @@ func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceCadence) IsKnown() boo
 // Configuration for grouped_tiered_package pricing
 type PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfig struct {
 	// The event property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfig) MarshalJSON() (data []byte, err error) {
@@ -3599,8 +3599,8 @@ func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageCo
 // Configuration for a single tier
 type PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTier struct {
 	// Per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
@@ -3623,7 +3623,7 @@ func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceModelType) IsKnown() b
 }
 
 type PriceNewParamsNewFloatingGroupedTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                     `json:"unit_config"`
 }
@@ -3659,17 +3659,17 @@ func (r PriceNewParamsNewFloatingGroupedTieredPackagePriceConversionRateConfigCo
 
 type PriceNewParamsNewFloatingMaxGroupTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for max_group_tiered_package pricing
-	MaxGroupTieredPackageConfig param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig] `json:"max_group_tiered_package_config,required"`
+	MaxGroupTieredPackageConfig param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig] `json:"max_group_tiered_package_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3734,10 +3734,10 @@ func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceCadence) IsKnown() bo
 // Configuration for max_group_tiered_package pricing
 type PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig struct {
 	// The event property used to group before tiering the group with the highest value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
-	Tiers param.Field[[]PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig) MarshalJSON() (data []byte, err error) {
@@ -3746,9 +3746,9 @@ func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackage
 
 // Configuration for a single tier
 type PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
@@ -3771,7 +3771,7 @@ func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() 
 }
 
 type PriceNewParamsNewFloatingMaxGroupTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -3807,17 +3807,17 @@ func (r PriceNewParamsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigC
 
 type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_unit_pricing pricing
-	ScalableMatrixWithUnitPricingConfig param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig] `json:"scalable_matrix_with_unit_pricing_config,required"`
+	ScalableMatrixWithUnitPricingConfig param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3897,11 +3897,11 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceModelType) Is
 // Configuration for scalable_matrix_with_unit_pricing pricing
 type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig struct {
 	// Used to determine the unit rate
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors,required"`
+	MatrixScalingFactors param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
 	// The final unit price to rate against the output of the matrix
-	UnitPrice param.Field[string] `json:"unit_price,required"`
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
 	// The property used to group this price
 	GroupingKey param.Field[string] `json:"grouping_key"`
 	// If true, the unit price will be prorated to the billing period
@@ -3916,8 +3916,8 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatri
 
 // Configuration for a single matrix scaling factor
 type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -3926,7 +3926,7 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceScalableMatri
 }
 
 type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                              `json:"unit_config"`
 }
@@ -3962,17 +3962,17 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceConversionRat
 
 type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
-	ScalableMatrixWithTieredPricingConfig param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig] `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	ScalableMatrixWithTieredPricingConfig param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4052,10 +4052,10 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceModelType) 
 // Configuration for scalable_matrix_with_tiered_pricing pricing
 type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig struct {
 	// Used for the scalable matrix first dimension
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors,required"`
-	Tiers                param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier]                `json:"tiers,required"`
+	MatrixScalingFactors param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier]                `json:"tiers" api:"required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -4066,8 +4066,8 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMat
 
 // Configuration for a single matrix scaling factor
 type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -4077,8 +4077,8 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMat
 
 // Configuration for a single tier entry with business logic
 type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	UnitAmount     param.Field[string] `json:"unit_amount,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier) MarshalJSON() (data []byte, err error) {
@@ -4086,7 +4086,7 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceScalableMat
 }
 
 type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                              `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                `json:"unit_config"`
 }
@@ -4122,17 +4122,17 @@ func (r PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceConversionR
 
 type PriceNewParamsNewFloatingCumulativeGroupedBulkPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_bulk pricing
-	CumulativeGroupedBulkConfig param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig] `json:"cumulative_grouped_bulk_config,required"`
+	CumulativeGroupedBulkConfig param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig] `json:"cumulative_grouped_bulk_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4197,8 +4197,8 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bo
 // Configuration for cumulative_grouped_bulk pricing
 type PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig struct {
 	// Each tier lower bound must have the same group of values.
-	DimensionValues param.Field[[]PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue] `json:"dimension_values,required"`
-	Group           param.Field[string]                                                                                         `json:"group,required"`
+	DimensionValues param.Field[[]PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                                         `json:"group" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig) MarshalJSON() (data []byte, err error) {
@@ -4208,11 +4208,11 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulk
 // Configuration for a dimension value entry
 type PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue struct {
 	// Grouping key value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Tier lower bound
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Unit amount for this combination
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue) MarshalJSON() (data []byte, err error) {
@@ -4235,7 +4235,7 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() 
 }
 
 type PriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
@@ -4271,17 +4271,17 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigC
 
 type PriceNewParamsNewFloatingCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4346,13 +4346,13 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCadence) IsKnow
 // Configuration for cumulative_grouped_allocation pricing
 type PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -4375,7 +4375,7 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceModelType) IsKn
 }
 
 type PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                            `json:"unit_config"`
 }
@@ -4411,17 +4411,17 @@ func (r PriceNewParamsNewFloatingCumulativeGroupedAllocationPriceConversionRateC
 
 type PriceNewParamsNewFloatingMinimumCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMinimumCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMinimumCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for minimum_composite pricing
-	MinimumCompositeConfig param.Field[PriceNewParamsNewFloatingMinimumCompositePriceMinimumCompositeConfig] `json:"minimum_composite_config,required"`
+	MinimumCompositeConfig param.Field[PriceNewParamsNewFloatingMinimumCompositePriceMinimumCompositeConfig] `json:"minimum_composite_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingMinimumCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingMinimumCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4486,7 +4486,7 @@ func (r PriceNewParamsNewFloatingMinimumCompositePriceCadence) IsKnown() bool {
 // Configuration for minimum_composite pricing
 type PriceNewParamsNewFloatingMinimumCompositePriceMinimumCompositeConfig struct {
 	// The minimum amount to apply
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -4511,7 +4511,7 @@ func (r PriceNewParamsNewFloatingMinimumCompositePriceModelType) IsKnown() bool 
 }
 
 type PriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                               `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                 `json:"unit_config"`
 }
@@ -4547,17 +4547,17 @@ func (r PriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigConver
 
 type PriceNewParamsNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[PriceNewParamsNewFloatingPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[PriceNewParamsNewFloatingPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4637,7 +4637,7 @@ func (r PriceNewParamsNewFloatingPercentCompositePriceModelType) IsKnown() bool 
 // Configuration for percent pricing
 type PriceNewParamsNewFloatingPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r PriceNewParamsNewFloatingPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -4645,7 +4645,7 @@ func (r PriceNewParamsNewFloatingPercentCompositePricePercentConfig) MarshalJSON
 }
 
 type PriceNewParamsNewFloatingPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                               `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                 `json:"unit_config"`
 }
@@ -4681,17 +4681,17 @@ func (r PriceNewParamsNewFloatingPercentCompositePriceConversionRateConfigConver
 
 type PriceNewParamsNewFloatingEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[PriceNewParamsNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[PriceNewParamsNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceNewParamsNewFloatingEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4756,7 +4756,7 @@ func (r PriceNewParamsNewFloatingEventOutputPriceCadence) IsKnown() bool {
 // Configuration for event_output pricing
 type PriceNewParamsNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -4786,7 +4786,7 @@ func (r PriceNewParamsNewFloatingEventOutputPriceModelType) IsKnown() bool {
 }
 
 type PriceNewParamsNewFloatingEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceNewParamsNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceNewParamsNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
@@ -4849,9 +4849,9 @@ func (r PriceListParams) URLQuery() (v url.Values) {
 
 type PriceEvaluateParams struct {
 	// The exclusive upper bound for event timestamps
-	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end" api:"required" format:"date-time"`
 	// The inclusive lower bound for event timestamps
-	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start" api:"required" format:"date-time"`
 	// The ID of the customer to which this evaluation is scoped.
 	CustomerID param.Field[string] `json:"customer_id"`
 	// The external customer ID of the customer to which this evaluation is scoped.
@@ -4875,9 +4875,9 @@ func (r PriceEvaluateParams) MarshalJSON() (data []byte, err error) {
 
 type PriceEvaluateMultipleParams struct {
 	// The exclusive upper bound for event timestamps
-	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end" api:"required" format:"date-time"`
 	// The inclusive lower bound for event timestamps
-	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start" api:"required" format:"date-time"`
 	// The ID of the customer to which this evaluation is scoped.
 	CustomerID param.Field[string] `json:"customer_id"`
 	// The external customer ID of the customer to which this evaluation is scoped.
@@ -4917,15 +4917,15 @@ func (r PriceEvaluateMultipleParamsPriceEvaluation) MarshalJSON() (data []byte, 
 // New floating price request body params.
 type PriceEvaluateMultipleParamsPriceEvaluationsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5037,17 +5037,17 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion interface {
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5091,9 +5091,9 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFilte
 // Configuration for bulk_with_filters pricing
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -5103,9 +5103,9 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFilte
 // Configuration for a single property filter
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -5115,7 +5115,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFilte
 // Configuration for a single bulk pricing tier
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -5160,7 +5160,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFilte
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                  `json:"unit_config"`
 }
@@ -5196,17 +5196,17 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFilte
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5270,13 +5270,13 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMi
 // Configuration for grouped_with_min_max_thresholds pricing
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -5299,7 +5299,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMi
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                              `json:"unit_config"`
 }
@@ -5335,17 +5335,17 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMi
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5409,13 +5409,13 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGro
 // Configuration for cumulative_grouped_allocation pricing
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -5438,7 +5438,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGro
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                              `json:"unit_config"`
 }
@@ -5474,17 +5474,17 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGro
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5563,7 +5563,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompos
 // Configuration for percent pricing
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -5571,7 +5571,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompos
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                   `json:"unit_config"`
 }
@@ -5607,17 +5607,17 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompos
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5681,7 +5681,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPr
 // Configuration for event_output pricing
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -5711,7 +5711,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPr
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                            `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                              `json:"unit_config"`
 }
@@ -5812,9 +5812,9 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType) IsKnown() boo
 
 type PriceEvaluatePreviewEventsParams struct {
 	// The exclusive upper bound for event timestamps
-	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end" api:"required" format:"date-time"`
 	// The inclusive lower bound for event timestamps
-	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start" api:"required" format:"date-time"`
 	// The ID of the customer to which this evaluation is scoped.
 	CustomerID param.Field[string] `json:"customer_id"`
 	// List of preview events to use instead of actual usage data
@@ -5831,14 +5831,14 @@ func (r PriceEvaluatePreviewEventsParams) MarshalJSON() (data []byte, err error)
 
 type PriceEvaluatePreviewEventsParamsEvent struct {
 	// A name to meaningfully identify the action or event type.
-	EventName param.Field[string] `json:"event_name,required"`
+	EventName param.Field[string] `json:"event_name" api:"required"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
 	// boolean, or strings. Nested dictionaries are disallowed.
-	Properties param.Field[map[string]interface{}] `json:"properties,required"`
+	Properties param.Field[map[string]interface{}] `json:"properties" api:"required"`
 	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
-	Timestamp param.Field[time.Time] `json:"timestamp,required" format:"date-time"`
+	Timestamp param.Field[time.Time] `json:"timestamp" api:"required" format:"date-time"`
 	// The Orb Customer identifier
 	CustomerID param.Field[string] `json:"customer_id"`
 	// An alias for the Orb customer, whose mapping is specified when creating the
@@ -5877,15 +5877,15 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluation) MarshalJSON() (data []b
 // New floating price request body params.
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5997,17 +5997,17 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion interface {
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPrice struct {
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config,required"`
+	BulkWithFiltersConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6051,9 +6051,9 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWith
 // Configuration for bulk_with_filters pricing
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters param.Field[[]PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters,required"`
+	Filters param.Field[[]PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
 }
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
@@ -6063,9 +6063,9 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWith
 // Configuration for a single property filter
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey param.Field[string] `json:"property_key,required"`
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue param.Field[string] `json:"property_value,required"`
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
 }
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
@@ -6075,7 +6075,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWith
 // Configuration for a single bulk pricing tier
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -6120,7 +6120,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWith
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                     `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                       `json:"unit_config"`
 }
@@ -6156,17 +6156,17 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWith
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
+	GroupedWithMinMaxThresholdsConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6230,13 +6230,13 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedW
 // Configuration for grouped_with_min_max_thresholds pricing
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
 }
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
@@ -6259,7 +6259,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedW
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                   `json:"unit_config"`
 }
@@ -6295,17 +6295,17 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedW
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config,required"`
+	CumulativeGroupedAllocationConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6369,13 +6369,13 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulati
 // Configuration for cumulative_grouped_allocation pricing
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation param.Field[string] `json:"cumulative_allocation,required"`
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation param.Field[string] `json:"group_allocation,required"`
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -6398,7 +6398,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulati
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                   `json:"unit_config"`
 }
@@ -6434,17 +6434,17 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulati
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config,required"`
+	PercentConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6523,7 +6523,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentC
 // Configuration for percent pricing
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent param.Field[float64] `json:"percent,required"`
+	Percent param.Field[float64] `json:"percent" api:"required"`
 }
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -6531,7 +6531,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentC
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                      `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                        `json:"unit_config"`
 }
@@ -6567,17 +6567,17 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentC
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for event_output pricing
-	EventOutputConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config,required"`
+	EventOutputConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6641,7 +6641,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOut
 // Configuration for event_output pricing
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
@@ -6671,7 +6671,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOut
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfig struct {
-	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                   `json:"unit_config"`
 }

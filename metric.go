@@ -106,20 +106,20 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 // Metrics are defined by the query that transforms raw usage events into
 // meaningful values for your customers.
 type BillableMetric struct {
-	ID          string `json:"id,required"`
-	Description string `json:"description,required,nullable"`
+	ID          string `json:"id" api:"required"`
+	Description string `json:"description" api:"required,nullable"`
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item Item `json:"item,required"`
+	Item Item `json:"item" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata             map[string]string        `json:"metadata,required"`
-	Name                 string                   `json:"name,required"`
-	Status               BillableMetricStatus     `json:"status,required"`
-	ParameterDefinitions []map[string]interface{} `json:"parameter_definitions,nullable"`
+	Metadata             map[string]string        `json:"metadata" api:"required"`
+	Name                 string                   `json:"name" api:"required"`
+	Status               BillableMetricStatus     `json:"status" api:"required"`
+	ParameterDefinitions []map[string]interface{} `json:"parameter_definitions" api:"nullable"`
 	JSON                 billableMetricJSON       `json:"-"`
 }
 
@@ -162,13 +162,13 @@ func (r BillableMetricStatus) IsKnown() bool {
 
 type MetricNewParams struct {
 	// A description of the metric.
-	Description param.Field[string] `json:"description,required"`
+	Description param.Field[string] `json:"description" api:"required"`
 	// The id of the item
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The name of the metric.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// A sql string defining the metric.
-	Sql param.Field[string] `json:"sql,required"`
+	Sql param.Field[string] `json:"sql" api:"required"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.

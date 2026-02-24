@@ -45,7 +45,7 @@ func (r *TopLevelService) Ping(ctx context.Context, opts ...option.RequestOption
 }
 
 type TopLevelPingResponse struct {
-	Response string                   `json:"response,required"`
+	Response string                   `json:"response" api:"required"`
 	JSON     topLevelPingResponseJSON `json:"-"`
 }
 

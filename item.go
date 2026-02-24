@@ -112,21 +112,21 @@ func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.R
 // external sync behavior for invoices and tax calculation purposes.
 type Item struct {
 	// The Orb-assigned unique identifier for the item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The time at which the item was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of external connections for this item, used to sync with external
 	// invoicing and tax systems.
-	ExternalConnections []ItemExternalConnection `json:"external_connections,required"`
+	ExternalConnections []ItemExternalConnection `json:"external_connections" api:"required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// The name of the item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// The time at which the item was archived. If null, the item is not archived.
-	ArchivedAt time.Time `json:"archived_at,nullable" format:"date-time"`
+	ArchivedAt time.Time `json:"archived_at" api:"nullable" format:"date-time"`
 	JSON       itemJSON  `json:"-"`
 }
 
@@ -154,9 +154,9 @@ func (r itemJSON) RawJSON() string {
 // tax calculation purposes.
 type ItemExternalConnection struct {
 	// The name of the external system this item is connected to.
-	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
+	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name" api:"required"`
 	// The identifier of this item in the external system.
-	ExternalEntityID string                     `json:"external_entity_id,required"`
+	ExternalEntityID string                     `json:"external_entity_id" api:"required"`
 	JSON             itemExternalConnectionJSON `json:"-"`
 }
 
@@ -202,7 +202,7 @@ func (r ItemExternalConnectionsExternalConnectionName) IsKnown() bool {
 
 type ItemNewParams struct {
 	// The name of the item.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -230,9 +230,9 @@ func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {
 // tax calculation purposes.
 type ItemUpdateParamsExternalConnection struct {
 	// The name of the external system this item is connected to.
-	ExternalConnectionName param.Field[ItemUpdateParamsExternalConnectionsExternalConnectionName] `json:"external_connection_name,required"`
+	ExternalConnectionName param.Field[ItemUpdateParamsExternalConnectionsExternalConnectionName] `json:"external_connection_name" api:"required"`
 	// The identifier of this item in the external system.
-	ExternalEntityID param.Field[string] `json:"external_entity_id,required"`
+	ExternalEntityID param.Field[string] `json:"external_entity_id" api:"required"`
 }
 
 func (r ItemUpdateParamsExternalConnection) MarshalJSON() (data []byte, err error) {

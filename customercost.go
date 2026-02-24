@@ -295,7 +295,7 @@ func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCust
 }
 
 type CustomerCostListResponse struct {
-	Data []shared.AggregatedCost      `json:"data,required"`
+	Data []shared.AggregatedCost      `json:"data" api:"required"`
 	JSON customerCostListResponseJSON `json:"-"`
 }
 
@@ -316,7 +316,7 @@ func (r customerCostListResponseJSON) RawJSON() string {
 }
 
 type CustomerCostListByExternalIDResponse struct {
-	Data []shared.AggregatedCost                  `json:"data,required"`
+	Data []shared.AggregatedCost                  `json:"data" api:"required"`
 	JSON customerCostListByExternalIDResponseJSON `json:"-"`
 }
 
