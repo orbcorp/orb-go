@@ -118,13 +118,13 @@ func (r *LicenseService) GetByExternalID(ctx context.Context, externalLicenseID 
 }
 
 type LicenseNewResponse struct {
-	ID                string                   `json:"id,required"`
-	EndDate           time.Time                `json:"end_date,required,nullable" format:"date-time"`
-	ExternalLicenseID string                   `json:"external_license_id,required"`
-	LicenseTypeID     string                   `json:"license_type_id,required"`
-	StartDate         time.Time                `json:"start_date,required" format:"date-time"`
-	Status            LicenseNewResponseStatus `json:"status,required"`
-	SubscriptionID    string                   `json:"subscription_id,required"`
+	ID                string                   `json:"id" api:"required"`
+	EndDate           time.Time                `json:"end_date" api:"required,nullable" format:"date-time"`
+	ExternalLicenseID string                   `json:"external_license_id" api:"required"`
+	LicenseTypeID     string                   `json:"license_type_id" api:"required"`
+	StartDate         time.Time                `json:"start_date" api:"required" format:"date-time"`
+	Status            LicenseNewResponseStatus `json:"status" api:"required"`
+	SubscriptionID    string                   `json:"subscription_id" api:"required"`
 	JSON              licenseNewResponseJSON   `json:"-"`
 }
 
@@ -166,13 +166,13 @@ func (r LicenseNewResponseStatus) IsKnown() bool {
 }
 
 type LicenseGetResponse struct {
-	ID                string                   `json:"id,required"`
-	EndDate           time.Time                `json:"end_date,required,nullable" format:"date-time"`
-	ExternalLicenseID string                   `json:"external_license_id,required"`
-	LicenseTypeID     string                   `json:"license_type_id,required"`
-	StartDate         time.Time                `json:"start_date,required" format:"date-time"`
-	Status            LicenseGetResponseStatus `json:"status,required"`
-	SubscriptionID    string                   `json:"subscription_id,required"`
+	ID                string                   `json:"id" api:"required"`
+	EndDate           time.Time                `json:"end_date" api:"required,nullable" format:"date-time"`
+	ExternalLicenseID string                   `json:"external_license_id" api:"required"`
+	LicenseTypeID     string                   `json:"license_type_id" api:"required"`
+	StartDate         time.Time                `json:"start_date" api:"required" format:"date-time"`
+	Status            LicenseGetResponseStatus `json:"status" api:"required"`
+	SubscriptionID    string                   `json:"subscription_id" api:"required"`
 	JSON              licenseGetResponseJSON   `json:"-"`
 }
 
@@ -214,13 +214,13 @@ func (r LicenseGetResponseStatus) IsKnown() bool {
 }
 
 type LicenseListResponse struct {
-	ID                string                    `json:"id,required"`
-	EndDate           time.Time                 `json:"end_date,required,nullable" format:"date-time"`
-	ExternalLicenseID string                    `json:"external_license_id,required"`
-	LicenseTypeID     string                    `json:"license_type_id,required"`
-	StartDate         time.Time                 `json:"start_date,required" format:"date-time"`
-	Status            LicenseListResponseStatus `json:"status,required"`
-	SubscriptionID    string                    `json:"subscription_id,required"`
+	ID                string                    `json:"id" api:"required"`
+	EndDate           time.Time                 `json:"end_date" api:"required,nullable" format:"date-time"`
+	ExternalLicenseID string                    `json:"external_license_id" api:"required"`
+	LicenseTypeID     string                    `json:"license_type_id" api:"required"`
+	StartDate         time.Time                 `json:"start_date" api:"required" format:"date-time"`
+	Status            LicenseListResponseStatus `json:"status" api:"required"`
+	SubscriptionID    string                    `json:"subscription_id" api:"required"`
 	JSON              licenseListResponseJSON   `json:"-"`
 }
 
@@ -262,13 +262,13 @@ func (r LicenseListResponseStatus) IsKnown() bool {
 }
 
 type LicenseDeactivateResponse struct {
-	ID                string                          `json:"id,required"`
-	EndDate           time.Time                       `json:"end_date,required,nullable" format:"date-time"`
-	ExternalLicenseID string                          `json:"external_license_id,required"`
-	LicenseTypeID     string                          `json:"license_type_id,required"`
-	StartDate         time.Time                       `json:"start_date,required" format:"date-time"`
-	Status            LicenseDeactivateResponseStatus `json:"status,required"`
-	SubscriptionID    string                          `json:"subscription_id,required"`
+	ID                string                          `json:"id" api:"required"`
+	EndDate           time.Time                       `json:"end_date" api:"required,nullable" format:"date-time"`
+	ExternalLicenseID string                          `json:"external_license_id" api:"required"`
+	LicenseTypeID     string                          `json:"license_type_id" api:"required"`
+	StartDate         time.Time                       `json:"start_date" api:"required" format:"date-time"`
+	Status            LicenseDeactivateResponseStatus `json:"status" api:"required"`
+	SubscriptionID    string                          `json:"subscription_id" api:"required"`
 	JSON              licenseDeactivateResponseJSON   `json:"-"`
 }
 
@@ -310,13 +310,13 @@ func (r LicenseDeactivateResponseStatus) IsKnown() bool {
 }
 
 type LicenseGetByExternalIDResponse struct {
-	ID                string                               `json:"id,required"`
-	EndDate           time.Time                            `json:"end_date,required,nullable" format:"date-time"`
-	ExternalLicenseID string                               `json:"external_license_id,required"`
-	LicenseTypeID     string                               `json:"license_type_id,required"`
-	StartDate         time.Time                            `json:"start_date,required" format:"date-time"`
-	Status            LicenseGetByExternalIDResponseStatus `json:"status,required"`
-	SubscriptionID    string                               `json:"subscription_id,required"`
+	ID                string                               `json:"id" api:"required"`
+	EndDate           time.Time                            `json:"end_date" api:"required,nullable" format:"date-time"`
+	ExternalLicenseID string                               `json:"external_license_id" api:"required"`
+	LicenseTypeID     string                               `json:"license_type_id" api:"required"`
+	StartDate         time.Time                            `json:"start_date" api:"required" format:"date-time"`
+	Status            LicenseGetByExternalIDResponseStatus `json:"status" api:"required"`
+	SubscriptionID    string                               `json:"subscription_id" api:"required"`
 	JSON              licenseGetByExternalIDResponseJSON   `json:"-"`
 }
 
@@ -359,9 +359,9 @@ func (r LicenseGetByExternalIDResponseStatus) IsKnown() bool {
 
 type LicenseNewParams struct {
 	// The external identifier for the license.
-	ExternalLicenseID param.Field[string] `json:"external_license_id,required"`
-	LicenseTypeID     param.Field[string] `json:"license_type_id,required"`
-	SubscriptionID    param.Field[string] `json:"subscription_id,required"`
+	ExternalLicenseID param.Field[string] `json:"external_license_id" api:"required"`
+	LicenseTypeID     param.Field[string] `json:"license_type_id" api:"required"`
+	SubscriptionID    param.Field[string] `json:"subscription_id" api:"required"`
 	// The end date of the license. If not provided, the license will remain active
 	// until deactivated.
 	EndDate param.Field[time.Time] `json:"end_date" format:"date"`
@@ -375,7 +375,7 @@ func (r LicenseNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type LicenseListParams struct {
-	SubscriptionID param.Field[string] `query:"subscription_id,required"`
+	SubscriptionID param.Field[string] `query:"subscription_id" api:"required"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor            param.Field[string] `query:"cursor"`
@@ -421,9 +421,9 @@ func (r LicenseDeactivateParams) MarshalJSON() (data []byte, err error) {
 
 type LicenseGetByExternalIDParams struct {
 	// The ID of the license type to fetch the license for.
-	LicenseTypeID param.Field[string] `query:"license_type_id,required"`
+	LicenseTypeID param.Field[string] `query:"license_type_id" api:"required"`
 	// The ID of the subscription to fetch the license for.
-	SubscriptionID param.Field[string] `query:"subscription_id,required"`
+	SubscriptionID param.Field[string] `query:"subscription_id" api:"required"`
 }
 
 // URLQuery serializes [LicenseGetByExternalIDParams]'s query parameters as

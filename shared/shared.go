@@ -12,12 +12,12 @@ import (
 )
 
 type Address struct {
-	City       string      `json:"city,required,nullable"`
-	Country    string      `json:"country,required,nullable"`
-	Line1      string      `json:"line1,required,nullable"`
-	Line2      string      `json:"line2,required,nullable"`
-	PostalCode string      `json:"postal_code,required,nullable"`
-	State      string      `json:"state,required,nullable"`
+	City       string      `json:"city" api:"required,nullable"`
+	Country    string      `json:"country" api:"required,nullable"`
+	Line1      string      `json:"line1" api:"required,nullable"`
+	Line2      string      `json:"line2" api:"required,nullable"`
+	PostalCode string      `json:"postal_code" api:"required,nullable"`
+	State      string      `json:"state" api:"required,nullable"`
 	JSON       addressJSON `json:"-"`
 }
 
@@ -42,14 +42,14 @@ func (r addressJSON) RawJSON() string {
 }
 
 type AdjustmentInterval struct {
-	ID         string                       `json:"id,required"`
-	Adjustment AdjustmentIntervalAdjustment `json:"adjustment,required"`
+	ID         string                       `json:"id" api:"required"`
+	Adjustment AdjustmentIntervalAdjustment `json:"adjustment" api:"required"`
 	// The price interval IDs that this adjustment applies to.
-	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids" api:"required"`
 	// The end date of the adjustment interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The start date of the adjustment interval.
-	StartDate time.Time              `json:"start_date,required" format:"date-time"`
+	StartDate time.Time              `json:"start_date" api:"required" format:"date-time"`
 	JSON      adjustmentIntervalJSON `json:"-"`
 }
 
@@ -74,26 +74,26 @@ func (r adjustmentIntervalJSON) RawJSON() string {
 }
 
 type AdjustmentIntervalAdjustment struct {
-	ID             string                                     `json:"id,required"`
-	AdjustmentType AdjustmentIntervalAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                     `json:"id" api:"required"`
+	AdjustmentType AdjustmentIntervalAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]PlanPhaseUsageDiscountAdjustmentFilter],
 	// [[]PlanPhaseAmountDiscountAdjustmentFilter],
 	// [[]PlanPhasePercentageDiscountAdjustmentFilter],
 	// [[]PlanPhaseMinimumAdjustmentFilter], [[]PlanPhaseMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -217,13 +217,13 @@ func (r AdjustmentIntervalAdjustmentAdjustmentType) IsKnown() bool {
 }
 
 type AggregatedCost struct {
-	PerPriceCosts []PerPriceCost `json:"per_price_costs,required"`
+	PerPriceCosts []PerPriceCost `json:"per_price_costs" api:"required"`
 	// Total costs for the timeframe, excluding any minimums and discounts.
-	Subtotal       string    `json:"subtotal,required"`
-	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
+	Subtotal       string    `json:"subtotal" api:"required"`
+	TimeframeEnd   time.Time `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time `json:"timeframe_start" api:"required" format:"date-time"`
 	// Total costs for the timeframe, including any minimums and discounts.
-	Total string             `json:"total,required"`
+	Total string             `json:"total" api:"required"`
 	JSON  aggregatedCostJSON `json:"-"`
 }
 
@@ -247,11 +247,11 @@ func (r aggregatedCostJSON) RawJSON() string {
 }
 
 type Allocation struct {
-	AllowsRollover   bool               `json:"allows_rollover,required"`
-	Currency         string             `json:"currency,required"`
-	CustomExpiration CustomExpiration   `json:"custom_expiration,required,nullable"`
+	AllowsRollover   bool               `json:"allows_rollover" api:"required"`
+	Currency         string             `json:"currency" api:"required"`
+	CustomExpiration CustomExpiration   `json:"custom_expiration" api:"required,nullable"`
 	Filters          []AllocationFilter `json:"filters"`
-	LicenseTypeID    string             `json:"license_type_id,nullable"`
+	LicenseTypeID    string             `json:"license_type_id" api:"nullable"`
 	JSON             allocationJSON     `json:"-"`
 }
 
@@ -276,11 +276,11 @@ func (r allocationJSON) RawJSON() string {
 
 type AllocationFilter struct {
 	// The property of the price to filter on.
-	Field AllocationFiltersField `json:"field,required"`
+	Field AllocationFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator AllocationFiltersOperator `json:"operator,required"`
+	Operator AllocationFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string             `json:"values,required"`
+	Values []string             `json:"values" api:"required"`
 	JSON   allocationFilterJSON `json:"-"`
 }
 
@@ -339,14 +339,14 @@ func (r AllocationFiltersOperator) IsKnown() bool {
 
 type AmountDiscount struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount string                     `json:"amount_discount,required"`
-	DiscountType   AmountDiscountDiscountType `json:"discount_type,required"`
+	AmountDiscount string                     `json:"amount_discount" api:"required"`
+	DiscountType   AmountDiscountDiscountType `json:"discount_type" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []AmountDiscountFilter `json:"filters,nullable"`
-	Reason  string                 `json:"reason,nullable"`
+	Filters []AmountDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                 `json:"reason" api:"nullable"`
 	JSON    amountDiscountJSON     `json:"-"`
 }
 
@@ -391,11 +391,11 @@ func (r AmountDiscountDiscountType) IsKnown() bool {
 
 type AmountDiscountFilter struct {
 	// The property of the price to filter on.
-	Field AmountDiscountFiltersField `json:"field,required"`
+	Field AmountDiscountFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator AmountDiscountFiltersOperator `json:"operator,required"`
+	Operator AmountDiscountFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                 `json:"values,required"`
+	Values []string                 `json:"values" api:"required"`
 	JSON   amountDiscountFilterJSON `json:"-"`
 }
 
@@ -454,8 +454,8 @@ func (r AmountDiscountFiltersOperator) IsKnown() bool {
 
 type AmountDiscountParam struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string]                     `json:"amount_discount,required"`
-	DiscountType   param.Field[AmountDiscountDiscountType] `json:"discount_type,required"`
+	AmountDiscount param.Field[string]                     `json:"amount_discount" api:"required"`
+	DiscountType   param.Field[AmountDiscountDiscountType] `json:"discount_type" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
@@ -472,11 +472,11 @@ func (r AmountDiscountParam) ImplementsDiscountUnionParam() {}
 
 type AmountDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[AmountDiscountFiltersField] `json:"field,required"`
+	Field param.Field[AmountDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[AmountDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[AmountDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r AmountDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -485,16 +485,16 @@ func (r AmountDiscountFilterParam) MarshalJSON() (data []byte, err error) {
 
 type AmountDiscountInterval struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount string `json:"amount_discount,required"`
+	AmountDiscount string `json:"amount_discount" api:"required"`
 	// The price interval ids that this discount interval applies to.
-	AppliesToPriceIntervalIDs []string                           `json:"applies_to_price_interval_ids,required"`
-	DiscountType              AmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	AppliesToPriceIntervalIDs []string                           `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              AmountDiscountIntervalDiscountType `json:"discount_type" api:"required"`
 	// The end date of the discount interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []AmountDiscountIntervalFilter `json:"filters,required"`
+	Filters []AmountDiscountIntervalFilter `json:"filters" api:"required"`
 	// The start date of the discount interval.
-	StartDate time.Time                  `json:"start_date,required" format:"date-time"`
+	StartDate time.Time                  `json:"start_date" api:"required" format:"date-time"`
 	JSON      amountDiscountIntervalJSON `json:"-"`
 }
 
@@ -539,11 +539,11 @@ func (r AmountDiscountIntervalDiscountType) IsKnown() bool {
 
 type AmountDiscountIntervalFilter struct {
 	// The property of the price to filter on.
-	Field AmountDiscountIntervalFiltersField `json:"field,required"`
+	Field AmountDiscountIntervalFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator AmountDiscountIntervalFiltersOperator `json:"operator,required"`
+	Operator AmountDiscountIntervalFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                         `json:"values,required"`
+	Values []string                         `json:"values" api:"required"`
 	JSON   amountDiscountIntervalFilterJSON `json:"-"`
 }
 
@@ -601,7 +601,7 @@ func (r AmountDiscountIntervalFiltersOperator) IsKnown() bool {
 }
 
 type BillableMetricTiny struct {
-	ID   string                 `json:"id,required"`
+	ID   string                 `json:"id" api:"required"`
 	JSON billableMetricTinyJSON `json:"-"`
 }
 
@@ -626,14 +626,14 @@ type BillingCycleAnchorConfiguration struct {
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	Day int64 `json:"day,required"`
+	Day int64 `json:"day" api:"required"`
 	// The month on which the billing cycle is anchored (e.g. a quarterly price
 	// anchored in February would have cycles starting February, May, August, and
 	// November).
-	Month int64 `json:"month,nullable"`
+	Month int64 `json:"month" api:"nullable"`
 	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
 	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
-	Year int64                               `json:"year,nullable"`
+	Year int64                               `json:"year" api:"nullable"`
 	JSON billingCycleAnchorConfigurationJSON `json:"-"`
 }
 
@@ -660,7 +660,7 @@ type BillingCycleAnchorConfigurationParam struct {
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	Day param.Field[int64] `json:"day,required"`
+	Day param.Field[int64] `json:"day" api:"required"`
 	// The month on which the billing cycle is anchored (e.g. a quarterly price
 	// anchored in February would have cycles starting February, May, August, and
 	// November).
@@ -675,8 +675,8 @@ func (r BillingCycleAnchorConfigurationParam) MarshalJSON() (data []byte, err er
 }
 
 type BillingCycleConfiguration struct {
-	Duration     int64                                 `json:"duration,required"`
-	DurationUnit BillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	Duration     int64                                 `json:"duration" api:"required"`
+	DurationUnit BillingCycleConfigurationDurationUnit `json:"duration_unit" api:"required"`
 	JSON         billingCycleConfigurationJSON         `json:"-"`
 }
 
@@ -750,7 +750,7 @@ func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEdit
 // Configuration for bulk pricing
 type BulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers []BulkTier     `json:"tiers,required"`
+	Tiers []BulkTier     `json:"tiers" api:"required"`
 	JSON  bulkConfigJSON `json:"-"`
 }
 
@@ -772,7 +772,7 @@ func (r bulkConfigJSON) RawJSON() string {
 // Configuration for bulk pricing
 type BulkConfigParam struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]BulkTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]BulkTierParam] `json:"tiers" api:"required"`
 }
 
 func (r BulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -782,9 +782,9 @@ func (r BulkConfigParam) MarshalJSON() (data []byte, err error) {
 // Configuration for a single bulk pricing tier
 type BulkTier struct {
 	// Amount per unit
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// Upper bound for this tier
-	MaximumUnits float64      `json:"maximum_units,nullable"`
+	MaximumUnits float64      `json:"maximum_units" api:"nullable"`
 	JSON         bulkTierJSON `json:"-"`
 }
 
@@ -807,7 +807,7 @@ func (r bulkTierJSON) RawJSON() string {
 // Configuration for a single bulk pricing tier
 type BulkTierParam struct {
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// Upper bound for this tier
 	MaximumUnits param.Field[float64] `json:"maximum_units"`
 }
@@ -818,13 +818,13 @@ func (r BulkTierParam) MarshalJSON() (data []byte, err error) {
 
 type ChangedSubscriptionResources struct {
 	// The credit notes that were created as part of this operation.
-	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes" api:"required"`
 	// The invoices that were created as part of this operation.
-	CreatedInvoices []ChangedSubscriptionResourcesCreatedInvoice `json:"created_invoices,required"`
+	CreatedInvoices []ChangedSubscriptionResourcesCreatedInvoice `json:"created_invoices" api:"required"`
 	// The credit notes that were voided as part of this operation.
-	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes" api:"required"`
 	// The invoices that were voided as part of this operation.
-	VoidedInvoices []Invoice                        `json:"voided_invoices,required"`
+	VoidedInvoices []Invoice                        `json:"voided_invoices" api:"required"`
 	JSON           changedSubscriptionResourcesJSON `json:"-"`
 }
 
@@ -848,20 +848,20 @@ func (r changedSubscriptionResourcesJSON) RawJSON() string {
 }
 
 type ChangedSubscriptionResourcesCreatedInvoice struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
 	// application of the customer balance to the `total` of the invoice.
-	AmountDue      string                                                    `json:"amount_due,required"`
-	AutoCollection ChangedSubscriptionResourcesCreatedInvoicesAutoCollection `json:"auto_collection,required"`
-	BillingAddress Address                                                   `json:"billing_address,required,nullable"`
+	AmountDue      string                                                    `json:"amount_due" api:"required"`
+	AutoCollection ChangedSubscriptionResourcesCreatedInvoicesAutoCollection `json:"auto_collection" api:"required"`
+	BillingAddress Address                                                   `json:"billing_address" api:"required,nullable"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
-	CreditNotes []ChangedSubscriptionResourcesCreatedInvoicesCreditNote `json:"credit_notes,required"`
+	CreditNotes []ChangedSubscriptionResourcesCreatedInvoicesCreditNote `json:"credit_notes" api:"required"`
 	// An ISO 4217 currency string or `credits`
-	Currency                    string                                                                  `json:"currency,required"`
-	Customer                    CustomerMinified                                                        `json:"customer,required"`
-	CustomerBalanceTransactions []ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	Currency                    string                                                                  `json:"currency" api:"required"`
+	Customer                    CustomerMinified                                                        `json:"customer" api:"required"`
+	CustomerBalanceTransactions []ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction `json:"customer_balance_transactions" api:"required"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -1007,86 +1007,86 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	CustomerTaxID CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	CustomerTaxID CustomerTaxID `json:"customer_tax_id" api:"required,nullable"`
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
 	//
 	// Deprecated: deprecated
-	Discount  interface{}            `json:"discount,required"`
-	Discounts []InvoiceLevelDiscount `json:"discounts,required"`
+	Discount  interface{}            `json:"discount" api:"required"`
+	Discounts []InvoiceLevelDiscount `json:"discounts" api:"required"`
 	// When the invoice payment is due. The due date is null if the invoice is not yet
 	// finalized.
-	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	DueDate time.Time `json:"due_date" api:"required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
-	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
 	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
 	// invoice's due date, or 60 days after being re-generated through the UI.
-	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
-	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
 	// account or customer.
-	InvoiceNumber string `json:"invoice_number,required"`
+	InvoiceNumber string `json:"invoice_number" api:"required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf    string                                                   `json:"invoice_pdf,required,nullable"`
-	InvoiceSource ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource `json:"invoice_source,required"`
+	InvoicePdf    string                                                   `json:"invoice_pdf" api:"required,nullable"`
+	InvoiceSource ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource `json:"invoice_source" api:"required"`
 	// True if the invoice has only in-advance fixed fees and is payable now
-	IsPayableNow bool `json:"is_payable_now,required"`
+	IsPayableNow bool `json:"is_payable_now" api:"required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
-	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	IssueFailedAt time.Time `json:"issue_failed_at" api:"required,nullable" format:"date-time"`
 	// If the invoice has been issued, this will be the time it transitioned to
 	// `issued` (even if it is now in a different state.)
-	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	IssuedAt time.Time `json:"issued_at" api:"required,nullable" format:"date-time"`
 	// The breakdown of prices in this invoice.
-	LineItems     []ChangedSubscriptionResourcesCreatedInvoicesLineItem `json:"line_items,required"`
-	Maximum       Maximum                                               `json:"maximum,required,nullable"`
-	MaximumAmount string                                                `json:"maximum_amount,required,nullable"`
+	LineItems     []ChangedSubscriptionResourcesCreatedInvoicesLineItem `json:"line_items" api:"required"`
+	Maximum       Maximum                                               `json:"maximum" api:"required,nullable"`
+	MaximumAmount string                                                `json:"maximum_amount" api:"required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata      map[string]string `json:"metadata,required"`
-	Minimum       Minimum           `json:"minimum,required,nullable"`
-	MinimumAmount string            `json:"minimum_amount,required,nullable"`
+	Metadata      map[string]string `json:"metadata" api:"required"`
+	Minimum       Minimum           `json:"minimum" api:"required,nullable"`
+	MinimumAmount string            `json:"minimum_amount" api:"required,nullable"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
-	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	PaidAt time.Time `json:"paid_at" api:"required,nullable" format:"date-time"`
 	// A list of payment attempts associated with the invoice
-	PaymentAttempts []ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt `json:"payment_attempts,required"`
+	PaymentAttempts []ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt `json:"payment_attempts" api:"required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
-	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
-	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                         `json:"scheduled_issue_at,required,nullable" format:"date-time"`
-	ShippingAddress  Address                                           `json:"shipping_address,required,nullable"`
-	Status           ChangedSubscriptionResourcesCreatedInvoicesStatus `json:"status,required"`
-	Subscription     SubscriptionMinified                              `json:"subscription,required,nullable"`
+	ScheduledIssueAt time.Time                                         `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	ShippingAddress  Address                                           `json:"shipping_address" api:"required,nullable"`
+	Status           ChangedSubscriptionResourcesCreatedInvoicesStatus `json:"status" api:"required"`
+	Subscription     SubscriptionMinified                              `json:"subscription" api:"required,nullable"`
 	// The total before any discounts and minimums are applied.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
-	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	SyncFailedAt time.Time `json:"sync_failed_at" api:"required,nullable" format:"date-time"`
 	// The total after any minimums and discounts have been applied.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// If the invoice has a status of `void`, this gives a timestamp when the invoice
 	// was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool                                           `json:"will_auto_issue,required"`
+	WillAutoIssue bool                                           `json:"will_auto_issue" api:"required"`
 	JSON          changedSubscriptionResourcesCreatedInvoiceJSON `json:"-"`
 }
 
@@ -1149,20 +1149,20 @@ func (r changedSubscriptionResourcesCreatedInvoiceJSON) RawJSON() string {
 
 type ChangedSubscriptionResourcesCreatedInvoicesAutoCollection struct {
 	// True only if auto-collection is enabled for this invoice.
-	Enabled bool `json:"enabled,required,nullable"`
+	Enabled bool `json:"enabled" api:"required,nullable"`
 	// If the invoice is scheduled for auto-collection, this field will reflect when
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
-	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	NextAttemptAt time.Time `json:"next_attempt_at" api:"required,nullable" format:"date-time"`
 	// Number of auto-collection payment attempts.
-	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	NumAttempts int64 `json:"num_attempts" api:"required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time                                                     `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	PreviouslyAttemptedAt time.Time                                                     `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON `json:"-"`
 }
 
@@ -1187,16 +1187,16 @@ func (r changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON) RawJSON()
 }
 
 type ChangedSubscriptionResourcesCreatedInvoicesCreditNote struct {
-	ID               string `json:"id,required"`
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	ID               string `json:"id" api:"required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// An optional memo supplied on the credit note.
-	Memo   string `json:"memo,required,nullable"`
-	Reason string `json:"reason,required"`
-	Total  string `json:"total,required"`
-	Type   string `json:"type,required"`
+	Memo   string `json:"memo" api:"required,nullable"`
+	Reason string `json:"reason" api:"required"`
+	Total  string `json:"total" api:"required"`
+	Type   string `json:"type" api:"required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time                                                 `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time                                                 `json:"voided_at" api:"required,nullable" format:"date-time"`
 	JSON     changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON `json:"-"`
 }
 
@@ -1224,23 +1224,23 @@ func (r changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON) RawJSON() str
 
 type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction struct {
 	// A unique id for this transaction.
-	ID     string                                                                       `json:"id,required"`
-	Action ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction `json:"action,required"`
+	ID     string                                                                       `json:"id" api:"required"`
+	Action ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time      `json:"created_at,required" format:"date-time"`
-	CreditNote CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time      `json:"created_at" api:"required" format:"date-time"`
+	CreditNote CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string      `json:"ending_balance,required"`
-	Invoice       InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string      `json:"ending_balance" api:"required"`
+	Invoice       InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                                                     `json:"starting_balance,required"`
-	Type            ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType `json:"type,required"`
+	StartingBalance string                                                                     `json:"starting_balance" api:"required"`
+	Type            ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType `json:"type" api:"required"`
 	JSON            changedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionJSON  `json:"-"`
 }
 
@@ -1326,31 +1326,31 @@ func (r ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource) IsKnown() bool
 
 type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	// A unique ID for this line item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
-	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
 	// discounts -> minimums -> maximums).
-	Adjustments []ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment `json:"adjustments,required"`
+	Adjustments []ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment `json:"adjustments" api:"required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The number of prepaid credits applied.
-	CreditsApplied string `json:"credits_applied,required"`
+	CreditsApplied string `json:"credits_applied" api:"required"`
 	// The end date of the range of time applied for this line item's price.
-	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
-	Filter string `json:"filter,required,nullable"`
+	Filter string `json:"filter" api:"required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
-	Grouping string `json:"grouping,required,nullable"`
+	Grouping string `json:"grouping" api:"required,nullable"`
 	// The name of the price associated with this line item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Any amount applied from a partial invoice
-	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount" api:"required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -1361,21 +1361,21 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price Price `json:"price,required"`
+	Price Price `json:"price" api:"required"`
 	// Either the fixed fee quantity or the usage during the service period.
-	Quantity float64 `json:"quantity,required"`
+	Quantity float64 `json:"quantity" api:"required"`
 	// The start date of the range of time applied for this line item's price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
-	SubLineItems []ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem `json:"sub_line_items,required"`
+	SubLineItems []ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem `json:"sub_line_items" api:"required"`
 	// The line amount before any adjustments.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
-	TaxAmounts []TaxAmount `json:"tax_amounts,required"`
+	TaxAmounts []TaxAmount `json:"tax_amounts" api:"required"`
 	// A list of customer ids that were used to calculate the usage for this line item.
-	UsageCustomerIDs []string                                                `json:"usage_customer_ids,required,nullable"`
+	UsageCustomerIDs []string                                                `json:"usage_customer_ids" api:"required,nullable"`
 	JSON             changedSubscriptionResourcesCreatedInvoicesLineItemJSON `json:"-"`
 }
 
@@ -1412,26 +1412,26 @@ func (r changedSubscriptionResourcesCreatedInvoicesLineItemJSON) RawJSON() strin
 }
 
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment struct {
-	ID             string                                                                        `json:"id,required"`
-	AdjustmentType ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                                                        `json:"id" api:"required"`
+	AdjustmentType ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]MonetaryUsageDiscountAdjustmentFilter],
 	// [[]MonetaryAmountDiscountAdjustmentFilter],
 	// [[]MonetaryPercentageDiscountAdjustmentFilter],
 	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -1558,14 +1558,14 @@ func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmen
 
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                                                               `json:"amount,required"`
-	Grouping     SubLineItemGrouping                                                  `json:"grouping,required,nullable"`
-	Name         string                                                               `json:"name,required"`
-	Quantity     float64                                                              `json:"quantity,required"`
-	Type         ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType `json:"type,required"`
+	Amount       string                                                               `json:"amount" api:"required"`
+	Grouping     SubLineItemGrouping                                                  `json:"grouping" api:"required,nullable"`
+	Name         string                                                               `json:"name" api:"required"`
+	Quantity     float64                                                              `json:"quantity" api:"required"`
+	Type         ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType `json:"type" api:"required"`
 	MatrixConfig SubLineItemMatrixConfig                                              `json:"matrix_config"`
 	// The scaled quantity for this line item for specific pricing structures
-	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
+	ScaledQuantity float64 `json:"scaled_quantity" api:"nullable"`
 	// This field can have the runtime type of [TierSubLineItemTierConfig].
 	TierConfig interface{}                                                         `json:"tier_config"`
 	JSON       changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON `json:"-"`
@@ -1656,20 +1656,20 @@ func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType) Is
 
 type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt struct {
 	// The ID of the payment attempt.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the payment attempt.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The time at which the payment attempt was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The payment provider that attempted to collect the payment.
-	PaymentProvider ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of the payment attempt in the payment provider.
-	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
 	// URL to the downloadable PDF version of the receipt. This field will be `null`
 	// for payment attempts that did not succeed.
-	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	ReceiptPdf string `json:"receipt_pdf" api:"required,nullable"`
 	// Whether the payment attempt succeeded.
-	Succeeded bool                                                          `json:"succeeded,required"`
+	Succeeded bool                                                          `json:"succeeded" api:"required"`
 	JSON      changedSubscriptionResourcesCreatedInvoicesPaymentAttemptJSON `json:"-"`
 }
 
@@ -1731,11 +1731,11 @@ func (r ChangedSubscriptionResourcesCreatedInvoicesStatus) IsKnown() bool {
 
 type ConversionRateTier struct {
 	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
+	FirstUnit float64 `json:"first_unit" api:"required"`
 	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                `json:"last_unit,nullable"`
+	LastUnit float64                `json:"last_unit" api:"nullable"`
 	JSON     conversionRateTierJSON `json:"-"`
 }
 
@@ -1759,9 +1759,9 @@ func (r conversionRateTierJSON) RawJSON() string {
 
 type ConversionRateTierParam struct {
 	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
+	FirstUnit param.Field[float64] `json:"first_unit" api:"required"`
 	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
@@ -1772,7 +1772,7 @@ func (r ConversionRateTierParam) MarshalJSON() (data []byte, err error) {
 
 type ConversionRateTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []ConversionRateTier           `json:"tiers,required"`
+	Tiers []ConversionRateTier           `json:"tiers" api:"required"`
 	JSON  conversionRateTieredConfigJSON `json:"-"`
 }
 
@@ -1794,7 +1794,7 @@ func (r conversionRateTieredConfigJSON) RawJSON() string {
 
 type ConversionRateTieredConfigParam struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]ConversionRateTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]ConversionRateTierParam] `json:"tiers" api:"required"`
 }
 
 func (r ConversionRateTieredConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1803,7 +1803,7 @@ func (r ConversionRateTieredConfigParam) MarshalJSON() (data []byte, err error) 
 
 type ConversionRateUnitConfig struct {
 	// Amount per unit of overage
-	UnitAmount string                       `json:"unit_amount,required"`
+	UnitAmount string                       `json:"unit_amount" api:"required"`
 	JSON       conversionRateUnitConfigJSON `json:"-"`
 }
 
@@ -1825,7 +1825,7 @@ func (r conversionRateUnitConfigJSON) RawJSON() string {
 
 type ConversionRateUnitConfigParam struct {
 	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r ConversionRateUnitConfigParam) MarshalJSON() (data []byte, err error) {
@@ -1833,9 +1833,9 @@ func (r ConversionRateUnitConfigParam) MarshalJSON() (data []byte, err error) {
 }
 
 type CouponRedemption struct {
-	CouponID  string               `json:"coupon_id,required"`
-	EndDate   time.Time            `json:"end_date,required,nullable" format:"date-time"`
-	StartDate time.Time            `json:"start_date,required" format:"date-time"`
+	CouponID  string               `json:"coupon_id" api:"required"`
+	EndDate   time.Time            `json:"end_date" api:"required,nullable" format:"date-time"`
+	StartDate time.Time            `json:"start_date" api:"required" format:"date-time"`
 	JSON      couponRedemptionJSON `json:"-"`
 }
 
@@ -1861,32 +1861,32 @@ func (r couponRedemptionJSON) RawJSON() string {
 // been applied to a particular invoice.
 type CreditNote struct {
 	// The Orb id of this credit note.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The unique identifier for credit notes.
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// A URL to a PDF of the credit note.
-	CreditNotePdf string           `json:"credit_note_pdf,required,nullable"`
-	Customer      CustomerMinified `json:"customer,required"`
+	CreditNotePdf string           `json:"credit_note_pdf" api:"required,nullable"`
+	Customer      CustomerMinified `json:"customer" api:"required"`
 	// The id of the invoice resource that this credit note is applied to.
-	InvoiceID string `json:"invoice_id,required"`
+	InvoiceID string `json:"invoice_id" api:"required"`
 	// All of the line items associated with this credit note.
-	LineItems []CreditNoteLineItem `json:"line_items,required"`
+	LineItems []CreditNoteLineItem `json:"line_items" api:"required"`
 	// The maximum amount applied on the original invoice
-	MaximumAmountAdjustment CreditNoteMaximumAmountAdjustment `json:"maximum_amount_adjustment,required,nullable"`
+	MaximumAmountAdjustment CreditNoteMaximumAmountAdjustment `json:"maximum_amount_adjustment" api:"required,nullable"`
 	// An optional memo supplied on the credit note.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// Any credited amount from the applied minimum on the invoice.
-	MinimumAmountRefunded string           `json:"minimum_amount_refunded,required,nullable"`
-	Reason                CreditNoteReason `json:"reason,required,nullable"`
+	MinimumAmountRefunded string           `json:"minimum_amount_refunded" api:"required,nullable"`
+	Reason                CreditNoteReason `json:"reason" api:"required,nullable"`
 	// The total prior to any creditable invoice-level discounts or minimums.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// The total including creditable invoice-level discounts or minimums, and tax.
-	Total string         `json:"total,required"`
-	Type  CreditNoteType `json:"type,required"`
+	Total string         `json:"total" api:"required"`
+	Type  CreditNoteType `json:"type" api:"required"`
 	// The time at which the credit note was voided in Orb, if applicable.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// Any discounts applied on the original invoice.
 	Discounts []CreditNoteDiscount `json:"discounts"`
 	JSON      creditNoteJSON       `json:"-"`
@@ -1924,25 +1924,25 @@ func (r creditNoteJSON) RawJSON() string {
 
 type CreditNoteLineItem struct {
 	// The Orb id of this resource.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the line item, including any line item minimums and discounts.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The id of the item associated with this line item.
-	ItemID string `json:"item_id,required"`
+	ItemID string `json:"item_id" api:"required"`
 	// The name of the corresponding invoice line item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// An optional quantity credited.
-	Quantity float64 `json:"quantity,required,nullable"`
+	Quantity float64 `json:"quantity" api:"required,nullable"`
 	// The amount of the line item, excluding any line item minimums and discounts.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// Any tax amounts applied onto the line item.
-	TaxAmounts []TaxAmount `json:"tax_amounts,required"`
+	TaxAmounts []TaxAmount `json:"tax_amounts" api:"required"`
 	// Any line item discounts from the invoice's line item.
 	Discounts []CreditNoteLineItemsDiscount `json:"discounts"`
 	// The end time of the service period for this credit note line item.
-	EndTimeExclusive time.Time `json:"end_time_exclusive,nullable" format:"date-time"`
+	EndTimeExclusive time.Time `json:"end_time_exclusive" api:"nullable" format:"date-time"`
 	// The start time of the service period for this credit note line item.
-	StartTimeInclusive time.Time              `json:"start_time_inclusive,nullable" format:"date-time"`
+	StartTimeInclusive time.Time              `json:"start_time_inclusive" api:"nullable" format:"date-time"`
 	JSON               creditNoteLineItemJSON `json:"-"`
 }
 
@@ -1972,13 +1972,13 @@ func (r creditNoteLineItemJSON) RawJSON() string {
 }
 
 type CreditNoteLineItemsDiscount struct {
-	ID                 string                                   `json:"id,required"`
-	AmountApplied      string                                   `json:"amount_applied,required"`
-	AppliesToPriceIDs  []string                                 `json:"applies_to_price_ids,required"`
-	DiscountType       CreditNoteLineItemsDiscountsDiscountType `json:"discount_type,required"`
-	PercentageDiscount float64                                  `json:"percentage_discount,required"`
-	AmountDiscount     string                                   `json:"amount_discount,nullable"`
-	Reason             string                                   `json:"reason,nullable"`
+	ID                 string                                   `json:"id" api:"required"`
+	AmountApplied      string                                   `json:"amount_applied" api:"required"`
+	AppliesToPriceIDs  []string                                 `json:"applies_to_price_ids" api:"required"`
+	DiscountType       CreditNoteLineItemsDiscountsDiscountType `json:"discount_type" api:"required"`
+	PercentageDiscount float64                                  `json:"percentage_discount" api:"required"`
+	AmountDiscount     string                                   `json:"amount_discount" api:"nullable"`
+	Reason             string                                   `json:"reason" api:"nullable"`
 	JSON               creditNoteLineItemsDiscountJSON          `json:"-"`
 }
 
@@ -2021,11 +2021,11 @@ func (r CreditNoteLineItemsDiscountsDiscountType) IsKnown() bool {
 
 // The maximum amount applied on the original invoice
 type CreditNoteMaximumAmountAdjustment struct {
-	AmountApplied      string                                            `json:"amount_applied,required"`
-	DiscountType       CreditNoteMaximumAmountAdjustmentDiscountType     `json:"discount_type,required"`
-	PercentageDiscount float64                                           `json:"percentage_discount,required"`
-	AppliesToPrices    []CreditNoteMaximumAmountAdjustmentAppliesToPrice `json:"applies_to_prices,nullable"`
-	Reason             string                                            `json:"reason,nullable"`
+	AmountApplied      string                                            `json:"amount_applied" api:"required"`
+	DiscountType       CreditNoteMaximumAmountAdjustmentDiscountType     `json:"discount_type" api:"required"`
+	PercentageDiscount float64                                           `json:"percentage_discount" api:"required"`
+	AppliesToPrices    []CreditNoteMaximumAmountAdjustmentAppliesToPrice `json:"applies_to_prices" api:"nullable"`
+	Reason             string                                            `json:"reason" api:"nullable"`
 	JSON               creditNoteMaximumAmountAdjustmentJSON             `json:"-"`
 }
 
@@ -2064,8 +2064,8 @@ func (r CreditNoteMaximumAmountAdjustmentDiscountType) IsKnown() bool {
 }
 
 type CreditNoteMaximumAmountAdjustmentAppliesToPrice struct {
-	ID   string                                              `json:"id,required"`
-	Name string                                              `json:"name,required"`
+	ID   string                                              `json:"id" api:"required"`
+	Name string                                              `json:"name" api:"required"`
 	JSON creditNoteMaximumAmountAdjustmentAppliesToPriceJSON `json:"-"`
 }
 
@@ -2119,11 +2119,11 @@ func (r CreditNoteType) IsKnown() bool {
 }
 
 type CreditNoteDiscount struct {
-	AmountApplied      string                              `json:"amount_applied,required"`
-	DiscountType       CreditNoteDiscountsDiscountType     `json:"discount_type,required"`
-	PercentageDiscount float64                             `json:"percentage_discount,required"`
-	AppliesToPrices    []CreditNoteDiscountsAppliesToPrice `json:"applies_to_prices,nullable"`
-	Reason             string                              `json:"reason,nullable"`
+	AmountApplied      string                              `json:"amount_applied" api:"required"`
+	DiscountType       CreditNoteDiscountsDiscountType     `json:"discount_type" api:"required"`
+	PercentageDiscount float64                             `json:"percentage_discount" api:"required"`
+	AppliesToPrices    []CreditNoteDiscountsAppliesToPrice `json:"applies_to_prices" api:"nullable"`
+	Reason             string                              `json:"reason" api:"nullable"`
 	JSON               creditNoteDiscountJSON              `json:"-"`
 }
 
@@ -2162,8 +2162,8 @@ func (r CreditNoteDiscountsDiscountType) IsKnown() bool {
 }
 
 type CreditNoteDiscountsAppliesToPrice struct {
-	ID   string                                `json:"id,required"`
-	Name string                                `json:"name,required"`
+	ID   string                                `json:"id" api:"required"`
+	Name string                                `json:"name" api:"required"`
 	JSON creditNoteDiscountsAppliesToPriceJSON `json:"-"`
 }
 
@@ -2186,7 +2186,7 @@ func (r creditNoteDiscountsAppliesToPriceJSON) RawJSON() string {
 
 type CreditNoteTiny struct {
 	// The id of the Credit note
-	ID   string             `json:"id,required"`
+	ID   string             `json:"id" api:"required"`
 	JSON creditNoteTinyJSON `json:"-"`
 }
 
@@ -2206,8 +2206,8 @@ func (r creditNoteTinyJSON) RawJSON() string {
 }
 
 type CustomExpiration struct {
-	Duration     int64                        `json:"duration,required"`
-	DurationUnit CustomExpirationDurationUnit `json:"duration_unit,required"`
+	Duration     int64                        `json:"duration" api:"required"`
+	DurationUnit CustomExpirationDurationUnit `json:"duration_unit" api:"required"`
 	JSON         customExpirationJSON         `json:"-"`
 }
 
@@ -2244,8 +2244,8 @@ func (r CustomExpirationDurationUnit) IsKnown() bool {
 }
 
 type CustomExpirationParam struct {
-	Duration     param.Field[int64]                        `json:"duration,required"`
-	DurationUnit param.Field[CustomExpirationDurationUnit] `json:"duration_unit,required"`
+	Duration     param.Field[int64]                        `json:"duration" api:"required"`
+	DurationUnit param.Field[CustomExpirationDurationUnit] `json:"duration_unit" api:"required"`
 }
 
 func (r CustomExpirationParam) MarshalJSON() (data []byte, err error) {
@@ -2253,8 +2253,8 @@ func (r CustomExpirationParam) MarshalJSON() (data []byte, err error) {
 }
 
 type CustomerMinified struct {
-	ID                 string               `json:"id,required"`
-	ExternalCustomerID string               `json:"external_customer_id,required,nullable"`
+	ID                 string               `json:"id" api:"required"`
+	ExternalCustomerID string               `json:"external_customer_id" api:"required,nullable"`
 	JSON               customerMinifiedJSON `json:"-"`
 }
 
@@ -2421,9 +2421,9 @@ func (r customerMinifiedJSON) RawJSON() string {
 // | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 // | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
 type CustomerTaxID struct {
-	Country CustomerTaxIDCountry `json:"country,required"`
-	Type    CustomerTaxIDType    `json:"type,required"`
-	Value   string               `json:"value,required"`
+	Country CustomerTaxIDCountry `json:"country" api:"required"`
+	Type    CustomerTaxIDType    `json:"type" api:"required"`
+	Value   string               `json:"value" api:"required"`
 	JSON    customerTaxIDJSON    `json:"-"`
 }
 
@@ -2839,9 +2839,9 @@ func (r CustomerTaxIDType) IsKnown() bool {
 // | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 // | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
 type CustomerTaxIDParam struct {
-	Country param.Field[CustomerTaxIDCountry] `json:"country,required"`
-	Type    param.Field[CustomerTaxIDType]    `json:"type,required"`
-	Value   param.Field[string]               `json:"value,required"`
+	Country param.Field[CustomerTaxIDCountry] `json:"country" api:"required"`
+	Type    param.Field[CustomerTaxIDType]    `json:"type" api:"required"`
+	Value   param.Field[string]               `json:"value" api:"required"`
 }
 
 func (r CustomerTaxIDParam) MarshalJSON() (data []byte, err error) {
@@ -2849,8 +2849,8 @@ func (r CustomerTaxIDParam) MarshalJSON() (data []byte, err error) {
 }
 
 type DimensionalPriceConfiguration struct {
-	DimensionValues         []string                          `json:"dimension_values,required"`
-	DimensionalPriceGroupID string                            `json:"dimensional_price_group_id,required"`
+	DimensionValues         []string                          `json:"dimension_values" api:"required"`
+	DimensionalPriceGroupID string                            `json:"dimensional_price_group_id" api:"required"`
 	JSON                    dimensionalPriceConfigurationJSON `json:"-"`
 }
 
@@ -2872,7 +2872,7 @@ func (r dimensionalPriceConfigurationJSON) RawJSON() string {
 }
 
 type Discount struct {
-	DiscountType DiscountDiscountType `json:"discount_type,required"`
+	DiscountType DiscountDiscountType `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
@@ -2883,11 +2883,11 @@ type Discount struct {
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
-	Reason             string  `json:"reason,nullable"`
+	Reason             string  `json:"reason" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	TrialAmountDiscount string `json:"trial_amount_discount" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialPercentageDiscount float64 `json:"trial_percentage_discount,nullable"`
+	TrialPercentageDiscount float64 `json:"trial_percentage_discount" api:"nullable"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount float64      `json:"usage_discount"`
@@ -2983,7 +2983,7 @@ func (r DiscountDiscountType) IsKnown() bool {
 }
 
 type DiscountParam struct {
-	DiscountType param.Field[DiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[DiscountDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount    param.Field[string]      `json:"amount_discount"`
 	AppliesToPriceIDs param.Field[interface{}] `json:"applies_to_price_ids"`
@@ -3014,10 +3014,10 @@ type DiscountUnionParam interface {
 }
 
 type FixedFeeQuantityScheduleEntry struct {
-	EndDate   time.Time                         `json:"end_date,required,nullable" format:"date-time"`
-	PriceID   string                            `json:"price_id,required"`
-	Quantity  float64                           `json:"quantity,required"`
-	StartDate time.Time                         `json:"start_date,required" format:"date-time"`
+	EndDate   time.Time                         `json:"end_date" api:"required,nullable" format:"date-time"`
+	PriceID   string                            `json:"price_id" api:"required"`
+	Quantity  float64                           `json:"quantity" api:"required"`
+	StartDate time.Time                         `json:"start_date" api:"required" format:"date-time"`
 	JSON      fixedFeeQuantityScheduleEntryJSON `json:"-"`
 }
 
@@ -3041,9 +3041,9 @@ func (r fixedFeeQuantityScheduleEntryJSON) RawJSON() string {
 }
 
 type FixedFeeQuantityTransition struct {
-	EffectiveDate time.Time                      `json:"effective_date,required" format:"date-time"`
-	PriceID       string                         `json:"price_id,required"`
-	Quantity      int64                          `json:"quantity,required"`
+	EffectiveDate time.Time                      `json:"effective_date" api:"required" format:"date-time"`
+	PriceID       string                         `json:"price_id" api:"required"`
+	Quantity      int64                          `json:"quantity" api:"required"`
 	JSON          fixedFeeQuantityTransitionJSON `json:"-"`
 }
 
@@ -3071,20 +3071,20 @@ func (r fixedFeeQuantityTransitionJSON) RawJSON() string {
 // represent fixed recurring fees or usage-based fees. They are generated at the
 // end of a billing period, or as the result of an action, such as a cancellation.
 type Invoice struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
 	// application of the customer balance to the `total` of the invoice.
-	AmountDue      string                `json:"amount_due,required"`
-	AutoCollection InvoiceAutoCollection `json:"auto_collection,required"`
-	BillingAddress Address               `json:"billing_address,required,nullable"`
+	AmountDue      string                `json:"amount_due" api:"required"`
+	AutoCollection InvoiceAutoCollection `json:"auto_collection" api:"required"`
+	BillingAddress Address               `json:"billing_address" api:"required,nullable"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
-	CreditNotes []InvoiceCreditNote `json:"credit_notes,required"`
+	CreditNotes []InvoiceCreditNote `json:"credit_notes" api:"required"`
 	// An ISO 4217 currency string or `credits`
-	Currency                    string                              `json:"currency,required"`
-	Customer                    CustomerMinified                    `json:"customer,required"`
-	CustomerBalanceTransactions []InvoiceCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	Currency                    string                              `json:"currency" api:"required"`
+	Customer                    CustomerMinified                    `json:"customer" api:"required"`
+	CustomerBalanceTransactions []InvoiceCustomerBalanceTransaction `json:"customer_balance_transactions" api:"required"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -3230,84 +3230,84 @@ type Invoice struct {
 	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
 	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
-	CustomerTaxID CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	CustomerTaxID CustomerTaxID `json:"customer_tax_id" api:"required,nullable"`
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
 	//
 	// Deprecated: deprecated
-	Discount  interface{}            `json:"discount,required"`
-	Discounts []InvoiceLevelDiscount `json:"discounts,required"`
+	Discount  interface{}            `json:"discount" api:"required"`
+	Discounts []InvoiceLevelDiscount `json:"discounts" api:"required"`
 	// When the invoice payment is due. The due date is null if the invoice is not yet
 	// finalized.
-	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	DueDate time.Time `json:"due_date" api:"required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
-	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
 	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
 	// invoice's due date, or 60 days after being re-generated through the UI.
-	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
-	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
 	// account or customer.
-	InvoiceNumber string `json:"invoice_number,required"`
+	InvoiceNumber string `json:"invoice_number" api:"required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf    string               `json:"invoice_pdf,required,nullable"`
-	InvoiceSource InvoiceInvoiceSource `json:"invoice_source,required"`
+	InvoicePdf    string               `json:"invoice_pdf" api:"required,nullable"`
+	InvoiceSource InvoiceInvoiceSource `json:"invoice_source" api:"required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
-	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	IssueFailedAt time.Time `json:"issue_failed_at" api:"required,nullable" format:"date-time"`
 	// If the invoice has been issued, this will be the time it transitioned to
 	// `issued` (even if it is now in a different state.)
-	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	IssuedAt time.Time `json:"issued_at" api:"required,nullable" format:"date-time"`
 	// The breakdown of prices in this invoice.
-	LineItems     []InvoiceLineItem `json:"line_items,required"`
-	Maximum       Maximum           `json:"maximum,required,nullable"`
-	MaximumAmount string            `json:"maximum_amount,required,nullable"`
+	LineItems     []InvoiceLineItem `json:"line_items" api:"required"`
+	Maximum       Maximum           `json:"maximum" api:"required,nullable"`
+	MaximumAmount string            `json:"maximum_amount" api:"required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo string `json:"memo,required,nullable"`
+	Memo string `json:"memo" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata      map[string]string `json:"metadata,required"`
-	Minimum       Minimum           `json:"minimum,required,nullable"`
-	MinimumAmount string            `json:"minimum_amount,required,nullable"`
+	Metadata      map[string]string `json:"metadata" api:"required"`
+	Minimum       Minimum           `json:"minimum" api:"required,nullable"`
+	MinimumAmount string            `json:"minimum_amount" api:"required,nullable"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
-	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	PaidAt time.Time `json:"paid_at" api:"required,nullable" format:"date-time"`
 	// A list of payment attempts associated with the invoice
-	PaymentAttempts []InvoicePaymentAttempt `json:"payment_attempts,required"`
+	PaymentAttempts []InvoicePaymentAttempt `json:"payment_attempts" api:"required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
-	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
-	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time            `json:"scheduled_issue_at,required,nullable" format:"date-time"`
-	ShippingAddress  Address              `json:"shipping_address,required,nullable"`
-	Status           InvoiceStatus        `json:"status,required"`
-	Subscription     SubscriptionMinified `json:"subscription,required,nullable"`
+	ScheduledIssueAt time.Time            `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	ShippingAddress  Address              `json:"shipping_address" api:"required,nullable"`
+	Status           InvoiceStatus        `json:"status" api:"required"`
+	Subscription     SubscriptionMinified `json:"subscription" api:"required,nullable"`
 	// The total before any discounts and minimums are applied.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
-	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	SyncFailedAt time.Time `json:"sync_failed_at" api:"required,nullable" format:"date-time"`
 	// The total after any minimums and discounts have been applied.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// If the invoice has a status of `void`, this gives a timestamp when the invoice
 	// was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time `json:"voided_at" api:"required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool        `json:"will_auto_issue,required"`
+	WillAutoIssue bool        `json:"will_auto_issue" api:"required"`
 	JSON          invoiceJSON `json:"-"`
 }
 
@@ -3368,20 +3368,20 @@ func (r invoiceJSON) RawJSON() string {
 
 type InvoiceAutoCollection struct {
 	// True only if auto-collection is enabled for this invoice.
-	Enabled bool `json:"enabled,required,nullable"`
+	Enabled bool `json:"enabled" api:"required,nullable"`
 	// If the invoice is scheduled for auto-collection, this field will reflect when
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
-	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	NextAttemptAt time.Time `json:"next_attempt_at" api:"required,nullable" format:"date-time"`
 	// Number of auto-collection payment attempts.
-	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	NumAttempts int64 `json:"num_attempts" api:"required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time                 `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	PreviouslyAttemptedAt time.Time                 `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceAutoCollectionJSON `json:"-"`
 }
 
@@ -3405,16 +3405,16 @@ func (r invoiceAutoCollectionJSON) RawJSON() string {
 }
 
 type InvoiceCreditNote struct {
-	ID               string `json:"id,required"`
-	CreditNoteNumber string `json:"credit_note_number,required"`
+	ID               string `json:"id" api:"required"`
+	CreditNoteNumber string `json:"credit_note_number" api:"required"`
 	// An optional memo supplied on the credit note.
-	Memo   string `json:"memo,required,nullable"`
-	Reason string `json:"reason,required"`
-	Total  string `json:"total,required"`
-	Type   string `json:"type,required"`
+	Memo   string `json:"memo" api:"required,nullable"`
+	Reason string `json:"reason" api:"required"`
+	Total  string `json:"total" api:"required"`
+	Type   string `json:"type" api:"required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time             `json:"voided_at,required,nullable" format:"date-time"`
+	VoidedAt time.Time             `json:"voided_at" api:"required,nullable" format:"date-time"`
 	JSON     invoiceCreditNoteJSON `json:"-"`
 }
 
@@ -3442,23 +3442,23 @@ func (r invoiceCreditNoteJSON) RawJSON() string {
 
 type InvoiceCustomerBalanceTransaction struct {
 	// A unique id for this transaction.
-	ID     string                                   `json:"id,required"`
-	Action InvoiceCustomerBalanceTransactionsAction `json:"action,required"`
+	ID     string                                   `json:"id" api:"required"`
+	Action InvoiceCustomerBalanceTransactionsAction `json:"action" api:"required"`
 	// The value of the amount changed in the transaction.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time      `json:"created_at,required" format:"date-time"`
-	CreditNote CreditNoteTiny `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time      `json:"created_at" api:"required" format:"date-time"`
+	CreditNote CreditNoteTiny `json:"credit_note" api:"required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
-	Description string `json:"description,required,nullable"`
+	Description string `json:"description" api:"required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string      `json:"ending_balance,required"`
-	Invoice       InvoiceTiny `json:"invoice,required,nullable"`
+	EndingBalance string      `json:"ending_balance" api:"required"`
+	Invoice       InvoiceTiny `json:"invoice" api:"required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	StartingBalance string                                 `json:"starting_balance,required"`
-	Type            InvoiceCustomerBalanceTransactionsType `json:"type,required"`
+	StartingBalance string                                 `json:"starting_balance" api:"required"`
+	Type            InvoiceCustomerBalanceTransactionsType `json:"type" api:"required"`
 	JSON            invoiceCustomerBalanceTransactionJSON  `json:"-"`
 }
 
@@ -3543,31 +3543,31 @@ func (r InvoiceInvoiceSource) IsKnown() bool {
 
 type InvoiceLineItem struct {
 	// A unique ID for this line item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
-	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
 	// discounts -> minimums -> maximums).
-	Adjustments []InvoiceLineItemsAdjustment `json:"adjustments,required"`
+	Adjustments []InvoiceLineItemsAdjustment `json:"adjustments" api:"required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The number of prepaid credits applied.
-	CreditsApplied string `json:"credits_applied,required"`
+	CreditsApplied string `json:"credits_applied" api:"required"`
 	// The end date of the range of time applied for this line item's price.
-	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
-	Filter string `json:"filter,required,nullable"`
+	Filter string `json:"filter" api:"required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
-	Grouping string `json:"grouping,required,nullable"`
+	Grouping string `json:"grouping" api:"required,nullable"`
 	// The name of the price associated with this line item.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Any amount applied from a partial invoice
-	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount" api:"required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -3578,21 +3578,21 @@ type InvoiceLineItem struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price Price `json:"price,required"`
+	Price Price `json:"price" api:"required"`
 	// Either the fixed fee quantity or the usage during the service period.
-	Quantity float64 `json:"quantity,required"`
+	Quantity float64 `json:"quantity" api:"required"`
 	// The start date of the range of time applied for this line item's price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
-	SubLineItems []InvoiceLineItemsSubLineItem `json:"sub_line_items,required"`
+	SubLineItems []InvoiceLineItemsSubLineItem `json:"sub_line_items" api:"required"`
 	// The line amount before any adjustments.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
-	TaxAmounts []TaxAmount `json:"tax_amounts,required"`
+	TaxAmounts []TaxAmount `json:"tax_amounts" api:"required"`
 	// A list of customer ids that were used to calculate the usage for this line item.
-	UsageCustomerIDs []string            `json:"usage_customer_ids,required,nullable"`
+	UsageCustomerIDs []string            `json:"usage_customer_ids" api:"required,nullable"`
 	JSON             invoiceLineItemJSON `json:"-"`
 }
 
@@ -3628,26 +3628,26 @@ func (r invoiceLineItemJSON) RawJSON() string {
 }
 
 type InvoiceLineItemsAdjustment struct {
-	ID             string                                    `json:"id,required"`
-	AdjustmentType InvoiceLineItemsAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                    `json:"id" api:"required"`
+	AdjustmentType InvoiceLineItemsAdjustmentsAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids" api:"required"`
 	// This field can have the runtime type of
 	// [[]MonetaryUsageDiscountAdjustmentFilter],
 	// [[]MonetaryAmountDiscountAdjustmentFilter],
 	// [[]MonetaryPercentageDiscountAdjustmentFilter],
 	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
-	Filters interface{} `json:"filters,required"`
+	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -3772,14 +3772,14 @@ func (r InvoiceLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
 
 type InvoiceLineItemsSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                           `json:"amount,required"`
-	Grouping     SubLineItemGrouping              `json:"grouping,required,nullable"`
-	Name         string                           `json:"name,required"`
-	Quantity     float64                          `json:"quantity,required"`
-	Type         InvoiceLineItemsSubLineItemsType `json:"type,required"`
+	Amount       string                           `json:"amount" api:"required"`
+	Grouping     SubLineItemGrouping              `json:"grouping" api:"required,nullable"`
+	Name         string                           `json:"name" api:"required"`
+	Quantity     float64                          `json:"quantity" api:"required"`
+	Type         InvoiceLineItemsSubLineItemsType `json:"type" api:"required"`
 	MatrixConfig SubLineItemMatrixConfig          `json:"matrix_config"`
 	// The scaled quantity for this line item for specific pricing structures
-	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
+	ScaledQuantity float64 `json:"scaled_quantity" api:"nullable"`
 	// This field can have the runtime type of [TierSubLineItemTierConfig].
 	TierConfig interface{}                     `json:"tier_config"`
 	JSON       invoiceLineItemsSubLineItemJSON `json:"-"`
@@ -3868,20 +3868,20 @@ func (r InvoiceLineItemsSubLineItemsType) IsKnown() bool {
 
 type InvoicePaymentAttempt struct {
 	// The ID of the payment attempt.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The amount of the payment attempt.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The time at which the payment attempt was created.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The payment provider that attempted to collect the payment.
-	PaymentProvider InvoicePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	PaymentProvider InvoicePaymentAttemptsPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of the payment attempt in the payment provider.
-	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
 	// URL to the downloadable PDF version of the receipt. This field will be `null`
 	// for payment attempts that did not succeed.
-	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	ReceiptPdf string `json:"receipt_pdf" api:"required,nullable"`
 	// Whether the payment attempt succeeded.
-	Succeeded bool                      `json:"succeeded,required"`
+	Succeeded bool                      `json:"succeeded" api:"required"`
 	JSON      invoicePaymentAttemptJSON `json:"-"`
 }
 
@@ -3941,7 +3941,7 @@ func (r InvoiceStatus) IsKnown() bool {
 }
 
 type InvoiceLevelDiscount struct {
-	DiscountType InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
+	DiscountType InvoiceLevelDiscountDiscountType `json:"discount_type" api:"required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
@@ -3952,11 +3952,11 @@ type InvoiceLevelDiscount struct {
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
-	Reason             string  `json:"reason,nullable"`
+	Reason             string  `json:"reason" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	TrialAmountDiscount string `json:"trial_amount_discount" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialPercentageDiscount float64                  `json:"trial_percentage_discount,nullable"`
+	TrialPercentageDiscount float64                  `json:"trial_percentage_discount" api:"nullable"`
 	JSON                    invoiceLevelDiscountJSON `json:"-"`
 	union                   InvoiceLevelDiscountUnion
 }
@@ -4043,7 +4043,7 @@ func (r InvoiceLevelDiscountDiscountType) IsKnown() bool {
 
 type InvoiceTiny struct {
 	// The Invoice id
-	ID   string          `json:"id,required"`
+	ID   string          `json:"id" api:"required"`
 	JSON invoiceTinyJSON `json:"-"`
 }
 
@@ -4066,9 +4066,9 @@ func (r invoiceTinyJSON) RawJSON() string {
 // information.
 type ItemSlim struct {
 	// The Orb-assigned unique identifier for the item.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The name of the item.
-	Name string       `json:"name,required"`
+	Name string       `json:"name" api:"required"`
 	JSON itemSlimJSON `json:"-"`
 }
 
@@ -4091,11 +4091,11 @@ func (r itemSlimJSON) RawJSON() string {
 // Configuration for matrix pricing
 type MatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
-	DefaultUnitAmount string `json:"default_unit_amount,required"`
+	DefaultUnitAmount string `json:"default_unit_amount" api:"required"`
 	// One or two event property values to evaluate matrix groups by
-	Dimensions []string `json:"dimensions,required"`
+	Dimensions []string `json:"dimensions" api:"required"`
 	// Matrix values configuration
-	MatrixValues []MatrixValue    `json:"matrix_values,required"`
+	MatrixValues []MatrixValue    `json:"matrix_values" api:"required"`
 	JSON         matrixConfigJSON `json:"-"`
 }
 
@@ -4119,11 +4119,11 @@ func (r matrixConfigJSON) RawJSON() string {
 // Configuration for matrix pricing
 type MatrixConfigParam struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
-	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
 	// One or two event property values to evaluate matrix groups by
-	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
 	// Matrix values configuration
-	MatrixValues param.Field[[]MatrixValueParam] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]MatrixValueParam] `json:"matrix_values" api:"required"`
 }
 
 func (r MatrixConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4132,14 +4132,14 @@ func (r MatrixConfigParam) MarshalJSON() (data []byte, err error) {
 
 type MatrixSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                  `json:"amount,required"`
-	Grouping     SubLineItemGrouping     `json:"grouping,required,nullable"`
-	MatrixConfig SubLineItemMatrixConfig `json:"matrix_config,required"`
-	Name         string                  `json:"name,required"`
-	Quantity     float64                 `json:"quantity,required"`
-	Type         MatrixSubLineItemType   `json:"type,required"`
+	Amount       string                  `json:"amount" api:"required"`
+	Grouping     SubLineItemGrouping     `json:"grouping" api:"required,nullable"`
+	MatrixConfig SubLineItemMatrixConfig `json:"matrix_config" api:"required"`
+	Name         string                  `json:"name" api:"required"`
+	Quantity     float64                 `json:"quantity" api:"required"`
+	Type         MatrixSubLineItemType   `json:"type" api:"required"`
 	// The scaled quantity for this line item for specific pricing structures
-	ScaledQuantity float64               `json:"scaled_quantity,nullable"`
+	ScaledQuantity float64               `json:"scaled_quantity" api:"nullable"`
 	JSON           matrixSubLineItemJSON `json:"-"`
 }
 
@@ -4191,9 +4191,9 @@ func (r MatrixSubLineItemType) IsKnown() bool {
 // Configuration for a single matrix value
 type MatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by
-	DimensionValues []string `json:"dimension_values,required"`
+	DimensionValues []string `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string          `json:"unit_amount,required"`
+	UnitAmount string          `json:"unit_amount" api:"required"`
 	JSON       matrixValueJSON `json:"-"`
 }
 
@@ -4216,9 +4216,9 @@ func (r matrixValueJSON) RawJSON() string {
 // Configuration for a single matrix value
 type MatrixValueParam struct {
 	// One or two matrix keys to filter usage to this Matrix value by
-	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r MatrixValueParam) MarshalJSON() (data []byte, err error) {
@@ -4228,13 +4228,13 @@ func (r MatrixValueParam) MarshalJSON() (data []byte, err error) {
 // Configuration for matrix pricing with usage allocation
 type MatrixWithAllocationConfig struct {
 	// Usage allocation
-	Allocation string `json:"allocation,required"`
+	Allocation string `json:"allocation" api:"required"`
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
-	DefaultUnitAmount string `json:"default_unit_amount,required"`
+	DefaultUnitAmount string `json:"default_unit_amount" api:"required"`
 	// One or two event property values to evaluate matrix groups by
-	Dimensions []string `json:"dimensions,required"`
+	Dimensions []string `json:"dimensions" api:"required"`
 	// Matrix values configuration
-	MatrixValues []MatrixWithAllocationConfigMatrixValue `json:"matrix_values,required"`
+	MatrixValues []MatrixWithAllocationConfigMatrixValue `json:"matrix_values" api:"required"`
 	JSON         matrixWithAllocationConfigJSON          `json:"-"`
 }
 
@@ -4262,9 +4262,9 @@ type MatrixWithAllocationConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
-	DimensionValues []string `json:"dimension_values,required"`
+	DimensionValues []string `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string                                    `json:"unit_amount,required"`
+	UnitAmount string                                    `json:"unit_amount" api:"required"`
 	JSON       matrixWithAllocationConfigMatrixValueJSON `json:"-"`
 }
 
@@ -4288,13 +4288,13 @@ func (r matrixWithAllocationConfigMatrixValueJSON) RawJSON() string {
 // Configuration for matrix pricing with usage allocation
 type MatrixWithAllocationConfigParam struct {
 	// Usage allocation
-	Allocation param.Field[string] `json:"allocation,required"`
+	Allocation param.Field[string] `json:"allocation" api:"required"`
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
-	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
 	// One or two event property values to evaluate matrix groups by
-	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
 	// Matrix values configuration
-	MatrixValues param.Field[[]MatrixWithAllocationConfigMatrixValueParam] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]MatrixWithAllocationConfigMatrixValueParam] `json:"matrix_values" api:"required"`
 }
 
 func (r MatrixWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -4306,9 +4306,9 @@ type MatrixWithAllocationConfigMatrixValueParam struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
-	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r MatrixWithAllocationConfigMatrixValueParam) MarshalJSON() (data []byte, err error) {
@@ -4320,11 +4320,11 @@ type Maximum struct {
 	// maximums, this can be a subset of prices.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this maximum to.
-	Filters []MaximumFilter `json:"filters,required"`
+	Filters []MaximumFilter `json:"filters" api:"required"`
 	// Maximum amount applied
-	MaximumAmount string      `json:"maximum_amount,required"`
+	MaximumAmount string      `json:"maximum_amount" api:"required"`
 	JSON          maximumJSON `json:"-"`
 }
 
@@ -4347,11 +4347,11 @@ func (r maximumJSON) RawJSON() string {
 
 type MaximumFilter struct {
 	// The property of the price to filter on.
-	Field MaximumFiltersField `json:"field,required"`
+	Field MaximumFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MaximumFiltersOperator `json:"operator,required"`
+	Operator MaximumFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string          `json:"values,required"`
+	Values []string          `json:"values" api:"required"`
 	JSON   maximumFilterJSON `json:"-"`
 }
 
@@ -4409,16 +4409,16 @@ func (r MaximumFiltersOperator) IsKnown() bool {
 
 type MaximumInterval struct {
 	// The price interval ids that this maximum interval applies to.
-	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids" api:"required"`
 	// The end date of the maximum interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The filters that determine which prices this maximum interval applies to.
-	Filters []MaximumIntervalFilter `json:"filters,required"`
+	Filters []MaximumIntervalFilter `json:"filters" api:"required"`
 	// The maximum amount to charge in a given billing period for the price intervals
 	// this transform applies to.
-	MaximumAmount string `json:"maximum_amount,required"`
+	MaximumAmount string `json:"maximum_amount" api:"required"`
 	// The start date of the maximum interval.
-	StartDate time.Time           `json:"start_date,required" format:"date-time"`
+	StartDate time.Time           `json:"start_date" api:"required" format:"date-time"`
 	JSON      maximumIntervalJSON `json:"-"`
 }
 
@@ -4443,11 +4443,11 @@ func (r maximumIntervalJSON) RawJSON() string {
 
 type MaximumIntervalFilter struct {
 	// The property of the price to filter on.
-	Field MaximumIntervalFiltersField `json:"field,required"`
+	Field MaximumIntervalFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MaximumIntervalFiltersOperator `json:"operator,required"`
+	Operator MaximumIntervalFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                  `json:"values,required"`
+	Values []string                  `json:"values" api:"required"`
 	JSON   maximumIntervalFilterJSON `json:"-"`
 }
 
@@ -4509,11 +4509,11 @@ type Minimum struct {
 	// minimums, this can be a subset of prices.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this minimum to.
-	Filters []MinimumFilter `json:"filters,required"`
+	Filters []MinimumFilter `json:"filters" api:"required"`
 	// Minimum amount applied
-	MinimumAmount string      `json:"minimum_amount,required"`
+	MinimumAmount string      `json:"minimum_amount" api:"required"`
 	JSON          minimumJSON `json:"-"`
 }
 
@@ -4536,11 +4536,11 @@ func (r minimumJSON) RawJSON() string {
 
 type MinimumFilter struct {
 	// The property of the price to filter on.
-	Field MinimumFiltersField `json:"field,required"`
+	Field MinimumFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MinimumFiltersOperator `json:"operator,required"`
+	Operator MinimumFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string          `json:"values,required"`
+	Values []string          `json:"values" api:"required"`
 	JSON   minimumFilterJSON `json:"-"`
 }
 
@@ -4598,16 +4598,16 @@ func (r MinimumFiltersOperator) IsKnown() bool {
 
 type MinimumInterval struct {
 	// The price interval ids that this minimum interval applies to.
-	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids" api:"required"`
 	// The end date of the minimum interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The filters that determine which prices this minimum interval applies to.
-	Filters []MinimumIntervalFilter `json:"filters,required"`
+	Filters []MinimumIntervalFilter `json:"filters" api:"required"`
 	// The minimum amount to charge in a given billing period for the price intervals
 	// this minimum applies to.
-	MinimumAmount string `json:"minimum_amount,required"`
+	MinimumAmount string `json:"minimum_amount" api:"required"`
 	// The start date of the minimum interval.
-	StartDate time.Time           `json:"start_date,required" format:"date-time"`
+	StartDate time.Time           `json:"start_date" api:"required" format:"date-time"`
 	JSON      minimumIntervalJSON `json:"-"`
 }
 
@@ -4632,11 +4632,11 @@ func (r minimumIntervalJSON) RawJSON() string {
 
 type MinimumIntervalFilter struct {
 	// The property of the price to filter on.
-	Field MinimumIntervalFiltersField `json:"field,required"`
+	Field MinimumIntervalFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MinimumIntervalFiltersOperator `json:"operator,required"`
+	Operator MinimumIntervalFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                  `json:"values,required"`
+	Values []string                  `json:"values" api:"required"`
 	JSON   minimumIntervalFilterJSON `json:"-"`
 }
 
@@ -4694,27 +4694,27 @@ func (r MinimumIntervalFiltersOperator) IsKnown() bool {
 }
 
 type MonetaryAmountDiscountAdjustment struct {
-	ID             string                                         `json:"id,required"`
-	AdjustmentType MonetaryAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                         `json:"id" api:"required"`
+	AdjustmentType MonetaryAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
-	AmountDiscount string `json:"amount_discount,required"`
+	AmountDiscount string `json:"amount_discount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []MonetaryAmountDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []MonetaryAmountDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                               `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                               `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 monetaryAmountDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -4768,11 +4768,11 @@ func (r MonetaryAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type MonetaryAmountDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field MonetaryAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	Field MonetaryAmountDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MonetaryAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator MonetaryAmountDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                   `json:"values,required"`
+	Values []string                                   `json:"values" api:"required"`
 	JSON   monetaryAmountDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -4830,27 +4830,27 @@ func (r MonetaryAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type MonetaryMaximumAdjustment struct {
-	ID             string                                  `json:"id,required"`
-	AdjustmentType MonetaryMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                  `json:"id" api:"required"`
+	AdjustmentType MonetaryMaximumAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []MonetaryMaximumAdjustmentFilter `json:"filters,required"`
+	Filters []MonetaryMaximumAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
-	MaximumAmount string `json:"maximum_amount,required"`
+	MaximumAmount string `json:"maximum_amount" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 monetaryMaximumAdjustmentJSON `json:"-"`
 }
 
@@ -4903,11 +4903,11 @@ func (r MonetaryMaximumAdjustmentAdjustmentType) IsKnown() bool {
 
 type MonetaryMaximumAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field MonetaryMaximumAdjustmentFiltersField `json:"field,required"`
+	Field MonetaryMaximumAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MonetaryMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	Operator MonetaryMaximumAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                            `json:"values,required"`
+	Values []string                            `json:"values" api:"required"`
 	JSON   monetaryMaximumAdjustmentFilterJSON `json:"-"`
 }
 
@@ -4965,29 +4965,29 @@ func (r MonetaryMaximumAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type MonetaryMinimumAdjustment struct {
-	ID             string                                  `json:"id,required"`
-	AdjustmentType MonetaryMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                  `json:"id" api:"required"`
+	AdjustmentType MonetaryMinimumAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []MonetaryMinimumAdjustmentFilter `json:"filters,required"`
+	Filters []MonetaryMinimumAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The item ID that revenue from this minimum will be attributed to.
-	ItemID string `json:"item_id,required"`
+	ItemID string `json:"item_id" api:"required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
-	MinimumAmount string `json:"minimum_amount,required"`
+	MinimumAmount string `json:"minimum_amount" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 monetaryMinimumAdjustmentJSON `json:"-"`
 }
 
@@ -5041,11 +5041,11 @@ func (r MonetaryMinimumAdjustmentAdjustmentType) IsKnown() bool {
 
 type MonetaryMinimumAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field MonetaryMinimumAdjustmentFiltersField `json:"field,required"`
+	Field MonetaryMinimumAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MonetaryMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	Operator MonetaryMinimumAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                            `json:"values,required"`
+	Values []string                            `json:"values" api:"required"`
 	JSON   monetaryMinimumAdjustmentFilterJSON `json:"-"`
 }
 
@@ -5103,27 +5103,27 @@ func (r MonetaryMinimumAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type MonetaryPercentageDiscountAdjustment struct {
-	ID             string                                             `json:"id,required"`
-	AdjustmentType MonetaryPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                             `json:"id" api:"required"`
+	AdjustmentType MonetaryPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []MonetaryPercentageDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []MonetaryPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
+	PercentageDiscount float64 `json:"percentage_discount" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                                   `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                                   `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 monetaryPercentageDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -5177,11 +5177,11 @@ func (r MonetaryPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type MonetaryPercentageDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field MonetaryPercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	Field MonetaryPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MonetaryPercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator MonetaryPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                       `json:"values,required"`
+	Values []string                                       `json:"values" api:"required"`
 	JSON   monetaryPercentageDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -5239,27 +5239,27 @@ func (r MonetaryPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type MonetaryUsageDiscountAdjustment struct {
-	ID             string                                        `json:"id,required"`
-	AdjustmentType MonetaryUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                        `json:"id" api:"required"`
+	AdjustmentType MonetaryUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The value applied by an adjustment.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []MonetaryUsageDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []MonetaryUsageDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
-	UsageDiscount float64                             `json:"usage_discount,required"`
+	UsageDiscount float64                             `json:"usage_discount" api:"required"`
 	JSON          monetaryUsageDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -5313,11 +5313,11 @@ func (r MonetaryUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type MonetaryUsageDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field MonetaryUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	Field MonetaryUsageDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator MonetaryUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator MonetaryUsageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                  `json:"values,required"`
+	Values []string                                  `json:"values" api:"required"`
 	JSON   monetaryUsageDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -5376,12 +5376,12 @@ func (r MonetaryUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
 
 type NewAllocationPriceParam struct {
 	// An amount of the currency to allocate to the customer at the specified cadence.
-	Amount param.Field[string] `json:"amount,required"`
+	Amount param.Field[string] `json:"amount" api:"required"`
 	// The cadence at which to allocate the amount to the customer.
-	Cadence param.Field[NewAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The custom expiration for the allocation.
 	CustomExpiration param.Field[CustomExpirationParam] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
@@ -5427,11 +5427,11 @@ func (r NewAllocationPriceCadence) IsKnown() bool {
 // A PriceFilter that only allows item_id field for block filters.
 type NewAllocationPriceFilterParam struct {
 	// The property of the price the block applies to. Only item_id is supported.
-	Field param.Field[NewAllocationPriceFiltersField] `json:"field,required"`
+	Field param.Field[NewAllocationPriceFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewAllocationPriceFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewAllocationPriceFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewAllocationPriceFilterParam) MarshalJSON() (data []byte, err error) {
@@ -5470,8 +5470,8 @@ func (r NewAllocationPriceFiltersOperator) IsKnown() bool {
 }
 
 type NewAmountDiscountParam struct {
-	AdjustmentType param.Field[NewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
-	AmountDiscount param.Field[string]                          `json:"amount_discount,required"`
+	AdjustmentType param.Field[NewAmountDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	AmountDiscount param.Field[string]                          `json:"amount_discount" api:"required"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll param.Field[NewAmountDiscountAppliesToAll] `json:"applies_to_all"`
 	// The set of item IDs to which this adjustment applies.
@@ -5550,11 +5550,11 @@ func (r NewAmountDiscountAppliesToAll) IsKnown() bool {
 
 type NewAmountDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[NewAmountDiscountFiltersField] `json:"field,required"`
+	Field param.Field[NewAmountDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewAmountDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewAmountDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewAmountDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -5617,9 +5617,9 @@ func (r NewAmountDiscountPriceType) IsKnown() bool {
 
 type NewBillingCycleConfigurationParam struct {
 	// The duration of the billing period.
-	Duration param.Field[int64] `json:"duration,required"`
+	Duration param.Field[int64] `json:"duration" api:"required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[NewBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[NewBillingCycleConfigurationDurationUnit] `json:"duration_unit" api:"required"`
 }
 
 func (r NewBillingCycleConfigurationParam) MarshalJSON() (data []byte, err error) {
@@ -5645,7 +5645,7 @@ func (r NewBillingCycleConfigurationDurationUnit) IsKnown() bool {
 type NewDimensionalPriceConfigurationParam struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
-	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
 	// The id of the dimensional price group to include this price in
 	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
 	// The external id of the dimensional price group to include this price in
@@ -5658,17 +5658,17 @@ func (r NewDimensionalPriceConfigurationParam) MarshalJSON() (data []byte, err e
 
 type NewFloatingBulkPriceParam struct {
 	// Configuration for bulk pricing
-	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
+	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingBulkPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5750,7 +5750,7 @@ func (r NewFloatingBulkPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                              `json:"unit_config"`
 }
@@ -5786,17 +5786,17 @@ func (r NewFloatingBulkPriceConversionRateConfigConversionRateType) IsKnown() bo
 
 type NewFloatingBulkWithProrationPriceParam struct {
 	// Configuration for bulk_with_proration pricing
-	BulkWithProrationConfig param.Field[NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config,required"`
+	BulkWithProrationConfig param.Field[NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -5846,7 +5846,7 @@ func (r NewFloatingBulkWithProrationPriceParam) ImplementsSubscriptionPriceInter
 // Configuration for bulk_with_proration pricing
 type NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -5856,7 +5856,7 @@ func (r NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJS
 // Configuration for a single bulk pricing tier with proration
 type NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam struct {
 	// Cost per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -5901,7 +5901,7 @@ func (r NewFloatingBulkWithProrationPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingBulkWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -5937,17 +5937,17 @@ func (r NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType)
 
 type NewFloatingCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_bulk pricing
-	CumulativeGroupedBulkConfig param.Field[NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config,required"`
+	CumulativeGroupedBulkConfig param.Field[NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6017,8 +6017,8 @@ func (r NewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 // Configuration for cumulative_grouped_bulk pricing
 type NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
 	// Each tier lower bound must have the same group of values.
-	DimensionValues param.Field[[]NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
-	Group           param.Field[string]                                                                                `json:"group,required"`
+	DimensionValues param.Field[[]NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                                `json:"group" api:"required"`
 }
 
 func (r NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6028,11 +6028,11 @@ func (r NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) M
 // Configuration for a dimension value entry
 type NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam struct {
 	// Grouping key value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Tier lower bound
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Unit amount for this combination
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam) MarshalJSON() (data []byte, err error) {
@@ -6055,7 +6055,7 @@ func (r NewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -6091,17 +6091,17 @@ func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateT
 
 type NewFloatingGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_allocation pricing
-	GroupedAllocationConfig param.Field[NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config,required"`
+	GroupedAllocationConfig param.Field[NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6171,11 +6171,11 @@ func (r NewFloatingGroupedAllocationPriceCadence) IsKnown() bool {
 // Configuration for grouped_allocation pricing
 type NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam struct {
 	// Usage allocation per group
-	Allocation param.Field[string] `json:"allocation,required"`
+	Allocation param.Field[string] `json:"allocation" api:"required"`
 	// How to determine the groups that should each be allocated some quantity
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Unit rate for post-allocation
-	OverageUnitRate param.Field[string] `json:"overage_unit_rate,required"`
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
 }
 
 func (r NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6198,7 +6198,7 @@ func (r NewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingGroupedAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -6234,17 +6234,17 @@ func (r NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType)
 
 type NewFloatingGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_tiered_package pricing
-	GroupedTieredPackageConfig param.Field[NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config,required"`
+	GroupedTieredPackageConfig param.Field[NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6314,11 +6314,11 @@ func (r NewFloatingGroupedTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered_package pricing
 type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
 	// The event property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6328,8 +6328,8 @@ func (r NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam) Mar
 // Configuration for a single tier
 type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
 	// Per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -6352,7 +6352,7 @@ func (r NewFloatingGroupedTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewFloatingGroupedTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -6388,17 +6388,17 @@ func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTy
 
 type NewFloatingGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingGroupedTieredPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_tiered pricing
-	GroupedTieredConfig param.Field[NewFloatingGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config,required"`
+	GroupedTieredConfig param.Field[NewFloatingGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingGroupedTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6468,10 +6468,10 @@ func (r NewFloatingGroupedTieredPriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered pricing
 type NewFloatingGroupedTieredPriceGroupedTieredConfigParam struct {
 	// The billable metric property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Apply tiered pricing to each segment generated after grouping with the provided
 	// key
-	Tiers param.Field[[]NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6480,9 +6480,9 @@ func (r NewFloatingGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (da
 
 // Configuration for a single tier
 type NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -6505,7 +6505,7 @@ func (r NewFloatingGroupedTieredPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingGroupedTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -6541,17 +6541,17 @@ func (r NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType) IsK
 
 type NewFloatingGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_metered_minimum pricing
-	GroupedWithMeteredMinimumConfig param.Field[NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig param.Field[NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6622,18 +6622,18 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam struct {
 	// Used to partition the usage into groups. The minimum amount is applied to each
 	// group.
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group per unit
-	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount,required"`
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
 	// Used to determine the unit rate
-	PricingKey param.Field[string] `json:"pricing_key,required"`
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
 	// Scale the unit rates by the scaling factor.
-	ScalingFactors param.Field[[]NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors,required"`
+	ScalingFactors param.Field[[]NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors" api:"required"`
 	// Used to determine the unit rate scaling factor
-	ScalingKey param.Field[string] `json:"scaling_key,required"`
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
 	// Apply per unit pricing to each pricing value. The minimum amount is applied any
 	// unmatched usage.
-	UnitAmounts param.Field[[]NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6642,8 +6642,8 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig
 
 // Configuration for a scaling factor
 type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	ScalingValue  param.Field[string] `json:"scaling_value,required"`
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
@@ -6652,9 +6652,9 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig
 
 // Configuration for a unit amount
 type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
-	PricingValue param.Field[string] `json:"pricing_value,required"`
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -6677,7 +6677,7 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                   `json:"unit_config"`
 }
@@ -6713,17 +6713,17 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionR
 
 type NewFloatingGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// Configuration for grouped_with_prorated_minimum pricing
-	GroupedWithProratedMinimumConfig param.Field[NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6793,11 +6793,11 @@ func (r NewFloatingGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 // Configuration for grouped_with_prorated_minimum pricing
 type NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam struct {
 	// How to determine the groups that should each have a minimum
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group
-	Minimum param.Field[string] `json:"minimum,required"`
+	Minimum param.Field[string] `json:"minimum" api:"required"`
 	// The amount to charge per unit
-	UnitRate param.Field[string] `json:"unit_rate,required"`
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
 }
 
 func (r NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6820,7 +6820,7 @@ func (r NewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                  `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                    `json:"unit_config"`
 }
@@ -6856,17 +6856,17 @@ func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversion
 
 type NewFloatingMatrixPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingMatrixPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix pricing
-	MatrixConfig param.Field[MatrixConfigParam] `json:"matrix_config,required"`
+	MatrixConfig param.Field[MatrixConfigParam] `json:"matrix_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingMatrixPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingMatrixPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -6948,7 +6948,7 @@ func (r NewFloatingMatrixPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingMatrixPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                              `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                `json:"unit_config"`
 }
@@ -6984,17 +6984,17 @@ func (r NewFloatingMatrixPriceConversionRateConfigConversionRateType) IsKnown() 
 
 type NewFloatingMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_allocation pricing
-	MatrixWithAllocationConfig param.Field[MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config,required"`
+	MatrixWithAllocationConfig param.Field[MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingMatrixWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7077,7 +7077,7 @@ func (r NewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingMatrixWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -7113,17 +7113,17 @@ func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTy
 
 type NewFloatingMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_display_name pricing
-	MatrixWithDisplayNameConfig param.Field[NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config,required"`
+	MatrixWithDisplayNameConfig param.Field[NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7193,9 +7193,9 @@ func (r NewFloatingMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 // Configuration for matrix_with_display_name pricing
 type NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam struct {
 	// Used to determine the unit rate
-	Dimension param.Field[string] `json:"dimension,required"`
+	Dimension param.Field[string] `json:"dimension" api:"required"`
 	// Apply per unit pricing to each dimension value
-	UnitAmounts param.Field[[]NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) MarshalJSON() (data []byte, err error) {
@@ -7205,11 +7205,11 @@ func (r NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) M
 // Configuration for a unit amount item
 type NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam struct {
 	// The dimension value
-	DimensionValue param.Field[string] `json:"dimension_value,required"`
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
 	// Display name for this dimension value
-	DisplayName param.Field[string] `json:"display_name,required"`
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -7232,7 +7232,7 @@ func (r NewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 }
 
 type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -7268,17 +7268,17 @@ func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateT
 
 type NewFloatingMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for max_group_tiered_package pricing
-	MaxGroupTieredPackageConfig param.Field[NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config,required"`
+	MaxGroupTieredPackageConfig param.Field[NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7348,10 +7348,10 @@ func (r NewFloatingMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for max_group_tiered_package pricing
 type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
 	// The event property used to group before tiering the group with the highest value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
-	Tiers param.Field[[]NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -7360,9 +7360,9 @@ func (r NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) M
 
 // Configuration for a single tier
 type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -7385,7 +7385,7 @@ func (r NewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -7421,17 +7421,17 @@ func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateT
 
 type NewFloatingMinimumCompositePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingMinimumCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingMinimumCompositePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for minimum_composite pricing
-	MinimumCompositeConfig param.Field[NewFloatingMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config,required"`
+	MinimumCompositeConfig param.Field[NewFloatingMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingMinimumCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingMinimumCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7501,7 +7501,7 @@ func (r NewFloatingMinimumCompositePriceCadence) IsKnown() bool {
 // Configuration for minimum_composite pricing
 type NewFloatingMinimumCompositePriceMinimumCompositeConfigParam struct {
 	// The minimum amount to apply
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -7526,7 +7526,7 @@ func (r NewFloatingMinimumCompositePriceModelType) IsKnown() bool {
 }
 
 type NewFloatingMinimumCompositePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                          `json:"unit_config"`
 }
@@ -7562,17 +7562,17 @@ func (r NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType) 
 
 type NewFloatingPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package pricing
-	PackageConfig param.Field[PackageConfigParam] `json:"package_config,required"`
+	PackageConfig param.Field[PackageConfigParam] `json:"package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7654,7 +7654,7 @@ func (r NewFloatingPackagePriceModelType) IsKnown() bool {
 }
 
 type NewFloatingPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                               `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                 `json:"unit_config"`
 }
@@ -7690,17 +7690,17 @@ func (r NewFloatingPackagePriceConversionRateConfigConversionRateType) IsKnown()
 
 type NewFloatingPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package_with_allocation pricing
-	PackageWithAllocationConfig param.Field[NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config,required"`
+	PackageWithAllocationConfig param.Field[NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7784,9 +7784,9 @@ func (r NewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam struct {
-	Allocation    param.Field[string] `json:"allocation,required"`
-	PackageAmount param.Field[string] `json:"package_amount,required"`
-	PackageSize   param.Field[string] `json:"package_size,required"`
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
 }
 
 func (r NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -7794,7 +7794,7 @@ func (r NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam) M
 }
 
 type NewFloatingPackageWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -7830,17 +7830,17 @@ func (r NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateT
 
 type NewFloatingScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
-	ScalableMatrixWithTieredPricingConfig param.Field[NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	ScalableMatrixWithTieredPricingConfig param.Field[NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -7925,10 +7925,10 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool
 // Configuration for scalable_matrix_with_tiered_pricing pricing
 type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam struct {
 	// Used for the scalable matrix first dimension
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
-	Tiers                param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers,required"`
+	MatrixScalingFactors param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers" api:"required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -7939,8 +7939,8 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredP
 
 // Configuration for a single matrix scaling factor
 type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -7950,8 +7950,8 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredP
 
 // Configuration for a single tier entry with business logic
 type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	UnitAmount     param.Field[string] `json:"unit_amount,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -7959,7 +7959,7 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredP
 }
 
 type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                       `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                         `json:"unit_config"`
 }
@@ -7995,17 +7995,17 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConve
 
 type NewFloatingScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_unit_pricing pricing
-	ScalableMatrixWithUnitPricingConfig param.Field[NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config,required"`
+	ScalableMatrixWithUnitPricingConfig param.Field[NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8090,11 +8090,11 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 // Configuration for scalable_matrix_with_unit_pricing pricing
 type NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam struct {
 	// Used to determine the unit rate
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
+	MatrixScalingFactors param.Field[[]NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
 	// The final unit price to rate against the output of the matrix
-	UnitPrice param.Field[string] `json:"unit_price,required"`
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
 	// The property used to group this price
 	GroupingKey param.Field[string] `json:"grouping_key"`
 	// If true, the unit price will be prorated to the billing period
@@ -8109,8 +8109,8 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPrici
 
 // Configuration for a single matrix scaling factor
 type NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -8119,7 +8119,7 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPrici
 }
 
 type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                       `json:"unit_config"`
 }
@@ -8155,17 +8155,17 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConvers
 
 type NewFloatingThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for threshold_total_amount pricing
-	ThresholdTotalAmountConfig param.Field[NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config,required"`
+	ThresholdTotalAmountConfig param.Field[NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8251,7 +8251,7 @@ func (r NewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
 type NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam struct {
 	// When the quantity consumed passes a provided threshold, the configured total
 	// will be charged
-	ConsumptionTable param.Field[[]NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table,required"`
+	ConsumptionTable param.Field[[]NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table" api:"required"`
 	// If true, the unit price will be prorated to the billing period
 	Prorate param.Field[bool] `json:"prorate"`
 }
@@ -8262,9 +8262,9 @@ func (r NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam) Mar
 
 // Configuration for a single threshold
 type NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
-	Threshold param.Field[string] `json:"threshold,required"`
+	Threshold param.Field[string] `json:"threshold" api:"required"`
 	// Total amount for this threshold
-	TotalAmount param.Field[string] `json:"total_amount,required"`
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
 }
 
 func (r NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam) MarshalJSON() (data []byte, err error) {
@@ -8272,7 +8272,7 @@ func (r NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptio
 }
 
 type NewFloatingThresholdTotalAmountPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -8308,17 +8308,17 @@ func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTy
 
 type NewFloatingTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package pricing
-	TieredPackageConfig param.Field[NewFloatingTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config,required"`
+	TieredPackageConfig param.Field[NewFloatingTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8402,12 +8402,12 @@ func (r NewFloatingTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type NewFloatingTieredPackagePriceTieredPackageConfigParam struct {
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
 	// the total quantity rather than the number of packages, so they must be multiples
 	// of the package size.
-	Tiers param.Field[[]NewFloatingTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -8417,8 +8417,8 @@ func (r NewFloatingTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (da
 // Configuration for a single tier with business logic
 type NewFloatingTieredPackagePriceTieredPackageConfigTierParam struct {
 	// Price per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewFloatingTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -8426,7 +8426,7 @@ func (r NewFloatingTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON()
 }
 
 type NewFloatingTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -8462,17 +8462,17 @@ func (r NewFloatingTieredPackagePriceConversionRateConfigConversionRateType) IsK
 
 type NewFloatingTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package_with_minimum pricing
-	TieredPackageWithMinimumConfig param.Field[NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config,required"`
+	TieredPackageWithMinimumConfig param.Field[NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8556,10 +8556,10 @@ func (r NewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
-	PackageSize param.Field[float64] `json:"package_size,required"`
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -8568,9 +8568,9 @@ func (r NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigPa
 
 // Configuration for a single tier
 type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -8578,7 +8578,7 @@ func (r NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTi
 }
 
 type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                  `json:"unit_config"`
 }
@@ -8614,17 +8614,17 @@ func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRa
 
 type NewFloatingTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingTieredPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered pricing
-	TieredConfig param.Field[TieredConfigParam] `json:"tiered_config,required"`
+	TieredConfig param.Field[TieredConfigParam] `json:"tiered_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8706,7 +8706,7 @@ func (r NewFloatingTieredPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                              `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                `json:"unit_config"`
 }
@@ -8742,17 +8742,17 @@ func (r NewFloatingTieredPriceConversionRateConfigConversionRateType) IsKnown() 
 
 type NewFloatingTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_minimum pricing
-	TieredWithMinimumConfig param.Field[NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config,required"`
+	TieredWithMinimumConfig param.Field[NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8838,7 +8838,7 @@ func (r NewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
 type NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam struct {
 	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
 	// defined using exclusive lower bounds.
-	Tiers param.Field[[]NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 	// If true, tiers with an accrued amount of 0 will not be included in the rating.
 	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
 	// If true, the unit price will be prorated to the billing period
@@ -8851,10 +8851,10 @@ func (r NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam) MarshalJS
 
 // Configuration for a single tier
 type NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -8862,7 +8862,7 @@ func (r NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam) Marsh
 }
 
 type NewFloatingTieredWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -8898,17 +8898,17 @@ func (r NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType)
 
 type NewFloatingTieredWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig param.Field[NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam] `json:"tiered_with_proration_config,required"`
+	TieredWithProrationConfig param.Field[NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam] `json:"tiered_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -8994,7 +8994,7 @@ func (r NewFloatingTieredWithProrationPriceModelType) IsKnown() bool {
 type NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers param.Field[[]NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -9004,9 +9004,9 @@ func (r NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam) Marsh
 // Configuration for a single tiered with proration tier
 type NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam struct {
 	// Inclusive tier starting value
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -9014,7 +9014,7 @@ func (r NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam) M
 }
 
 type NewFloatingTieredWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                           `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                             `json:"unit_config"`
 }
@@ -9050,17 +9050,17 @@ func (r NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTyp
 
 type NewFloatingUnitPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingUnitPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingUnitPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingUnitPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit pricing
-	UnitConfig param.Field[UnitConfigParam] `json:"unit_config,required"`
+	UnitConfig param.Field[UnitConfigParam] `json:"unit_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9142,7 +9142,7 @@ func (r NewFloatingUnitPriceModelType) IsKnown() bool {
 }
 
 type NewFloatingUnitPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                              `json:"unit_config"`
 }
@@ -9178,17 +9178,17 @@ func (r NewFloatingUnitPriceConversionRateConfigConversionRateType) IsKnown() bo
 
 type NewFloatingUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_percent pricing
-	UnitWithPercentConfig param.Field[NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config,required"`
+	UnitWithPercentConfig param.Field[NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9273,9 +9273,9 @@ func (r NewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
 // Configuration for unit_with_percent pricing
 type NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam struct {
 	// What percent, out of 100, of the calculated total to charge
-	Percent param.Field[string] `json:"percent,required"`
+	Percent param.Field[string] `json:"percent" api:"required"`
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON() (data []byte, err error) {
@@ -9283,7 +9283,7 @@ func (r NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON()
 }
 
 type NewFloatingUnitWithPercentPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                       `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                         `json:"unit_config"`
 }
@@ -9319,17 +9319,17 @@ func (r NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType) I
 
 type NewFloatingUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewFloatingUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewFloatingUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_proration pricing
-	UnitWithProrationConfig param.Field[NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config,required"`
+	UnitWithProrationConfig param.Field[NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9414,7 +9414,7 @@ func (r NewFloatingUnitWithProrationPriceModelType) IsKnown() bool {
 // Configuration for unit_with_proration pricing
 type NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam struct {
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -9422,7 +9422,7 @@ func (r NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJS
 }
 
 type NewFloatingUnitWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -9457,8 +9457,8 @@ func (r NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType)
 }
 
 type NewMaximumParam struct {
-	AdjustmentType param.Field[NewMaximumAdjustmentType] `json:"adjustment_type,required"`
-	MaximumAmount  param.Field[string]                   `json:"maximum_amount,required"`
+	AdjustmentType param.Field[NewMaximumAdjustmentType] `json:"adjustment_type" api:"required"`
+	MaximumAmount  param.Field[string]                   `json:"maximum_amount" api:"required"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll param.Field[NewMaximumAppliesToAll] `json:"applies_to_all"`
 	// The set of item IDs to which this adjustment applies.
@@ -9535,11 +9535,11 @@ func (r NewMaximumAppliesToAll) IsKnown() bool {
 
 type NewMaximumFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[NewMaximumFiltersField] `json:"field,required"`
+	Field param.Field[NewMaximumFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewMaximumFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewMaximumFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewMaximumFilterParam) MarshalJSON() (data []byte, err error) {
@@ -9601,10 +9601,10 @@ func (r NewMaximumPriceType) IsKnown() bool {
 }
 
 type NewMinimumParam struct {
-	AdjustmentType param.Field[NewMinimumAdjustmentType] `json:"adjustment_type,required"`
+	AdjustmentType param.Field[NewMinimumAdjustmentType] `json:"adjustment_type" api:"required"`
 	// The item ID that revenue from this minimum will be attributed to.
-	ItemID        param.Field[string] `json:"item_id,required"`
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	ItemID        param.Field[string] `json:"item_id" api:"required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll param.Field[NewMinimumAppliesToAll] `json:"applies_to_all"`
 	// The set of item IDs to which this adjustment applies.
@@ -9681,11 +9681,11 @@ func (r NewMinimumAppliesToAll) IsKnown() bool {
 
 type NewMinimumFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[NewMinimumFiltersField] `json:"field,required"`
+	Field param.Field[NewMinimumFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewMinimumFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewMinimumFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewMinimumFilterParam) MarshalJSON() (data []byte, err error) {
@@ -9747,8 +9747,8 @@ func (r NewMinimumPriceType) IsKnown() bool {
 }
 
 type NewPercentageDiscountParam struct {
-	AdjustmentType     param.Field[NewPercentageDiscountAdjustmentType] `json:"adjustment_type,required"`
-	PercentageDiscount param.Field[float64]                             `json:"percentage_discount,required"`
+	AdjustmentType     param.Field[NewPercentageDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	PercentageDiscount param.Field[float64]                             `json:"percentage_discount" api:"required"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll param.Field[NewPercentageDiscountAppliesToAll] `json:"applies_to_all"`
 	// The set of item IDs to which this adjustment applies.
@@ -9829,11 +9829,11 @@ func (r NewPercentageDiscountAppliesToAll) IsKnown() bool {
 
 type NewPercentageDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[NewPercentageDiscountFiltersField] `json:"field,required"`
+	Field param.Field[NewPercentageDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewPercentageDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewPercentageDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewPercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -9896,15 +9896,15 @@ func (r NewPercentageDiscountPriceType) IsKnown() bool {
 
 type NewPlanBulkPriceParam struct {
 	// Configuration for bulk pricing
-	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
+	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanBulkPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -9996,7 +9996,7 @@ func (r NewPlanBulkPriceModelType) IsKnown() bool {
 }
 
 type NewPlanBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                          `json:"unit_config"`
 }
@@ -10032,15 +10032,15 @@ func (r NewPlanBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
 
 type NewPlanBulkWithProrationPriceParam struct {
 	// Configuration for bulk_with_proration pricing
-	BulkWithProrationConfig param.Field[NewPlanBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config,required"`
+	BulkWithProrationConfig param.Field[NewPlanBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config" api:"required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanBulkWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanBulkWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10100,7 +10100,7 @@ func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUn
 // Configuration for bulk_with_proration pricing
 type NewPlanBulkWithProrationPriceBulkWithProrationConfigParam struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10110,7 +10110,7 @@ func (r NewPlanBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJSON()
 // Configuration for a single bulk pricing tier with proration
 type NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam struct {
 	// Cost per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
 	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
 }
@@ -10155,7 +10155,7 @@ func (r NewPlanBulkWithProrationPriceModelType) IsKnown() bool {
 }
 
 type NewPlanBulkWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -10191,15 +10191,15 @@ func (r NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType) IsK
 
 type NewPlanCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for cumulative_grouped_bulk pricing
-	CumulativeGroupedBulkConfig param.Field[NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config,required"`
+	CumulativeGroupedBulkConfig param.Field[NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10280,8 +10280,8 @@ func (r NewPlanCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 // Configuration for cumulative_grouped_bulk pricing
 type NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
 	// Each tier lower bound must have the same group of values.
-	DimensionValues param.Field[[]NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
-	Group           param.Field[string]                                                                            `json:"group,required"`
+	DimensionValues param.Field[[]NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                            `json:"group" api:"required"`
 }
 
 func (r NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10291,11 +10291,11 @@ func (r NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) Marsh
 // Configuration for a dimension value entry
 type NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam struct {
 	// Grouping key value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Tier lower bound
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Unit amount for this combination
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam) MarshalJSON() (data []byte, err error) {
@@ -10318,7 +10318,7 @@ func (r NewPlanCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 }
 
 type NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -10354,15 +10354,15 @@ func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType)
 
 type NewPlanGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_allocation pricing
-	GroupedAllocationConfig param.Field[NewPlanGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config,required"`
+	GroupedAllocationConfig param.Field[NewPlanGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10442,11 +10442,11 @@ func (r NewPlanGroupedAllocationPriceCadence) IsKnown() bool {
 // Configuration for grouped_allocation pricing
 type NewPlanGroupedAllocationPriceGroupedAllocationConfigParam struct {
 	// Usage allocation per group
-	Allocation param.Field[string] `json:"allocation,required"`
+	Allocation param.Field[string] `json:"allocation" api:"required"`
 	// How to determine the groups that should each be allocated some quantity
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Unit rate for post-allocation
-	OverageUnitRate param.Field[string] `json:"overage_unit_rate,required"`
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
 }
 
 func (r NewPlanGroupedAllocationPriceGroupedAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10469,7 +10469,7 @@ func (r NewPlanGroupedAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewPlanGroupedAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -10505,15 +10505,15 @@ func (r NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType) IsK
 
 type NewPlanGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_tiered_package pricing
-	GroupedTieredPackageConfig param.Field[NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config,required"`
+	GroupedTieredPackageConfig param.Field[NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10594,11 +10594,11 @@ func (r NewPlanGroupedTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered_package pricing
 type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
 	// The event property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10608,8 +10608,8 @@ func (r NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam) Marshal
 // Configuration for a single tier
 type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
 	// Per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -10632,7 +10632,7 @@ func (r NewPlanGroupedTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewPlanGroupedTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                          `json:"unit_config"`
 }
@@ -10668,15 +10668,15 @@ func (r NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType) 
 
 type NewPlanGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanGroupedTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanGroupedTieredPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_tiered pricing
-	GroupedTieredConfig param.Field[NewPlanGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config,required"`
+	GroupedTieredConfig param.Field[NewPlanGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanGroupedTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanGroupedTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10755,10 +10755,10 @@ func (r NewPlanGroupedTieredPriceCadence) IsKnown() bool {
 // Configuration for grouped_tiered pricing
 type NewPlanGroupedTieredPriceGroupedTieredConfigParam struct {
 	// The billable metric property used to group before tiering
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// Apply tiered pricing to each segment generated after grouping with the provided
 	// key
-	Tiers param.Field[[]NewPlanGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10767,9 +10767,9 @@ func (r NewPlanGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data [
 
 // Configuration for a single tier
 type NewPlanGroupedTieredPriceGroupedTieredConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanGroupedTieredPriceGroupedTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -10792,7 +10792,7 @@ func (r NewPlanGroupedTieredPriceModelType) IsKnown() bool {
 }
 
 type NewPlanGroupedTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                 `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                   `json:"unit_config"`
 }
@@ -10828,15 +10828,15 @@ func (r NewPlanGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown
 
 type NewPlanGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_metered_minimum pricing
-	GroupedWithMeteredMinimumConfig param.Field[NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig param.Field[NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -10918,18 +10918,18 @@ func (r NewPlanGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam struct {
 	// Used to partition the usage into groups. The minimum amount is applied to each
 	// group.
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group per unit
-	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount,required"`
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
 	// Used to determine the unit rate
-	PricingKey param.Field[string] `json:"pricing_key,required"`
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
 	// Scale the unit rates by the scaling factor.
-	ScalingFactors param.Field[[]NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors,required"`
+	ScalingFactors param.Field[[]NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors" api:"required"`
 	// Used to determine the unit rate scaling factor
-	ScalingKey param.Field[string] `json:"scaling_key,required"`
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
 	// Apply per unit pricing to each pricing value. The minimum amount is applied any
 	// unmatched usage.
-	UnitAmounts param.Field[[]NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10938,8 +10938,8 @@ func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigPara
 
 // Configuration for a scaling factor
 type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	ScalingValue  param.Field[string] `json:"scaling_value,required"`
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
@@ -10948,9 +10948,9 @@ func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScal
 
 // Configuration for a unit amount
 type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
-	PricingValue param.Field[string] `json:"pricing_value,required"`
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -10973,7 +10973,7 @@ func (r NewPlanGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 }
 
 type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
@@ -11009,15 +11009,15 @@ func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateT
 
 type NewPlanGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
 	// Configuration for grouped_with_prorated_minimum pricing
-	GroupedWithProratedMinimumConfig param.Field[NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11098,11 +11098,11 @@ func (r NewPlanGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 // Configuration for grouped_with_prorated_minimum pricing
 type NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam struct {
 	// How to determine the groups that should each have a minimum
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group
-	Minimum param.Field[string] `json:"minimum,required"`
+	Minimum param.Field[string] `json:"minimum" api:"required"`
 	// The amount to charge per unit
-	UnitRate param.Field[string] `json:"unit_rate,required"`
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
 }
 
 func (r NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -11125,7 +11125,7 @@ func (r NewPlanGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 }
 
 type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                `json:"unit_config"`
 }
@@ -11161,15 +11161,15 @@ func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRate
 
 type NewPlanMatrixPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanMatrixPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix pricing
-	MatrixConfig param.Field[MatrixConfigParam] `json:"matrix_config,required"`
+	MatrixConfig param.Field[MatrixConfigParam] `json:"matrix_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanMatrixPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanMatrixPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11261,7 +11261,7 @@ func (r NewPlanMatrixPriceModelType) IsKnown() bool {
 }
 
 type NewPlanMatrixPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                          `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                            `json:"unit_config"`
 }
@@ -11297,15 +11297,15 @@ func (r NewPlanMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool
 
 type NewPlanMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_allocation pricing
-	MatrixWithAllocationConfig param.Field[MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config,required"`
+	MatrixWithAllocationConfig param.Field[MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanMatrixWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11399,7 +11399,7 @@ func (r NewPlanMatrixWithAllocationPriceModelType) IsKnown() bool {
 }
 
 type NewPlanMatrixWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                          `json:"unit_config"`
 }
@@ -11435,15 +11435,15 @@ func (r NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType) 
 
 type NewPlanMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for matrix_with_display_name pricing
-	MatrixWithDisplayNameConfig param.Field[NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config,required"`
+	MatrixWithDisplayNameConfig param.Field[NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11524,9 +11524,9 @@ func (r NewPlanMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 // Configuration for matrix_with_display_name pricing
 type NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam struct {
 	// Used to determine the unit rate
-	Dimension param.Field[string] `json:"dimension,required"`
+	Dimension param.Field[string] `json:"dimension" api:"required"`
 	// Apply per unit pricing to each dimension value
-	UnitAmounts param.Field[[]NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts,required"`
+	UnitAmounts param.Field[[]NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts" api:"required"`
 }
 
 func (r NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) MarshalJSON() (data []byte, err error) {
@@ -11536,11 +11536,11 @@ func (r NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) Marsh
 // Configuration for a unit amount item
 type NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam struct {
 	// The dimension value
-	DimensionValue param.Field[string] `json:"dimension_value,required"`
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
 	// Display name for this dimension value
-	DisplayName param.Field[string] `json:"display_name,required"`
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
@@ -11563,7 +11563,7 @@ func (r NewPlanMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 }
 
 type NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -11599,15 +11599,15 @@ func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType)
 
 type NewPlanMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for max_group_tiered_package pricing
-	MaxGroupTieredPackageConfig param.Field[NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config,required"`
+	MaxGroupTieredPackageConfig param.Field[NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11688,10 +11688,10 @@ func (r NewPlanMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 // Configuration for max_group_tiered_package pricing
 type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
 	// The event property used to group before tiering the group with the highest value
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	PackageSize param.Field[string] `json:"package_size,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
-	Tiers param.Field[[]NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -11700,9 +11700,9 @@ func (r NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) Marsh
 
 // Configuration for a single tier
 type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -11725,7 +11725,7 @@ func (r NewPlanMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 }
 
 type NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -11761,15 +11761,15 @@ func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType)
 
 type NewPlanMinimumCompositePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanMinimumCompositePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanMinimumCompositePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// Configuration for minimum_composite pricing
-	MinimumCompositeConfig param.Field[NewPlanMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config,required"`
+	MinimumCompositeConfig param.Field[NewPlanMinimumCompositePriceMinimumCompositeConfigParam] `json:"minimum_composite_config" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanMinimumCompositePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanMinimumCompositePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -11849,7 +11849,7 @@ func (r NewPlanMinimumCompositePriceCadence) IsKnown() bool {
 // Configuration for minimum_composite pricing
 type NewPlanMinimumCompositePriceMinimumCompositeConfigParam struct {
 	// The minimum amount to apply
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -11874,7 +11874,7 @@ func (r NewPlanMinimumCompositePriceModelType) IsKnown() bool {
 }
 
 type NewPlanMinimumCompositePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                    `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                      `json:"unit_config"`
 }
@@ -11910,15 +11910,15 @@ func (r NewPlanMinimumCompositePriceConversionRateConfigConversionRateType) IsKn
 
 type NewPlanPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package pricing
-	PackageConfig param.Field[PackageConfigParam] `json:"package_config,required"`
+	PackageConfig param.Field[PackageConfigParam] `json:"package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12010,7 +12010,7 @@ func (r NewPlanPackagePriceModelType) IsKnown() bool {
 }
 
 type NewPlanPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                           `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                             `json:"unit_config"`
 }
@@ -12046,15 +12046,15 @@ func (r NewPlanPackagePriceConversionRateConfigConversionRateType) IsKnown() boo
 
 type NewPlanPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for package_with_allocation pricing
-	PackageWithAllocationConfig param.Field[NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config,required"`
+	PackageWithAllocationConfig param.Field[NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12149,9 +12149,9 @@ func (r NewPlanPackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam struct {
-	Allocation    param.Field[string] `json:"allocation,required"`
-	PackageAmount param.Field[string] `json:"package_amount,required"`
-	PackageSize   param.Field[string] `json:"package_size,required"`
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
 }
 
 func (r NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -12159,7 +12159,7 @@ func (r NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam) Marsh
 }
 
 type NewPlanPackageWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
@@ -12195,15 +12195,15 @@ func (r NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType)
 
 type NewPlanScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
-	ScalableMatrixWithTieredPricingConfig param.Field[NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	ScalableMatrixWithTieredPricingConfig param.Field[NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12299,10 +12299,10 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
 // Configuration for scalable_matrix_with_tiered_pricing pricing
 type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam struct {
 	// Used for the scalable matrix first dimension
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
-	Tiers                param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers,required"`
+	MatrixScalingFactors param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers" api:"required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -12313,8 +12313,8 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPrici
 
 // Configuration for a single matrix scaling factor
 type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -12324,8 +12324,8 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPrici
 
 // Configuration for a single tier entry with business logic
 type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	UnitAmount     param.Field[string] `json:"unit_amount,required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -12333,7 +12333,7 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPrici
 }
 
 type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                   `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                     `json:"unit_config"`
 }
@@ -12369,15 +12369,15 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversio
 
 type NewPlanScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for scalable_matrix_with_unit_pricing pricing
-	ScalableMatrixWithUnitPricingConfig param.Field[NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config,required"`
+	ScalableMatrixWithUnitPricingConfig param.Field[NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12473,11 +12473,11 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 // Configuration for scalable_matrix_with_unit_pricing pricing
 type NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam struct {
 	// Used to determine the unit rate
-	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors param.Field[[]NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
+	MatrixScalingFactors param.Field[[]NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors" api:"required"`
 	// The final unit price to rate against the output of the matrix
-	UnitPrice param.Field[string] `json:"unit_price,required"`
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
 	// The property used to group this price
 	GroupingKey param.Field[string] `json:"grouping_key"`
 	// If true, the unit price will be prorated to the billing period
@@ -12492,8 +12492,8 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingCo
 
 // Configuration for a single matrix scaling factor
 type NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
-	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
-	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -12502,7 +12502,7 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingCo
 }
 
 type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                 `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                                   `json:"unit_config"`
 }
@@ -12538,15 +12538,15 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionR
 
 type NewPlanThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for threshold_total_amount pricing
-	ThresholdTotalAmountConfig param.Field[NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config,required"`
+	ThresholdTotalAmountConfig param.Field[NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12643,7 +12643,7 @@ func (r NewPlanThresholdTotalAmountPriceModelType) IsKnown() bool {
 type NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam struct {
 	// When the quantity consumed passes a provided threshold, the configured total
 	// will be charged
-	ConsumptionTable param.Field[[]NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table,required"`
+	ConsumptionTable param.Field[[]NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table" api:"required"`
 	// If true, the unit price will be prorated to the billing period
 	Prorate param.Field[bool] `json:"prorate"`
 }
@@ -12654,9 +12654,9 @@ func (r NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam) Marshal
 
 // Configuration for a single threshold
 type NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
-	Threshold param.Field[string] `json:"threshold,required"`
+	Threshold param.Field[string] `json:"threshold" api:"required"`
 	// Total amount for this threshold
-	TotalAmount param.Field[string] `json:"total_amount,required"`
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
 }
 
 func (r NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam) MarshalJSON() (data []byte, err error) {
@@ -12664,7 +12664,7 @@ func (r NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTab
 }
 
 type NewPlanThresholdTotalAmountPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                          `json:"unit_config"`
 }
@@ -12700,15 +12700,15 @@ func (r NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType) 
 
 type NewPlanTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanTieredPackagePriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanTieredPackagePriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanTieredPackagePriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package pricing
-	TieredPackageConfig param.Field[NewPlanTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config,required"`
+	TieredPackageConfig param.Field[NewPlanTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12801,12 +12801,12 @@ func (r NewPlanTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type NewPlanTieredPackagePriceTieredPackageConfigParam struct {
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
 	// the total quantity rather than the number of packages, so they must be multiples
 	// of the package size.
-	Tiers param.Field[[]NewPlanTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -12816,8 +12816,8 @@ func (r NewPlanTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data [
 // Configuration for a single tier with business logic
 type NewPlanTieredPackagePriceTieredPackageConfigTierParam struct {
 	// Price per package
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewPlanTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -12825,7 +12825,7 @@ func (r NewPlanTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON() (da
 }
 
 type NewPlanTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                 `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                   `json:"unit_config"`
 }
@@ -12861,15 +12861,15 @@ func (r NewPlanTieredPackagePriceConversionRateConfigConversionRateType) IsKnown
 
 type NewPlanTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_package_with_minimum pricing
-	TieredPackageWithMinimumConfig param.Field[NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config,required"`
+	TieredPackageWithMinimumConfig param.Field[NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -12964,10 +12964,10 @@ func (r NewPlanTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
-	PackageSize param.Field[float64] `json:"package_size,required"`
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers param.Field[[]NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 }
 
 func (r NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam) MarshalJSON() (data []byte, err error) {
@@ -12976,9 +12976,9 @@ func (r NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam)
 
 // Configuration for a single tier
 type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	PerUnit        param.Field[string] `json:"per_unit,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 }
 
 func (r NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -12986,7 +12986,7 @@ func (r NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierPa
 }
 
 type NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                              `json:"unit_config"`
 }
@@ -13022,15 +13022,15 @@ func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTy
 
 type NewPlanTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanTieredPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanTieredPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanTieredPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered pricing
-	TieredConfig param.Field[TieredConfigParam] `json:"tiered_config,required"`
+	TieredConfig param.Field[TieredConfigParam] `json:"tiered_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -13122,7 +13122,7 @@ func (r NewPlanTieredPriceModelType) IsKnown() bool {
 }
 
 type NewPlanTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                          `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                            `json:"unit_config"`
 }
@@ -13158,15 +13158,15 @@ func (r NewPlanTieredPriceConversionRateConfigConversionRateType) IsKnown() bool
 
 type NewPlanTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for tiered_with_minimum pricing
-	TieredWithMinimumConfig param.Field[NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config,required"`
+	TieredWithMinimumConfig param.Field[NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -13262,7 +13262,7 @@ func (r NewPlanTieredWithMinimumPriceModelType) IsKnown() bool {
 type NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam struct {
 	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
 	// defined using exclusive lower bounds.
-	Tiers param.Field[[]NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers,required"`
+	Tiers param.Field[[]NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers" api:"required"`
 	// If true, tiers with an accrued amount of 0 will not be included in the rating.
 	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
 	// If true, the unit price will be prorated to the billing period
@@ -13275,10 +13275,10 @@ func (r NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam) MarshalJSON()
 
 // Configuration for a single tier
 type NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
-	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
-	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -13286,7 +13286,7 @@ func (r NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam) MarshalJS
 }
 
 type NewPlanTieredWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -13322,15 +13322,15 @@ func (r NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType) IsK
 
 type NewPlanUnitPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanUnitPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanUnitPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanUnitPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit pricing
-	UnitConfig param.Field[UnitConfigParam] `json:"unit_config,required"`
+	UnitConfig param.Field[UnitConfigParam] `json:"unit_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -13422,7 +13422,7 @@ func (r NewPlanUnitPriceModelType) IsKnown() bool {
 }
 
 type NewPlanUnitPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                        `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                          `json:"unit_config"`
 }
@@ -13458,15 +13458,15 @@ func (r NewPlanUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
 
 type NewPlanUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanUnitWithPercentPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanUnitWithPercentPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_percent pricing
-	UnitWithPercentConfig param.Field[NewPlanUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config,required"`
+	UnitWithPercentConfig param.Field[NewPlanUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -13561,9 +13561,9 @@ func (r NewPlanUnitWithPercentPriceModelType) IsKnown() bool {
 // Configuration for unit_with_percent pricing
 type NewPlanUnitWithPercentPriceUnitWithPercentConfigParam struct {
 	// What percent, out of 100, of the calculated total to charge
-	Percent param.Field[string] `json:"percent,required"`
+	Percent param.Field[string] `json:"percent" api:"required"`
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON() (data []byte, err error) {
@@ -13571,7 +13571,7 @@ func (r NewPlanUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON() (da
 }
 
 type NewPlanUnitWithPercentPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                   `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                     `json:"unit_config"`
 }
@@ -13607,15 +13607,15 @@ func (r NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType) IsKno
 
 type NewPlanUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanUnitWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[NewPlanUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
 	// The id of the item the price will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// The pricing model type
-	ModelType param.Field[NewPlanUnitWithProrationPriceModelType] `json:"model_type,required"`
+	ModelType param.Field[NewPlanUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 	// Configuration for unit_with_proration pricing
-	UnitWithProrationConfig param.Field[NewPlanUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config,required"`
+	UnitWithProrationConfig param.Field[NewPlanUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config" api:"required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -13710,7 +13710,7 @@ func (r NewPlanUnitWithProrationPriceModelType) IsKnown() bool {
 // Configuration for unit_with_proration pricing
 type NewPlanUnitWithProrationPriceUnitWithProrationConfigParam struct {
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 }
 
 func (r NewPlanUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -13718,7 +13718,7 @@ func (r NewPlanUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJSON()
 }
 
 type NewPlanUnitWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
 	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
@@ -13753,8 +13753,8 @@ func (r NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType) IsK
 }
 
 type NewUsageDiscountParam struct {
-	AdjustmentType param.Field[NewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
-	UsageDiscount  param.Field[float64]                        `json:"usage_discount,required"`
+	AdjustmentType param.Field[NewUsageDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	UsageDiscount  param.Field[float64]                        `json:"usage_discount" api:"required"`
 	// If set, the adjustment will apply to every price on the subscription.
 	AppliesToAll param.Field[NewUsageDiscountAppliesToAll] `json:"applies_to_all"`
 	// The set of item IDs to which this adjustment applies.
@@ -13833,11 +13833,11 @@ func (r NewUsageDiscountAppliesToAll) IsKnown() bool {
 
 type NewUsageDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[NewUsageDiscountFiltersField] `json:"field,required"`
+	Field param.Field[NewUsageDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[NewUsageDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[NewUsageDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r NewUsageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -13900,11 +13900,11 @@ func (r NewUsageDiscountPriceType) IsKnown() bool {
 
 type OtherSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount   string               `json:"amount,required"`
-	Grouping SubLineItemGrouping  `json:"grouping,required,nullable"`
-	Name     string               `json:"name,required"`
-	Quantity float64              `json:"quantity,required"`
-	Type     OtherSubLineItemType `json:"type,required"`
+	Amount   string               `json:"amount" api:"required"`
+	Grouping SubLineItemGrouping  `json:"grouping" api:"required,nullable"`
+	Name     string               `json:"name" api:"required"`
+	Quantity float64              `json:"quantity" api:"required"`
+	Type     OtherSubLineItemType `json:"type" api:"required"`
 	JSON     otherSubLineItemJSON `json:"-"`
 }
 
@@ -13954,10 +13954,10 @@ func (r OtherSubLineItemType) IsKnown() bool {
 // Configuration for package pricing
 type PackageConfig struct {
 	// A currency amount to rate usage by
-	PackageAmount string `json:"package_amount,required"`
+	PackageAmount string `json:"package_amount" api:"required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize int64             `json:"package_size,required"`
+	PackageSize int64             `json:"package_size" api:"required"`
 	JSON        packageConfigJSON `json:"-"`
 }
 
@@ -13980,10 +13980,10 @@ func (r packageConfigJSON) RawJSON() string {
 // Configuration for package pricing
 type PackageConfigParam struct {
 	// A currency amount to rate usage by
-	PackageAmount param.Field[string] `json:"package_amount,required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size,required"`
+	PackageSize param.Field[int64] `json:"package_size" api:"required"`
 }
 
 func (r PackageConfigParam) MarshalJSON() (data []byte, err error) {
@@ -13991,8 +13991,8 @@ func (r PackageConfigParam) MarshalJSON() (data []byte, err error) {
 }
 
 type PaginationMetadata struct {
-	HasMore    bool                   `json:"has_more,required"`
-	NextCursor string                 `json:"next_cursor,required,nullable"`
+	HasMore    bool                   `json:"has_more" api:"required"`
+	NextCursor string                 `json:"next_cursor" api:"required,nullable"`
 	JSON       paginationMetadataJSON `json:"-"`
 }
 
@@ -14015,15 +14015,15 @@ func (r paginationMetadataJSON) RawJSON() string {
 
 type PerPriceCost struct {
 	// The price object
-	Price Price `json:"price,required"`
+	Price Price `json:"price" api:"required"`
 	// The price the cost is associated with
-	PriceID string `json:"price_id,required"`
+	PriceID string `json:"price_id" api:"required"`
 	// Price's contributions for the timeframe, excluding any minimums and discounts.
-	Subtotal string `json:"subtotal,required"`
+	Subtotal string `json:"subtotal" api:"required"`
 	// Price's contributions for the timeframe, including minimums and discounts.
-	Total string `json:"total,required"`
+	Total string `json:"total" api:"required"`
 	// The price's quantity for the timeframe
-	Quantity float64          `json:"quantity,nullable"`
+	Quantity float64          `json:"quantity" api:"nullable"`
 	JSON     perPriceCostJSON `json:"-"`
 }
 
@@ -14047,16 +14047,16 @@ func (r perPriceCostJSON) RawJSON() string {
 }
 
 type PercentageDiscount struct {
-	DiscountType PercentageDiscountDiscountType `json:"discount_type,required"`
+	DiscountType PercentageDiscountDiscountType `json:"discount_type" api:"required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
+	PercentageDiscount float64 `json:"percentage_discount" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []PercentageDiscountFilter `json:"filters,nullable"`
-	Reason  string                     `json:"reason,nullable"`
+	Filters []PercentageDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                     `json:"reason" api:"nullable"`
 	JSON    percentageDiscountJSON     `json:"-"`
 }
 
@@ -14102,11 +14102,11 @@ func (r PercentageDiscountDiscountType) IsKnown() bool {
 
 type PercentageDiscountFilter struct {
 	// The property of the price to filter on.
-	Field PercentageDiscountFiltersField `json:"field,required"`
+	Field PercentageDiscountFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PercentageDiscountFiltersOperator `json:"operator,required"`
+	Operator PercentageDiscountFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                     `json:"values,required"`
+	Values []string                     `json:"values" api:"required"`
 	JSON   percentageDiscountFilterJSON `json:"-"`
 }
 
@@ -14164,10 +14164,10 @@ func (r PercentageDiscountFiltersOperator) IsKnown() bool {
 }
 
 type PercentageDiscountParam struct {
-	DiscountType param.Field[PercentageDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[PercentageDiscountDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
+	PercentageDiscount param.Field[float64] `json:"percentage_discount" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
@@ -14184,11 +14184,11 @@ func (r PercentageDiscountParam) ImplementsDiscountUnionParam() {}
 
 type PercentageDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[PercentageDiscountFiltersField] `json:"field,required"`
+	Field param.Field[PercentageDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[PercentageDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[PercentageDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r PercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -14197,17 +14197,17 @@ func (r PercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
 
 type PercentageDiscountInterval struct {
 	// The price interval ids that this discount interval applies to.
-	AppliesToPriceIntervalIDs []string                               `json:"applies_to_price_interval_ids,required"`
-	DiscountType              PercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	AppliesToPriceIntervalIDs []string                               `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              PercentageDiscountIntervalDiscountType `json:"discount_type" api:"required"`
 	// The end date of the discount interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []PercentageDiscountIntervalFilter `json:"filters,required"`
+	Filters []PercentageDiscountIntervalFilter `json:"filters" api:"required"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
+	PercentageDiscount float64 `json:"percentage_discount" api:"required"`
 	// The start date of the discount interval.
-	StartDate time.Time                      `json:"start_date,required" format:"date-time"`
+	StartDate time.Time                      `json:"start_date" api:"required" format:"date-time"`
 	JSON      percentageDiscountIntervalJSON `json:"-"`
 }
 
@@ -14252,11 +14252,11 @@ func (r PercentageDiscountIntervalDiscountType) IsKnown() bool {
 
 type PercentageDiscountIntervalFilter struct {
 	// The property of the price to filter on.
-	Field PercentageDiscountIntervalFiltersField `json:"field,required"`
+	Field PercentageDiscountIntervalFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PercentageDiscountIntervalFiltersOperator `json:"operator,required"`
+	Operator PercentageDiscountIntervalFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                             `json:"values,required"`
+	Values []string                             `json:"values" api:"required"`
 	JSON   percentageDiscountIntervalFilterJSON `json:"-"`
 }
 
@@ -14314,27 +14314,27 @@ func (r PercentageDiscountIntervalFiltersOperator) IsKnown() bool {
 }
 
 type PlanPhaseAmountDiscountAdjustment struct {
-	ID             string                                          `json:"id,required"`
-	AdjustmentType PlanPhaseAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                          `json:"id" api:"required"`
+	AdjustmentType PlanPhaseAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
-	AmountDiscount string `json:"amount_discount,required"`
+	AmountDiscount string `json:"amount_discount" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []PlanPhaseAmountDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []PlanPhaseAmountDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                                `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                                `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 planPhaseAmountDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -14384,11 +14384,11 @@ func (r PlanPhaseAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type PlanPhaseAmountDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field PlanPhaseAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	Field PlanPhaseAmountDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PlanPhaseAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator PlanPhaseAmountDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                    `json:"values,required"`
+	Values []string                                    `json:"values" api:"required"`
 	JSON   planPhaseAmountDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -14446,27 +14446,27 @@ func (r PlanPhaseAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type PlanPhaseMaximumAdjustment struct {
-	ID             string                                   `json:"id,required"`
-	AdjustmentType PlanPhaseMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                   `json:"id" api:"required"`
+	AdjustmentType PlanPhaseMaximumAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []PlanPhaseMaximumAdjustmentFilter `json:"filters,required"`
+	Filters []PlanPhaseMaximumAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
-	MaximumAmount string `json:"maximum_amount,required"`
+	MaximumAmount string `json:"maximum_amount" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 planPhaseMaximumAdjustmentJSON `json:"-"`
 }
 
@@ -14516,11 +14516,11 @@ func (r PlanPhaseMaximumAdjustmentAdjustmentType) IsKnown() bool {
 
 type PlanPhaseMaximumAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field PlanPhaseMaximumAdjustmentFiltersField `json:"field,required"`
+	Field PlanPhaseMaximumAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PlanPhaseMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	Operator PlanPhaseMaximumAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                             `json:"values,required"`
+	Values []string                             `json:"values" api:"required"`
 	JSON   planPhaseMaximumAdjustmentFilterJSON `json:"-"`
 }
 
@@ -14578,29 +14578,29 @@ func (r PlanPhaseMaximumAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type PlanPhaseMinimumAdjustment struct {
-	ID             string                                   `json:"id,required"`
-	AdjustmentType PlanPhaseMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                   `json:"id" api:"required"`
+	AdjustmentType PlanPhaseMinimumAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []PlanPhaseMinimumAdjustmentFilter `json:"filters,required"`
+	Filters []PlanPhaseMinimumAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The item ID that revenue from this minimum will be attributed to.
-	ItemID string `json:"item_id,required"`
+	ItemID string `json:"item_id" api:"required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
-	MinimumAmount string `json:"minimum_amount,required"`
+	MinimumAmount string `json:"minimum_amount" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 planPhaseMinimumAdjustmentJSON `json:"-"`
 }
 
@@ -14651,11 +14651,11 @@ func (r PlanPhaseMinimumAdjustmentAdjustmentType) IsKnown() bool {
 
 type PlanPhaseMinimumAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field PlanPhaseMinimumAdjustmentFiltersField `json:"field,required"`
+	Field PlanPhaseMinimumAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PlanPhaseMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	Operator PlanPhaseMinimumAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                             `json:"values,required"`
+	Values []string                             `json:"values" api:"required"`
 	JSON   planPhaseMinimumAdjustmentFilterJSON `json:"-"`
 }
 
@@ -14713,27 +14713,27 @@ func (r PlanPhaseMinimumAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type PlanPhasePercentageDiscountAdjustment struct {
-	ID             string                                              `json:"id,required"`
-	AdjustmentType PlanPhasePercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                              `json:"id" api:"required"`
+	AdjustmentType PlanPhasePercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []PlanPhasePercentageDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []PlanPhasePercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
+	PercentageDiscount float64 `json:"percentage_discount" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string                                    `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string                                    `json:"replaces_adjustment_id" api:"required,nullable"`
 	JSON                 planPhasePercentageDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -14783,11 +14783,11 @@ func (r PlanPhasePercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type PlanPhasePercentageDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field PlanPhasePercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	Field PlanPhasePercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PlanPhasePercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator PlanPhasePercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                        `json:"values,required"`
+	Values []string                                        `json:"values" api:"required"`
 	JSON   planPhasePercentageDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -14845,27 +14845,27 @@ func (r PlanPhasePercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
 }
 
 type PlanPhaseUsageDiscountAdjustment struct {
-	ID             string                                         `json:"id,required"`
-	AdjustmentType PlanPhaseUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	ID             string                                         `json:"id" api:"required"`
+	AdjustmentType PlanPhaseUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
 	// The price IDs that this adjustment applies to.
 	//
 	// Deprecated: deprecated
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []PlanPhaseUsageDiscountAdjustmentFilter `json:"filters,required"`
+	Filters []PlanPhaseUsageDiscountAdjustmentFilter `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
-	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
 	// The plan phase in which this adjustment is active.
-	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
 	// The reason for the adjustment.
-	Reason string `json:"reason,required,nullable"`
+	Reason string `json:"reason" api:"required,nullable"`
 	// The adjustment id this adjustment replaces. This adjustment will take the place
 	// of the replaced adjustment in plan version migrations.
-	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
-	UsageDiscount float64                              `json:"usage_discount,required"`
+	UsageDiscount float64                              `json:"usage_discount" api:"required"`
 	JSON          planPhaseUsageDiscountAdjustmentJSON `json:"-"`
 }
 
@@ -14915,11 +14915,11 @@ func (r PlanPhaseUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 
 type PlanPhaseUsageDiscountAdjustmentFilter struct {
 	// The property of the price to filter on.
-	Field PlanPhaseUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	Field PlanPhaseUsageDiscountAdjustmentFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PlanPhaseUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	Operator PlanPhaseUsageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                   `json:"values,required"`
+	Values []string                                   `json:"values" api:"required"`
 	JSON   planPhaseUsageDiscountAdjustmentFilterJSON `json:"-"`
 }
 
@@ -14987,11 +14987,11 @@ func (r PlanPhaseUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
 // For more on the types of prices, see
 // [the core concepts documentation](/core-concepts#plan-and-price)
 type Price struct {
-	ID                        string                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceCadence              `json:"cadence,required"`
+	ID                        string                    `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceBillingMode          `json:"billing_mode" api:"required"`
+	Cadence                   PriceCadence              `json:"cadence" api:"required"`
 	// This field can have the runtime type of [[]PriceUnitPriceCompositePriceFilter],
 	// [[]PriceTieredPriceCompositePriceFilter],
 	// [[]PriceBulkPriceCompositePriceFilter],
@@ -15023,8 +15023,8 @@ type Price struct {
 	// [[]PriceMinimumCompositePriceCompositePriceFilter],
 	// [[]PricePercentCompositePriceCompositePriceFilter],
 	// [[]PriceEventOutputPriceCompositePriceFilter].
-	CompositePriceFilters interface{} `json:"composite_price_filters,required"`
-	ConversionRate        float64     `json:"conversion_rate,required,nullable"`
+	CompositePriceFilters interface{} `json:"composite_price_filters" api:"required"`
+	ConversionRate        float64     `json:"conversion_rate" api:"required,nullable"`
 	// This field can have the runtime type of [PriceUnitPriceConversionRateConfig],
 	// [PriceTieredPriceConversionRateConfig], [PriceBulkPriceConversionRateConfig],
 	// [PriceBulkWithFiltersPriceConversionRateConfig],
@@ -15054,36 +15054,36 @@ type Price struct {
 	// [PriceMinimumCompositePriceConversionRateConfig],
 	// [PricePercentCompositePriceConversionRateConfig],
 	// [PriceEventOutputPriceConversionRateConfig].
-	ConversionRateConfig interface{} `json:"conversion_rate_config,required"`
-	CreatedAt            time.Time   `json:"created_at,required" format:"date-time"`
-	CreditAllocation     Allocation  `json:"credit_allocation,required,nullable"`
-	Currency             string      `json:"currency,required"`
+	ConversionRateConfig interface{} `json:"conversion_rate_config" api:"required"`
+	CreatedAt            time.Time   `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation     Allocation  `json:"credit_allocation" api:"required,nullable"`
+	Currency             string      `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata interface{} `json:"metadata,required"`
+	Metadata interface{} `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceModelType `json:"model_type,required"`
-	Name           string         `json:"name,required"`
-	PlanPhaseOrder int64          `json:"plan_phase_order,required,nullable"`
-	PriceType      PricePriceType `json:"price_type,required"`
+	ModelType      PriceModelType `json:"model_type" api:"required"`
+	Name           string         `json:"name" api:"required"`
+	PlanPhaseOrder int64          `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for bulk pricing
 	BulkConfig BulkConfig `json:"bulk_config"`
 	// This field can have the runtime type of
@@ -15098,7 +15098,7 @@ type Price struct {
 	// This field can have the runtime type of
 	// [PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig].
 	CumulativeGroupedBulkConfig   interface{}                   `json:"cumulative_grouped_bulk_config"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// This field can have the runtime type of
 	// [PriceEventOutputPriceEventOutputConfig].
 	EventOutputConfig interface{} `json:"event_output_config"`
@@ -15496,53 +15496,53 @@ func init() {
 }
 
 type PriceUnitPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceUnitPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceUnitPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                               `json:"currency,required"`
+	ID                        string                               `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                   `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceUnitPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceUnitPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceUnitPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                              `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceUnitPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                            `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                           `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                               `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceUnitPriceModelType `json:"model_type,required"`
-	Name           string                  `json:"name,required"`
-	PlanPhaseOrder int64                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceUnitPricePriceType `json:"price_type,required"`
+	ModelType      PriceUnitPriceModelType `json:"model_type" api:"required"`
+	Name           string                  `json:"name" api:"required"`
+	PlanPhaseOrder int64                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceUnitPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for unit pricing
-	UnitConfig                    UnitConfig                    `json:"unit_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	UnitConfig                    UnitConfig                    `json:"unit_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceUnitPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceUnitPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceUnitPriceJSON        `json:"-"`
 }
 
@@ -15627,11 +15627,11 @@ func (r PriceUnitPriceCadence) IsKnown() bool {
 
 type PriceUnitPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceUnitPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceUnitPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceUnitPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceUnitPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                               `json:"values,required"`
+	Values []string                               `json:"values" api:"required"`
 	JSON   priceUnitPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -15689,7 +15689,7 @@ func (r PriceUnitPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceUnitPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceUnitPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                           `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                             `json:"unit_config"`
 	JSON               priceUnitPriceConversionRateConfigJSON               `json:"-"`
@@ -15801,12 +15801,12 @@ func (r PriceUnitPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceUnitPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                        `json:"name,required"`
+	Name string                        `json:"name" api:"required"`
 	JSON priceUnitPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -15829,53 +15829,53 @@ func (r priceUnitPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceTieredPrice struct {
-	ID                        string                                 `json:"id,required"`
-	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceTieredPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceTieredPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
-	Currency                  string                                 `json:"currency,required"`
+	ID                        string                                 `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceTieredPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceTieredPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceTieredPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceTieredPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                 `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceTieredPriceModelType `json:"model_type,required"`
-	Name           string                    `json:"name,required"`
-	PlanPhaseOrder int64                     `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredPricePriceType `json:"price_type,required"`
+	ModelType      PriceTieredPriceModelType `json:"model_type" api:"required"`
+	Name           string                    `json:"name" api:"required"`
+	PlanPhaseOrder int64                     `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceTieredPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for tiered pricing
-	TieredConfig                  TieredConfig                  `json:"tiered_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	TieredConfig                  TieredConfig                  `json:"tiered_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceTieredPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceTieredPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceTieredPriceJSON        `json:"-"`
 }
 
@@ -15961,11 +15961,11 @@ func (r PriceTieredPriceCadence) IsKnown() bool {
 
 type PriceTieredPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceTieredPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceTieredPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceTieredPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceTieredPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                 `json:"values,required"`
+	Values []string                                 `json:"values" api:"required"`
 	JSON   priceTieredPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -16023,7 +16023,7 @@ func (r PriceTieredPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceTieredPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                             `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                               `json:"unit_config"`
 	JSON               priceTieredPriceConversionRateConfigJSON               `json:"-"`
@@ -16135,12 +16135,12 @@ func (r PriceTieredPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceTieredPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                          `json:"name,required"`
+	Name string                          `json:"name" api:"required"`
 	JSON priceTieredPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -16163,53 +16163,53 @@ func (r priceTieredPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceBulkPrice struct {
-	ID                        string                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceBulkPriceBillingMode `json:"billing_mode,required"`
+	ID                        string                    `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceBulkPriceBillingMode `json:"billing_mode" api:"required"`
 	// Configuration for bulk pricing
-	BulkConfig            BulkConfig                           `json:"bulk_config,required"`
-	Cadence               PriceBulkPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters []PriceBulkPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate        float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig  PriceBulkPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt             time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation      Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency              string                               `json:"currency,required"`
+	BulkConfig            BulkConfig                           `json:"bulk_config" api:"required"`
+	Cadence               PriceBulkPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters []PriceBulkPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate        float64                              `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig  PriceBulkPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt             time.Time                            `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation      Allocation                           `json:"credit_allocation" api:"required,nullable"`
+	Currency              string                               `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceBulkPriceModelType `json:"model_type,required"`
-	Name           string                  `json:"name,required"`
-	PlanPhaseOrder int64                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceBulkPricePriceType `json:"price_type,required"`
+	ModelType      PriceBulkPriceModelType `json:"model_type" api:"required"`
+	Name           string                  `json:"name" api:"required"`
+	PlanPhaseOrder int64                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceBulkPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceBulkPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceBulkPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceBulkPriceJSON        `json:"-"`
 }
 
@@ -16294,11 +16294,11 @@ func (r PriceBulkPriceCadence) IsKnown() bool {
 
 type PriceBulkPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceBulkPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceBulkPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceBulkPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceBulkPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                               `json:"values,required"`
+	Values []string                               `json:"values" api:"required"`
 	JSON   priceBulkPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -16356,7 +16356,7 @@ func (r PriceBulkPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceBulkPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                           `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                             `json:"unit_config"`
 	JSON               priceBulkPriceConversionRateConfigJSON               `json:"-"`
@@ -16468,12 +16468,12 @@ func (r PriceBulkPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceBulkPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                        `json:"name,required"`
+	Name string                        `json:"name" api:"required"`
 	JSON priceBulkPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -16496,53 +16496,53 @@ func (r priceBulkPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceBulkWithFiltersPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceBulkWithFiltersPriceBillingMode `json:"billing_mode,required"`
+	ID                        string                               `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                   `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceBulkWithFiltersPriceBillingMode `json:"billing_mode" api:"required"`
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig PriceBulkWithFiltersPriceBulkWithFiltersConfig  `json:"bulk_with_filters_config,required"`
-	Cadence               PriceBulkWithFiltersPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters []PriceBulkWithFiltersPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate        float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig  PriceBulkWithFiltersPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt             time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation      Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency              string                                          `json:"currency,required"`
+	BulkWithFiltersConfig PriceBulkWithFiltersPriceBulkWithFiltersConfig  `json:"bulk_with_filters_config" api:"required"`
+	Cadence               PriceBulkWithFiltersPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters []PriceBulkWithFiltersPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate        float64                                         `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig  PriceBulkWithFiltersPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt             time.Time                                       `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation      Allocation                                      `json:"credit_allocation" api:"required,nullable"`
+	Currency              string                                          `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceBulkWithFiltersPriceModelType `json:"model_type,required"`
-	Name           string                             `json:"name,required"`
-	PlanPhaseOrder int64                              `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceBulkWithFiltersPricePriceType `json:"price_type,required"`
+	ModelType      PriceBulkWithFiltersPriceModelType `json:"model_type" api:"required"`
+	Name           string                             `json:"name" api:"required"`
+	PlanPhaseOrder int64                              `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceBulkWithFiltersPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceBulkWithFiltersPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceBulkWithFiltersPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceBulkWithFiltersPriceJSON        `json:"-"`
 }
 
@@ -16610,9 +16610,9 @@ func (r PriceBulkWithFiltersPriceBillingMode) IsKnown() bool {
 // Configuration for bulk_with_filters pricing
 type PriceBulkWithFiltersPriceBulkWithFiltersConfig struct {
 	// Property filters to apply (all must match)
-	Filters []PriceBulkWithFiltersPriceBulkWithFiltersConfigFilter `json:"filters,required"`
+	Filters []PriceBulkWithFiltersPriceBulkWithFiltersConfigFilter `json:"filters" api:"required"`
 	// Bulk tiers for rating based on total usage volume
-	Tiers []PriceBulkWithFiltersPriceBulkWithFiltersConfigTier `json:"tiers,required"`
+	Tiers []PriceBulkWithFiltersPriceBulkWithFiltersConfigTier `json:"tiers" api:"required"`
 	JSON  priceBulkWithFiltersPriceBulkWithFiltersConfigJSON   `json:"-"`
 }
 
@@ -16636,9 +16636,9 @@ func (r priceBulkWithFiltersPriceBulkWithFiltersConfigJSON) RawJSON() string {
 // Configuration for a single property filter
 type PriceBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
 	// Event property key to filter on
-	PropertyKey string `json:"property_key,required"`
+	PropertyKey string `json:"property_key" api:"required"`
 	// Event property value to match
-	PropertyValue string                                                   `json:"property_value,required"`
+	PropertyValue string                                                   `json:"property_value" api:"required"`
 	JSON          priceBulkWithFiltersPriceBulkWithFiltersConfigFilterJSON `json:"-"`
 }
 
@@ -16662,9 +16662,9 @@ func (r priceBulkWithFiltersPriceBulkWithFiltersConfigFilterJSON) RawJSON() stri
 // Configuration for a single bulk pricing tier
 type PriceBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
 	// Amount per unit
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
-	TierLowerBound string                                                 `json:"tier_lower_bound,nullable"`
+	TierLowerBound string                                                 `json:"tier_lower_bound" api:"nullable"`
 	JSON           priceBulkWithFiltersPriceBulkWithFiltersConfigTierJSON `json:"-"`
 }
 
@@ -16706,11 +16706,11 @@ func (r PriceBulkWithFiltersPriceCadence) IsKnown() bool {
 
 type PriceBulkWithFiltersPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceBulkWithFiltersPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceBulkWithFiltersPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceBulkWithFiltersPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceBulkWithFiltersPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                          `json:"values,required"`
+	Values []string                                          `json:"values" api:"required"`
 	JSON   priceBulkWithFiltersPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -16768,7 +16768,7 @@ func (r PriceBulkWithFiltersPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceBulkWithFiltersPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkWithFiltersPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceBulkWithFiltersPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                      `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                        `json:"unit_config"`
 	JSON               priceBulkWithFiltersPriceConversionRateConfigJSON               `json:"-"`
@@ -16880,12 +16880,12 @@ func (r PriceBulkWithFiltersPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceBulkWithFiltersPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                   `json:"name,required"`
+	Name string                                   `json:"name" api:"required"`
 	JSON priceBulkWithFiltersPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -16908,53 +16908,53 @@ func (r priceBulkWithFiltersPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PricePackagePrice struct {
-	ID                        string                                  `json:"id,required"`
-	BillableMetric            BillableMetricTiny                      `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration               `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePackagePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PricePackagePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PricePackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                              `json:"credit_allocation,required,nullable"`
-	Currency                  string                                  `json:"currency,required"`
+	ID                        string                                  `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                      `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration               `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PricePackagePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PricePackagePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PricePackagePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                 `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PricePackagePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                               `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                              `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                  `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType PricePackagePriceModelType `json:"model_type,required"`
-	Name      string                     `json:"name,required"`
+	ModelType PricePackagePriceModelType `json:"model_type" api:"required"`
+	Name      string                     `json:"name" api:"required"`
 	// Configuration for package pricing
-	PackageConfig  PackageConfig              `json:"package_config,required"`
-	PlanPhaseOrder int64                      `json:"plan_phase_order,required,nullable"`
-	PriceType      PricePackagePricePriceType `json:"price_type,required"`
+	PackageConfig  PackageConfig              `json:"package_config" api:"required"`
+	PlanPhaseOrder int64                      `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PricePackagePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PricePackagePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PricePackagePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        pricePackagePriceJSON        `json:"-"`
 }
 
@@ -17040,11 +17040,11 @@ func (r PricePackagePriceCadence) IsKnown() bool {
 
 type PricePackagePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PricePackagePriceCompositePriceFiltersField `json:"field,required"`
+	Field PricePackagePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PricePackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PricePackagePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                  `json:"values,required"`
+	Values []string                                  `json:"values" api:"required"`
 	JSON   pricePackagePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -17102,7 +17102,7 @@ func (r PricePackagePriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PricePackagePriceConversionRateConfig struct {
-	ConversionRateType PricePackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PricePackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                              `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                `json:"unit_config"`
 	JSON               pricePackagePriceConversionRateConfigJSON               `json:"-"`
@@ -17214,12 +17214,12 @@ func (r PricePackagePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PricePackagePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                           `json:"name,required"`
+	Name string                           `json:"name" api:"required"`
 	JSON pricePackagePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -17242,53 +17242,53 @@ func (r pricePackagePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceMatrixPrice struct {
-	ID                        string                                 `json:"id,required"`
-	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceMatrixPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceMatrixPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
-	Currency                  string                                 `json:"currency,required"`
+	ID                        string                                 `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMatrixPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMatrixPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMatrixPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMatrixPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                 `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Configuration for matrix pricing
-	MatrixConfig MatrixConfig `json:"matrix_config,required"`
+	MatrixConfig MatrixConfig `json:"matrix_config" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceMatrixPriceModelType `json:"model_type,required"`
-	Name           string                    `json:"name,required"`
-	PlanPhaseOrder int64                     `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMatrixPricePriceType `json:"price_type,required"`
+	ModelType      PriceMatrixPriceModelType `json:"model_type" api:"required"`
+	Name           string                    `json:"name" api:"required"`
+	PlanPhaseOrder int64                     `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMatrixPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceMatrixPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceMatrixPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceMatrixPriceJSON        `json:"-"`
 }
 
@@ -17374,11 +17374,11 @@ func (r PriceMatrixPriceCadence) IsKnown() bool {
 
 type PriceMatrixPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceMatrixPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceMatrixPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceMatrixPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceMatrixPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                 `json:"values,required"`
+	Values []string                                 `json:"values" api:"required"`
 	JSON   priceMatrixPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -17436,7 +17436,7 @@ func (r PriceMatrixPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceMatrixPriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceMatrixPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                             `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                               `json:"unit_config"`
 	JSON               priceMatrixPriceConversionRateConfigJSON               `json:"-"`
@@ -17548,12 +17548,12 @@ func (r PriceMatrixPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceMatrixPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                          `json:"name,required"`
+	Name string                          `json:"name" api:"required"`
 	JSON priceMatrixPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -17576,53 +17576,53 @@ func (r priceMatrixPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceThresholdTotalAmountPrice struct {
-	ID                        string                                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceThresholdTotalAmountPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceThresholdTotalAmountPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceThresholdTotalAmountPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                                               `json:"currency,required"`
+	ID                        string                                               `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceThresholdTotalAmountPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceThresholdTotalAmountPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceThresholdTotalAmountPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                               `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceThresholdTotalAmountPriceModelType `json:"model_type,required"`
-	Name           string                                  `json:"name,required"`
-	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceThresholdTotalAmountPricePriceType `json:"price_type,required"`
+	ModelType      PriceThresholdTotalAmountPriceModelType `json:"model_type" api:"required"`
+	Name           string                                  `json:"name" api:"required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceThresholdTotalAmountPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for threshold_total_amount pricing
-	ThresholdTotalAmountConfig    PriceThresholdTotalAmountPriceThresholdTotalAmountConfig `json:"threshold_total_amount_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                            `json:"dimensional_price_configuration,nullable"`
+	ThresholdTotalAmountConfig    PriceThresholdTotalAmountPriceThresholdTotalAmountConfig `json:"threshold_total_amount_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration                            `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceThresholdTotalAmountPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceThresholdTotalAmountPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceThresholdTotalAmountPriceJSON        `json:"-"`
 }
 
@@ -17708,11 +17708,11 @@ func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 
 type PriceThresholdTotalAmountPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceThresholdTotalAmountPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceThresholdTotalAmountPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceThresholdTotalAmountPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceThresholdTotalAmountPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                               `json:"values,required"`
+	Values []string                                               `json:"values" api:"required"`
 	JSON   priceThresholdTotalAmountPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -17770,7 +17770,7 @@ func (r PriceThresholdTotalAmountPriceCompositePriceFiltersOperator) IsKnown() b
 }
 
 type PriceThresholdTotalAmountPriceConversionRateConfig struct {
-	ConversionRateType PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                           `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                             `json:"unit_config"`
 	JSON               priceThresholdTotalAmountPriceConversionRateConfigJSON               `json:"-"`
@@ -17881,9 +17881,9 @@ func (r PriceThresholdTotalAmountPricePriceType) IsKnown() bool {
 type PriceThresholdTotalAmountPriceThresholdTotalAmountConfig struct {
 	// When the quantity consumed passes a provided threshold, the configured total
 	// will be charged
-	ConsumptionTable []PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable `json:"consumption_table,required"`
+	ConsumptionTable []PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable `json:"consumption_table" api:"required"`
 	// If true, the unit price will be prorated to the billing period
-	Prorate bool                                                         `json:"prorate,nullable"`
+	Prorate bool                                                         `json:"prorate" api:"nullable"`
 	JSON    priceThresholdTotalAmountPriceThresholdTotalAmountConfigJSON `json:"-"`
 }
 
@@ -17907,9 +17907,9 @@ func (r priceThresholdTotalAmountPriceThresholdTotalAmountConfigJSON) RawJSON() 
 
 // Configuration for a single threshold
 type PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable struct {
-	Threshold string `json:"threshold,required"`
+	Threshold string `json:"threshold" api:"required"`
 	// Total amount for this threshold
-	TotalAmount string                                                                       `json:"total_amount,required"`
+	TotalAmount string                                                                       `json:"total_amount" api:"required"`
 	JSON        priceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableJSON `json:"-"`
 }
 
@@ -17936,12 +17936,12 @@ func (r priceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable
 // configured grouping key.
 type PriceThresholdTotalAmountPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                        `json:"name,required"`
+	Name string                                        `json:"name" api:"required"`
 	JSON priceThresholdTotalAmountPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -17964,53 +17964,53 @@ func (r priceThresholdTotalAmountPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceTieredPackagePrice struct {
-	ID                        string                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPackagePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceTieredPackagePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                        `json:"currency,required"`
+	ID                        string                                        `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                            `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceTieredPackagePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceTieredPackagePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceTieredPackagePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                       `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                     `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                    `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                        `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceTieredPackagePriceModelType `json:"model_type,required"`
-	Name           string                           `json:"name,required"`
-	PlanPhaseOrder int64                            `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredPackagePricePriceType `json:"price_type,required"`
+	ModelType      PriceTieredPackagePriceModelType `json:"model_type" api:"required"`
+	Name           string                           `json:"name" api:"required"`
+	PlanPhaseOrder int64                            `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceTieredPackagePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for tiered_package pricing
-	TieredPackageConfig           PriceTieredPackagePriceTieredPackageConfig `json:"tiered_package_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration              `json:"dimensional_price_configuration,nullable"`
+	TieredPackageConfig           PriceTieredPackagePriceTieredPackageConfig `json:"tiered_package_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration              `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceTieredPackagePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceTieredPackagePriceJSON        `json:"-"`
 }
 
@@ -18096,11 +18096,11 @@ func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 
 type PriceTieredPackagePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceTieredPackagePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceTieredPackagePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                        `json:"values,required"`
+	Values []string                                        `json:"values" api:"required"`
 	JSON   priceTieredPackagePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -18158,7 +18158,7 @@ func (r PriceTieredPackagePriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                    `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                      `json:"unit_config"`
 	JSON               priceTieredPackagePriceConversionRateConfigJSON               `json:"-"`
@@ -18267,12 +18267,12 @@ func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type PriceTieredPackagePriceTieredPackageConfig struct {
-	PackageSize string `json:"package_size,required"`
+	PackageSize string `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
 	// the total quantity rather than the number of packages, so they must be multiples
 	// of the package size.
-	Tiers []PriceTieredPackagePriceTieredPackageConfigTier `json:"tiers,required"`
+	Tiers []PriceTieredPackagePriceTieredPackageConfigTier `json:"tiers" api:"required"`
 	JSON  priceTieredPackagePriceTieredPackageConfigJSON   `json:"-"`
 }
 
@@ -18296,8 +18296,8 @@ func (r priceTieredPackagePriceTieredPackageConfigJSON) RawJSON() string {
 // Configuration for a single tier with business logic
 type PriceTieredPackagePriceTieredPackageConfigTier struct {
 	// Price per package
-	PerUnit        string                                             `json:"per_unit,required"`
-	TierLowerBound string                                             `json:"tier_lower_bound,required"`
+	PerUnit        string                                             `json:"per_unit" api:"required"`
+	TierLowerBound string                                             `json:"tier_lower_bound" api:"required"`
 	JSON           priceTieredPackagePriceTieredPackageConfigTierJSON `json:"-"`
 }
 
@@ -18323,12 +18323,12 @@ func (r priceTieredPackagePriceTieredPackageConfigTierJSON) RawJSON() string {
 // configured grouping key.
 type PriceTieredPackagePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                 `json:"name,required"`
+	Name string                                 `json:"name" api:"required"`
 	JSON priceTieredPackagePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -18351,53 +18351,53 @@ func (r priceTieredPackagePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceTieredWithMinimumPrice struct {
-	ID                        string                                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredWithMinimumPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceTieredWithMinimumPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceTieredWithMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                                            `json:"currency,required"`
+	ID                        string                                            `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceTieredWithMinimumPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceTieredWithMinimumPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceTieredWithMinimumPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                            `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceTieredWithMinimumPriceModelType `json:"model_type,required"`
-	Name           string                               `json:"name,required"`
-	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredWithMinimumPricePriceType `json:"price_type,required"`
+	ModelType      PriceTieredWithMinimumPriceModelType `json:"model_type" api:"required"`
+	Name           string                               `json:"name" api:"required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceTieredWithMinimumPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for tiered_with_minimum pricing
-	TieredWithMinimumConfig       PriceTieredWithMinimumPriceTieredWithMinimumConfig `json:"tiered_with_minimum_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration,nullable"`
+	TieredWithMinimumConfig       PriceTieredWithMinimumPriceTieredWithMinimumConfig `json:"tiered_with_minimum_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceTieredWithMinimumPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceTieredWithMinimumPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceTieredWithMinimumPriceJSON        `json:"-"`
 }
 
@@ -18483,11 +18483,11 @@ func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 
 type PriceTieredWithMinimumPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceTieredWithMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceTieredWithMinimumPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceTieredWithMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceTieredWithMinimumPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                            `json:"values,required"`
+	Values []string                                            `json:"values" api:"required"`
 	JSON   priceTieredWithMinimumPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -18545,7 +18545,7 @@ func (r PriceTieredWithMinimumPriceCompositePriceFiltersOperator) IsKnown() bool
 }
 
 type PriceTieredWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceTieredWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                        `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                          `json:"unit_config"`
 	JSON               priceTieredWithMinimumPriceConversionRateConfigJSON               `json:"-"`
@@ -18656,7 +18656,7 @@ func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
 type PriceTieredWithMinimumPriceTieredWithMinimumConfig struct {
 	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
 	// defined using exclusive lower bounds.
-	Tiers []PriceTieredWithMinimumPriceTieredWithMinimumConfigTier `json:"tiers,required"`
+	Tiers []PriceTieredWithMinimumPriceTieredWithMinimumConfigTier `json:"tiers" api:"required"`
 	// If true, tiers with an accrued amount of 0 will not be included in the rating.
 	HideZeroAmountTiers bool `json:"hide_zero_amount_tiers"`
 	// If true, the unit price will be prorated to the billing period
@@ -18684,10 +18684,10 @@ func (r priceTieredWithMinimumPriceTieredWithMinimumConfigJSON) RawJSON() string
 
 // Configuration for a single tier
 type PriceTieredWithMinimumPriceTieredWithMinimumConfigTier struct {
-	MinimumAmount  string `json:"minimum_amount,required"`
-	TierLowerBound string `json:"tier_lower_bound,required"`
+	MinimumAmount  string `json:"minimum_amount" api:"required"`
+	TierLowerBound string `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount string                                                     `json:"unit_amount,required"`
+	UnitAmount string                                                     `json:"unit_amount" api:"required"`
 	JSON       priceTieredWithMinimumPriceTieredWithMinimumConfigTierJSON `json:"-"`
 }
 
@@ -18714,12 +18714,12 @@ func (r priceTieredWithMinimumPriceTieredWithMinimumConfigTierJSON) RawJSON() st
 // configured grouping key.
 type PriceTieredWithMinimumPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                     `json:"name,required"`
+	Name string                                     `json:"name" api:"required"`
 	JSON priceTieredWithMinimumPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -18742,53 +18742,53 @@ func (r priceTieredWithMinimumPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedTieredPrice struct {
-	ID                        string                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedTieredPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedTieredPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedTieredPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                        `json:"currency,required"`
+	ID                        string                                        `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                            `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedTieredPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedTieredPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedTieredPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                       `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                     `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                    `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                        `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_tiered pricing
-	GroupedTieredConfig         PriceGroupedTieredPriceGroupedTieredConfig `json:"grouped_tiered_config,required"`
-	InvoicingCycleConfiguration BillingCycleConfiguration                  `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedTieredConfig         PriceGroupedTieredPriceGroupedTieredConfig `json:"grouped_tiered_config" api:"required"`
+	InvoicingCycleConfiguration BillingCycleConfiguration                  `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedTieredPriceModelType `json:"model_type,required"`
-	Name           string                           `json:"name,required"`
-	PlanPhaseOrder int64                            `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedTieredPricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedTieredPriceModelType `json:"model_type" api:"required"`
+	Name           string                           `json:"name" api:"required"`
+	PlanPhaseOrder int64                            `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedTieredPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedTieredPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedTieredPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedTieredPriceJSON        `json:"-"`
 }
 
@@ -18874,11 +18874,11 @@ func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 
 type PriceGroupedTieredPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedTieredPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedTieredPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedTieredPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedTieredPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                        `json:"values,required"`
+	Values []string                                        `json:"values" api:"required"`
 	JSON   priceGroupedTieredPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -18936,7 +18936,7 @@ func (r PriceGroupedTieredPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceGroupedTieredPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                    `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                      `json:"unit_config"`
 	JSON               priceGroupedTieredPriceConversionRateConfigJSON               `json:"-"`
@@ -19015,10 +19015,10 @@ func (r PriceGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown()
 // Configuration for grouped_tiered pricing
 type PriceGroupedTieredPriceGroupedTieredConfig struct {
 	// The billable metric property used to group before tiering
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// Apply tiered pricing to each segment generated after grouping with the provided
 	// key
-	Tiers []PriceGroupedTieredPriceGroupedTieredConfigTier `json:"tiers,required"`
+	Tiers []PriceGroupedTieredPriceGroupedTieredConfigTier `json:"tiers" api:"required"`
 	JSON  priceGroupedTieredPriceGroupedTieredConfigJSON   `json:"-"`
 }
 
@@ -19041,9 +19041,9 @@ func (r priceGroupedTieredPriceGroupedTieredConfigJSON) RawJSON() string {
 
 // Configuration for a single tier
 type PriceGroupedTieredPriceGroupedTieredConfigTier struct {
-	TierLowerBound string `json:"tier_lower_bound,required"`
+	TierLowerBound string `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount string                                             `json:"unit_amount,required"`
+	UnitAmount string                                             `json:"unit_amount" api:"required"`
 	JSON       priceGroupedTieredPriceGroupedTieredConfigTierJSON `json:"-"`
 }
 
@@ -19100,12 +19100,12 @@ func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedTieredPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                 `json:"name,required"`
+	Name string                                 `json:"name" api:"required"`
 	JSON priceGroupedTieredPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -19128,53 +19128,53 @@ func (r priceGroupedTieredPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceTieredPackageWithMinimumPrice struct {
-	ID                        string                                                   `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPackageWithMinimumPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceTieredPackageWithMinimumPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceTieredPackageWithMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                               `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                   `json:"currency,required"`
+	ID                        string                                                   `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                       `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceTieredPackageWithMinimumPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceTieredPackageWithMinimumPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceTieredPackageWithMinimumPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                  `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                               `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                   `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceTieredPackageWithMinimumPriceModelType `json:"model_type,required"`
-	Name           string                                      `json:"name,required"`
-	PlanPhaseOrder int64                                       `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredPackageWithMinimumPricePriceType `json:"price_type,required"`
+	ModelType      PriceTieredPackageWithMinimumPriceModelType `json:"model_type" api:"required"`
+	Name           string                                      `json:"name" api:"required"`
+	PlanPhaseOrder int64                                       `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceTieredPackageWithMinimumPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for tiered_package_with_minimum pricing
-	TieredPackageWithMinimumConfig PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig `json:"tiered_package_with_minimum_config,required"`
-	DimensionalPriceConfiguration  DimensionalPriceConfiguration                                    `json:"dimensional_price_configuration,nullable"`
+	TieredPackageWithMinimumConfig PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig `json:"tiered_package_with_minimum_config" api:"required"`
+	DimensionalPriceConfiguration  DimensionalPriceConfiguration                                    `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceTieredPackageWithMinimumPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceTieredPackageWithMinimumPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceTieredPackageWithMinimumPriceJSON        `json:"-"`
 }
 
@@ -19260,11 +19260,11 @@ func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 
 type PriceTieredPackageWithMinimumPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceTieredPackageWithMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceTieredPackageWithMinimumPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                   `json:"values,required"`
+	Values []string                                                   `json:"values" api:"required"`
 	JSON   priceTieredPackageWithMinimumPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -19322,7 +19322,7 @@ func (r PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator) IsKnown
 }
 
 type PriceTieredPackageWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                               `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                 `json:"unit_config"`
 	JSON               priceTieredPackageWithMinimumPriceConversionRateConfigJSON               `json:"-"`
@@ -19431,10 +19431,10 @@ func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig struct {
-	PackageSize float64 `json:"package_size,required"`
+	PackageSize float64 `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers []PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier `json:"tiers,required"`
+	Tiers []PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier `json:"tiers" api:"required"`
 	JSON  priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigJSON   `json:"-"`
 }
 
@@ -19458,9 +19458,9 @@ func (r priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigJSON) Ra
 
 // Configuration for a single tier
 type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier struct {
-	MinimumAmount  string                                                                   `json:"minimum_amount,required"`
-	PerUnit        string                                                                   `json:"per_unit,required"`
-	TierLowerBound string                                                                   `json:"tier_lower_bound,required"`
+	MinimumAmount  string                                                                   `json:"minimum_amount" api:"required"`
+	PerUnit        string                                                                   `json:"per_unit" api:"required"`
+	TierLowerBound string                                                                   `json:"tier_lower_bound" api:"required"`
 	JSON           priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierJSON `json:"-"`
 }
 
@@ -19488,12 +19488,12 @@ func (r priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierJSON
 // configured grouping key.
 type PriceTieredPackageWithMinimumPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                            `json:"name,required"`
+	Name string                                            `json:"name" api:"required"`
 	JSON priceTieredPackageWithMinimumPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -19516,53 +19516,53 @@ func (r priceTieredPackageWithMinimumPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PricePackageWithAllocationPrice struct {
-	ID                        string                                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePackageWithAllocationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PricePackageWithAllocationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PricePackageWithAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                `json:"currency,required"`
+	ID                        string                                                `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PricePackageWithAllocationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PricePackageWithAllocationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PricePackageWithAllocationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType PricePackageWithAllocationPriceModelType `json:"model_type,required"`
-	Name      string                                   `json:"name,required"`
+	ModelType PricePackageWithAllocationPriceModelType `json:"model_type" api:"required"`
+	Name      string                                   `json:"name" api:"required"`
 	// Configuration for package_with_allocation pricing
-	PackageWithAllocationConfig PricePackageWithAllocationPricePackageWithAllocationConfig `json:"package_with_allocation_config,required"`
-	PlanPhaseOrder              int64                                                      `json:"plan_phase_order,required,nullable"`
-	PriceType                   PricePackageWithAllocationPricePriceType                   `json:"price_type,required"`
+	PackageWithAllocationConfig PricePackageWithAllocationPricePackageWithAllocationConfig `json:"package_with_allocation_config" api:"required"`
+	PlanPhaseOrder              int64                                                      `json:"plan_phase_order" api:"required,nullable"`
+	PriceType                   PricePackageWithAllocationPricePriceType                   `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PricePackageWithAllocationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PricePackageWithAllocationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        pricePackageWithAllocationPriceJSON        `json:"-"`
 }
 
@@ -19648,11 +19648,11 @@ func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 
 type PricePackageWithAllocationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PricePackageWithAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PricePackageWithAllocationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PricePackageWithAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PricePackageWithAllocationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                `json:"values,required"`
+	Values []string                                                `json:"values" api:"required"`
 	JSON   pricePackageWithAllocationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -19710,7 +19710,7 @@ func (r PricePackageWithAllocationPriceCompositePriceFiltersOperator) IsKnown() 
 }
 
 type PricePackageWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType PricePackageWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PricePackageWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                            `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                              `json:"unit_config"`
 	JSON               pricePackageWithAllocationPriceConversionRateConfigJSON               `json:"-"`
@@ -19803,9 +19803,9 @@ func (r PricePackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type PricePackageWithAllocationPricePackageWithAllocationConfig struct {
-	Allocation    string                                                         `json:"allocation,required"`
-	PackageAmount string                                                         `json:"package_amount,required"`
-	PackageSize   string                                                         `json:"package_size,required"`
+	Allocation    string                                                         `json:"allocation" api:"required"`
+	PackageAmount string                                                         `json:"package_amount" api:"required"`
+	PackageSize   string                                                         `json:"package_size" api:"required"`
 	JSON          pricePackageWithAllocationPricePackageWithAllocationConfigJSON `json:"-"`
 }
 
@@ -19849,12 +19849,12 @@ func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PricePackageWithAllocationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                         `json:"name,required"`
+	Name string                                         `json:"name" api:"required"`
 	JSON pricePackageWithAllocationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -19877,53 +19877,53 @@ func (r pricePackageWithAllocationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceUnitWithPercentPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitWithPercentPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceUnitWithPercentPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceUnitWithPercentPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                                          `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                              `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceUnitWithPercentPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceUnitWithPercentPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceUnitWithPercentPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                         `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                       `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                      `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                          `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceUnitWithPercentPriceModelType `json:"model_type,required"`
-	Name           string                             `json:"name,required"`
-	PlanPhaseOrder int64                              `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceUnitWithPercentPricePriceType `json:"price_type,required"`
+	ModelType      PriceUnitWithPercentPriceModelType `json:"model_type" api:"required"`
+	Name           string                             `json:"name" api:"required"`
+	PlanPhaseOrder int64                              `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceUnitWithPercentPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for unit_with_percent pricing
-	UnitWithPercentConfig         PriceUnitWithPercentPriceUnitWithPercentConfig `json:"unit_with_percent_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                  `json:"dimensional_price_configuration,nullable"`
+	UnitWithPercentConfig         PriceUnitWithPercentPriceUnitWithPercentConfig `json:"unit_with_percent_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration                  `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceUnitWithPercentPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceUnitWithPercentPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceUnitWithPercentPriceJSON        `json:"-"`
 }
 
@@ -20009,11 +20009,11 @@ func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 
 type PriceUnitWithPercentPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceUnitWithPercentPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceUnitWithPercentPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceUnitWithPercentPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceUnitWithPercentPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                          `json:"values,required"`
+	Values []string                                          `json:"values" api:"required"`
 	JSON   priceUnitWithPercentPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -20071,7 +20071,7 @@ func (r PriceUnitWithPercentPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceUnitWithPercentPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitWithPercentPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceUnitWithPercentPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                      `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                        `json:"unit_config"`
 	JSON               priceUnitWithPercentPriceConversionRateConfigJSON               `json:"-"`
@@ -20181,9 +20181,9 @@ func (r PriceUnitWithPercentPricePriceType) IsKnown() bool {
 // Configuration for unit_with_percent pricing
 type PriceUnitWithPercentPriceUnitWithPercentConfig struct {
 	// What percent, out of 100, of the calculated total to charge
-	Percent string `json:"percent,required"`
+	Percent string `json:"percent" api:"required"`
 	// Rate per unit of usage
-	UnitAmount string                                             `json:"unit_amount,required"`
+	UnitAmount string                                             `json:"unit_amount" api:"required"`
 	JSON       priceUnitWithPercentPriceUnitWithPercentConfigJSON `json:"-"`
 }
 
@@ -20209,12 +20209,12 @@ func (r priceUnitWithPercentPriceUnitWithPercentConfigJSON) RawJSON() string {
 // configured grouping key.
 type PriceUnitWithPercentPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                   `json:"name,required"`
+	Name string                                   `json:"name" api:"required"`
 	JSON priceUnitWithPercentPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -20237,53 +20237,53 @@ func (r priceUnitWithPercentPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceMatrixWithAllocationPrice struct {
-	ID                        string                                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixWithAllocationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceMatrixWithAllocationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceMatrixWithAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                                               `json:"currency,required"`
+	ID                        string                                               `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMatrixWithAllocationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMatrixWithAllocationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMatrixWithAllocationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                               `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Configuration for matrix_with_allocation pricing
-	MatrixWithAllocationConfig MatrixWithAllocationConfig `json:"matrix_with_allocation_config,required"`
+	MatrixWithAllocationConfig MatrixWithAllocationConfig `json:"matrix_with_allocation_config" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceMatrixWithAllocationPriceModelType `json:"model_type,required"`
-	Name           string                                  `json:"name,required"`
-	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMatrixWithAllocationPricePriceType `json:"price_type,required"`
+	ModelType      PriceMatrixWithAllocationPriceModelType `json:"model_type" api:"required"`
+	Name           string                                  `json:"name" api:"required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMatrixWithAllocationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceMatrixWithAllocationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceMatrixWithAllocationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceMatrixWithAllocationPriceJSON        `json:"-"`
 }
 
@@ -20369,11 +20369,11 @@ func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 
 type PriceMatrixWithAllocationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceMatrixWithAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceMatrixWithAllocationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceMatrixWithAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceMatrixWithAllocationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                               `json:"values,required"`
+	Values []string                                               `json:"values" api:"required"`
 	JSON   priceMatrixWithAllocationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -20431,7 +20431,7 @@ func (r PriceMatrixWithAllocationPriceCompositePriceFiltersOperator) IsKnown() b
 }
 
 type PriceMatrixWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                           `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                             `json:"unit_config"`
 	JSON               priceMatrixWithAllocationPriceConversionRateConfigJSON               `json:"-"`
@@ -20543,12 +20543,12 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceMatrixWithAllocationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                        `json:"name,required"`
+	Name string                                        `json:"name" api:"required"`
 	JSON priceMatrixWithAllocationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -20571,53 +20571,53 @@ func (r priceMatrixWithAllocationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceTieredWithProrationPrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredWithProrationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceTieredWithProrationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceTieredWithProrationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                              `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                  `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceTieredWithProrationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceTieredWithProrationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceTieredWithProrationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                             `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                           `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                          `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                              `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceTieredWithProrationPriceModelType `json:"model_type,required"`
-	Name           string                                 `json:"name,required"`
-	PlanPhaseOrder int64                                  `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredWithProrationPricePriceType `json:"price_type,required"`
+	ModelType      PriceTieredWithProrationPriceModelType `json:"model_type" api:"required"`
+	Name           string                                 `json:"name" api:"required"`
+	PlanPhaseOrder int64                                  `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceTieredWithProrationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for tiered_with_proration pricing
-	TieredWithProrationConfig     PriceTieredWithProrationPriceTieredWithProrationConfig `json:"tiered_with_proration_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                          `json:"dimensional_price_configuration,nullable"`
+	TieredWithProrationConfig     PriceTieredWithProrationPriceTieredWithProrationConfig `json:"tiered_with_proration_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration                          `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceTieredWithProrationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceTieredWithProrationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceTieredWithProrationPriceJSON        `json:"-"`
 }
 
@@ -20703,11 +20703,11 @@ func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 
 type PriceTieredWithProrationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceTieredWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceTieredWithProrationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceTieredWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceTieredWithProrationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                              `json:"values,required"`
+	Values []string                                              `json:"values" api:"required"`
 	JSON   priceTieredWithProrationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -20765,7 +20765,7 @@ func (r PriceTieredWithProrationPriceCompositePriceFiltersOperator) IsKnown() bo
 }
 
 type PriceTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceTieredWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                          `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                            `json:"unit_config"`
 	JSON               priceTieredWithProrationPriceConversionRateConfigJSON               `json:"-"`
@@ -20876,7 +20876,7 @@ func (r PriceTieredWithProrationPricePriceType) IsKnown() bool {
 type PriceTieredWithProrationPriceTieredWithProrationConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier with
 	// proration
-	Tiers []PriceTieredWithProrationPriceTieredWithProrationConfigTier `json:"tiers,required"`
+	Tiers []PriceTieredWithProrationPriceTieredWithProrationConfigTier `json:"tiers" api:"required"`
 	JSON  priceTieredWithProrationPriceTieredWithProrationConfigJSON   `json:"-"`
 }
 
@@ -20899,9 +20899,9 @@ func (r priceTieredWithProrationPriceTieredWithProrationConfigJSON) RawJSON() st
 // Configuration for a single tiered with proration tier
 type PriceTieredWithProrationPriceTieredWithProrationConfigTier struct {
 	// Inclusive tier starting value
-	TierLowerBound string `json:"tier_lower_bound,required"`
+	TierLowerBound string `json:"tier_lower_bound" api:"required"`
 	// Amount per unit
-	UnitAmount string                                                         `json:"unit_amount,required"`
+	UnitAmount string                                                         `json:"unit_amount" api:"required"`
 	JSON       priceTieredWithProrationPriceTieredWithProrationConfigTierJSON `json:"-"`
 }
 
@@ -20928,12 +20928,12 @@ func (r priceTieredWithProrationPriceTieredWithProrationConfigTierJSON) RawJSON(
 // configured grouping key.
 type PriceTieredWithProrationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                       `json:"name,required"`
+	Name string                                       `json:"name" api:"required"`
 	JSON priceTieredWithProrationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -20956,53 +20956,53 @@ func (r priceTieredWithProrationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceUnitWithProrationPrice struct {
-	ID                        string                                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitWithProrationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceUnitWithProrationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceUnitWithProrationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                                            `json:"currency,required"`
+	ID                        string                                            `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceUnitWithProrationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceUnitWithProrationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceUnitWithProrationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                            `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceUnitWithProrationPriceModelType `json:"model_type,required"`
-	Name           string                               `json:"name,required"`
-	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceUnitWithProrationPricePriceType `json:"price_type,required"`
+	ModelType      PriceUnitWithProrationPriceModelType `json:"model_type" api:"required"`
+	Name           string                               `json:"name" api:"required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceUnitWithProrationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for unit_with_proration pricing
-	UnitWithProrationConfig       PriceUnitWithProrationPriceUnitWithProrationConfig `json:"unit_with_proration_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration,nullable"`
+	UnitWithProrationConfig       PriceUnitWithProrationPriceUnitWithProrationConfig `json:"unit_with_proration_config" api:"required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration                      `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceUnitWithProrationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceUnitWithProrationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceUnitWithProrationPriceJSON        `json:"-"`
 }
 
@@ -21088,11 +21088,11 @@ func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 
 type PriceUnitWithProrationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceUnitWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceUnitWithProrationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceUnitWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceUnitWithProrationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                            `json:"values,required"`
+	Values []string                                            `json:"values" api:"required"`
 	JSON   priceUnitWithProrationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -21150,7 +21150,7 @@ func (r PriceUnitWithProrationPriceCompositePriceFiltersOperator) IsKnown() bool
 }
 
 type PriceUnitWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceUnitWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                        `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                          `json:"unit_config"`
 	JSON               priceUnitWithProrationPriceConversionRateConfigJSON               `json:"-"`
@@ -21260,7 +21260,7 @@ func (r PriceUnitWithProrationPricePriceType) IsKnown() bool {
 // Configuration for unit_with_proration pricing
 type PriceUnitWithProrationPriceUnitWithProrationConfig struct {
 	// Rate per unit of usage
-	UnitAmount string                                                 `json:"unit_amount,required"`
+	UnitAmount string                                                 `json:"unit_amount" api:"required"`
 	JSON       priceUnitWithProrationPriceUnitWithProrationConfigJSON `json:"-"`
 }
 
@@ -21285,12 +21285,12 @@ func (r priceUnitWithProrationPriceUnitWithProrationConfigJSON) RawJSON() string
 // configured grouping key.
 type PriceUnitWithProrationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                     `json:"name,required"`
+	Name string                                     `json:"name" api:"required"`
 	JSON priceUnitWithProrationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -21313,53 +21313,53 @@ func (r priceUnitWithProrationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedAllocationPrice struct {
-	ID                        string                                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedAllocationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedAllocationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                                            `json:"currency,required"`
+	ID                        string                                            `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedAllocationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedAllocationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedAllocationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                            `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_allocation pricing
-	GroupedAllocationConfig     PriceGroupedAllocationPriceGroupedAllocationConfig `json:"grouped_allocation_config,required"`
-	InvoicingCycleConfiguration BillingCycleConfiguration                          `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedAllocationConfig     PriceGroupedAllocationPriceGroupedAllocationConfig `json:"grouped_allocation_config" api:"required"`
+	InvoicingCycleConfiguration BillingCycleConfiguration                          `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedAllocationPriceModelType `json:"model_type,required"`
-	Name           string                               `json:"name,required"`
-	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedAllocationPricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedAllocationPriceModelType `json:"model_type" api:"required"`
+	Name           string                               `json:"name" api:"required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedAllocationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedAllocationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedAllocationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedAllocationPriceJSON        `json:"-"`
 }
 
@@ -21445,11 +21445,11 @@ func (r PriceGroupedAllocationPriceCadence) IsKnown() bool {
 
 type PriceGroupedAllocationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedAllocationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedAllocationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                            `json:"values,required"`
+	Values []string                                            `json:"values" api:"required"`
 	JSON   priceGroupedAllocationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -21507,7 +21507,7 @@ func (r PriceGroupedAllocationPriceCompositePriceFiltersOperator) IsKnown() bool
 }
 
 type PriceGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                        `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                          `json:"unit_config"`
 	JSON               priceGroupedAllocationPriceConversionRateConfigJSON               `json:"-"`
@@ -21586,11 +21586,11 @@ func (r PriceGroupedAllocationPriceConversionRateConfigConversionRateType) IsKno
 // Configuration for grouped_allocation pricing
 type PriceGroupedAllocationPriceGroupedAllocationConfig struct {
 	// Usage allocation per group
-	Allocation string `json:"allocation,required"`
+	Allocation string `json:"allocation" api:"required"`
 	// How to determine the groups that should each be allocated some quantity
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// Unit rate for post-allocation
-	OverageUnitRate string                                                 `json:"overage_unit_rate,required"`
+	OverageUnitRate string                                                 `json:"overage_unit_rate" api:"required"`
 	JSON            priceGroupedAllocationPriceGroupedAllocationConfigJSON `json:"-"`
 }
 
@@ -21648,12 +21648,12 @@ func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedAllocationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                     `json:"name,required"`
+	Name string                                     `json:"name" api:"required"`
 	JSON priceGroupedAllocationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -21676,53 +21676,53 @@ func (r priceGroupedAllocationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceBulkWithProrationPrice struct {
-	ID                        string                                 `json:"id,required"`
-	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceBulkWithProrationPriceBillingMode `json:"billing_mode,required"`
+	ID                        string                                 `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceBulkWithProrationPriceBillingMode `json:"billing_mode" api:"required"`
 	// Configuration for bulk_with_proration pricing
-	BulkWithProrationConfig PriceBulkWithProrationPriceBulkWithProrationConfig `json:"bulk_with_proration_config,required"`
-	Cadence                 PriceBulkWithProrationPriceCadence                 `json:"cadence,required"`
-	CompositePriceFilters   []PriceBulkWithProrationPriceCompositePriceFilter  `json:"composite_price_filters,required,nullable"`
-	ConversionRate          float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig    PriceBulkWithProrationPriceConversionRateConfig    `json:"conversion_rate_config,required,nullable"`
-	CreatedAt               time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation        Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                string                                             `json:"currency,required"`
+	BulkWithProrationConfig PriceBulkWithProrationPriceBulkWithProrationConfig `json:"bulk_with_proration_config" api:"required"`
+	Cadence                 PriceBulkWithProrationPriceCadence                 `json:"cadence" api:"required"`
+	CompositePriceFilters   []PriceBulkWithProrationPriceCompositePriceFilter  `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate          float64                                            `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig    PriceBulkWithProrationPriceConversionRateConfig    `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt               time.Time                                          `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation        Allocation                                         `json:"credit_allocation" api:"required,nullable"`
+	Currency                string                                             `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceBulkWithProrationPriceModelType `json:"model_type,required"`
-	Name           string                               `json:"name,required"`
-	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceBulkWithProrationPricePriceType `json:"price_type,required"`
+	ModelType      PriceBulkWithProrationPriceModelType `json:"model_type" api:"required"`
+	Name           string                               `json:"name" api:"required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceBulkWithProrationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceBulkWithProrationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceBulkWithProrationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceBulkWithProrationPriceJSON        `json:"-"`
 }
 
@@ -21790,7 +21790,7 @@ func (r PriceBulkWithProrationPriceBillingMode) IsKnown() bool {
 // Configuration for bulk_with_proration pricing
 type PriceBulkWithProrationPriceBulkWithProrationConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers []PriceBulkWithProrationPriceBulkWithProrationConfigTier `json:"tiers,required"`
+	Tiers []PriceBulkWithProrationPriceBulkWithProrationConfigTier `json:"tiers" api:"required"`
 	JSON  priceBulkWithProrationPriceBulkWithProrationConfigJSON   `json:"-"`
 }
 
@@ -21813,9 +21813,9 @@ func (r priceBulkWithProrationPriceBulkWithProrationConfigJSON) RawJSON() string
 // Configuration for a single bulk pricing tier with proration
 type PriceBulkWithProrationPriceBulkWithProrationConfigTier struct {
 	// Cost per unit
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// The lower bound for this tier
-	TierLowerBound string                                                     `json:"tier_lower_bound,nullable"`
+	TierLowerBound string                                                     `json:"tier_lower_bound" api:"nullable"`
 	JSON           priceBulkWithProrationPriceBulkWithProrationConfigTierJSON `json:"-"`
 }
 
@@ -21857,11 +21857,11 @@ func (r PriceBulkWithProrationPriceCadence) IsKnown() bool {
 
 type PriceBulkWithProrationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceBulkWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceBulkWithProrationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceBulkWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceBulkWithProrationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                            `json:"values,required"`
+	Values []string                                            `json:"values" api:"required"`
 	JSON   priceBulkWithProrationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -21919,7 +21919,7 @@ func (r PriceBulkWithProrationPriceCompositePriceFiltersOperator) IsKnown() bool
 }
 
 type PriceBulkWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                        `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                          `json:"unit_config"`
 	JSON               priceBulkWithProrationPriceConversionRateConfigJSON               `json:"-"`
@@ -22031,12 +22031,12 @@ func (r PriceBulkWithProrationPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceBulkWithProrationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                     `json:"name,required"`
+	Name string                                     `json:"name" api:"required"`
 	JSON priceBulkWithProrationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -22059,53 +22059,53 @@ func (r priceBulkWithProrationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedWithProratedMinimumPrice struct {
-	ID                        string                                                     `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                         `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                  `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithProratedMinimumPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithProratedMinimumPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedWithProratedMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                    `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                  `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                 `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                     `json:"currency,required"`
+	ID                        string                                                     `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                         `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                  `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedWithProratedMinimumPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedWithProratedMinimumPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedWithProratedMinimumPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                    `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                  `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                 `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                     `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_prorated_minimum pricing
-	GroupedWithProratedMinimumConfig PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      BillingCycleConfiguration                                            `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedWithProratedMinimumConfig PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig `json:"grouped_with_prorated_minimum_config" api:"required"`
+	InvoicingCycleConfiguration      BillingCycleConfiguration                                            `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedWithProratedMinimumPriceModelType `json:"model_type,required"`
-	Name           string                                        `json:"name,required"`
-	PlanPhaseOrder int64                                         `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedWithProratedMinimumPricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedWithProratedMinimumPriceModelType `json:"model_type" api:"required"`
+	Name           string                                        `json:"name" api:"required"`
+	PlanPhaseOrder int64                                         `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedWithProratedMinimumPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedWithProratedMinimumPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedWithProratedMinimumPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedWithProratedMinimumPriceJSON        `json:"-"`
 }
 
@@ -22191,11 +22191,11 @@ func (r PriceGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 
 type PriceGroupedWithProratedMinimumPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                     `json:"values,required"`
+	Values []string                                                     `json:"values" api:"required"`
 	JSON   priceGroupedWithProratedMinimumPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -22254,7 +22254,7 @@ func (r PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator) IsKno
 }
 
 type PriceGroupedWithProratedMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                 `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                   `json:"unit_config"`
 	JSON               priceGroupedWithProratedMinimumPriceConversionRateConfigJSON               `json:"-"`
@@ -22335,11 +22335,11 @@ func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTy
 // Configuration for grouped_with_prorated_minimum pricing
 type PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig struct {
 	// How to determine the groups that should each have a minimum
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group
-	Minimum string `json:"minimum,required"`
+	Minimum string `json:"minimum" api:"required"`
 	// The amount to charge per unit
-	UnitRate string                                                                   `json:"unit_rate,required"`
+	UnitRate string                                                                   `json:"unit_rate" api:"required"`
 	JSON     priceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigJSON `json:"-"`
 }
 
@@ -22398,12 +22398,12 @@ func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedWithProratedMinimumPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                              `json:"name,required"`
+	Name string                                              `json:"name" api:"required"`
 	JSON priceGroupedWithProratedMinimumPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -22426,53 +22426,53 @@ func (r priceGroupedWithProratedMinimumPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedWithMeteredMinimumPrice struct {
-	ID                        string                                                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithMeteredMinimumPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedWithMeteredMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                   `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                 `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                    `json:"currency,required"`
+	ID                        string                                                    `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                        `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedWithMeteredMinimumPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedWithMeteredMinimumPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                   `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                    `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_metered_minimum pricing
-	GroupedWithMeteredMinimumConfig PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig `json:"grouped_with_metered_minimum_config,required"`
-	InvoicingCycleConfiguration     BillingCycleConfiguration                                          `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedWithMeteredMinimumConfig PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig `json:"grouped_with_metered_minimum_config" api:"required"`
+	InvoicingCycleConfiguration     BillingCycleConfiguration                                          `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedWithMeteredMinimumPriceModelType `json:"model_type,required"`
-	Name           string                                       `json:"name,required"`
-	PlanPhaseOrder int64                                        `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedWithMeteredMinimumPricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedWithMeteredMinimumPriceModelType `json:"model_type" api:"required"`
+	Name           string                                       `json:"name" api:"required"`
+	PlanPhaseOrder int64                                        `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedWithMeteredMinimumPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedWithMeteredMinimumPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedWithMeteredMinimumPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedWithMeteredMinimumPriceJSON        `json:"-"`
 }
 
@@ -22558,11 +22558,11 @@ func (r PriceGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 
 type PriceGroupedWithMeteredMinimumPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                    `json:"values,required"`
+	Values []string                                                    `json:"values" api:"required"`
 	JSON   priceGroupedWithMeteredMinimumPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -22621,7 +22621,7 @@ func (r PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator) IsKnow
 }
 
 type PriceGroupedWithMeteredMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                  `json:"unit_config"`
 	JSON               priceGroupedWithMeteredMinimumPriceConversionRateConfigJSON               `json:"-"`
@@ -22702,18 +22702,18 @@ func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTyp
 type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig struct {
 	// Used to partition the usage into groups. The minimum amount is applied to each
 	// group.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The minimum amount to charge per group per unit
-	MinimumUnitAmount string `json:"minimum_unit_amount,required"`
+	MinimumUnitAmount string `json:"minimum_unit_amount" api:"required"`
 	// Used to determine the unit rate
-	PricingKey string `json:"pricing_key,required"`
+	PricingKey string `json:"pricing_key" api:"required"`
 	// Scale the unit rates by the scaling factor.
-	ScalingFactors []PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor `json:"scaling_factors,required"`
+	ScalingFactors []PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor `json:"scaling_factors" api:"required"`
 	// Used to determine the unit rate scaling factor
-	ScalingKey string `json:"scaling_key,required"`
+	ScalingKey string `json:"scaling_key" api:"required"`
 	// Apply per unit pricing to each pricing value. The minimum amount is applied any
 	// unmatched usage.
-	UnitAmounts []PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount `json:"unit_amounts,required"`
+	UnitAmounts []PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount `json:"unit_amounts" api:"required"`
 	JSON        priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigJSON         `json:"-"`
 }
 
@@ -22741,8 +22741,8 @@ func (r priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigJSON) 
 
 // Configuration for a scaling factor
 type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor struct {
-	ScalingFactor string                                                                              `json:"scaling_factor,required"`
-	ScalingValue  string                                                                              `json:"scaling_value,required"`
+	ScalingFactor string                                                                              `json:"scaling_factor" api:"required"`
+	ScalingValue  string                                                                              `json:"scaling_value" api:"required"`
 	JSON          priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorJSON `json:"-"`
 }
 
@@ -22766,9 +22766,9 @@ func (r priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalin
 
 // Configuration for a unit amount
 type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount struct {
-	PricingValue string `json:"pricing_value,required"`
+	PricingValue string `json:"pricing_value" api:"required"`
 	// Per unit amount
-	UnitAmount string                                                                           `json:"unit_amount,required"`
+	UnitAmount string                                                                           `json:"unit_amount" api:"required"`
 	JSON       priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountJSON `json:"-"`
 }
 
@@ -22826,12 +22826,12 @@ func (r PriceGroupedWithMeteredMinimumPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedWithMeteredMinimumPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                             `json:"name,required"`
+	Name string                                             `json:"name" api:"required"`
 	JSON priceGroupedWithMeteredMinimumPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -22854,53 +22854,53 @@ func (r priceGroupedWithMeteredMinimumPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedWithMinMaxThresholdsPrice struct {
-	ID                        string                                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithMinMaxThresholdsPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                      `json:"currency,required"`
+	ID                        string                                                      `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                          `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedWithMinMaxThresholdsPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                     `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                   `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                  `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                      `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_min_max_thresholds pricing
-	GroupedWithMinMaxThresholdsConfig PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig `json:"grouped_with_min_max_thresholds_config,required"`
-	InvoicingCycleConfiguration       BillingCycleConfiguration                                              `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedWithMinMaxThresholdsConfig PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig `json:"grouped_with_min_max_thresholds_config" api:"required"`
+	InvoicingCycleConfiguration       BillingCycleConfiguration                                              `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedWithMinMaxThresholdsPriceModelType `json:"model_type,required"`
-	Name           string                                         `json:"name,required"`
-	PlanPhaseOrder int64                                          `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedWithMinMaxThresholdsPricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedWithMinMaxThresholdsPriceModelType `json:"model_type" api:"required"`
+	Name           string                                         `json:"name" api:"required"`
+	PlanPhaseOrder int64                                          `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedWithMinMaxThresholdsPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedWithMinMaxThresholdsPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedWithMinMaxThresholdsPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedWithMinMaxThresholdsPriceJSON        `json:"-"`
 }
 
@@ -22986,11 +22986,11 @@ func (r PriceGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 
 type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                      `json:"values,required"`
+	Values []string                                                      `json:"values" api:"required"`
 	JSON   priceGroupedWithMinMaxThresholdsPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -23049,7 +23049,7 @@ func (r PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator) IsKn
 }
 
 type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                  `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                    `json:"unit_config"`
 	JSON               priceGroupedWithMinMaxThresholdsPriceConversionRateConfigJSON               `json:"-"`
@@ -23130,13 +23130,13 @@ func (r PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateT
 // Configuration for grouped_with_min_max_thresholds pricing
 type PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
 	// The event property used to group before applying thresholds
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The maximum amount to charge each group
-	MaximumCharge string `json:"maximum_charge,required"`
+	MaximumCharge string `json:"maximum_charge" api:"required"`
 	// The minimum amount to charge each group, regardless of usage
-	MinimumCharge string `json:"minimum_charge,required"`
+	MinimumCharge string `json:"minimum_charge" api:"required"`
 	// The base price charged per group
-	PerUnitRate string                                                                     `json:"per_unit_rate,required"`
+	PerUnitRate string                                                                     `json:"per_unit_rate" api:"required"`
 	JSON        priceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfigJSON `json:"-"`
 }
 
@@ -23196,12 +23196,12 @@ func (r PriceGroupedWithMinMaxThresholdsPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedWithMinMaxThresholdsPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                               `json:"name,required"`
+	Name string                                               `json:"name" api:"required"`
 	JSON priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -23224,53 +23224,53 @@ func (r priceGroupedWithMinMaxThresholdsPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceMatrixWithDisplayNamePrice struct {
-	ID                        string                                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixWithDisplayNamePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceMatrixWithDisplayNamePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceMatrixWithDisplayNamePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                `json:"currency,required"`
+	ID                        string                                                `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMatrixWithDisplayNamePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMatrixWithDisplayNamePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMatrixWithDisplayNamePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Configuration for matrix_with_display_name pricing
-	MatrixWithDisplayNameConfig PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig `json:"matrix_with_display_name_config,required"`
+	MatrixWithDisplayNameConfig PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig `json:"matrix_with_display_name_config" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceMatrixWithDisplayNamePriceModelType `json:"model_type,required"`
-	Name           string                                   `json:"name,required"`
-	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMatrixWithDisplayNamePricePriceType `json:"price_type,required"`
+	ModelType      PriceMatrixWithDisplayNamePriceModelType `json:"model_type" api:"required"`
+	Name           string                                   `json:"name" api:"required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMatrixWithDisplayNamePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceMatrixWithDisplayNamePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceMatrixWithDisplayNamePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceMatrixWithDisplayNamePriceJSON        `json:"-"`
 }
 
@@ -23356,11 +23356,11 @@ func (r PriceMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 
 type PriceMatrixWithDisplayNamePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceMatrixWithDisplayNamePriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceMatrixWithDisplayNamePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                `json:"values,required"`
+	Values []string                                                `json:"values" api:"required"`
 	JSON   priceMatrixWithDisplayNamePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -23418,7 +23418,7 @@ func (r PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator) IsKnown() 
 }
 
 type PriceMatrixWithDisplayNamePriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                            `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                              `json:"unit_config"`
 	JSON               priceMatrixWithDisplayNamePriceConversionRateConfigJSON               `json:"-"`
@@ -23497,9 +23497,9 @@ func (r PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) I
 // Configuration for matrix_with_display_name pricing
 type PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig struct {
 	// Used to determine the unit rate
-	Dimension string `json:"dimension,required"`
+	Dimension string `json:"dimension" api:"required"`
 	// Apply per unit pricing to each dimension value
-	UnitAmounts []PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount `json:"unit_amounts,required"`
+	UnitAmounts []PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount `json:"unit_amounts" api:"required"`
 	JSON        priceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigJSON         `json:"-"`
 }
 
@@ -23524,11 +23524,11 @@ func (r priceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigJSON) RawJSON(
 // Configuration for a unit amount item
 type PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount struct {
 	// The dimension value
-	DimensionValue string `json:"dimension_value,required"`
+	DimensionValue string `json:"dimension_value" api:"required"`
 	// Display name for this dimension value
-	DisplayName string `json:"display_name,required"`
+	DisplayName string `json:"display_name" api:"required"`
 	// Per unit amount
-	UnitAmount string                                                                   `json:"unit_amount,required"`
+	UnitAmount string                                                                   `json:"unit_amount" api:"required"`
 	JSON       priceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountJSON `json:"-"`
 }
 
@@ -23587,12 +23587,12 @@ func (r PriceMatrixWithDisplayNamePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceMatrixWithDisplayNamePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                         `json:"name,required"`
+	Name string                                         `json:"name" api:"required"`
 	JSON priceMatrixWithDisplayNamePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -23615,53 +23615,53 @@ func (r priceMatrixWithDisplayNamePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceGroupedTieredPackagePrice struct {
-	ID                        string                                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedTieredPackagePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceGroupedTieredPackagePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceGroupedTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                                               `json:"currency,required"`
+	ID                        string                                               `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceGroupedTieredPackagePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceGroupedTieredPackagePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceGroupedTieredPackagePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                               `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount           Discount `json:"discount,required,nullable"`
-	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64  `json:"fixed_price_quantity,required,nullable"`
+	Discount           Discount `json:"discount" api:"required,nullable"`
+	ExternalPriceID    string   `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_tiered_package pricing
-	GroupedTieredPackageConfig  PriceGroupedTieredPackagePriceGroupedTieredPackageConfig `json:"grouped_tiered_package_config,required"`
-	InvoicingCycleConfiguration BillingCycleConfiguration                                `json:"invoicing_cycle_configuration,required,nullable"`
+	GroupedTieredPackageConfig  PriceGroupedTieredPackagePriceGroupedTieredPackageConfig `json:"grouped_tiered_package_config" api:"required"`
+	InvoicingCycleConfiguration BillingCycleConfiguration                                `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceGroupedTieredPackagePriceModelType `json:"model_type,required"`
-	Name           string                                  `json:"name,required"`
-	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceGroupedTieredPackagePricePriceType `json:"price_type,required"`
+	ModelType      PriceGroupedTieredPackagePriceModelType `json:"model_type" api:"required"`
+	Name           string                                  `json:"name" api:"required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceGroupedTieredPackagePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceGroupedTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceGroupedTieredPackagePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceGroupedTieredPackagePriceJSON        `json:"-"`
 }
 
@@ -23747,11 +23747,11 @@ func (r PriceGroupedTieredPackagePriceCadence) IsKnown() bool {
 
 type PriceGroupedTieredPackagePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceGroupedTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceGroupedTieredPackagePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceGroupedTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceGroupedTieredPackagePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                               `json:"values,required"`
+	Values []string                                               `json:"values" api:"required"`
 	JSON   priceGroupedTieredPackagePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -23809,7 +23809,7 @@ func (r PriceGroupedTieredPackagePriceCompositePriceFiltersOperator) IsKnown() b
 }
 
 type PriceGroupedTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                           `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                             `json:"unit_config"`
 	JSON               priceGroupedTieredPackagePriceConversionRateConfigJSON               `json:"-"`
@@ -23888,11 +23888,11 @@ func (r PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType) Is
 // Configuration for grouped_tiered_package pricing
 type PriceGroupedTieredPackagePriceGroupedTieredPackageConfig struct {
 	// The event property used to group before tiering
-	GroupingKey string `json:"grouping_key,required"`
-	PackageSize string `json:"package_size,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
+	PackageSize string `json:"package_size" api:"required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
-	Tiers []PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier `json:"tiers,required"`
+	Tiers []PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier `json:"tiers" api:"required"`
 	JSON  priceGroupedTieredPackagePriceGroupedTieredPackageConfigJSON   `json:"-"`
 }
 
@@ -23918,8 +23918,8 @@ func (r priceGroupedTieredPackagePriceGroupedTieredPackageConfigJSON) RawJSON() 
 // Configuration for a single tier
 type PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier struct {
 	// Per package
-	PerUnit        string                                                           `json:"per_unit,required"`
-	TierLowerBound string                                                           `json:"tier_lower_bound,required"`
+	PerUnit        string                                                           `json:"per_unit" api:"required"`
+	TierLowerBound string                                                           `json:"tier_lower_bound" api:"required"`
 	JSON           priceGroupedTieredPackagePriceGroupedTieredPackageConfigTierJSON `json:"-"`
 }
 
@@ -23977,12 +23977,12 @@ func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceGroupedTieredPackagePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                        `json:"name,required"`
+	Name string                                        `json:"name" api:"required"`
 	JSON priceGroupedTieredPackagePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -24005,53 +24005,53 @@ func (r priceGroupedTieredPackagePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceMaxGroupTieredPackagePrice struct {
-	ID                        string                                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMaxGroupTieredPackagePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceMaxGroupTieredPackagePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceMaxGroupTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                `json:"currency,required"`
+	ID                        string                                                `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMaxGroupTieredPackagePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMaxGroupTieredPackagePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMaxGroupTieredPackagePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Configuration for max_group_tiered_package pricing
-	MaxGroupTieredPackageConfig PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig `json:"max_group_tiered_package_config,required"`
+	MaxGroupTieredPackageConfig PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig `json:"max_group_tiered_package_config" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceMaxGroupTieredPackagePriceModelType `json:"model_type,required"`
-	Name           string                                   `json:"name,required"`
-	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMaxGroupTieredPackagePricePriceType `json:"price_type,required"`
+	ModelType      PriceMaxGroupTieredPackagePriceModelType `json:"model_type" api:"required"`
+	Name           string                                   `json:"name" api:"required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMaxGroupTieredPackagePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceMaxGroupTieredPackagePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceMaxGroupTieredPackagePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceMaxGroupTieredPackagePriceJSON        `json:"-"`
 }
 
@@ -24137,11 +24137,11 @@ func (r PriceMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 
 type PriceMaxGroupTieredPackagePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceMaxGroupTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceMaxGroupTieredPackagePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                `json:"values,required"`
+	Values []string                                                `json:"values" api:"required"`
 	JSON   priceMaxGroupTieredPackagePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -24199,7 +24199,7 @@ func (r PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator) IsKnown() 
 }
 
 type PriceMaxGroupTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                            `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                              `json:"unit_config"`
 	JSON               priceMaxGroupTieredPackagePriceConversionRateConfigJSON               `json:"-"`
@@ -24278,10 +24278,10 @@ func (r PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) I
 // Configuration for max_group_tiered_package pricing
 type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig struct {
 	// The event property used to group before tiering the group with the highest value
-	GroupingKey string `json:"grouping_key,required"`
-	PackageSize string `json:"package_size,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
+	PackageSize string `json:"package_size" api:"required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
-	Tiers []PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier `json:"tiers,required"`
+	Tiers []PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier `json:"tiers" api:"required"`
 	JSON  priceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigJSON   `json:"-"`
 }
 
@@ -24306,9 +24306,9 @@ func (r priceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigJSON) RawJSON(
 
 // Configuration for a single tier
 type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier struct {
-	TierLowerBound string `json:"tier_lower_bound,required"`
+	TierLowerBound string `json:"tier_lower_bound" api:"required"`
 	// Per unit amount
-	UnitAmount string                                                             `json:"unit_amount,required"`
+	UnitAmount string                                                             `json:"unit_amount" api:"required"`
 	JSON       priceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierJSON `json:"-"`
 }
 
@@ -24366,12 +24366,12 @@ func (r PriceMaxGroupTieredPackagePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceMaxGroupTieredPackagePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                         `json:"name,required"`
+	Name string                                         `json:"name" api:"required"`
 	JSON priceMaxGroupTieredPackagePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -24394,53 +24394,53 @@ func (r priceMaxGroupTieredPackagePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceScalableMatrixWithUnitPricingPrice struct {
-	ID                        string                                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceScalableMatrixWithUnitPricingPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                        `json:"currency,required"`
+	ID                        string                                                        `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                            `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceScalableMatrixWithUnitPricingPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                       `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                     `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                    `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                        `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceScalableMatrixWithUnitPricingPriceModelType `json:"model_type,required"`
-	Name           string                                           `json:"name,required"`
-	PlanPhaseOrder int64                                            `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceScalableMatrixWithUnitPricingPricePriceType `json:"price_type,required"`
+	ModelType      PriceScalableMatrixWithUnitPricingPriceModelType `json:"model_type" api:"required"`
+	Name           string                                           `json:"name" api:"required"`
+	PlanPhaseOrder int64                                            `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceScalableMatrixWithUnitPricingPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for scalable_matrix_with_unit_pricing pricing
-	ScalableMatrixWithUnitPricingConfig PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig `json:"scalable_matrix_with_unit_pricing_config,required"`
-	DimensionalPriceConfiguration       DimensionalPriceConfiguration                                              `json:"dimensional_price_configuration,nullable"`
+	ScalableMatrixWithUnitPricingConfig PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
+	DimensionalPriceConfiguration       DimensionalPriceConfiguration                                              `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceScalableMatrixWithUnitPricingPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceScalableMatrixWithUnitPricingPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceScalableMatrixWithUnitPricingPriceJSON        `json:"-"`
 }
 
@@ -24526,11 +24526,11 @@ func (r PriceScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 
 type PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                        `json:"values,required"`
+	Values []string                                                        `json:"values" api:"required"`
 	JSON   priceScalableMatrixWithUnitPricingPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -24589,7 +24589,7 @@ func (r PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator) Is
 }
 
 type PriceScalableMatrixWithUnitPricingPriceConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                    `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                      `json:"unit_config"`
 	JSON               priceScalableMatrixWithUnitPricingPriceConversionRateConfigJSON               `json:"-"`
@@ -24701,17 +24701,17 @@ func (r PriceScalableMatrixWithUnitPricingPricePriceType) IsKnown() bool {
 // Configuration for scalable_matrix_with_unit_pricing pricing
 type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig struct {
 	// Used to determine the unit rate
-	FirstDimension string `json:"first_dimension,required"`
+	FirstDimension string `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors []PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor `json:"matrix_scaling_factors,required"`
+	MatrixScalingFactors []PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor `json:"matrix_scaling_factors" api:"required"`
 	// The final unit price to rate against the output of the matrix
-	UnitPrice string `json:"unit_price,required"`
+	UnitPrice string `json:"unit_price" api:"required"`
 	// The property used to group this price
-	GroupingKey string `json:"grouping_key,nullable"`
+	GroupingKey string `json:"grouping_key" api:"nullable"`
 	// If true, the unit price will be prorated to the billing period
-	Prorate bool `json:"prorate,nullable"`
+	Prorate bool `json:"prorate" api:"nullable"`
 	// Used to determine the unit rate (optional)
-	SecondDimension string                                                                         `json:"second_dimension,nullable"`
+	SecondDimension string                                                                         `json:"second_dimension" api:"nullable"`
 	JSON            priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigJSON `json:"-"`
 }
 
@@ -24739,9 +24739,9 @@ func (r priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConf
 
 // Configuration for a single matrix scaling factor
 type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor struct {
-	FirstDimensionValue  string                                                                                            `json:"first_dimension_value,required"`
-	ScalingFactor        string                                                                                            `json:"scaling_factor,required"`
-	SecondDimensionValue string                                                                                            `json:"second_dimension_value,nullable"`
+	FirstDimensionValue  string                                                                                            `json:"first_dimension_value" api:"required"`
+	ScalingFactor        string                                                                                            `json:"scaling_factor" api:"required"`
+	SecondDimensionValue string                                                                                            `json:"second_dimension_value" api:"nullable"`
 	JSON                 priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorJSON `json:"-"`
 }
 
@@ -24769,12 +24769,12 @@ func (r priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConf
 // configured grouping key.
 type PriceScalableMatrixWithUnitPricingPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                                 `json:"name,required"`
+	Name string                                                 `json:"name" api:"required"`
 	JSON priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -24797,53 +24797,53 @@ func (r priceScalableMatrixWithUnitPricingPriceLicenseTypeJSON) RawJSON() string
 }
 
 type PriceScalableMatrixWithTieredPricingPrice struct {
-	ID                        string                                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                       `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceScalableMatrixWithTieredPricingPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                          `json:"currency,required"`
+	ID                        string                                                          `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                              `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                       `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceScalableMatrixWithTieredPricingPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                         `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                       `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                      `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                          `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceScalableMatrixWithTieredPricingPriceModelType `json:"model_type,required"`
-	Name           string                                             `json:"name,required"`
-	PlanPhaseOrder int64                                              `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceScalableMatrixWithTieredPricingPricePriceType `json:"price_type,required"`
+	ModelType      PriceScalableMatrixWithTieredPricingPriceModelType `json:"model_type" api:"required"`
+	Name           string                                             `json:"name" api:"required"`
+	PlanPhaseOrder int64                                              `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceScalableMatrixWithTieredPricingPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string `json:"replaces_price_id,required,nullable"`
+	ReplacesPriceID string `json:"replaces_price_id" api:"required,nullable"`
 	// Configuration for scalable_matrix_with_tiered_pricing pricing
-	ScalableMatrixWithTieredPricingConfig PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig `json:"scalable_matrix_with_tiered_pricing_config,required"`
-	DimensionalPriceConfiguration         DimensionalPriceConfiguration                                                  `json:"dimensional_price_configuration,nullable"`
+	ScalableMatrixWithTieredPricingConfig PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
+	DimensionalPriceConfiguration         DimensionalPriceConfiguration                                                  `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceScalableMatrixWithTieredPricingPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceScalableMatrixWithTieredPricingPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceScalableMatrixWithTieredPricingPriceJSON        `json:"-"`
 }
 
@@ -24929,11 +24929,11 @@ func (r PriceScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 
 type PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                          `json:"values,required"`
+	Values []string                                                          `json:"values" api:"required"`
 	JSON   priceScalableMatrixWithTieredPricingPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -24992,7 +24992,7 @@ func (r PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator) 
 }
 
 type PriceScalableMatrixWithTieredPricingPriceConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                      `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                        `json:"unit_config"`
 	JSON               priceScalableMatrixWithTieredPricingPriceConversionRateConfigJSON               `json:"-"`
@@ -25104,12 +25104,12 @@ func (r PriceScalableMatrixWithTieredPricingPricePriceType) IsKnown() bool {
 // Configuration for scalable_matrix_with_tiered_pricing pricing
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig struct {
 	// Used for the scalable matrix first dimension
-	FirstDimension string `json:"first_dimension,required"`
+	FirstDimension string `json:"first_dimension" api:"required"`
 	// Apply a scaling factor to each dimension
-	MatrixScalingFactors []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor `json:"matrix_scaling_factors,required"`
-	Tiers                []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier                `json:"tiers,required"`
+	MatrixScalingFactors []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor `json:"matrix_scaling_factors" api:"required"`
+	Tiers                []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier                `json:"tiers" api:"required"`
 	// Used for the scalable matrix second dimension (optional)
-	SecondDimension string                                                                             `json:"second_dimension,nullable"`
+	SecondDimension string                                                                             `json:"second_dimension" api:"nullable"`
 	JSON            priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigJSON `json:"-"`
 }
 
@@ -25135,9 +25135,9 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 
 // Configuration for a single matrix scaling factor
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor struct {
-	FirstDimensionValue  string                                                                                                `json:"first_dimension_value,required"`
-	ScalingFactor        string                                                                                                `json:"scaling_factor,required"`
-	SecondDimensionValue string                                                                                                `json:"second_dimension_value,nullable"`
+	FirstDimensionValue  string                                                                                                `json:"first_dimension_value" api:"required"`
+	ScalingFactor        string                                                                                                `json:"scaling_factor" api:"required"`
+	SecondDimensionValue string                                                                                                `json:"second_dimension_value" api:"nullable"`
 	JSON                 priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorJSON `json:"-"`
 }
 
@@ -25162,8 +25162,8 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 
 // Configuration for a single tier entry with business logic
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier struct {
-	TierLowerBound string                                                                                 `json:"tier_lower_bound,required"`
-	UnitAmount     string                                                                                 `json:"unit_amount,required"`
+	TierLowerBound string                                                                                 `json:"tier_lower_bound" api:"required"`
+	UnitAmount     string                                                                                 `json:"unit_amount" api:"required"`
 	JSON           priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierJSON `json:"-"`
 }
 
@@ -25190,12 +25190,12 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 // configured grouping key.
 type PriceScalableMatrixWithTieredPricingPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                                   `json:"name,required"`
+	Name string                                                   `json:"name" api:"required"`
 	JSON priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -25218,53 +25218,53 @@ func (r priceScalableMatrixWithTieredPricingPriceLicenseTypeJSON) RawJSON() stri
 }
 
 type PriceCumulativeGroupedBulkPrice struct {
-	ID                        string                                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceCumulativeGroupedBulkPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceCumulativeGroupedBulkPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceCumulativeGroupedBulkPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceCumulativeGroupedBulkPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
+	ID                        string                                                `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceCumulativeGroupedBulkPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceCumulativeGroupedBulkPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceCumulativeGroupedBulkPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceCumulativeGroupedBulkPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation" api:"required,nullable"`
 	// Configuration for cumulative_grouped_bulk pricing
-	CumulativeGroupedBulkConfig PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig `json:"cumulative_grouped_bulk_config,required"`
-	Currency                    string                                                     `json:"currency,required"`
+	CumulativeGroupedBulkConfig PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig `json:"cumulative_grouped_bulk_config" api:"required"`
+	Currency                    string                                                     `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceCumulativeGroupedBulkPriceModelType `json:"model_type,required"`
-	Name           string                                   `json:"name,required"`
-	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceCumulativeGroupedBulkPricePriceType `json:"price_type,required"`
+	ModelType      PriceCumulativeGroupedBulkPriceModelType `json:"model_type" api:"required"`
+	Name           string                                   `json:"name" api:"required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceCumulativeGroupedBulkPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceCumulativeGroupedBulkPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceCumulativeGroupedBulkPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceCumulativeGroupedBulkPriceJSON        `json:"-"`
 }
 
@@ -25350,11 +25350,11 @@ func (r PriceCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 
 type PriceCumulativeGroupedBulkPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceCumulativeGroupedBulkPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceCumulativeGroupedBulkPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                `json:"values,required"`
+	Values []string                                                `json:"values" api:"required"`
 	JSON   priceCumulativeGroupedBulkPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -25412,7 +25412,7 @@ func (r PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator) IsKnown() 
 }
 
 type PriceCumulativeGroupedBulkPriceConversionRateConfig struct {
-	ConversionRateType PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                            `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                              `json:"unit_config"`
 	JSON               priceCumulativeGroupedBulkPriceConversionRateConfigJSON               `json:"-"`
@@ -25491,8 +25491,8 @@ func (r PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) I
 // Configuration for cumulative_grouped_bulk pricing
 type PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig struct {
 	// Each tier lower bound must have the same group of values.
-	DimensionValues []PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue `json:"dimension_values,required"`
-	Group           string                                                                     `json:"group,required"`
+	DimensionValues []PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue `json:"dimension_values" api:"required"`
+	Group           string                                                                     `json:"group" api:"required"`
 	JSON            priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigJSON             `json:"-"`
 }
 
@@ -25517,11 +25517,11 @@ func (r priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigJSON) RawJSON(
 // Configuration for a dimension value entry
 type PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue struct {
 	// Grouping key value
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// Tier lower bound
-	TierLowerBound string `json:"tier_lower_bound,required"`
+	TierLowerBound string `json:"tier_lower_bound" api:"required"`
 	// Unit amount for this combination
-	UnitAmount string                                                                       `json:"unit_amount,required"`
+	UnitAmount string                                                                       `json:"unit_amount" api:"required"`
 	JSON       priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueJSON `json:"-"`
 }
 
@@ -25580,12 +25580,12 @@ func (r PriceCumulativeGroupedBulkPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceCumulativeGroupedBulkPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                         `json:"name,required"`
+	Name string                                         `json:"name" api:"required"`
 	JSON priceCumulativeGroupedBulkPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -25608,53 +25608,53 @@ func (r priceCumulativeGroupedBulkPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceCumulativeGroupedAllocationPrice struct {
-	ID                        string                                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceCumulativeGroupedAllocationPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceCumulativeGroupedAllocationPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceCumulativeGroupedAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceCumulativeGroupedAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                  `json:"credit_allocation,required,nullable"`
+	ID                        string                                                      `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                          `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceCumulativeGroupedAllocationPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceCumulativeGroupedAllocationPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceCumulativeGroupedAllocationPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                     `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceCumulativeGroupedAllocationPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                   `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                  `json:"credit_allocation" api:"required,nullable"`
 	// Configuration for cumulative_grouped_allocation pricing
-	CumulativeGroupedAllocationConfig PriceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig `json:"cumulative_grouped_allocation_config,required"`
-	Currency                          string                                                                 `json:"currency,required"`
+	CumulativeGroupedAllocationConfig PriceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig `json:"cumulative_grouped_allocation_config" api:"required"`
+	Currency                          string                                                                 `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceCumulativeGroupedAllocationPriceModelType `json:"model_type,required"`
-	Name           string                                         `json:"name,required"`
-	PlanPhaseOrder int64                                          `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceCumulativeGroupedAllocationPricePriceType `json:"price_type,required"`
+	ModelType      PriceCumulativeGroupedAllocationPriceModelType `json:"model_type" api:"required"`
+	Name           string                                         `json:"name" api:"required"`
+	PlanPhaseOrder int64                                          `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceCumulativeGroupedAllocationPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceCumulativeGroupedAllocationPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceCumulativeGroupedAllocationPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceCumulativeGroupedAllocationPriceJSON        `json:"-"`
 }
 
@@ -25740,11 +25740,11 @@ func (r PriceCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 
 type PriceCumulativeGroupedAllocationPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceCumulativeGroupedAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceCumulativeGroupedAllocationPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                                      `json:"values,required"`
+	Values []string                                                      `json:"values" api:"required"`
 	JSON   priceCumulativeGroupedAllocationPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -25803,7 +25803,7 @@ func (r PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperator) IsKn
 }
 
 type PriceCumulativeGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                                  `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                                    `json:"unit_config"`
 	JSON               priceCumulativeGroupedAllocationPriceConversionRateConfigJSON               `json:"-"`
@@ -25884,13 +25884,13 @@ func (r PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateT
 // Configuration for cumulative_grouped_allocation pricing
 type PriceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
 	// The overall allocation across all groups
-	CumulativeAllocation string `json:"cumulative_allocation,required"`
+	CumulativeAllocation string `json:"cumulative_allocation" api:"required"`
 	// The allocation per individual group
-	GroupAllocation string `json:"group_allocation,required"`
+	GroupAllocation string `json:"group_allocation" api:"required"`
 	// The event property used to group usage before applying allocations
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The amount to charge for each unit outside of the allocation
-	UnitAmount string                                                                     `json:"unit_amount,required"`
+	UnitAmount string                                                                     `json:"unit_amount" api:"required"`
 	JSON       priceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfigJSON `json:"-"`
 }
 
@@ -25950,12 +25950,12 @@ func (r PriceCumulativeGroupedAllocationPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceCumulativeGroupedAllocationPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                               `json:"name,required"`
+	Name string                                               `json:"name" api:"required"`
 	JSON priceCumulativeGroupedAllocationPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -25978,53 +25978,53 @@ func (r priceCumulativeGroupedAllocationPriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceMinimumCompositePrice struct {
-	ID                        string                                           `json:"id,required"`
-	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMinimumCompositePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceMinimumCompositePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceMinimumCompositePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMinimumCompositePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                       `json:"credit_allocation,required,nullable"`
-	Currency                  string                                           `json:"currency,required"`
+	ID                        string                                           `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                               `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMinimumCompositePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMinimumCompositePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMinimumCompositePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                          `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMinimumCompositePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                       `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                           `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// Configuration for minimum_composite pricing
-	MinimumCompositeConfig PriceMinimumCompositePriceMinimumCompositeConfig `json:"minimum_composite_config,required"`
+	MinimumCompositeConfig PriceMinimumCompositePriceMinimumCompositeConfig `json:"minimum_composite_config" api:"required"`
 	// The pricing model type
-	ModelType      PriceMinimumCompositePriceModelType `json:"model_type,required"`
-	Name           string                              `json:"name,required"`
-	PlanPhaseOrder int64                               `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMinimumCompositePricePriceType `json:"price_type,required"`
+	ModelType      PriceMinimumCompositePriceModelType `json:"model_type" api:"required"`
+	Name           string                              `json:"name" api:"required"`
+	PlanPhaseOrder int64                               `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMinimumCompositePricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceMinimumCompositePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceMinimumCompositePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceMinimumCompositePriceJSON        `json:"-"`
 }
 
@@ -26110,11 +26110,11 @@ func (r PriceMinimumCompositePriceCadence) IsKnown() bool {
 
 type PriceMinimumCompositePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceMinimumCompositePriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceMinimumCompositePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceMinimumCompositePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceMinimumCompositePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                           `json:"values,required"`
+	Values []string                                           `json:"values" api:"required"`
 	JSON   priceMinimumCompositePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -26172,7 +26172,7 @@ func (r PriceMinimumCompositePriceCompositePriceFiltersOperator) IsKnown() bool 
 }
 
 type PriceMinimumCompositePriceConversionRateConfig struct {
-	ConversionRateType PriceMinimumCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceMinimumCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                       `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                         `json:"unit_config"`
 	JSON               priceMinimumCompositePriceConversionRateConfigJSON               `json:"-"`
@@ -26251,7 +26251,7 @@ func (r PriceMinimumCompositePriceConversionRateConfigConversionRateType) IsKnow
 // Configuration for minimum_composite pricing
 type PriceMinimumCompositePriceMinimumCompositeConfig struct {
 	// The minimum amount to apply
-	MinimumAmount string `json:"minimum_amount,required"`
+	MinimumAmount string `json:"minimum_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated bool                                                 `json:"prorated"`
 	JSON     priceMinimumCompositePriceMinimumCompositeConfigJSON `json:"-"`
@@ -26310,12 +26310,12 @@ func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceMinimumCompositePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                    `json:"name,required"`
+	Name string                                    `json:"name" api:"required"`
 	JSON priceMinimumCompositePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -26338,53 +26338,53 @@ func (r priceMinimumCompositePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PricePercentCompositePrice struct {
-	ID                        string                                           `json:"id,required"`
-	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePercentCompositePriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PricePercentCompositePriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PricePercentCompositePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePercentCompositePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                       `json:"credit_allocation,required,nullable"`
-	Currency                  string                                           `json:"currency,required"`
+	ID                        string                                           `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                               `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PricePercentCompositePriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PricePercentCompositePriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PricePercentCompositePriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                          `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PricePercentCompositePriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                       `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                           `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType PricePercentCompositePriceModelType `json:"model_type,required"`
-	Name      string                              `json:"name,required"`
+	ModelType PricePercentCompositePriceModelType `json:"model_type" api:"required"`
+	Name      string                              `json:"name" api:"required"`
 	// Configuration for percent pricing
-	PercentConfig  PricePercentCompositePricePercentConfig `json:"percent_config,required"`
-	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType      PricePercentCompositePricePriceType     `json:"price_type,required"`
+	PercentConfig  PricePercentCompositePricePercentConfig `json:"percent_config" api:"required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PricePercentCompositePricePriceType     `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PricePercentCompositePriceLicenseType `json:"license_type,nullable"`
+	LicenseType PricePercentCompositePriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        pricePercentCompositePriceJSON        `json:"-"`
 }
 
@@ -26470,11 +26470,11 @@ func (r PricePercentCompositePriceCadence) IsKnown() bool {
 
 type PricePercentCompositePriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PricePercentCompositePriceCompositePriceFiltersField `json:"field,required"`
+	Field PricePercentCompositePriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PricePercentCompositePriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PricePercentCompositePriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                           `json:"values,required"`
+	Values []string                                           `json:"values" api:"required"`
 	JSON   pricePercentCompositePriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -26532,7 +26532,7 @@ func (r PricePercentCompositePriceCompositePriceFiltersOperator) IsKnown() bool 
 }
 
 type PricePercentCompositePriceConversionRateConfig struct {
-	ConversionRateType PricePercentCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PricePercentCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                       `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                         `json:"unit_config"`
 	JSON               pricePercentCompositePriceConversionRateConfigJSON               `json:"-"`
@@ -26626,7 +26626,7 @@ func (r PricePercentCompositePriceModelType) IsKnown() bool {
 // Configuration for percent pricing
 type PricePercentCompositePricePercentConfig struct {
 	// What percent of the component subtotals to charge
-	Percent float64                                     `json:"percent,required"`
+	Percent float64                                     `json:"percent" api:"required"`
 	JSON    pricePercentCompositePricePercentConfigJSON `json:"-"`
 }
 
@@ -26667,12 +26667,12 @@ func (r PricePercentCompositePricePriceType) IsKnown() bool {
 // configured grouping key.
 type PricePercentCompositePriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                                    `json:"name,required"`
+	Name string                                    `json:"name" api:"required"`
 	JSON pricePercentCompositePriceLicenseTypeJSON `json:"-"`
 }
 
@@ -26695,53 +26695,53 @@ func (r pricePercentCompositePriceLicenseTypeJSON) RawJSON() string {
 }
 
 type PriceEventOutputPrice struct {
-	ID                        string                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceEventOutputPriceBillingMode            `json:"billing_mode,required"`
-	Cadence                   PriceEventOutputPriceCadence                `json:"cadence,required"`
-	CompositePriceFilters     []PriceEventOutputPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceEventOutputPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                      `json:"currency,required"`
+	ID                        string                                      `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                          `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceEventOutputPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceEventOutputPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceEventOutputPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                     `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceEventOutputPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                   `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                  `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                      `json:"currency" api:"required"`
 	// Deprecated: deprecated
-	Discount Discount `json:"discount,required,nullable"`
+	Discount Discount `json:"discount" api:"required,nullable"`
 	// Configuration for event_output pricing
-	EventOutputConfig           PriceEventOutputPriceEventOutputConfig `json:"event_output_config,required"`
-	ExternalPriceID             string                                 `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                                `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration              `json:"invoicing_cycle_configuration,required,nullable"`
+	EventOutputConfig           PriceEventOutputPriceEventOutputConfig `json:"event_output_config" api:"required"`
+	ExternalPriceID             string                                 `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                                `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration              `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
-	Item ItemSlim `json:"item,required"`
+	Item ItemSlim `json:"item" api:"required"`
 	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
 	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	// The pricing model type
-	ModelType      PriceEventOutputPriceModelType `json:"model_type,required"`
-	Name           string                         `json:"name,required"`
-	PlanPhaseOrder int64                          `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceEventOutputPricePriceType `json:"price_type,required"`
+	ModelType      PriceEventOutputPriceModelType `json:"model_type" api:"required"`
+	Name           string                         `json:"name" api:"required"`
+	PlanPhaseOrder int64                          `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceEventOutputPricePriceType `json:"price_type" api:"required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
 	// The LicenseType resource represents a type of license that can be assigned to
 	// users. License types are used during billing by grouping metrics on the
 	// configured grouping key.
-	LicenseType PriceEventOutputPriceLicenseType `json:"license_type,nullable"`
+	LicenseType PriceEventOutputPriceLicenseType `json:"license_type" api:"nullable"`
 	JSON        priceEventOutputPriceJSON        `json:"-"`
 }
 
@@ -26827,11 +26827,11 @@ func (r PriceEventOutputPriceCadence) IsKnown() bool {
 
 type PriceEventOutputPriceCompositePriceFilter struct {
 	// The property of the price to filter on.
-	Field PriceEventOutputPriceCompositePriceFiltersField `json:"field,required"`
+	Field PriceEventOutputPriceCompositePriceFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator PriceEventOutputPriceCompositePriceFiltersOperator `json:"operator,required"`
+	Operator PriceEventOutputPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                                      `json:"values,required"`
+	Values []string                                      `json:"values" api:"required"`
 	JSON   priceEventOutputPriceCompositePriceFilterJSON `json:"-"`
 }
 
@@ -26889,7 +26889,7 @@ func (r PriceEventOutputPriceCompositePriceFiltersOperator) IsKnown() bool {
 }
 
 type PriceEventOutputPriceConversionRateConfig struct {
-	ConversionRateType PriceEventOutputPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	ConversionRateType PriceEventOutputPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
 	TieredConfig       ConversionRateTieredConfig                                  `json:"tiered_config"`
 	UnitConfig         ConversionRateUnitConfig                                    `json:"unit_config"`
 	JSON               priceEventOutputPriceConversionRateConfigJSON               `json:"-"`
@@ -26968,14 +26968,14 @@ func (r PriceEventOutputPriceConversionRateConfigConversionRateType) IsKnown() b
 // Configuration for event_output pricing
 type PriceEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
-	UnitRatingKey string `json:"unit_rating_key,required"`
+	UnitRatingKey string `json:"unit_rating_key" api:"required"`
 	// If provided, this amount will be used as the unit rate when an event does not
 	// have a value for the `unit_rating_key`. If not provided, events missing a unit
 	// rate will be ignored.
-	DefaultUnitRate string `json:"default_unit_rate,nullable"`
+	DefaultUnitRate string `json:"default_unit_rate" api:"nullable"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
-	GroupingKey string                                     `json:"grouping_key,nullable"`
+	GroupingKey string                                     `json:"grouping_key" api:"nullable"`
 	JSON        priceEventOutputPriceEventOutputConfigJSON `json:"-"`
 }
 
@@ -27033,12 +27033,12 @@ func (r PriceEventOutputPricePriceType) IsKnown() bool {
 // configured grouping key.
 type PriceEventOutputPriceLicenseType struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                               `json:"name,required"`
+	Name string                               `json:"name" api:"required"`
 	JSON priceEventOutputPriceLicenseTypeJSON `json:"-"`
 }
 
@@ -27159,29 +27159,29 @@ func (r PricePriceType) IsKnown() bool {
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
 type PriceInterval struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The day of the month that Orb bills for this price
-	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	BillingCycleDay int64 `json:"billing_cycle_day" api:"required"`
 	// For in-arrears prices. If true, and the price interval ends mid-cycle, the final
 	// line item will be deferred to the next scheduled invoice instead of being billed
 	// mid-cycle.
-	CanDeferBilling bool `json:"can_defer_billing,required"`
+	CanDeferBilling bool `json:"can_defer_billing" api:"required"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is exactly the end of the billing period. Set to null if
 	// this price interval is not currently active.
-	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date" api:"required,nullable" format:"date-time"`
 	// The start date of the current billing period. This is an inclusive timestamp;
 	// the instant returned is exactly the beginning of the billing period. Set to null
 	// if this price interval is not currently active.
-	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date" api:"required,nullable" format:"date-time"`
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// An additional filter to apply to usage queries.
-	Filter string `json:"filter,required,nullable"`
+	Filter string `json:"filter" api:"required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
-	FixedFeeQuantityTransitions []FixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	FixedFeeQuantityTransitions []FixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions" api:"required,nullable"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -27192,16 +27192,16 @@ type PriceInterval struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price Price `json:"price,required"`
+	Price Price `json:"price" api:"required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// A list of customer IDs whose usage events will be aggregated and billed under
 	// this price interval.
-	UsageCustomerIDs []string `json:"usage_customer_ids,required,nullable"`
+	UsageCustomerIDs []string `json:"usage_customer_ids" api:"required,nullable"`
 	// Override values for parameterized billable metric variables. Keys are parameter
 	// names, values are the override values.
-	MetricParameterOverrides map[string]interface{} `json:"metric_parameter_overrides,nullable"`
+	MetricParameterOverrides map[string]interface{} `json:"metric_parameter_overrides" api:"nullable"`
 	JSON                     priceIntervalJSON      `json:"-"`
 }
 
@@ -27232,9 +27232,9 @@ func (r priceIntervalJSON) RawJSON() string {
 }
 
 type SubLineItemGrouping struct {
-	Key string `json:"key,required"`
+	Key string `json:"key" api:"required"`
 	// No value indicates the default group
-	Value string                  `json:"value,required,nullable"`
+	Value string                  `json:"value" api:"required,nullable"`
 	JSON  subLineItemGroupingJSON `json:"-"`
 }
 
@@ -27257,7 +27257,7 @@ func (r subLineItemGroupingJSON) RawJSON() string {
 
 type SubLineItemMatrixConfig struct {
 	// The ordered dimension values for this line item.
-	DimensionValues []string                    `json:"dimension_values,required"`
+	DimensionValues []string                    `json:"dimension_values" api:"required"`
 	JSON            subLineItemMatrixConfigJSON `json:"-"`
 }
 
@@ -27278,7 +27278,7 @@ func (r subLineItemMatrixConfigJSON) RawJSON() string {
 }
 
 type SubscriptionChangeMinified struct {
-	ID   string                         `json:"id,required"`
+	ID   string                         `json:"id" api:"required"`
 	JSON subscriptionChangeMinifiedJSON `json:"-"`
 }
 
@@ -27299,7 +27299,7 @@ func (r subscriptionChangeMinifiedJSON) RawJSON() string {
 }
 
 type SubscriptionMinified struct {
-	ID   string                   `json:"id,required"`
+	ID   string                   `json:"id" api:"required"`
 	JSON subscriptionMinifiedJSON `json:"-"`
 }
 
@@ -27320,7 +27320,7 @@ func (r subscriptionMinifiedJSON) RawJSON() string {
 }
 
 type SubscriptionTrialInfo struct {
-	EndDate time.Time                 `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time                 `json:"end_date" api:"required,nullable" format:"date-time"`
 	JSON    subscriptionTrialInfoJSON `json:"-"`
 }
 
@@ -27342,11 +27342,11 @@ func (r subscriptionTrialInfoJSON) RawJSON() string {
 
 type TaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
-	Amount string `json:"amount,required"`
+	Amount string `json:"amount" api:"required"`
 	// The human-readable description of the applied tax rate.
-	TaxRateDescription string `json:"tax_rate_description,required"`
+	TaxRateDescription string `json:"tax_rate_description" api:"required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string        `json:"tax_rate_percentage,required,nullable"`
+	TaxRatePercentage string        `json:"tax_rate_percentage" api:"required,nullable"`
 	JSON              taxAmountJSON `json:"-"`
 }
 
@@ -27370,12 +27370,12 @@ func (r taxAmountJSON) RawJSON() string {
 // Configuration for a single tier
 type Tier struct {
 	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
+	FirstUnit float64 `json:"first_unit" api:"required"`
 	// Amount per unit
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// Inclusive tier ending value. This value is null if and only if this is the last
 	// tier.
-	LastUnit float64  `json:"last_unit,nullable"`
+	LastUnit float64  `json:"last_unit" api:"nullable"`
 	JSON     tierJSON `json:"-"`
 }
 
@@ -27399,9 +27399,9 @@ func (r tierJSON) RawJSON() string {
 // Configuration for a single tier
 type TierParam struct {
 	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
+	FirstUnit param.Field[float64] `json:"first_unit" api:"required"`
 	// Amount per unit
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// Inclusive tier ending value. This value is null if and only if this is the last
 	// tier.
 	LastUnit param.Field[float64] `json:"last_unit"`
@@ -27413,12 +27413,12 @@ func (r TierParam) MarshalJSON() (data []byte, err error) {
 
 type TierSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount     string                    `json:"amount,required"`
-	Grouping   SubLineItemGrouping       `json:"grouping,required,nullable"`
-	Name       string                    `json:"name,required"`
-	Quantity   float64                   `json:"quantity,required"`
-	TierConfig TierSubLineItemTierConfig `json:"tier_config,required"`
-	Type       TierSubLineItemType       `json:"type,required"`
+	Amount     string                    `json:"amount" api:"required"`
+	Grouping   SubLineItemGrouping       `json:"grouping" api:"required,nullable"`
+	Name       string                    `json:"name" api:"required"`
+	Quantity   float64                   `json:"quantity" api:"required"`
+	TierConfig TierSubLineItemTierConfig `json:"tier_config" api:"required"`
+	Type       TierSubLineItemType       `json:"type" api:"required"`
 	JSON       tierSubLineItemJSON       `json:"-"`
 }
 
@@ -27452,9 +27452,9 @@ func (r TierSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}
 func (r TierSubLineItem) ImplementsInvoiceFetchUpcomingResponseLineItemsSubLineItem() {}
 
 type TierSubLineItemTierConfig struct {
-	FirstUnit  float64                       `json:"first_unit,required"`
-	LastUnit   float64                       `json:"last_unit,required,nullable"`
-	UnitAmount string                        `json:"unit_amount,required"`
+	FirstUnit  float64                       `json:"first_unit" api:"required"`
+	LastUnit   float64                       `json:"last_unit" api:"required,nullable"`
+	UnitAmount string                        `json:"unit_amount" api:"required"`
 	JSON       tierSubLineItemTierConfigJSON `json:"-"`
 }
 
@@ -27493,7 +27493,7 @@ func (r TierSubLineItemType) IsKnown() bool {
 // Configuration for tiered pricing
 type TieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []Tier `json:"tiers,required"`
+	Tiers []Tier `json:"tiers" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated bool             `json:"prorated"`
 	JSON     tieredConfigJSON `json:"-"`
@@ -27518,7 +27518,7 @@ func (r tieredConfigJSON) RawJSON() string {
 // Configuration for tiered pricing
 type TieredConfigParam struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]TierParam] `json:"tiers,required"`
+	Tiers param.Field[[]TierParam] `json:"tiers" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -27528,8 +27528,8 @@ func (r TieredConfigParam) MarshalJSON() (data []byte, err error) {
 }
 
 type TieredConversionRateConfig struct {
-	ConversionRateType TieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       ConversionRateTieredConfig                   `json:"tiered_config,required"`
+	ConversionRateType TieredConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
+	TieredConfig       ConversionRateTieredConfig                   `json:"tiered_config" api:"required"`
 	JSON               tieredConversionRateConfigJSON               `json:"-"`
 }
 
@@ -27634,8 +27634,8 @@ func (r TieredConversionRateConfigConversionRateType) IsKnown() bool {
 }
 
 type TieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[TieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]              `json:"tiered_config,required"`
+	ConversionRateType param.Field[TieredConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[ConversionRateTieredConfigParam]              `json:"tiered_config" api:"required"`
 }
 
 func (r TieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
@@ -28169,17 +28169,17 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 }
 
 type TrialDiscount struct {
-	DiscountType TrialDiscountDiscountType `json:"discount_type,required"`
+	DiscountType TrialDiscountDiscountType `json:"discount_type" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []TrialDiscountFilter `json:"filters,nullable"`
-	Reason  string                `json:"reason,nullable"`
+	Filters []TrialDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                `json:"reason" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	TrialAmountDiscount string `json:"trial_amount_discount" api:"nullable"`
 	// Only available if discount_type is `trial`
-	TrialPercentageDiscount float64           `json:"trial_percentage_discount,nullable"`
+	TrialPercentageDiscount float64           `json:"trial_percentage_discount" api:"nullable"`
 	JSON                    trialDiscountJSON `json:"-"`
 }
 
@@ -28223,11 +28223,11 @@ func (r TrialDiscountDiscountType) IsKnown() bool {
 
 type TrialDiscountFilter struct {
 	// The property of the price to filter on.
-	Field TrialDiscountFiltersField `json:"field,required"`
+	Field TrialDiscountFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator TrialDiscountFiltersOperator `json:"operator,required"`
+	Operator TrialDiscountFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                `json:"values,required"`
+	Values []string                `json:"values" api:"required"`
 	JSON   trialDiscountFilterJSON `json:"-"`
 }
 
@@ -28285,7 +28285,7 @@ func (r TrialDiscountFiltersOperator) IsKnown() bool {
 }
 
 type TrialDiscountParam struct {
-	DiscountType param.Field[TrialDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[TrialDiscountDiscountType] `json:"discount_type" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
@@ -28306,11 +28306,11 @@ func (r TrialDiscountParam) ImplementsDiscountUnionParam() {}
 
 type TrialDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[TrialDiscountFiltersField] `json:"field,required"`
+	Field param.Field[TrialDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[TrialDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[TrialDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r TrialDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -28320,7 +28320,7 @@ func (r TrialDiscountFilterParam) MarshalJSON() (data []byte, err error) {
 // Configuration for unit pricing
 type UnitConfig struct {
 	// Rate per unit of usage
-	UnitAmount string `json:"unit_amount,required"`
+	UnitAmount string `json:"unit_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated bool           `json:"prorated"`
 	JSON     unitConfigJSON `json:"-"`
@@ -28345,7 +28345,7 @@ func (r unitConfigJSON) RawJSON() string {
 // Configuration for unit pricing
 type UnitConfigParam struct {
 	// Rate per unit of usage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
@@ -28355,8 +28355,8 @@ func (r UnitConfigParam) MarshalJSON() (data []byte, err error) {
 }
 
 type UnitConversionRateConfig struct {
-	ConversionRateType UnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         ConversionRateUnitConfig                   `json:"unit_config,required"`
+	ConversionRateType UnitConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
+	UnitConfig         ConversionRateUnitConfig                   `json:"unit_config" api:"required"`
 	JSON               unitConversionRateConfigJSON               `json:"-"`
 }
 
@@ -28461,8 +28461,8 @@ func (r UnitConversionRateConfigConversionRateType) IsKnown() bool {
 }
 
 type UnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[UnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]              `json:"unit_config,required"`
+	ConversionRateType param.Field[UnitConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	UnitConfig         param.Field[ConversionRateUnitConfigParam]              `json:"unit_config" api:"required"`
 }
 
 func (r UnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
@@ -28994,16 +28994,16 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeP
 }
 
 type UsageDiscount struct {
-	DiscountType UsageDiscountDiscountType `json:"discount_type,required"`
+	DiscountType UsageDiscountDiscountType `json:"discount_type" api:"required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount float64 `json:"usage_discount,required"`
+	UsageDiscount float64 `json:"usage_discount" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []UsageDiscountFilter `json:"filters,nullable"`
-	Reason  string                `json:"reason,nullable"`
+	Filters []UsageDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                `json:"reason" api:"nullable"`
 	JSON    usageDiscountJSON     `json:"-"`
 }
 
@@ -29044,11 +29044,11 @@ func (r UsageDiscountDiscountType) IsKnown() bool {
 
 type UsageDiscountFilter struct {
 	// The property of the price to filter on.
-	Field UsageDiscountFiltersField `json:"field,required"`
+	Field UsageDiscountFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator UsageDiscountFiltersOperator `json:"operator,required"`
+	Operator UsageDiscountFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                `json:"values,required"`
+	Values []string                `json:"values" api:"required"`
 	JSON   usageDiscountFilterJSON `json:"-"`
 }
 
@@ -29106,10 +29106,10 @@ func (r UsageDiscountFiltersOperator) IsKnown() bool {
 }
 
 type UsageDiscountParam struct {
-	DiscountType param.Field[UsageDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[UsageDiscountDiscountType] `json:"discount_type" api:"required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount,required"`
+	UsageDiscount param.Field[float64] `json:"usage_discount" api:"required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
@@ -29126,11 +29126,11 @@ func (r UsageDiscountParam) ImplementsDiscountUnionParam() {}
 
 type UsageDiscountFilterParam struct {
 	// The property of the price to filter on.
-	Field param.Field[UsageDiscountFiltersField] `json:"field,required"`
+	Field param.Field[UsageDiscountFiltersField] `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator param.Field[UsageDiscountFiltersOperator] `json:"operator,required"`
+	Operator param.Field[UsageDiscountFiltersOperator] `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
+	Values param.Field[[]string] `json:"values" api:"required"`
 }
 
 func (r UsageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
@@ -29139,17 +29139,17 @@ func (r UsageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
 
 type UsageDiscountInterval struct {
 	// The price interval ids that this discount interval applies to.
-	AppliesToPriceIntervalIDs []string                          `json:"applies_to_price_interval_ids,required"`
-	DiscountType              UsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	AppliesToPriceIntervalIDs []string                          `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              UsageDiscountIntervalDiscountType `json:"discount_type" api:"required"`
 	// The end date of the discount interval.
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []UsageDiscountIntervalFilter `json:"filters,required"`
+	Filters []UsageDiscountIntervalFilter `json:"filters" api:"required"`
 	// The start date of the discount interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount float64                   `json:"usage_discount,required"`
+	UsageDiscount float64                   `json:"usage_discount" api:"required"`
 	JSON          usageDiscountIntervalJSON `json:"-"`
 }
 
@@ -29194,11 +29194,11 @@ func (r UsageDiscountIntervalDiscountType) IsKnown() bool {
 
 type UsageDiscountIntervalFilter struct {
 	// The property of the price to filter on.
-	Field UsageDiscountIntervalFiltersField `json:"field,required"`
+	Field UsageDiscountIntervalFiltersField `json:"field" api:"required"`
 	// Should prices that match the filter be included or excluded.
-	Operator UsageDiscountIntervalFiltersOperator `json:"operator,required"`
+	Operator UsageDiscountIntervalFiltersOperator `json:"operator" api:"required"`
 	// The IDs or values that match this filter.
-	Values []string                        `json:"values,required"`
+	Values []string                        `json:"values" api:"required"`
 	JSON   usageDiscountIntervalFilterJSON `json:"-"`
 }
 

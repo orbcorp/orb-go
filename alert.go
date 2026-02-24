@@ -201,31 +201,31 @@ func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, 
 // subscriptions.
 type Alert struct {
 	// Also referred to as alert_id in this documentation.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The name of the currency the credit balance or invoice cost is denominated in.
-	Currency string `json:"currency,required,nullable"`
+	Currency string `json:"currency" api:"required,nullable"`
 	// The customer the alert applies to.
-	Customer shared.CustomerMinified `json:"customer,required,nullable"`
+	Customer shared.CustomerMinified `json:"customer" api:"required,nullable"`
 	// Whether the alert is enabled or disabled.
-	Enabled bool `json:"enabled,required"`
+	Enabled bool `json:"enabled" api:"required"`
 	// The metric the alert applies to.
-	Metric AlertMetric `json:"metric,required,nullable"`
+	Metric AlertMetric `json:"metric" api:"required,nullable"`
 	// The plan the alert applies to.
-	Plan AlertPlan `json:"plan,required,nullable"`
+	Plan AlertPlan `json:"plan" api:"required,nullable"`
 	// The subscription the alert applies to.
-	Subscription shared.SubscriptionMinified `json:"subscription,required,nullable"`
+	Subscription shared.SubscriptionMinified `json:"subscription" api:"required,nullable"`
 	// The thresholds that define the conditions under which the alert will be
 	// triggered.
-	Thresholds []Threshold `json:"thresholds,required,nullable"`
+	Thresholds []Threshold `json:"thresholds" api:"required,nullable"`
 	// The type of alert. This must be a valid alert type.
-	Type AlertType `json:"type,required"`
+	Type AlertType `json:"type" api:"required"`
 	// The current status of the alert. This field is only present for credit balance
 	// alerts.
-	BalanceAlertStatus []AlertBalanceAlertStatus `json:"balance_alert_status,nullable"`
+	BalanceAlertStatus []AlertBalanceAlertStatus `json:"balance_alert_status" api:"nullable"`
 	// Minified license type for alert serialization.
-	LicenseType AlertLicenseType `json:"license_type,nullable"`
+	LicenseType AlertLicenseType `json:"license_type" api:"nullable"`
 	JSON        alertJSON        `json:"-"`
 }
 
@@ -257,7 +257,7 @@ func (r alertJSON) RawJSON() string {
 
 // The metric the alert applies to.
 type AlertMetric struct {
-	ID   string          `json:"id,required"`
+	ID   string          `json:"id" api:"required"`
 	JSON alertMetricJSON `json:"-"`
 }
 
@@ -278,13 +278,13 @@ func (r alertMetricJSON) RawJSON() string {
 
 // The plan the alert applies to.
 type AlertPlan struct {
-	ID string `json:"id,required,nullable"`
+	ID string `json:"id" api:"required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string        `json:"external_plan_id,required,nullable"`
-	Name           string        `json:"name,required,nullable"`
-	PlanVersion    string        `json:"plan_version,required"`
+	ExternalPlanID string        `json:"external_plan_id" api:"required,nullable"`
+	Name           string        `json:"name" api:"required,nullable"`
+	PlanVersion    string        `json:"plan_version" api:"required"`
 	JSON           alertPlanJSON `json:"-"`
 }
 
@@ -329,9 +329,9 @@ func (r AlertType) IsKnown() bool {
 // Alert status is used to determine if an alert is currently in-alert or not.
 type AlertBalanceAlertStatus struct {
 	// Whether the alert is currently in-alert or not.
-	InAlert bool `json:"in_alert,required"`
+	InAlert bool `json:"in_alert" api:"required"`
 	// The value of the threshold that defines the alert status.
-	ThresholdValue float64                     `json:"threshold_value,required"`
+	ThresholdValue float64                     `json:"threshold_value" api:"required"`
 	JSON           alertBalanceAlertStatusJSON `json:"-"`
 }
 
@@ -354,7 +354,7 @@ func (r alertBalanceAlertStatusJSON) RawJSON() string {
 
 // Minified license type for alert serialization.
 type AlertLicenseType struct {
-	ID   string               `json:"id,required"`
+	ID   string               `json:"id" api:"required"`
 	JSON alertLicenseTypeJSON `json:"-"`
 }
 
@@ -380,7 +380,7 @@ type Threshold struct {
 	// The value at which an alert will fire. For credit balance alerts, the alert will
 	// fire at or below this value. For usage and cost alerts, the alert will fire at
 	// or above this value.
-	Value float64       `json:"value,required"`
+	Value float64       `json:"value" api:"required"`
 	JSON  thresholdJSON `json:"-"`
 }
 
@@ -405,7 +405,7 @@ type ThresholdParam struct {
 	// The value at which an alert will fire. For credit balance alerts, the alert will
 	// fire at or below this value. For usage and cost alerts, the alert will fire at
 	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
+	Value param.Field[float64] `json:"value" api:"required"`
 }
 
 func (r ThresholdParam) MarshalJSON() (data []byte, err error) {
@@ -414,7 +414,7 @@ func (r ThresholdParam) MarshalJSON() (data []byte, err error) {
 
 type AlertUpdateParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]ThresholdParam] `json:"thresholds,required"`
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
 }
 
 func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
@@ -449,9 +449,9 @@ func (r AlertListParams) URLQuery() (v url.Values) {
 
 type AlertNewForCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
-	Type param.Field[AlertNewForCustomerParamsType] `json:"type,required"`
+	Type param.Field[AlertNewForCustomerParamsType] `json:"type" api:"required"`
 	// The thresholds that define the values at which the alert will be triggered.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds"`
 }
@@ -479,9 +479,9 @@ func (r AlertNewForCustomerParamsType) IsKnown() bool {
 
 type AlertNewForExternalCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
-	Currency param.Field[string] `json:"currency,required"`
+	Currency param.Field[string] `json:"currency" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
-	Type param.Field[AlertNewForExternalCustomerParamsType] `json:"type,required"`
+	Type param.Field[AlertNewForExternalCustomerParamsType] `json:"type" api:"required"`
 	// The thresholds that define the values at which the alert will be triggered.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds"`
 }
@@ -509,9 +509,9 @@ func (r AlertNewForExternalCustomerParamsType) IsKnown() bool {
 
 type AlertNewForSubscriptionParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]ThresholdParam] `json:"thresholds,required"`
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
-	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type,required"`
+	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type" api:"required"`
 	// The metric to track usage for.
 	MetricID param.Field[string] `json:"metric_id"`
 }

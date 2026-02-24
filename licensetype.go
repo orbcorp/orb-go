@@ -102,12 +102,12 @@ func (r *LicenseTypeService) ListAutoPaging(ctx context.Context, query LicenseTy
 // configured grouping key.
 type LicenseTypeNewResponse struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                     `json:"name,required"`
+	Name string                     `json:"name" api:"required"`
 	JSON licenseTypeNewResponseJSON `json:"-"`
 }
 
@@ -134,12 +134,12 @@ func (r licenseTypeNewResponseJSON) RawJSON() string {
 // configured grouping key.
 type LicenseTypeGetResponse struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                     `json:"name,required"`
+	Name string                     `json:"name" api:"required"`
 	JSON licenseTypeGetResponseJSON `json:"-"`
 }
 
@@ -166,12 +166,12 @@ func (r licenseTypeGetResponseJSON) RawJSON() string {
 // configured grouping key.
 type LicenseTypeListResponse struct {
 	// The Orb-assigned unique identifier for the license type.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey string `json:"grouping_key,required"`
+	GroupingKey string `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name string                      `json:"name,required"`
+	Name string                      `json:"name" api:"required"`
 	JSON licenseTypeListResponseJSON `json:"-"`
 }
 
@@ -196,9 +196,9 @@ func (r licenseTypeListResponseJSON) RawJSON() string {
 type LicenseTypeNewParams struct {
 	// The key used for grouping licenses of this type. This is typically a user
 	// identifier field.
-	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
 	// The name of the license type.
-	Name param.Field[string] `json:"name,required"`
+	Name param.Field[string] `json:"name" api:"required"`
 }
 
 func (r LicenseTypeNewParams) MarshalJSON() (data []byte, err error) {

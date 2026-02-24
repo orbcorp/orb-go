@@ -168,30 +168,30 @@ func (r *EventBackfillService) Revert(ctx context.Context, backfillID string, op
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillNewResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// If in the future, the time at which the backfill will automatically close. If in
 	// the past, the time at which the backfill was closed.
-	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CloseTime time.Time `json:"close_time" api:"required,nullable" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The Orb-generated ID of the customer to which this backfill is scoped. If
 	// `null`, this backfill is scoped to all customers.
-	CustomerID string `json:"customer_id,required,nullable"`
+	CustomerID string `json:"customer_id" api:"required,nullable"`
 	// The number of events ingested in this backfill.
-	EventsIngested int64 `json:"events_ingested,required"`
+	EventsIngested int64 `json:"events_ingested" api:"required"`
 	// If `true`, existing events in the backfill's timeframe will be replaced with the
 	// newly ingested events associated with the backfill. If `false`, newly ingested
 	// events will be added to the existing events.
-	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
+	ReplaceExistingEvents bool `json:"replace_existing_events" api:"required"`
 	// The time at which this backfill was reverted.
-	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
+	RevertedAt time.Time `json:"reverted_at" api:"required,nullable" format:"date-time"`
 	// The status of the backfill.
-	Status         EventBackfillNewResponseStatus `json:"status,required"`
-	TimeframeEnd   time.Time                      `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                      `json:"timeframe_start,required" format:"date-time"`
+	Status         EventBackfillNewResponseStatus `json:"status" api:"required"`
+	TimeframeEnd   time.Time                      `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                      `json:"timeframe_start" api:"required" format:"date-time"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the set of events to deprecate
-	DeprecationFilter string                       `json:"deprecation_filter,nullable"`
+	DeprecationFilter string                       `json:"deprecation_filter" api:"nullable"`
 	JSON              eventBackfillNewResponseJSON `json:"-"`
 }
 
@@ -242,30 +242,30 @@ func (r EventBackfillNewResponseStatus) IsKnown() bool {
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillListResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// If in the future, the time at which the backfill will automatically close. If in
 	// the past, the time at which the backfill was closed.
-	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CloseTime time.Time `json:"close_time" api:"required,nullable" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The Orb-generated ID of the customer to which this backfill is scoped. If
 	// `null`, this backfill is scoped to all customers.
-	CustomerID string `json:"customer_id,required,nullable"`
+	CustomerID string `json:"customer_id" api:"required,nullable"`
 	// The number of events ingested in this backfill.
-	EventsIngested int64 `json:"events_ingested,required"`
+	EventsIngested int64 `json:"events_ingested" api:"required"`
 	// If `true`, existing events in the backfill's timeframe will be replaced with the
 	// newly ingested events associated with the backfill. If `false`, newly ingested
 	// events will be added to the existing events.
-	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
+	ReplaceExistingEvents bool `json:"replace_existing_events" api:"required"`
 	// The time at which this backfill was reverted.
-	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
+	RevertedAt time.Time `json:"reverted_at" api:"required,nullable" format:"date-time"`
 	// The status of the backfill.
-	Status         EventBackfillListResponseStatus `json:"status,required"`
-	TimeframeEnd   time.Time                       `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                       `json:"timeframe_start,required" format:"date-time"`
+	Status         EventBackfillListResponseStatus `json:"status" api:"required"`
+	TimeframeEnd   time.Time                       `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                       `json:"timeframe_start" api:"required" format:"date-time"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the set of events to deprecate
-	DeprecationFilter string                        `json:"deprecation_filter,nullable"`
+	DeprecationFilter string                        `json:"deprecation_filter" api:"nullable"`
 	JSON              eventBackfillListResponseJSON `json:"-"`
 }
 
@@ -316,30 +316,30 @@ func (r EventBackfillListResponseStatus) IsKnown() bool {
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillCloseResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// If in the future, the time at which the backfill will automatically close. If in
 	// the past, the time at which the backfill was closed.
-	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CloseTime time.Time `json:"close_time" api:"required,nullable" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The Orb-generated ID of the customer to which this backfill is scoped. If
 	// `null`, this backfill is scoped to all customers.
-	CustomerID string `json:"customer_id,required,nullable"`
+	CustomerID string `json:"customer_id" api:"required,nullable"`
 	// The number of events ingested in this backfill.
-	EventsIngested int64 `json:"events_ingested,required"`
+	EventsIngested int64 `json:"events_ingested" api:"required"`
 	// If `true`, existing events in the backfill's timeframe will be replaced with the
 	// newly ingested events associated with the backfill. If `false`, newly ingested
 	// events will be added to the existing events.
-	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
+	ReplaceExistingEvents bool `json:"replace_existing_events" api:"required"`
 	// The time at which this backfill was reverted.
-	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
+	RevertedAt time.Time `json:"reverted_at" api:"required,nullable" format:"date-time"`
 	// The status of the backfill.
-	Status         EventBackfillCloseResponseStatus `json:"status,required"`
-	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
+	Status         EventBackfillCloseResponseStatus `json:"status" api:"required"`
+	TimeframeEnd   time.Time                        `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                        `json:"timeframe_start" api:"required" format:"date-time"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the set of events to deprecate
-	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
+	DeprecationFilter string                         `json:"deprecation_filter" api:"nullable"`
 	JSON              eventBackfillCloseResponseJSON `json:"-"`
 }
 
@@ -390,30 +390,30 @@ func (r EventBackfillCloseResponseStatus) IsKnown() bool {
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillFetchResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// If in the future, the time at which the backfill will automatically close. If in
 	// the past, the time at which the backfill was closed.
-	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CloseTime time.Time `json:"close_time" api:"required,nullable" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The Orb-generated ID of the customer to which this backfill is scoped. If
 	// `null`, this backfill is scoped to all customers.
-	CustomerID string `json:"customer_id,required,nullable"`
+	CustomerID string `json:"customer_id" api:"required,nullable"`
 	// The number of events ingested in this backfill.
-	EventsIngested int64 `json:"events_ingested,required"`
+	EventsIngested int64 `json:"events_ingested" api:"required"`
 	// If `true`, existing events in the backfill's timeframe will be replaced with the
 	// newly ingested events associated with the backfill. If `false`, newly ingested
 	// events will be added to the existing events.
-	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
+	ReplaceExistingEvents bool `json:"replace_existing_events" api:"required"`
 	// The time at which this backfill was reverted.
-	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
+	RevertedAt time.Time `json:"reverted_at" api:"required,nullable" format:"date-time"`
 	// The status of the backfill.
-	Status         EventBackfillFetchResponseStatus `json:"status,required"`
-	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
+	Status         EventBackfillFetchResponseStatus `json:"status" api:"required"`
+	TimeframeEnd   time.Time                        `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                        `json:"timeframe_start" api:"required" format:"date-time"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the set of events to deprecate
-	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
+	DeprecationFilter string                         `json:"deprecation_filter" api:"nullable"`
 	JSON              eventBackfillFetchResponseJSON `json:"-"`
 }
 
@@ -464,30 +464,30 @@ func (r EventBackfillFetchResponseStatus) IsKnown() bool {
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillRevertResponse struct {
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// If in the future, the time at which the backfill will automatically close. If in
 	// the past, the time at which the backfill was closed.
-	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	CloseTime time.Time `json:"close_time" api:"required,nullable" format:"date-time"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The Orb-generated ID of the customer to which this backfill is scoped. If
 	// `null`, this backfill is scoped to all customers.
-	CustomerID string `json:"customer_id,required,nullable"`
+	CustomerID string `json:"customer_id" api:"required,nullable"`
 	// The number of events ingested in this backfill.
-	EventsIngested int64 `json:"events_ingested,required"`
+	EventsIngested int64 `json:"events_ingested" api:"required"`
 	// If `true`, existing events in the backfill's timeframe will be replaced with the
 	// newly ingested events associated with the backfill. If `false`, newly ingested
 	// events will be added to the existing events.
-	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
+	ReplaceExistingEvents bool `json:"replace_existing_events" api:"required"`
 	// The time at which this backfill was reverted.
-	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
+	RevertedAt time.Time `json:"reverted_at" api:"required,nullable" format:"date-time"`
 	// The status of the backfill.
-	Status         EventBackfillRevertResponseStatus `json:"status,required"`
-	TimeframeEnd   time.Time                         `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time                         `json:"timeframe_start,required" format:"date-time"`
+	Status         EventBackfillRevertResponseStatus `json:"status" api:"required"`
+	TimeframeEnd   time.Time                         `json:"timeframe_end" api:"required" format:"date-time"`
+	TimeframeStart time.Time                         `json:"timeframe_start" api:"required" format:"date-time"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the set of events to deprecate
-	DeprecationFilter string                          `json:"deprecation_filter,nullable"`
+	DeprecationFilter string                          `json:"deprecation_filter" api:"nullable"`
 	JSON              eventBackfillRevertResponseJSON `json:"-"`
 }
 
@@ -539,11 +539,11 @@ type EventBackfillNewParams struct {
 	// The (exclusive) end of the usage timeframe affected by this backfill. By
 	// default, Orb allows backfills up to 31 days in duration at a time. Reach out to
 	// discuss extending this limit and your use case.
-	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end" api:"required" format:"date-time"`
 	// The (inclusive) start of the usage timeframe affected by this backfill. By
 	// default, Orb allows backfills up to 31 days in duration at a time. Reach out to
 	// discuss extending this limit and your use case.
-	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start" api:"required" format:"date-time"`
 	// The time at which no more events will be accepted for this backfill. The
 	// backfill will automatically begin reflecting throughout Orb at the close time.
 	// If not specified, it will default to 1 day after the creation of the backfill.

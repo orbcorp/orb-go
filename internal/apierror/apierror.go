@@ -14,11 +14,11 @@ import (
 // made and the API returns a response with a HTTP status code. Other errors are
 // not wrapped by this SDK.
 type Error struct {
-	Status           ErrorStatus   `json:"status,required"`
-	Title            string        `json:"title,required,nullable"`
-	Type             ErrorType     `json:"type,required"`
-	ValidationErrors []interface{} `json:"validation_errors,required"`
-	Detail           string        `json:"detail,nullable"`
+	Status           ErrorStatus   `json:"status" api:"required"`
+	Title            string        `json:"title" api:"required,nullable"`
+	Type             ErrorType     `json:"type" api:"required"`
+	ValidationErrors []interface{} `json:"validation_errors" api:"required"`
+	Detail           string        `json:"detail" api:"nullable"`
 	JSON             errorJSON     `json:"-"`
 	StatusCode       int
 	Request          *http.Request
