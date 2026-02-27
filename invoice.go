@@ -55,13 +55,14 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 	return
 }
 
-// This endpoint allows you to update the `metadata`, `net_terms`, `due_date`, and
-// `invoice_date` properties on an invoice. If you pass null for the metadata
-// value, it will clear any existing metadata for that invoice.
+// This endpoint allows you to update the `metadata`, `net_terms`, `due_date`,
+// `invoice_date`, and `auto_collection` properties on an invoice. If you pass null
+// for the metadata value, it will clear any existing metadata for that invoice.
 //
 // `metadata` can be modified regardless of invoice state. `net_terms`, `due_date`,
-// and `invoice_date` can only be modified if the invoice is in a `draft` state.
-// `invoice_date` can only be modified for non-subscription invoices.
+// `invoice_date`, and `auto_collection` can only be modified if the invoice is in
+// a `draft` state. `invoice_date` can only be modified for non-subscription
+// invoices.
 func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body InvoiceUpdateParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
@@ -2235,6 +2236,10 @@ type InvoiceNewParams struct {
 	// set to the current time in the customer's timezone.
 	InvoiceDate param.Field[time.Time]                  `json:"invoice_date" api:"required" format:"date-time"`
 	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items" api:"required"`
+	// Determines whether this invoice will automatically attempt to charge a saved
+	// payment method, if any. If not specified, the invoice inherits the customer's
+	// auto_collection setting.
+	AutoCollection param.Field[bool] `json:"auto_collection"`
 	// The id of the `Customer` to create this invoice for. One of `customer_id` and
 	// `external_customer_id` are required.
 	CustomerID param.Field[string] `json:"customer_id"`
@@ -2303,6 +2308,10 @@ func (r InvoiceNewParamsLineItemsModelType) IsKnown() bool {
 }
 
 type InvoiceUpdateParams struct {
+	// Determines whether this invoice will automatically attempt to charge a saved
+	// payment method, if any. Can only be modified on draft invoices. If not
+	// specified, the invoice's existing setting is unchanged.
+	AutoCollection param.Field[bool] `json:"auto_collection"`
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	DueDate param.Field[time.Time] `json:"due_date" format:"date-time"`
