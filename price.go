@@ -22,6 +22,17 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// The Price resource represents a price that can be billed on a subscription,
+// resulting in a charge on an invoice in the form of an invoice line item. Prices
+// take a quantity and determine an amount to bill.
+//
+// Orb supports a few different pricing models out of the box. Each of these models
+// is serialized differently in a given Price object. The model_type field
+// determines the key for the configuration object that is present.
+//
+// For more on the types of prices, see
+// [the core concepts documentation](/core-concepts#plan-and-price)
+//
 // PriceService contains methods and other services that help with interacting with
 // the orb API.
 //
@@ -29,7 +40,17 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPriceService] method instead.
 type PriceService struct {
-	Options         []option.RequestOption
+	Options []option.RequestOption
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	ExternalPriceID *PriceExternalPriceIDService
 }
 

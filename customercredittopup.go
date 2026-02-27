@@ -19,6 +19,9 @@ import (
 	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
+//
 // CustomerCreditTopUpService contains methods and other services that help with
 // interacting with the orb API.
 //

@@ -19,6 +19,9 @@ import (
 	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
+//
 // CustomerCreditService contains methods and other services that help with
 // interacting with the orb API.
 //
@@ -27,8 +30,12 @@ import (
 // the [NewCustomerCreditService] method instead.
 type CustomerCreditService struct {
 	Options []option.RequestOption
-	Ledger  *CustomerCreditLedgerService
-	TopUps  *CustomerCreditTopUpService
+	// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+	// credits within Orb.
+	Ledger *CustomerCreditLedgerService
+	// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+	// credits within Orb.
+	TopUps *CustomerCreditTopUpService
 }
 
 // NewCustomerCreditService generates a new service that applies the given options

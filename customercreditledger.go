@@ -22,6 +22,9 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
+//
 // CustomerCreditLedgerService contains methods and other services that help with
 // interacting with the orb API.
 //

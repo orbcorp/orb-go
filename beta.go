@@ -19,6 +19,11 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+// subscribed to by a customer. Plans define the billing behavior of the
+// subscription. You can see more about how to configure prices in the
+// [Price resource](/reference/price).
+//
 // BetaService contains methods and other services that help with interacting with
 // the orb API.
 //
@@ -26,7 +31,11 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewBetaService] method instead.
 type BetaService struct {
-	Options        []option.RequestOption
+	Options []option.RequestOption
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
 	ExternalPlanID *BetaExternalPlanIDService
 }
 

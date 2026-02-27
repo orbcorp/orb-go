@@ -20,6 +20,9 @@ import (
 	"github.com/orbcorp/orb-go/shared"
 )
 
+// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
+// been applied to a particular invoice.
+//
 // CreditNoteService contains methods and other services that help with interacting
 // with the orb API.
 //

@@ -22,6 +22,11 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+// subscribed to by a customer. Plans define the billing behavior of the
+// subscription. You can see more about how to configure prices in the
+// [Price resource](/reference/price).
+//
 // PlanService contains methods and other services that help with interacting with
 // the orb API.
 //
@@ -29,9 +34,17 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPlanService] method instead.
 type PlanService struct {
-	Options        []option.RequestOption
+	Options []option.RequestOption
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
 	ExternalPlanID *PlanExternalPlanIDService
-	Migrations     *PlanMigrationService
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Migrations *PlanMigrationService
 }
 
 // NewPlanService generates a new service that applies the given options to each
