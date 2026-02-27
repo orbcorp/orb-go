@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.62.0 (2026-02-27)
+
+Full Changelog: [v1.61.0...v1.62.0](https://github.com/orbcorp/orb-go/compare/v1.61.0...v1.62.0)
+
+### Features
+
+* **api:** api update ([8408ee0](https://github.com/orbcorp/orb-go/commit/8408ee0dcbc4ae3e4f445f33e084c84046679ca6))
+
+
+### Chores
+
+* **docs:** add missing descriptions ([ce1082f](https://github.com/orbcorp/orb-go/commit/ce1082f840c969fe95190640d3e4e68093f2cfcc))
+* **internal:** move custom custom `json` tags to `api` ([5c6e9d4](https://github.com/orbcorp/orb-go/commit/5c6e9d424098ad2c4151e1dd400b74c0958242d4))
+
 ## 1.61.0 (2026-02-21)
 
 Full Changelog: [v1.60.0...v1.61.0](https://github.com/orbcorp/orb-go/compare/v1.60.0...v1.61.0)
