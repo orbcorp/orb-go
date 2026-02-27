@@ -16,6 +16,9 @@ import (
 	"github.com/orbcorp/orb-go/shared"
 )
 
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
+//
 // CreditBlockService contains methods and other services that help with
 // interacting with the orb API.
 //

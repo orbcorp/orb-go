@@ -19,6 +19,10 @@ import (
 	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
+// The Item resource represents a sellable product or good. Items are associated
+// with all line items, billable metrics, and prices and are used for defining
+// external sync behavior for invoices and tax calculation purposes.
+//
 // ItemService contains methods and other services that help with interacting with
 // the orb API.
 //

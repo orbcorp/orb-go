@@ -19,6 +19,10 @@ import (
 	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
+// The Metric resource represents a calculation of a quantity based on events.
+// Metrics are defined by the query that transforms raw usage events into
+// meaningful values for your customers.
+//
 // MetricService contains methods and other services that help with interacting
 // with the orb API.
 //

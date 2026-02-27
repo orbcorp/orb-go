@@ -22,6 +22,12 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// A coupon represents a reusable discount configuration that can be applied either
+// as a fixed or percentage amount to an invoice or subscription. Coupons are
+// activated using a redemption code, which applies the discount to a subscription
+// or invoice. The duration of a coupon determines how long it remains available
+// for use by end users.
+//
 // CouponService contains methods and other services that help with interacting
 // with the orb API.
 //
@@ -29,7 +35,12 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewCouponService] method instead.
 type CouponService struct {
-	Options       []option.RequestOption
+	Options []option.RequestOption
+	// A coupon represents a reusable discount configuration that can be applied either
+	// as a fixed or percentage amount to an invoice or subscription. Coupons are
+	// activated using a redemption code, which applies the discount to a subscription
+	// or invoice. The duration of a coupon determines how long it remains available
+	// for use by end users.
 	Subscriptions *CouponSubscriptionService
 }
 

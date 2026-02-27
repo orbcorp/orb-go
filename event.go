@@ -18,6 +18,10 @@ import (
 	"github.com/orbcorp/orb-go/option"
 )
 
+// The [Event](/core-concepts#event) resource represents a usage event that has
+// been created for a customer. Events are the core of Orb's usage-based billing
+// model, and are used to calculate the usage charges for a given billing period.
+//
 // EventService contains methods and other services that help with interacting with
 // the orb API.
 //
@@ -25,9 +29,15 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewEventService] method instead.
 type EventService struct {
-	Options   []option.RequestOption
+	Options []option.RequestOption
+	// The [Event](/core-concepts#event) resource represents a usage event that has
+	// been created for a customer. Events are the core of Orb's usage-based billing
+	// model, and are used to calculate the usage charges for a given billing period.
 	Backfills *EventBackfillService
-	Volume    *EventVolumeService
+	// The [Event](/core-concepts#event) resource represents a usage event that has
+	// been created for a customer. Events are the core of Orb's usage-based billing
+	// model, and are used to calculate the usage charges for a given billing period.
+	Volume *EventVolumeService
 }
 
 // NewEventService generates a new service that applies the given options to each

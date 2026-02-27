@@ -18,6 +18,10 @@ import (
 	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
 // LicenseTypeService contains methods and other services that help with
 // interacting with the orb API.
 //
