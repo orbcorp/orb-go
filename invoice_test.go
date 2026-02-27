@@ -42,7 +42,8 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 				Prorated:   orb.F(true),
 			}),
 		}}),
-		CustomerID: orb.F("4khy3nwzktxv7"),
+		AutoCollection: orb.F(true),
+		CustomerID:     orb.F("4khy3nwzktxv7"),
 		Discount: orb.F[shared.DiscountUnionParam](shared.PercentageDiscountParam{
 			DiscountType:       orb.F(shared.PercentageDiscountDiscountTypePercentage),
 			PercentageDiscount: orb.F(0.150000),
@@ -88,8 +89,9 @@ func TestInvoiceUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"invoice_id",
 		orb.InvoiceUpdateParams{
-			DueDate:     orb.F(time.Now()),
-			InvoiceDate: orb.F(time.Now()),
+			AutoCollection: orb.F(true),
+			DueDate:        orb.F(time.Now()),
+			InvoiceDate:    orb.F(time.Now()),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
