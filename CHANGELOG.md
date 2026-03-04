@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.63.0 (2026-03-04)
+
+Full Changelog: [v1.62.0...v1.63.0](https://github.com/orbcorp/orb-go/compare/v1.62.0...v1.63.0)
+
+### Features
+
+* **api:** api update ([dfe26bc](https://github.com/orbcorp/orb-go/commit/dfe26bc8db18bc4dd158e13663019f88d334fff9))
+
+
+### Chores
+
+* **ci:** add build step ([b20dbf2](https://github.com/orbcorp/orb-go/commit/b20dbf2f7d52032a89fc5601b33a8548f9bce3a1))
+
 ## 1.62.0 (2026-02-27)
 
 Full Changelog: [v1.61.0...v1.62.0](https://github.com/orbcorp/orb-go/compare/v1.61.0...v1.62.0)
