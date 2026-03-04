@@ -68,6 +68,52 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
+				LicenseAllocationPrice: orb.F[orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion](orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
+					Cadence: orb.F(orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual),
+					ItemID:  orb.F("item_id"),
+					LicenseAllocations: orb.F([]orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation{{
+						Amount:          orb.F("amount"),
+						Currency:        orb.F("currency"),
+						WriteOffOverage: orb.F(true),
+					}}),
+					ModelType: orb.F(orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit),
+					Name:      orb.F("Annual fee"),
+					UnitConfig: orb.F(shared.UnitConfigParam{
+						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
+					}),
+					BillableMetricID: orb.F("billable_metric_id"),
+					BilledInAdvance:  orb.F(true),
+					BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+					}),
+					ConversionRate: orb.F(0.000000),
+					ConversionRateConfig: orb.F[orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
+						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
+							UnitAmount: orb.F("unit_amount"),
+						}),
+					}),
+					Currency: orb.F("currency"),
+					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
+						DimensionValues:                 orb.F([]string{"string"}),
+						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+						ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+					}),
+					ExternalPriceID:    orb.F("external_price_id"),
+					FixedPriceQuantity: orb.F(0.000000),
+					InvoiceGroupingKey: orb.F("x"),
+					InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+					}),
+					LicenseTypeID: orb.F("license_type_id"),
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
+					ReferenceID: orb.F("reference_id"),
+				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaNewPlanVersionParamsAddPricesPriceUnion](shared.NewPlanUnitPriceParam{
 					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
@@ -157,6 +203,52 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 					ItemID:           orb.F("item_id"),
 					LicenseTypeID:    orb.F("license_type_id"),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
+				}),
+				LicenseAllocationPrice: orb.F[orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion](orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
+					Cadence: orb.F(orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual),
+					ItemID:  orb.F("item_id"),
+					LicenseAllocations: orb.F([]orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation{{
+						Amount:          orb.F("amount"),
+						Currency:        orb.F("currency"),
+						WriteOffOverage: orb.F(true),
+					}}),
+					ModelType: orb.F(orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit),
+					Name:      orb.F("Annual fee"),
+					UnitConfig: orb.F(shared.UnitConfigParam{
+						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
+					}),
+					BillableMetricID: orb.F("billable_metric_id"),
+					BilledInAdvance:  orb.F(true),
+					BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+					}),
+					ConversionRate: orb.F(0.000000),
+					ConversionRateConfig: orb.F[orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
+						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
+							UnitAmount: orb.F("unit_amount"),
+						}),
+					}),
+					Currency: orb.F("currency"),
+					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
+						DimensionValues:                 orb.F([]string{"string"}),
+						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+						ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+					}),
+					ExternalPriceID:    orb.F("external_price_id"),
+					FixedPriceQuantity: orb.F(0.000000),
+					InvoiceGroupingKey: orb.F("x"),
+					InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+					}),
+					LicenseTypeID: orb.F("license_type_id"),
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaNewPlanVersionParamsReplacePricesPriceUnion](shared.NewPlanUnitPriceParam{
