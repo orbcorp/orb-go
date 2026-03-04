@@ -211,6 +211,8 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType)
 type BetaExternalPlanIDNewPlanVersionParamsAddPrice struct {
 	// The allocation price to add to the plan.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
+	// The license allocation price to add to the plan.
+	LicenseAllocationPrice param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion] `json:"license_allocation_price"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// New plan price request body params.
@@ -219,6 +221,5210 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPrice struct {
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The license allocation price to add to the plan.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID             param.Field[string]      `json:"item_id" api:"required"`
+	LicenseAllocations param.Field[interface{}] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithFiltersConfig   param.Field[interface{}]            `json:"bulk_with_filters_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate                    param.Field[float64]     `json:"conversion_rate"`
+	ConversionRateConfig              param.Field[interface{}] `json:"conversion_rate_config"`
+	CumulativeGroupedAllocationConfig param.Field[interface{}] `json:"cumulative_grouped_allocation_config"`
+	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity                param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig           param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedTieredConfig               param.Field[interface{}] `json:"grouped_tiered_config"`
+	GroupedTieredPackageConfig        param.Field[interface{}] `json:"grouped_tiered_package_config"`
+	GroupedWithMeteredMinimumConfig   param.Field[interface{}] `json:"grouped_with_metered_minimum_config"`
+	GroupedWithMinMaxThresholdsConfig param.Field[interface{}] `json:"grouped_with_min_max_thresholds_config"`
+	GroupedWithProratedMinimumConfig  param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
+	PercentConfig               param.Field[interface{}]               `json:"percent_config"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The license allocation price to add to the plan.
+//
+// Satisfied by
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion interface {
+	implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit pricing
+	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType = "unit"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered pricing
+	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                     `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                       `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPrice struct {
+	// Configuration for bulk pricing
+	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelTypeBulk BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType = "bulk"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice struct {
+	// Configuration for bulk_with_filters pricing
+	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// Configuration for bulk_with_filters pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig struct {
+	// Property filters to apply (all must match)
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single property filter
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
+	// Event property key to filter on
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
+	// Event property value to match
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single bulk pricing tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// The lower bound for this tier
+	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelTypeBulkWithFilters BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType = "bulk_with_filters"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelTypeBulkWithFilters:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for package pricing
+	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelTypePackage BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType = "package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                        `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelTypeMatrix BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType = "matrix"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                     `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                       `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for threshold_total_amount pricing
+	ThresholdTotalAmountConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig] `json:"threshold_total_amount_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelTypeThresholdTotalAmount BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType = "threshold_total_amount"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
+
+// Configuration for threshold_total_amount pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig struct {
+	// When the quantity consumed passes a provided threshold, the configured total
+	// will be charged
+	ConsumptionTable param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable] `json:"consumption_table" api:"required"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single threshold
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable struct {
+	Threshold param.Field[string] `json:"threshold" api:"required"`
+	// Total amount for this threshold
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_package pricing
+	TieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig] `json:"tiered_package_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelTypeTieredPackage BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType = "tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig struct {
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds. The tier bounds are defined based on
+	// the total quantity rather than the number of packages, so they must be multiples
+	// of the package size.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier with business logic
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier struct {
+	// Price per package
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                              `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_with_minimum pricing
+	TieredWithMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig] `json:"tiered_with_minimum_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelTypeTieredWithMinimum BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig struct {
+	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
+	// defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier] `json:"tiers" api:"required"`
+	// If true, tiers with an accrued amount of 0 will not be included in the rating.
+	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier struct {
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_tiered pricing
+	GroupedTieredConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig] `json:"grouped_tiered_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_tiered pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig struct {
+	// The billable metric property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Apply tiered pricing to each segment generated after grouping with the provided
+	// key
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelTypeGroupedTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelTypeGroupedTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                              `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_package_with_minimum pricing
+	TieredPackageWithMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig] `json:"tiered_package_with_minimum_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_package_with_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig struct {
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier struct {
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for package_with_allocation pricing
+	PackageWithAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig] `json:"package_with_allocation_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelTypePackageWithAllocation BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
+// Configuration for package_with_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig struct {
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit_with_percent pricing
+	UnitWithPercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig] `json:"unit_with_percent_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelTypeUnitWithPercent BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType = "unit_with_percent"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
+// Configuration for unit_with_percent pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig struct {
+	// What percent, out of 100, of the calculated total to charge
+	Percent param.Field[string] `json:"percent" api:"required"`
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelTypeMatrixWithAllocation BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType = "matrix_with_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelTypeTieredWithProration BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                    `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit_with_proration pricing
+	UnitWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig] `json:"unit_with_proration_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelTypeUnitWithProration BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for unit_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig struct {
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_allocation pricing
+	GroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig] `json:"grouped_allocation_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig struct {
+	// Usage allocation per group
+	Allocation param.Field[string] `json:"allocation" api:"required"`
+	// How to determine the groups that should each be allocated some quantity
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Unit rate for post-allocation
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelTypeGroupedAllocation BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType = "grouped_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelTypeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice struct {
+	// Configuration for bulk_with_proration pricing
+	BulkWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig] `json:"bulk_with_proration_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// Configuration for bulk_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig struct {
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single bulk pricing tier with proration
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier struct {
+	// Cost per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// The lower bound for this tier
+	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelTypeBulkWithProration BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType = "bulk_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_prorated_minimum pricing
+	GroupedWithProratedMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig] `json:"grouped_with_prorated_minimum_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_prorated_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig struct {
+	// How to determine the groups that should each have a minimum
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The minimum amount to charge per group
+	Minimum param.Field[string] `json:"minimum" api:"required"`
+	// The amount to charge per unit
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                           `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_metered_minimum pricing
+	GroupedWithMeteredMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig] `json:"grouped_with_metered_minimum_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_metered_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig struct {
+	// Used to partition the usage into groups. The minimum amount is applied to each
+	// group.
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The minimum amount to charge per group per unit
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
+	// Used to determine the unit rate
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
+	// Scale the unit rates by the scaling factor.
+	ScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor] `json:"scaling_factors" api:"required"`
+	// Used to determine the unit rate scaling factor
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
+	// Apply per unit pricing to each pricing value. The minimum amount is applied any
+	// unmatched usage.
+	UnitAmounts param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount] `json:"unit_amounts" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor struct {
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount struct {
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_min_max_thresholds pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType = "grouped_with_min_max_thresholds"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                            `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix_with_display_name pricing
+	MatrixWithDisplayNameConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig] `json:"matrix_with_display_name_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for matrix_with_display_name pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig struct {
+	// Used to determine the unit rate
+	Dimension param.Field[string] `json:"dimension" api:"required"`
+	// Apply per unit pricing to each dimension value
+	UnitAmounts param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount] `json:"unit_amounts" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount item
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount struct {
+	// The dimension value
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
+	// Display name for this dimension value
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType = "matrix_with_display_name"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_tiered_package pricing
+	GroupedTieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig] `json:"grouped_tiered_package_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig struct {
+	// The event property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier struct {
+	// Per package
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelTypeGroupedTieredPackage BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType = "grouped_tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelTypeGroupedTieredPackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for max_group_tiered_package pricing
+	MaxGroupTieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig] `json:"max_group_tiered_package_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for max_group_tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig struct {
+	// The event property used to group before tiering the group with the highest value
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing to the largest group after grouping with the provided key.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType = "max_group_tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for scalable_matrix_with_unit_pricing pricing
+	ScalableMatrixWithUnitPricingConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType = "scalable_matrix_with_unit_pricing"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing:
+		return true
+	}
+	return false
+}
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig struct {
+	// Used to determine the unit rate
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
+	// The final unit price to rate against the output of the matrix
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
+	// The property used to group this price
+	GroupingKey param.Field[string] `json:"grouping_key"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+	// Used to determine the unit rate (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor struct {
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                              `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for scalable_matrix_with_tiered_pricing pricing
+	ScalableMatrixWithTieredPricingConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType = "scalable_matrix_with_tiered_pricing"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing:
+		return true
+	}
+	return false
+}
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig struct {
+	// Used for the scalable matrix first dimension
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier]                `json:"tiers" api:"required"`
+	// Used for the scalable matrix second dimension (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor struct {
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier entry with business logic
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for cumulative_grouped_bulk pricing
+	CumulativeGroupedBulkConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig] `json:"cumulative_grouped_bulk_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for cumulative_grouped_bulk pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig struct {
+	// Each tier lower bound must have the same group of values.
+	DimensionValues param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                                                                                                         `json:"group" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a dimension value entry
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue struct {
+	// Grouping key value
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Unit amount for this combination
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for cumulative_grouped_allocation pricing
+	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for cumulative_grouped_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
+	// The overall allocation across all groups
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
+	// The allocation per individual group
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
+	// The event property used to group usage before applying allocations
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The amount to charge for each unit outside of the allocation
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType = "cumulative_grouped_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                            `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for minimum_composite pricing
+	MinimumCompositeConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig] `json:"minimum_composite_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for minimum_composite pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelTypeMinimumComposite BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType = "minimum_composite"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelTypeMinimumComposite:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                 `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for percent pricing
+	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelTypePercent BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType = "percent"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelTypePercent:
+		return true
+	}
+	return false
+}
+
+// Configuration for percent pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig struct {
+	// What percent of the component subtotals to charge
+	Percent param.Field[float64] `json:"percent" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                 `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for event_output pricing
+	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice) implementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for event_output pricing
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig struct {
+	// The key in the event data to extract the unit rate from.
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
+	// An optional key in the event data to group by (e.g., event ID). All events will
+	// also be grouped by their unit rate.
+	GroupingKey param.Field[string] `json:"grouping_key"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelTypeEventOutput BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType = "event_output"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelTypeEventOutput:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                            `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnit                            BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTiered                          BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "tiered"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulk                            BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "bulk"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulkWithFilters                 BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "bulk_with_filters"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePackage                         BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "package"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrix                          BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "matrix"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeThresholdTotalAmount            BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "threshold_total_amount"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredPackage                   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredWithMinimum               BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "tiered_with_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedTiered                   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_tiered"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredPackageWithMinimum        BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "tiered_package_with_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePackageWithAllocation           BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "package_with_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnitWithPercent                 BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "unit_with_percent"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrixWithAllocation            BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "matrix_with_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredWithProration             BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "tiered_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnitWithProration               BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "unit_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedAllocation               BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulkWithProration               BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "bulk_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithProratedMinimum      BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_with_prorated_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithMeteredMinimum       BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_with_metered_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithMinMaxThresholds     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_with_min_max_thresholds"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrixWithDisplayName           BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "matrix_with_display_name"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedTieredPackage            BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "grouped_tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMaxGroupTieredPackage           BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "max_group_tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeScalableMatrixWithUnitPricing   BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "scalable_matrix_with_unit_pricing"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeScalableMatrixWithTieredPricing BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "scalable_matrix_with_tiered_pricing"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeCumulativeGroupedBulk           BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "cumulative_grouped_bulk"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeCumulativeGroupedAllocation     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "cumulative_grouped_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMinimumComposite                BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "minimum_composite"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePercent                         BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "percent"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeEventOutput                     BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType = "event_output"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeMinimumComposite, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeEventOutput:
+		return true
+	}
+	return false
 }
 
 // New plan price request body params.
@@ -1424,6 +6630,8 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePrice struct {
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id" api:"required"`
 	// The allocation price to add to the plan.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
+	// The license allocation price to add to the plan.
+	LicenseAllocationPrice param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion] `json:"license_allocation_price"`
 	// The phase to replace this price from.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// New plan price request body params.
@@ -1432,6 +6640,5210 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePrice struct {
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The license allocation price to add to the plan.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID             param.Field[string]      `json:"item_id" api:"required"`
+	LicenseAllocations param.Field[interface{}] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithFiltersConfig   param.Field[interface{}]            `json:"bulk_with_filters_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate                    param.Field[float64]     `json:"conversion_rate"`
+	ConversionRateConfig              param.Field[interface{}] `json:"conversion_rate_config"`
+	CumulativeGroupedAllocationConfig param.Field[interface{}] `json:"cumulative_grouped_allocation_config"`
+	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity                param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig           param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedTieredConfig               param.Field[interface{}] `json:"grouped_tiered_config"`
+	GroupedTieredPackageConfig        param.Field[interface{}] `json:"grouped_tiered_package_config"`
+	GroupedWithMeteredMinimumConfig   param.Field[interface{}] `json:"grouped_with_metered_minimum_config"`
+	GroupedWithMinMaxThresholdsConfig param.Field[interface{}] `json:"grouped_with_min_max_thresholds_config"`
+	GroupedWithProratedMinimumConfig  param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
+	PercentConfig               param.Field[interface{}]               `json:"percent_config"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The license allocation price to add to the plan.
+//
+// Satisfied by
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion interface {
+	implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit pricing
+	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType = "unit"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered pricing
+	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                           `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPrice struct {
+	// Configuration for bulk pricing
+	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelTypeBulk BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType = "bulk"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice struct {
+	// Configuration for bulk_with_filters pricing
+	BulkWithFiltersConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig] `json:"bulk_with_filters_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// Configuration for bulk_with_filters pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig struct {
+	// Property filters to apply (all must match)
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter] `json:"filters" api:"required"`
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single property filter
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter struct {
+	// Event property key to filter on
+	PropertyKey param.Field[string] `json:"property_key" api:"required"`
+	// Event property value to match
+	PropertyValue param.Field[string] `json:"property_value" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single bulk pricing tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier struct {
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// The lower bound for this tier
+	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceBulkWithFiltersConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelTypeBulkWithFilters BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType = "bulk_with_filters"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceModelTypeBulkWithFilters:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                    `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for package pricing
+	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelTypePackage BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType = "package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                            `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelTypeMatrix BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType = "matrix"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                           `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for threshold_total_amount pricing
+	ThresholdTotalAmountConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig] `json:"threshold_total_amount_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelTypeThresholdTotalAmount BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType = "threshold_total_amount"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
+
+// Configuration for threshold_total_amount pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig struct {
+	// When the quantity consumed passes a provided threshold, the configured total
+	// will be charged
+	ConsumptionTable param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable] `json:"consumption_table" api:"required"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single threshold
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable struct {
+	Threshold param.Field[string] `json:"threshold" api:"required"`
+	// Total amount for this threshold
+	TotalAmount param.Field[string] `json:"total_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_package pricing
+	TieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig] `json:"tiered_package_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelTypeTieredPackage BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType = "tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig struct {
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds. The tier bounds are defined based on
+	// the total quantity rather than the number of packages, so they must be multiples
+	// of the package size.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier with business logic
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier struct {
+	// Price per package
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_with_minimum pricing
+	TieredWithMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig] `json:"tiered_with_minimum_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelTypeTieredWithMinimum BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig struct {
+	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
+	// defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier] `json:"tiers" api:"required"`
+	// If true, tiers with an accrued amount of 0 will not be included in the rating.
+	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier struct {
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceTieredWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_tiered pricing
+	GroupedTieredConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig] `json:"grouped_tiered_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_tiered pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig struct {
+	// The billable metric property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Apply tiered pricing to each segment generated after grouping with the provided
+	// key
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceGroupedTieredConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelTypeGroupedTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceModelTypeGroupedTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_package_with_minimum pricing
+	TieredPackageWithMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig] `json:"tiered_package_with_minimum_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_package_with_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig struct {
+	PackageSize param.Field[float64] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier struct {
+	MinimumAmount  param.Field[string] `json:"minimum_amount" api:"required"`
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                             `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for package_with_allocation pricing
+	PackageWithAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig] `json:"package_with_allocation_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelTypePackageWithAllocation BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
+// Configuration for package_with_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig struct {
+	Allocation    param.Field[string] `json:"allocation" api:"required"`
+	PackageAmount param.Field[string] `json:"package_amount" api:"required"`
+	PackageSize   param.Field[string] `json:"package_size" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPricePackageWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit_with_percent pricing
+	UnitWithPercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig] `json:"unit_with_percent_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelTypeUnitWithPercent BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType = "unit_with_percent"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
+// Configuration for unit_with_percent pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig struct {
+	// What percent, out of 100, of the calculated total to charge
+	Percent param.Field[string] `json:"percent" api:"required"`
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceUnitWithPercentConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                    `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelTypeMatrixWithAllocation BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType = "matrix_with_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelTypeTieredWithProration BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                        `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for unit_with_proration pricing
+	UnitWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig] `json:"unit_with_proration_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelTypeUnitWithProration BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for unit_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig struct {
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceUnitWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_allocation pricing
+	GroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig] `json:"grouped_allocation_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig struct {
+	// Usage allocation per group
+	Allocation param.Field[string] `json:"allocation" api:"required"`
+	// How to determine the groups that should each be allocated some quantity
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Unit rate for post-allocation
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelTypeGroupedAllocation BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType = "grouped_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceModelTypeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice struct {
+	// Configuration for bulk_with_proration pricing
+	BulkWithProrationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig] `json:"bulk_with_proration_config" api:"required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// Configuration for bulk_with_proration pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig struct {
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single bulk pricing tier with proration
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier struct {
+	// Cost per unit
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// The lower bound for this tier
+	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceBulkWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelTypeBulkWithProration BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType = "bulk_with_proration"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                      `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_prorated_minimum pricing
+	GroupedWithProratedMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig] `json:"grouped_with_prorated_minimum_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_prorated_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig struct {
+	// How to determine the groups that should each have a minimum
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The minimum amount to charge per group
+	Minimum param.Field[string] `json:"minimum" api:"required"`
+	// The amount to charge per unit
+	UnitRate param.Field[string] `json:"unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                             `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                               `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_metered_minimum pricing
+	GroupedWithMeteredMinimumConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig] `json:"grouped_with_metered_minimum_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_metered_minimum pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig struct {
+	// Used to partition the usage into groups. The minimum amount is applied to each
+	// group.
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The minimum amount to charge per group per unit
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount" api:"required"`
+	// Used to determine the unit rate
+	PricingKey param.Field[string] `json:"pricing_key" api:"required"`
+	// Scale the unit rates by the scaling factor.
+	ScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor] `json:"scaling_factors" api:"required"`
+	// Used to determine the unit rate scaling factor
+	ScalingKey param.Field[string] `json:"scaling_key" api:"required"`
+	// Apply per unit pricing to each pricing value. The minimum amount is applied any
+	// unmatched usage.
+	UnitAmounts param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount] `json:"unit_amounts" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor struct {
+	ScalingFactor param.Field[string] `json:"scaling_factor" api:"required"`
+	ScalingValue  param.Field[string] `json:"scaling_value" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount struct {
+	PricingValue param.Field[string] `json:"pricing_value" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                              `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_with_min_max_thresholds pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge" api:"required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge" api:"required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType = "grouped_with_min_max_thresholds"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for matrix_with_display_name pricing
+	MatrixWithDisplayNameConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig] `json:"matrix_with_display_name_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for matrix_with_display_name pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig struct {
+	// Used to determine the unit rate
+	Dimension param.Field[string] `json:"dimension" api:"required"`
+	// Apply per unit pricing to each dimension value
+	UnitAmounts param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount] `json:"unit_amounts" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount item
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount struct {
+	// The dimension value
+	DimensionValue param.Field[string] `json:"dimension_value" api:"required"`
+	// Display name for this dimension value
+	DisplayName param.Field[string] `json:"display_name" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType = "matrix_with_display_name"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for grouped_tiered_package pricing
+	GroupedTieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig] `json:"grouped_tiered_package_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for grouped_tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig struct {
+	// The event property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier struct {
+	// Per package
+	PerUnit        param.Field[string] `json:"per_unit" api:"required"`
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceGroupedTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelTypeGroupedTieredPackage BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType = "grouped_tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceModelTypeGroupedTieredPackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                         `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for max_group_tiered_package pricing
+	MaxGroupTieredPackageConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig] `json:"max_group_tiered_package_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for max_group_tiered_package pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig struct {
+	// The event property used to group before tiering the group with the highest value
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	PackageSize param.Field[string] `json:"package_size" api:"required"`
+	// Apply tiered pricing to the largest group after grouping with the provided key.
+	Tiers param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType = "max_group_tiered_package"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for scalable_matrix_with_unit_pricing pricing
+	ScalableMatrixWithUnitPricingConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig] `json:"scalable_matrix_with_unit_pricing_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType = "scalable_matrix_with_unit_pricing"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing:
+		return true
+	}
+	return false
+}
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig struct {
+	// Used to determine the unit rate
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
+	// The final unit price to rate against the output of the matrix
+	UnitPrice param.Field[string] `json:"unit_price" api:"required"`
+	// The property used to group this price
+	GroupingKey param.Field[string] `json:"grouping_key"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+	// Used to determine the unit rate (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor struct {
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                                  `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for scalable_matrix_with_tiered_pricing pricing
+	ScalableMatrixWithTieredPricingConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig] `json:"scalable_matrix_with_tiered_pricing_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType = "scalable_matrix_with_tiered_pricing"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing:
+		return true
+	}
+	return false
+}
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig struct {
+	// Used for the scalable matrix first dimension
+	FirstDimension param.Field[string] `json:"first_dimension" api:"required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor] `json:"matrix_scaling_factors" api:"required"`
+	Tiers                param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier]                `json:"tiers" api:"required"`
+	// Used for the scalable matrix second dimension (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor struct {
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value" api:"required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor" api:"required"`
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier entry with business logic
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier struct {
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	UnitAmount     param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                                    `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for cumulative_grouped_bulk pricing
+	CumulativeGroupedBulkConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig] `json:"cumulative_grouped_bulk_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for cumulative_grouped_bulk pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig struct {
+	// Each tier lower bound must have the same group of values.
+	DimensionValues param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue] `json:"dimension_values" api:"required"`
+	Group           param.Field[string]                                                                                                                                                             `json:"group" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a dimension value entry
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue struct {
+	// Grouping key value
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Unit amount for this combination
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                        `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                          `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for cumulative_grouped_allocation pricing
+	CumulativeGroupedAllocationConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig] `json:"cumulative_grouped_allocation_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for cumulative_grouped_allocation pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig struct {
+	// The overall allocation across all groups
+	CumulativeAllocation param.Field[string] `json:"cumulative_allocation" api:"required"`
+	// The allocation per individual group
+	GroupAllocation param.Field[string] `json:"group_allocation" api:"required"`
+	// The event property used to group usage before applying allocations
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// The amount to charge for each unit outside of the allocation
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType = "cumulative_grouped_allocation"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// Configuration for minimum_composite pricing
+	MinimumCompositeConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig] `json:"minimum_composite_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for minimum_composite pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount" api:"required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceMinimumCompositeConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelTypeMinimumComposite BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType = "minimum_composite"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceModelTypeMinimumComposite:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence] `json:"cadence" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for percent pricing
+	PercentConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig] `json:"percent_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelTypePercent BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType = "percent"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceModelTypePercent:
+		return true
+	}
+	return false
+}
+
+// Configuration for percent pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig struct {
+	// What percent of the component subtotals to charge
+	Percent param.Field[float64] `json:"percent" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                     `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationPercentCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence] `json:"cadence" api:"required"`
+	// Configuration for event_output pricing
+	EventOutputConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig] `json:"event_output_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// License allocations to associate with this price. Each entry defines a
+	// per-license credit pool granted each cadence. Requires license_type_id or
+	// license_type_configuration to be set.
+	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation] `json:"license_allocations" api:"required"`
+	// The pricing model type
+	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPrice) implementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for event_output pricing
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig struct {
+	// The key in the event data to extract the unit rate from.
+	UnitRatingKey param.Field[string] `json:"unit_rating_key" api:"required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
+	// An optional key in the event data to group by (e.g., event ID). All events will
+	// also be grouped by their unit rate.
+	GroupingKey param.Field[string] `json:"grouping_key"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceEventOutputConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation struct {
+	// The amount of credits granted per active license per cadence.
+	Amount param.Field[string] `json:"amount" api:"required"`
+	// The currency of the license allocation.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// When True, overage beyond the allocation is written off.
+	WriteOffOverage param.Field[bool] `json:"write_off_overage"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceLicenseAllocation) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelTypeEventOutput BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType = "event_output"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceModelTypeEventOutput:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                                `json:"unit_config"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfig].
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion interface {
+	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigUnion()
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeUnit   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeTiered BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationEventOutputPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+// The cadence to bill for this price on.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceAnnual     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceSemiAnnual BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "semi_annual"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceMonthly    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "monthly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceQuarterly  BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "quarterly"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceOneTime    BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "one_time"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceCustom     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence = "custom"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnit                            BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "unit"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTiered                          BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "tiered"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulk                            BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "bulk"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulkWithFilters                 BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "bulk_with_filters"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePackage                         BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "package"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrix                          BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "matrix"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeThresholdTotalAmount            BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "threshold_total_amount"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredPackage                   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredWithMinimum               BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "tiered_with_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedTiered                   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_tiered"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredPackageWithMinimum        BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "tiered_package_with_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePackageWithAllocation           BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "package_with_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnitWithPercent                 BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "unit_with_percent"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrixWithAllocation            BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "matrix_with_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredWithProration             BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "tiered_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnitWithProration               BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "unit_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedAllocation               BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulkWithProration               BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "bulk_with_proration"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithProratedMinimum      BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_with_prorated_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithMeteredMinimum       BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_with_metered_minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithMinMaxThresholds     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_with_min_max_thresholds"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrixWithDisplayName           BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "matrix_with_display_name"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedTieredPackage            BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "grouped_tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMaxGroupTieredPackage           BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "max_group_tiered_package"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeScalableMatrixWithUnitPricing   BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "scalable_matrix_with_unit_pricing"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeScalableMatrixWithTieredPricing BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "scalable_matrix_with_tiered_pricing"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeCumulativeGroupedBulk           BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "cumulative_grouped_bulk"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeCumulativeGroupedAllocation     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "cumulative_grouped_allocation"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMinimumComposite                BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "minimum_composite"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePercent                         BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "percent"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeEventOutput                     BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType = "event_output"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnit, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulkWithFilters, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrix, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeThresholdTotalAmount, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedTiered, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredPackageWithMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePackageWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnitWithPercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrixWithAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeTieredWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnitWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeBulkWithProration, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithProratedMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithMeteredMinimum, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedWithMinMaxThresholds, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMatrixWithDisplayName, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeGroupedTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMaxGroupTieredPackage, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeScalableMatrixWithUnitPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeScalableMatrixWithTieredPricing, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeCumulativeGroupedBulk, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeCumulativeGroupedAllocation, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeMinimumComposite, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypePercent, BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeEventOutput:
+		return true
+	}
+	return false
 }
 
 // New plan price request body params.
