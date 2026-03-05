@@ -123,9 +123,10 @@ func (r *CustomerService) New(ctx context.Context, body CustomerNewParams, opts 
 
 // This endpoint can be used to update the `payment_provider`,
 // `payment_provider_id`, `name`, `email`, `email_delivery`, `tax_id`,
-// `auto_collection`, `metadata`, `shipping_address`, `billing_address`, and
-// `additional_emails` of an existing customer. Other fields on a customer are
-// currently immutable.
+// `auto_collection`, `metadata`, `shipping_address`, `billing_address`,
+// `additional_emails`, and `currency` of an existing customer. `currency` can only
+// be set if it has not already been set on the customer. Other fields on a
+// customer are currently immutable.
 func (r *CustomerService) Update(ctx context.Context, customerID string, body CustomerUpdateParams, opts ...option.RequestOption) (res *Customer, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
@@ -1298,8 +1299,10 @@ type CustomerUpdateParams struct {
 	// will be inherited from the account-level setting.
 	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
-	// An ISO 4217 currency string used for the customer's invoices and balance. If not
-	// set at creation time, will be set at subscription creation time.
+	// An ISO 4217 currency string used for the customer's invoices and balance. This
+	// can only be set if the customer does not already have a currency configured. If
+	// not set at creation or update time, it will be set at subscription creation
+	// time.
 	Currency param.Field[string] `json:"currency"`
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
@@ -1720,8 +1723,10 @@ type CustomerUpdateByExternalIDParams struct {
 	// will be inherited from the account-level setting.
 	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
-	// An ISO 4217 currency string used for the customer's invoices and balance. If not
-	// set at creation time, will be set at subscription creation time.
+	// An ISO 4217 currency string used for the customer's invoices and balance. This
+	// can only be set if the customer does not already have a currency configured. If
+	// not set at creation or update time, it will be set at subscription creation
+	// time.
 	Currency param.Field[string] `json:"currency"`
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
