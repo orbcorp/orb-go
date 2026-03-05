@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.63.1 (2026-03-05)
+
+Full Changelog: [v1.63.0...v1.63.1](https://github.com/orbcorp/orb-go/compare/v1.63.0...v1.63.1)
+
+### Bug Fixes
+
+* fix request delays for retrying to be more respectful of high requested delays ([2ec0dcc](https://github.com/orbcorp/orb-go/commit/2ec0dcc60d4ec8545da4a6ad4c3463dbe7e33b81))
+
 ## 1.63.0 (2026-03-04)
 
 Full Changelog: [v1.62.0...v1.63.0](https://github.com/orbcorp/orb-go/compare/v1.62.0...v1.63.0)
