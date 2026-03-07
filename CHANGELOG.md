@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.64.0 (2026-03-07)
+
+Full Changelog: [v1.63.1...v1.64.0](https://github.com/orbcorp/orb-go/compare/v1.63.1...v1.64.0)
+
+### Features
+
+* **api:** api update ([16c4395](https://github.com/orbcorp/orb-go/commit/16c43955776fe324d3fb9317a1a5253a8b226787))
+* **api:** api update ([b5f8010](https://github.com/orbcorp/orb-go/commit/b5f801014f247b5b9ad715981386e1ec68610a85))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([9767303](https://github.com/orbcorp/orb-go/commit/976730334711287c2a12e52a0d60bb5c6039baf0))
+* **test:** do not count install time for mock server timeout ([9150330](https://github.com/orbcorp/orb-go/commit/9150330fbb06f2c475c38e3ef94725b0d2d864e5))
+
 ## 1.63.1 (2026-03-05)
 
 Full Changelog: [v1.63.0...v1.63.1](https://github.com/orbcorp/orb-go/compare/v1.63.0...v1.63.1)
