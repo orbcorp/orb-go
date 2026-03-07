@@ -182,8 +182,10 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 			Thresholds: orb.F([]orb.ThresholdParam{{
 				Value: orb.F(0.000000),
 			}}),
-			Type:     orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),
-			MetricID: orb.F("metric_id"),
+			Type:          orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),
+			GroupingKeys:  orb.F([]string{"string"}),
+			MetricID:      orb.F("metric_id"),
+			PricingUnitID: orb.F("pricing_unit_id"),
 		},
 	)
 	if err != nil {
