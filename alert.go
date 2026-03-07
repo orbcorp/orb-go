@@ -230,6 +230,9 @@ type Alert struct {
 	// The current status of the alert. This field is only present for credit balance
 	// alerts.
 	BalanceAlertStatus []AlertBalanceAlertStatus `json:"balance_alert_status" api:"nullable"`
+	// The property keys to group cost alerts by. Only present for cost alerts with
+	// grouping enabled.
+	GroupingKeys []string `json:"grouping_keys" api:"nullable"`
 	// Minified license type for alert serialization.
 	LicenseType AlertLicenseType `json:"license_type" api:"nullable"`
 	JSON        alertJSON        `json:"-"`
@@ -248,6 +251,7 @@ type alertJSON struct {
 	Thresholds         apijson.Field
 	Type               apijson.Field
 	BalanceAlertStatus apijson.Field
+	GroupingKeys       apijson.Field
 	LicenseType        apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -518,8 +522,14 @@ type AlertNewForSubscriptionParams struct {
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type" api:"required"`
+	// The property keys to group cost alerts by. Only applicable for cost_exceeded
+	// alerts.
+	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
 	// The metric to track usage for.
 	MetricID param.Field[string] `json:"metric_id"`
+	// The pricing unit to use for grouped cost alerts. Required when grouping_keys is
+	// set.
+	PricingUnitID param.Field[string] `json:"pricing_unit_id"`
 }
 
 func (r AlertNewForSubscriptionParams) MarshalJSON() (data []byte, err error) {
