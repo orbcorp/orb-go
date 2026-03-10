@@ -53,11 +53,11 @@ func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceI
 	opts = slices.Concat(r.Options, opts)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("prices/external_price_id/%s", externalPriceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a price given an external price id. See the
@@ -67,11 +67,11 @@ func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID
 	opts = slices.Concat(r.Options, opts)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("prices/external_price_id/%s", externalPriceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type PriceExternalPriceIDUpdateParams struct {

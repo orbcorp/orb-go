@@ -46,7 +46,7 @@ func (r *LicenseUsageService) GetAllUsage(ctx context.Context, query LicenseUsag
 	opts = slices.Concat(r.Options, opts)
 	path := "licenses/usage"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // Returns usage and remaining credits for a specific license over a date range.
@@ -56,11 +56,11 @@ func (r *LicenseUsageService) GetUsage(ctx context.Context, licenseID string, qu
 	opts = slices.Concat(r.Options, opts)
 	if licenseID == "" {
 		err = errors.New("missing required license_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("licenses/%s/usage", licenseID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type LicenseUsageGetAllUsageResponse struct {

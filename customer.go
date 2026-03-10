@@ -118,7 +118,7 @@ func (r *CustomerService) New(ctx context.Context, body CustomerNewParams, opts 
 	opts = slices.Concat(r.Options, opts)
 	path := "customers"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update the `payment_provider`,
@@ -131,11 +131,11 @@ func (r *CustomerService) Update(ctx context.Context, customerID string, body Cu
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all customers for an account. The list of
@@ -188,11 +188,11 @@ func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ..
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // This endpoint is used to fetch customer details given an identifier. If the
@@ -205,11 +205,11 @@ func (r *CustomerService) Fetch(ctx context.Context, customerID string, opts ...
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch customer details given an `external_customer_id`
@@ -221,11 +221,11 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Sync Orb's payment methods for the customer with their gateway.
@@ -239,11 +239,11 @@ func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, cus
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("customers/%s/sync_payment_methods_from_gateway", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // Sync Orb's payment methods for the customer with their gateway.
@@ -257,11 +257,11 @@ func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx 
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/sync_payment_methods_from_gateway", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // This endpoint is used to update customer details given an `external_customer_id`
@@ -272,11 +272,11 @@ func (r *CustomerService) UpdateByExternalID(ctx context.Context, id string, bod
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type AccountingProviderConfigParam struct {

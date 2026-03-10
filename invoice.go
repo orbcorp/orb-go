@@ -52,7 +52,7 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 	opts = slices.Concat(r.Options, opts)
 	path := "invoices"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to update the `metadata`, `net_terms`, `due_date`,
@@ -67,11 +67,11 @@ func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body Invo
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all [`Invoice`](/core-concepts#invoice)s for an
@@ -131,15 +131,15 @@ func (r *InvoiceService) DeleteLineItem(ctx context.Context, invoiceID string, l
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return err
 	}
 	if lineItemID == "" {
 		err = errors.New("missing required line_item_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("invoices/%s/invoice_line_items/%s", invoiceID, lineItemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // This endpoint is used to fetch an [`Invoice`](/core-concepts#invoice) given an
@@ -148,11 +148,11 @@ func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to fetch the upcoming
@@ -162,7 +162,7 @@ func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUp
 	opts = slices.Concat(r.Options, opts)
 	path := "invoices/upcoming"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows an eligible invoice to be issued manually. This is only
@@ -175,11 +175,11 @@ func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body Invoi
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s/issue", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows an eligible invoice to be issued manually. This is only
@@ -195,11 +195,11 @@ func (r *InvoiceService) IssueSummary(ctx context.Context, invoiceID string, bod
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/summary/%s/issue", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This is a lighter-weight endpoint that returns a list of all
@@ -261,11 +261,11 @@ func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body In
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s/mark_paid", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint collects payment for an invoice using the customer's default
@@ -274,11 +274,11 @@ func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...opti
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s/pay", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows an invoice's status to be set to the `void` status. This
@@ -296,11 +296,11 @@ func (r *InvoiceService) Void(ctx context.Context, invoiceID string, opts ...opt
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s/void", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type InvoiceFetchUpcomingResponse struct {

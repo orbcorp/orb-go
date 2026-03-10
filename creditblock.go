@@ -43,11 +43,11 @@ func (r *CreditBlockService) Get(ctx context.Context, blockID string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if blockID == "" {
 		err = errors.New("missing required block_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("credit_blocks/%s", blockID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint deletes a credit block by its ID.
@@ -70,11 +70,11 @@ func (r *CreditBlockService) Delete(ctx context.Context, blockID string, opts ..
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if blockID == "" {
 		err = errors.New("missing required block_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("credit_blocks/%s", blockID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // This endpoint returns the credit block and its associated purchasing invoices.
@@ -95,11 +95,11 @@ func (r *CreditBlockService) ListInvoices(ctx context.Context, blockID string, o
 	opts = slices.Concat(r.Options, opts)
 	if blockID == "" {
 		err = errors.New("missing required block_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("credit_blocks/%s/invoices", blockID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // The Credit Block resource models prepaid credits within Orb.

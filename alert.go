@@ -50,11 +50,11 @@ func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.R
 	opts = slices.Concat(r.Options, opts)
 	if alertID == "" {
 		err = errors.New("missing required alert_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/%s", alertID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint updates the thresholds of an alert.
@@ -62,11 +62,11 @@ func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, 
 	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/%s", alertConfigurationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of alerts within Orb.
@@ -124,11 +124,11 @@ func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, bo
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/customer_id/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint creates a new alert to monitor a customer's credit balance. There
@@ -143,11 +143,11 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/external_customer_id/%s", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to create alerts at the subscription level.
@@ -165,11 +165,11 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/subscription_id/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to disable an alert. To disable a plan-level alert for
@@ -179,11 +179,11 @@ func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string,
 	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/%s/disable", alertConfigurationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to enable an alert. To enable a plan-level alert for a
@@ -193,11 +193,11 @@ func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, 
 	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("alerts/%s/enable", alertConfigurationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,

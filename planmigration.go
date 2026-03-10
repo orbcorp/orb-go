@@ -50,15 +50,15 @@ func (r *PlanMigrationService) Get(ctx context.Context, planID string, migration
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	if migrationID == "" {
 		err = errors.New("missing required migration_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/migrations/%s", planID, migrationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all migrations for a plan. The list of
@@ -71,7 +71,7 @@ func (r *PlanMigrationService) List(ctx context.Context, planID string, query Pl
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/migrations", planID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -99,15 +99,15 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	if migrationID == "" {
 		err = errors.New("missing required migration_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/migrations/%s/cancel", planID, migrationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type PlanMigrationGetResponse struct {

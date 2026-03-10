@@ -45,11 +45,11 @@ func (r *BetaExternalPlanIDService) NewPlanVersion(ctx context.Context, external
 	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/external_plan_id/%s/versions", externalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
@@ -58,15 +58,15 @@ func (r *BetaExternalPlanIDService) FetchPlanVersion(ctx context.Context, extern
 	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
-		return
+		return nil, err
 	}
 	if version == "" {
 		err = errors.New("missing required version parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/external_plan_id/%s/versions/%s", externalPlanID, version)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows setting the default version of a plan.
@@ -74,11 +74,11 @@ func (r *BetaExternalPlanIDService) SetDefaultPlanVersion(ctx context.Context, e
 	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/external_plan_id/%s/set_default_version", externalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type BetaExternalPlanIDNewPlanVersionParams struct {

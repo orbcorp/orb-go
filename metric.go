@@ -49,7 +49,7 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 	opts = slices.Concat(r.Options, opts)
 	path := "metrics"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to update the `metadata` property on a metric. If you
@@ -59,11 +59,11 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("metrics/%s", metricID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch [metric](/core-concepts##metric) details given a
@@ -99,11 +99,11 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("metrics/%s", metricID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // The Metric resource represents a calculation of a quantity based on events.

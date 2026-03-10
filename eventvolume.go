@@ -56,7 +56,7 @@ func (r *EventVolumeService) List(ctx context.Context, query EventVolumeListPara
 	opts = slices.Concat(r.Options, opts)
 	path := "events/volume"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type EventVolumes struct {

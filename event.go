@@ -100,11 +100,11 @@ func (r *EventService) Update(ctx context.Context, eventID string, body EventUpd
 	opts = slices.Concat(r.Options, opts)
 	if eventID == "" {
 		err = errors.New("missing required event_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("events/%s", eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to deprecate a single usage event with a given `event_id`.
@@ -151,11 +151,11 @@ func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if eventID == "" {
 		err = errors.New("missing required event_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("events/%s/deprecate", eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Orb's event ingestion model and API is designed around two core principles:
@@ -372,7 +372,7 @@ func (r *EventService) Ingest(ctx context.Context, params EventIngestParams, opt
 	opts = slices.Concat(r.Options, opts)
 	path := "ingest"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a filtered set of events for an account in a
@@ -394,7 +394,7 @@ func (r *EventService) Search(ctx context.Context, body EventSearchParams, opts 
 	opts = slices.Concat(r.Options, opts)
 	path := "events/search"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type EventUpdateResponse struct {

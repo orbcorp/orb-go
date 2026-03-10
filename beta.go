@@ -54,11 +54,11 @@ func (r *BetaService) NewPlanVersion(ctx context.Context, planID string, body Be
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/versions", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
@@ -67,15 +67,15 @@ func (r *BetaService) FetchPlanVersion(ctx context.Context, planID string, versi
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	if version == "" {
 		err = errors.New("missing required version parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/versions/%s", planID, version)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows setting the default version of a plan.
@@ -83,11 +83,11 @@ func (r *BetaService) SetDefaultPlanVersion(ctx context.Context, planID string, 
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s/set_default_version", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // The PlanVersion resource represents the prices and adjustments present on a

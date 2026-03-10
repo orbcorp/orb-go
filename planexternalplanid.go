@@ -47,11 +47,11 @@ func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPla
 	opts = slices.Concat(r.Options, opts)
 	if otherExternalPlanID == "" {
 		err = errors.New("missing required other_external_plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/external_plan_id/%s", otherExternalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch [plan](/core-concepts##plan-and-price) details
@@ -74,11 +74,11 @@ func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID st
 	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/external_plan_id/%s", externalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type PlanExternalPlanIDUpdateParams struct {
