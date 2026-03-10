@@ -64,11 +64,11 @@ func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID 
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/balance_transactions", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // ## The customer balance
@@ -98,7 +98,7 @@ func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/balance_transactions", customerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

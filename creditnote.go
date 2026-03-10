@@ -73,7 +73,7 @@ func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, o
 	opts = slices.Concat(r.Options, opts)
 	path := "credit_notes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated list of CreditNotes. Users can also filter by customer_id,
@@ -109,11 +109,11 @@ func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts
 	opts = slices.Concat(r.Options, opts)
 	if creditNoteID == "" {
 		err = errors.New("missing required credit_note_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("credit_notes/%s", creditNoteID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type CreditNoteNewParams struct {

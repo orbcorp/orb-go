@@ -52,11 +52,11 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // List top-ups
@@ -66,7 +66,7 @@ func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups", customerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -93,15 +93,15 @@ func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID stri
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return err
 	}
 	if topUpID == "" {
 		err = errors.New("missing required top_up_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups/%s", customerID, topUpID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // This endpoint allows you to create a new top-up for a specified customer's
@@ -115,11 +115,11 @@ func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, extern
 	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This deactivates the top-up and voids any invoices associated with pending
@@ -129,15 +129,15 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return err
 	}
 	if topUpID == "" {
 		err = errors.New("missing required top_up_id parameter")
-		return
+		return err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups/%s", externalCustomerID, topUpID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // List top-ups by external ID
@@ -147,7 +147,7 @@ func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, exter
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups", externalCustomerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

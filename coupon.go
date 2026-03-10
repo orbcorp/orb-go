@@ -60,7 +60,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 	opts = slices.Concat(r.Options, opts)
 	path := "coupons"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all coupons for an account in a list format.
@@ -103,11 +103,11 @@ func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("coupons/%s/archive", couponID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint retrieves a coupon by its ID. To fetch coupons by their redemption
@@ -117,11 +117,11 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 	opts = slices.Concat(r.Options, opts)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("coupons/%s", couponID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // A coupon represents a reusable discount configuration that can be applied either

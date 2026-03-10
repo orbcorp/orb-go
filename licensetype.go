@@ -50,7 +50,7 @@ func (r *LicenseTypeService) New(ctx context.Context, body LicenseTypeNewParams,
 	opts = slices.Concat(r.Options, opts)
 	path := "license_types"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a license type identified by its license_type_id.
@@ -61,11 +61,11 @@ func (r *LicenseTypeService) Get(ctx context.Context, licenseTypeID string, opts
 	opts = slices.Concat(r.Options, opts)
 	if licenseTypeID == "" {
 		err = errors.New("missing required license_type_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("license_types/%s", licenseTypeID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all license types configured for the account,

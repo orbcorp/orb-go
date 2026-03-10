@@ -54,11 +54,11 @@ func (r *SubscriptionChangeService) Get(ctx context.Context, subscriptionChangeI
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscription_changes/%s", subscriptionChangeID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of pending subscription changes for a customer. Use
@@ -95,11 +95,11 @@ func (r *SubscriptionChangeService) Apply(ctx context.Context, subscriptionChang
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscription_changes/%s/apply", subscriptionChangeID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Cancel a subscription change. The change can no longer be applied. A
@@ -109,11 +109,11 @@ func (r *SubscriptionChangeService) Cancel(ctx context.Context, subscriptionChan
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscription_changes/%s/cancel", subscriptionChangeID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type MutatedSubscription struct {
