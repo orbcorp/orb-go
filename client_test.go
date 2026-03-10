@@ -38,7 +38,7 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.Customers.New(context.Background(), orb.CustomerNewParams{
+	_, _ = client.Customers.New(context.Background(), orb.CustomerNewParams{
 		Email: orb.F("example-customer@withorb.com"),
 		Name:  orb.F("My Customer"),
 	})
