@@ -59,7 +59,7 @@ func (r *InvoiceLineItemService) New(ctx context.Context, body InvoiceLineItemNe
 	opts = slices.Concat(r.Options, opts)
 	path := "invoice_line_items"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type InvoiceLineItemNewResponse struct {

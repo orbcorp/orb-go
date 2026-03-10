@@ -67,7 +67,7 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/credits", customerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -116,7 +116,7 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits", externalCustomerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

@@ -129,7 +129,7 @@ func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID strin
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/credits/ledger", customerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -354,11 +354,11 @@ func (r *CustomerCreditLedgerService) NewEntry(ctx context.Context, customerID s
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/credits/ledger_entry", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to create a new ledger entry for a specified customer's
@@ -488,11 +488,11 @@ func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, 
 	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/ledger_entry", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // The credits ledger provides _auditing_ functionality over Orb's credits system
@@ -580,7 +580,7 @@ func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, exte
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/ledger", externalCustomerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

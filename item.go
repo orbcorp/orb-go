@@ -47,7 +47,7 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 	opts = slices.Concat(r.Options, opts)
 	path := "items"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update properties on the Item.
@@ -55,11 +55,11 @@ func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdate
 	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("items/%s", itemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all Items, ordered in descending order by
@@ -92,11 +92,11 @@ func (r *ItemService) Archive(ctx context.Context, itemID string, opts ...option
 	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("items/%s/archive", itemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns an item identified by its item_id.
@@ -104,11 +104,11 @@ func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.R
 	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("items/%s", itemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // The Item resource represents a sellable product or good. Items are associated

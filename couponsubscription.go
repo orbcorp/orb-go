@@ -52,7 +52,7 @@ func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, q
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("coupons/%s/subscriptions", couponID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

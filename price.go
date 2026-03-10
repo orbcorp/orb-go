@@ -78,7 +78,7 @@ func (r *PriceService) New(ctx context.Context, body PriceNewParams, opts ...opt
 	opts = slices.Concat(r.Options, opts)
 	path := "prices"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint allows you to update the `metadata` property on a price. If you
@@ -88,11 +88,11 @@ func (r *PriceService) Update(ctx context.Context, priceID string, body PriceUpd
 	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("prices/%s", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to list all add-on prices created using the
@@ -149,11 +149,11 @@ func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceE
 	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("prices/%s/evaluate", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to evaluate the output of price(s) for a given customer
@@ -189,7 +189,7 @@ func (r *PriceService) EvaluateMultiple(ctx context.Context, body PriceEvaluateM
 	opts = slices.Concat(r.Options, opts)
 	path := "prices/evaluate"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint evaluates prices on preview events instead of actual usage, making
@@ -214,7 +214,7 @@ func (r *PriceService) EvaluatePreviewEvents(ctx context.Context, body PriceEval
 	opts = slices.Concat(r.Options, opts)
 	path := "prices/evaluate_preview_events"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a price given an identifier.
@@ -222,11 +222,11 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("prices/%s", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type EvaluatePriceGroup struct {

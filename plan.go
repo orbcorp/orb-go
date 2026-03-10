@@ -63,7 +63,7 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 	opts = slices.Concat(r.Options, opts)
 	path := "plans"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update the `external_plan_id`, and `metadata` of an
@@ -74,11 +74,11 @@ func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdate
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all [plans](/core-concepts#plan-and-price) for
@@ -133,11 +133,11 @@ func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.R
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("plans/%s", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be

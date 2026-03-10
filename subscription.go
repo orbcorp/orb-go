@@ -315,7 +315,7 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 	opts = slices.Concat(r.Options, opts)
 	path := "subscriptions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update the `metadata`, `net terms`,
@@ -325,11 +325,11 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all subscriptions for an account as a
@@ -440,11 +440,11 @@ func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string,
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/cancel", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a [Subscription](/core-concepts##subscription)
@@ -453,11 +453,11 @@ func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, 
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a day-by-day snapshot of a subscription's costs
@@ -474,11 +474,11 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/costs", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a [paginated](/api-reference/pagination) list of all plans
@@ -491,7 +491,7 @@ func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID 
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/schedule", subscriptionID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -716,11 +716,11 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/usage", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to add and edit subscription
@@ -799,11 +799,11 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/price_intervals", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Redeem a coupon effective at a given time.
@@ -811,11 +811,11 @@ func (r *SubscriptionService) RedeemCoupon(ctx context.Context, subscriptionID s
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/redeem_coupon", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to change an existing subscription's plan. It returns
@@ -1005,11 +1005,11 @@ func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscripti
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/schedule_plan_change", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Manually trigger a phase, effective the given date (or the current time, if not
@@ -1018,11 +1018,11 @@ func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID s
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/trigger_phase", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to unschedule any pending cancellations for a
@@ -1035,11 +1035,11 @@ func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscr
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_cancellation", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to clear scheduled updates to the quantity for a fixed
@@ -1051,11 +1051,11 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_fixed_fee_quantity_updates", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to unschedule any pending plan changes on an existing
@@ -1064,11 +1064,11 @@ func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, 
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_pending_plan_changes", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update the quantity for a fixed fee.
@@ -1089,11 +1089,11 @@ func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscr
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/update_fixed_fee_quantity", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to update the trial end date for a subscription. The new
@@ -1118,11 +1118,11 @@ func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID st
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("subscriptions/%s/update_trial", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type DiscountOverrideParam struct {

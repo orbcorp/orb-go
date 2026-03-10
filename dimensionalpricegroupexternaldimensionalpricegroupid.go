@@ -41,11 +41,11 @@ func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx co
 	opts = slices.Concat(r.Options, opts)
 	if externalDimensionalPriceGroupID == "" {
 		err = errors.New("missing required external_dimensional_price_group_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("dimensional_price_groups/external_dimensional_price_group_id/%s", externalDimensionalPriceGroupID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint can be used to update the `external_dimensional_price_group_id`
@@ -55,11 +55,11 @@ func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Update(ctx
 	opts = slices.Concat(r.Options, opts)
 	if externalDimensionalPriceGroupID == "" {
 		err = errors.New("missing required external_dimensional_price_group_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("dimensional_price_groups/external_dimensional_price_group_id/%s", externalDimensionalPriceGroupID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type DimensionalPriceGroupExternalDimensionalPriceGroupIDUpdateParams struct {

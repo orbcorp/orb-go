@@ -46,11 +46,11 @@ func (r *LicenseExternalLicenseService) GetUsage(ctx context.Context, externalLi
 	opts = slices.Concat(r.Options, opts)
 	if externalLicenseID == "" {
 		err = errors.New("missing required external_license_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("licenses/external_licenses/%s/usage", externalLicenseID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type LicenseExternalLicenseGetUsageResponse struct {

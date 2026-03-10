@@ -178,11 +178,11 @@ func (r *CustomerCostService) List(ctx context.Context, customerID string, query
 	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/%s/costs", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a day-by-day snapshot of a customer's costs in
@@ -306,11 +306,11 @@ func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCust
 	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/costs", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type CustomerCostListResponse struct {

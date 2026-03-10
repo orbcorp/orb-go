@@ -51,7 +51,7 @@ func (r *LicenseService) New(ctx context.Context, body LicenseNewParams, opts ..
 	opts = slices.Concat(r.Options, opts)
 	path := "licenses"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a license given an identifier.
@@ -59,11 +59,11 @@ func (r *LicenseService) Get(ctx context.Context, licenseID string, opts ...opti
 	opts = slices.Concat(r.Options, opts)
 	if licenseID == "" {
 		err = errors.New("missing required license_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("licenses/%s", licenseID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all licenses for a subscription.
@@ -98,11 +98,11 @@ func (r *LicenseService) Deactivate(ctx context.Context, licenseID string, body 
 	opts = slices.Concat(r.Options, opts)
 	if licenseID == "" {
 		err = errors.New("missing required license_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("licenses/%s/deactivate", licenseID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a license given an external license identifier.
@@ -110,11 +110,11 @@ func (r *LicenseService) GetByExternalID(ctx context.Context, externalLicenseID 
 	opts = slices.Concat(r.Options, opts)
 	if externalLicenseID == "" {
 		err = errors.New("missing required external_license_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("licenses/external_license_id/%s", externalLicenseID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type LicenseNewResponse struct {

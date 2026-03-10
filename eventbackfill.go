@@ -86,7 +86,7 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 	opts = slices.Concat(r.Options, opts)
 	path := "events/backfills"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint returns a list of all backfills in a list format.
@@ -132,11 +132,11 @@ func (r *EventBackfillService) Close(ctx context.Context, backfillID string, opt
 	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("events/backfills/%s/close", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // This endpoint is used to fetch a backfill given an identifier.
@@ -144,11 +144,11 @@ func (r *EventBackfillService) Fetch(ctx context.Context, backfillID string, opt
 	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("events/backfills/%s", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Reverting a backfill undoes all the effects of closing the backfill. If the
@@ -162,11 +162,11 @@ func (r *EventBackfillService) Revert(ctx context.Context, backfillID string, op
 	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("events/backfills/%s/revert", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // A backfill represents an update to historical usage data, adding or replacing
