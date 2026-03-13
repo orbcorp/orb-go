@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.64.0 (2026-03-13)
+
+Full Changelog: [v1.63.1...v1.64.0](https://github.com/orbcorp/orb-go/compare/v1.63.1...v1.64.0)
+
+### Features
+
+* **api:** api update ([5e4df75](https://github.com/orbcorp/orb-go/commit/5e4df754c94e8c1ac4c30794d80c3302e3d767c9))
+* **api:** api update ([16c4395](https://github.com/orbcorp/orb-go/commit/16c43955776fe324d3fb9317a1a5253a8b226787))
+* **api:** api update ([b5f8010](https://github.com/orbcorp/orb-go/commit/b5f801014f247b5b9ad715981386e1ec68610a85))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([9767303](https://github.com/orbcorp/orb-go/commit/976730334711287c2a12e52a0d60bb5c6039baf0))
+* **internal:** minor cleanup ([8b3ac6d](https://github.com/orbcorp/orb-go/commit/8b3ac6d7179cd4bed76ad1cdedb33e2692d709cc))
+* **internal:** use explicit returns ([15518dc](https://github.com/orbcorp/orb-go/commit/15518dcda5f6df8ef69b5b34e00fec7eaffcccd1))
+* **internal:** use explicit returns in more places ([8f6cb2e](https://github.com/orbcorp/orb-go/commit/8f6cb2ec193f4155cd9cfc8db4a4b61e35289f05))
+* **test:** do not count install time for mock server timeout ([9150330](https://github.com/orbcorp/orb-go/commit/9150330fbb06f2c475c38e3ef94725b0d2d864e5))
+* **tests:** update mock server to steady ([4e23605](https://github.com/orbcorp/orb-go/commit/4e236050c8f958a01250df5fc0619ac5d10edf3c))
+
 ## 1.63.1 (2026-03-05)
 
 Full Changelog: [v1.63.0...v1.63.1](https://github.com/orbcorp/orb-go/compare/v1.63.0...v1.63.1)
