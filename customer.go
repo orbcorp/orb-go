@@ -695,6 +695,10 @@ func (r customerPaymentConfigurationJSON) RawJSON() string {
 type CustomerPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
 	ProviderType CustomerPaymentConfigurationPaymentProvidersProviderType `json:"provider_type" api:"required"`
+	// The ID of a shared payment token granted by an agent to use as the default
+	// payment instrument for this customer. When set, auto-collection will use this
+	// token instead of the customer's default payment method.
+	DefaultSharedPaymentToken string `json:"default_shared_payment_token" api:"nullable"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -708,6 +712,7 @@ type CustomerPaymentConfigurationPaymentProvider struct {
 // the struct [CustomerPaymentConfigurationPaymentProvider]
 type customerPaymentConfigurationPaymentProviderJSON struct {
 	ProviderType               apijson.Field
+	DefaultSharedPaymentToken  apijson.Field
 	ExcludedPaymentMethodTypes apijson.Field
 	raw                        string
 	ExtraFields                map[string]apijson.Field
@@ -1106,6 +1111,10 @@ func (r CustomerNewParamsPaymentConfiguration) MarshalJSON() (data []byte, err e
 type CustomerNewParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
 	ProviderType param.Field[CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
+	// The ID of a shared payment token granted by an agent to use as the default
+	// payment instrument for this customer. When set, auto-collection will use this
+	// token instead of the customer's default payment method.
+	DefaultSharedPaymentToken param.Field[string] `json:"default_shared_payment_token"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -1507,6 +1516,10 @@ func (r CustomerUpdateParamsPaymentConfiguration) MarshalJSON() (data []byte, er
 type CustomerUpdateParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
 	ProviderType param.Field[CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
+	// The ID of a shared payment token granted by an agent to use as the default
+	// payment instrument for this customer. When set, auto-collection will use this
+	// token instead of the customer's default payment method.
+	DefaultSharedPaymentToken param.Field[string] `json:"default_shared_payment_token"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
@@ -1932,6 +1945,10 @@ func (r CustomerUpdateByExternalIDParamsPaymentConfiguration) MarshalJSON() (dat
 type CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider struct {
 	// The payment provider to configure.
 	ProviderType param.Field[CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type" api:"required"`
+	// The ID of a shared payment token granted by an agent to use as the default
+	// payment instrument for this customer. When set, auto-collection will use this
+	// token instead of the customer's default payment method.
+	DefaultSharedPaymentToken param.Field[string] `json:"default_shared_payment_token"`
 	// List of Stripe payment method types to exclude for this customer. Excluded
 	// payment methods will not be available for the customer to select during payment,
 	// and will not be used for auto-collection. If a customer's default payment method
