@@ -361,7 +361,13 @@ func TestInvoicePay(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Pay(context.TODO(), "invoice_id")
+	_, err := client.Invoices.Pay(
+		context.TODO(),
+		"invoice_id",
+		orb.InvoicePayParams{
+			SharedPaymentTokenID: orb.F("shared_payment_token_id"),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

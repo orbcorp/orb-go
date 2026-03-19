@@ -268,16 +268,18 @@ func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body In
 	return res, err
 }
 
-// This endpoint collects payment for an invoice using the customer's default
-// payment method. This action can only be taken on invoices with status "issued".
-func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
+// This endpoint collects payment for an invoice. By default, it uses the
+// customer's default payment method. Optionally, a shared payment token (SPT) can
+// be provided to pay using agent-granted credentials instead. This action can only
+// be taken on invoices with status "issued".
+func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, body InvoicePayParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s/pay", invoiceID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
 }
 
@@ -2523,5 +2525,14 @@ type InvoiceMarkPaidParams struct {
 }
 
 func (r InvoiceMarkPaidParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type InvoicePayParams struct {
+	// The ID of a shared payment token granted by an agent to use for this payment.
+	SharedPaymentTokenID param.Field[string] `json:"shared_payment_token_id" api:"required"`
+}
+
+func (r InvoicePayParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
