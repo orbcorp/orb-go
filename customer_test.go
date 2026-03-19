@@ -61,6 +61,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		PaymentConfiguration: orb.F(orb.CustomerNewParamsPaymentConfiguration{
 			PaymentProviders: orb.F([]orb.CustomerNewParamsPaymentConfigurationPaymentProvider{{
 				ProviderType:               orb.F(orb.CustomerNewParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+				DefaultSharedPaymentToken:  orb.F("default_shared_payment_token"),
 				ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
 			}}),
 		}),
@@ -148,6 +149,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			PaymentConfiguration: orb.F(orb.CustomerUpdateParamsPaymentConfiguration{
 				PaymentProviders: orb.F([]orb.CustomerUpdateParamsPaymentConfigurationPaymentProvider{{
 					ProviderType:               orb.F(orb.CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+					DefaultSharedPaymentToken:  orb.F("default_shared_payment_token"),
 					ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
 				}}),
 			}),
@@ -374,6 +376,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			PaymentConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsPaymentConfiguration{
 				PaymentProviders: orb.F([]orb.CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider{{
 					ProviderType:               orb.F(orb.CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+					DefaultSharedPaymentToken:  orb.F("default_shared_payment_token"),
 					ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
 				}}),
 			}),
