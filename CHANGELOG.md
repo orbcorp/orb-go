@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.65.1 (2026-03-20)
+
+Full Changelog: [v1.65.0...v1.65.1](https://github.com/orbcorp/orb-go/compare/v1.65.0...v1.65.1)
+
+### Chores
+
+* **tests:** bump steady to v0.19.4 ([3401605](https://github.com/orbcorp/orb-go/commit/3401605dc69bd690fcb9f1532c12947ee54c79ab))
+* **tests:** bump steady to v0.19.5 ([47fa0b7](https://github.com/orbcorp/orb-go/commit/47fa0b7ff2757effbfdfa2bf38a490fe342df5db))
+
 ## 1.65.0 (2026-03-19)
 
 Full Changelog: [v1.64.0...v1.65.0](https://github.com/orbcorp/orb-go/compare/v1.64.0...v1.65.0)
