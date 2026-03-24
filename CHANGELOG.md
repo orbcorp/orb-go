@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.66.0 (2026-03-24)
+
+Full Changelog: [v1.65.1...v1.66.0](https://github.com/orbcorp/orb-go/compare/v1.65.1...v1.66.0)
+
+### Features
+
+* **api:** api update ([fc2d142](https://github.com/orbcorp/orb-go/commit/fc2d14260c03a3106c8d2301c3d4a197f04b81b8))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([c546a31](https://github.com/orbcorp/orb-go/commit/c546a3170403e599556d677cc6eef94ee2d48012))
+* **tests:** bump steady to v0.19.7 ([979b9aa](https://github.com/orbcorp/orb-go/commit/979b9aab850bcc0bf9ac4296f5e69e61721a57cf))
+
 ## 1.65.1 (2026-03-24)
 
 Full Changelog: [v1.65.0...v1.65.1](https://github.com/orbcorp/orb-go/compare/v1.65.0...v1.65.1)
