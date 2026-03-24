@@ -94,6 +94,7 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillableMetricTiny">BillableMetricTiny</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillingCycleAnchorConfiguration">BillingCycleAnchorConfiguration</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillingCycleConfiguration">BillingCycleConfiguration</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillingCycleRelativeDate">BillingCycleRelativeDate</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkConfig">BulkConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkTier">BulkTier</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ChangedSubscriptionResources">ChangedSubscriptionResources</a>
