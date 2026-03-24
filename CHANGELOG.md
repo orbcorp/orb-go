@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.65.1 (2026-03-24)
+
+Full Changelog: [v1.65.0...v1.65.1](https://github.com/orbcorp/orb-go/compare/v1.65.0...v1.65.1)
+
+### Bug Fixes
+
+* **types:** generate shared enum types that are not referenced by other schemas ([2e87c6a](https://github.com/orbcorp/orb-go/commit/2e87c6a27c9f47645c4929fe1738e600559e0b54))
+
+
+### Chores
+
+* **internal:** update gitignore ([5f3b8e7](https://github.com/orbcorp/orb-go/commit/5f3b8e7951fa752ee60f9caaa867c54026db14a6))
+* **tests:** bump steady to v0.19.4 ([3401605](https://github.com/orbcorp/orb-go/commit/3401605dc69bd690fcb9f1532c12947ee54c79ab))
+* **tests:** bump steady to v0.19.5 ([47fa0b7](https://github.com/orbcorp/orb-go/commit/47fa0b7ff2757effbfdfa2bf38a490fe342df5db))
+* **tests:** bump steady to v0.19.6 ([7b6a7f8](https://github.com/orbcorp/orb-go/commit/7b6a7f8ec9871985fee5ef9ce3ea62e6a0880d3d))
+
 ## 1.65.0 (2026-03-19)
 
 Full Changelog: [v1.64.0...v1.65.0](https://github.com/orbcorp/orb-go/compare/v1.64.0...v1.65.0)
