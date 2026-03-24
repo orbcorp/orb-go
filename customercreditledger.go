@@ -955,12 +955,16 @@ type DecrementLedgerEntry struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string        `json:"metadata" api:"required"`
-	StartingBalance float64                  `json:"starting_balance" api:"required"`
-	EventID         string                   `json:"event_id" api:"nullable"`
-	InvoiceID       string                   `json:"invoice_id" api:"nullable"`
-	PriceID         string                   `json:"price_id" api:"nullable"`
-	JSON            decrementLedgerEntryJSON `json:"-"`
+	Metadata        map[string]string `json:"metadata" api:"required"`
+	StartingBalance float64           `json:"starting_balance" api:"required"`
+	// This field is deprecated and will always be null. Decrements are not associated
+	// with individual events.
+	//
+	// Deprecated: deprecated
+	EventID   string                   `json:"event_id" api:"nullable"`
+	InvoiceID string                   `json:"invoice_id" api:"nullable"`
+	PriceID   string                   `json:"price_id" api:"nullable"`
+	JSON      decrementLedgerEntryJSON `json:"-"`
 }
 
 // decrementLedgerEntryJSON contains the JSON metadata for the struct
@@ -1407,7 +1411,11 @@ type CustomerCreditLedgerListResponse struct {
 	Metadata        interface{} `json:"metadata" api:"required"`
 	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
-	CreatedInvoices    interface{}                          `json:"created_invoices"`
+	CreatedInvoices interface{} `json:"created_invoices"`
+	// This field is deprecated and will always be null. Decrements are not associated
+	// with individual events.
+	//
+	// Deprecated: deprecated
 	EventID            string                               `json:"event_id" api:"nullable"`
 	InvoiceID          string                               `json:"invoice_id" api:"nullable"`
 	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
@@ -1574,7 +1582,11 @@ type CustomerCreditLedgerNewEntryResponse struct {
 	Metadata        interface{} `json:"metadata" api:"required"`
 	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
-	CreatedInvoices    interface{}                              `json:"created_invoices"`
+	CreatedInvoices interface{} `json:"created_invoices"`
+	// This field is deprecated and will always be null. Decrements are not associated
+	// with individual events.
+	//
+	// Deprecated: deprecated
 	EventID            string                                   `json:"event_id" api:"nullable"`
 	InvoiceID          string                                   `json:"invoice_id" api:"nullable"`
 	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
@@ -1741,7 +1753,11 @@ type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
 	Metadata        interface{} `json:"metadata" api:"required"`
 	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
-	CreatedInvoices    interface{}                                          `json:"created_invoices"`
+	CreatedInvoices interface{} `json:"created_invoices"`
+	// This field is deprecated and will always be null. Decrements are not associated
+	// with individual events.
+	//
+	// Deprecated: deprecated
 	EventID            string                                               `json:"event_id" api:"nullable"`
 	InvoiceID          string                                               `json:"invoice_id" api:"nullable"`
 	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
@@ -1908,7 +1924,11 @@ type CustomerCreditLedgerListByExternalIDResponse struct {
 	Metadata        interface{} `json:"metadata" api:"required"`
 	StartingBalance float64     `json:"starting_balance" api:"required"`
 	// This field can have the runtime type of [[]shared.Invoice].
-	CreatedInvoices    interface{}                                      `json:"created_invoices"`
+	CreatedInvoices interface{} `json:"created_invoices"`
+	// This field is deprecated and will always be null. Decrements are not associated
+	// with individual events.
+	//
+	// Deprecated: deprecated
 	EventID            string                                           `json:"event_id" api:"nullable"`
 	InvoiceID          string                                           `json:"invoice_id" api:"nullable"`
 	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date" api:"nullable" format:"date-time"`
