@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.66.1 (2026-03-26)
+
+Full Changelog: [v1.66.0...v1.66.1](https://github.com/orbcorp/orb-go/compare/v1.66.0...v1.66.1)
+
+### Bug Fixes
+
+* prevent duplicate ? in query params ([e62f5c2](https://github.com/orbcorp/orb-go/commit/e62f5c259dda5f015c734b0b9c1632f4c314c2b6))
+
 ## 1.66.0 (2026-03-24)
 
 Full Changelog: [v1.65.1...v1.66.0](https://github.com/orbcorp/orb-go/compare/v1.65.1...v1.66.0)
