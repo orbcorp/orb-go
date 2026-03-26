@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.67.0 (2026-03-26)
+
+Full Changelog: [v1.66.1...v1.67.0](https://github.com/orbcorp/orb-go/compare/v1.66.1...v1.67.0)
+
+### Features
+
+* **internal:** support comma format in multipart form encoding ([e723809](https://github.com/orbcorp/orb-go/commit/e723809f73c1b956bdeaf98c6c945b38941961b8))
+
+
+### Chores
+
+* remove unnecessary error check for url parsing ([51e79b3](https://github.com/orbcorp/orb-go/commit/51e79b36de66788a15bbc88cb1b9b245ff5d3978))
+
 ## 1.66.1 (2026-03-26)
 
 Full Changelog: [v1.66.0...v1.66.1](https://github.com/orbcorp/orb-go/compare/v1.66.0...v1.66.1)
