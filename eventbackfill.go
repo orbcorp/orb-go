@@ -47,8 +47,8 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // 3 steps:
 //
 //  1. Create the backfill, specifying its parameters.
-//  2. [Ingest](ingest) usage events, referencing the backfill (query parameter
-//     `backfill_id`).
+//  2. [Ingest](/api-reference/event/ingest-events) usage events, referencing the
+//     backfill (query parameter `backfill_id`).
 //  3. [Close](close-backfill) the backfill, propagating the update in past usage
 //     throughout Orb.
 //
@@ -94,8 +94,7 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 // The list of backfills is ordered starting from the most recently created
 // backfill. The response also includes
 // [`pagination_metadata`](/api-reference/pagination), which lets the caller
-// retrieve the next page of results if they exist. More information about
-// pagination can be found in the [Pagination-metadata schema](pagination).
+// retrieve the next page of results if they exist.
 func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *pagination.Page[EventBackfillListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -118,8 +117,7 @@ func (r *EventBackfillService) List(ctx context.Context, query EventBackfillList
 // The list of backfills is ordered starting from the most recently created
 // backfill. The response also includes
 // [`pagination_metadata`](/api-reference/pagination), which lets the caller
-// retrieve the next page of results if they exist. More information about
-// pagination can be found in the [Pagination-metadata schema](pagination).
+// retrieve the next page of results if they exist.
 func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) *pagination.PageAutoPager[EventBackfillListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
