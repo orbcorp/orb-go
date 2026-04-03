@@ -67,8 +67,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 //
 // The list of coupons is ordered starting from the most recently created coupon.
 // The response also includes `pagination_metadata`, which lets the caller retrieve
-// the next page of results if they exist. More information about pagination can be
-// found in the Pagination-metadata schema.
+// the next page of results if they exist.
 func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[Coupon], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -90,8 +89,7 @@ func (r *CouponService) List(ctx context.Context, query CouponListParams, opts .
 //
 // The list of coupons is ordered starting from the most recently created coupon.
 // The response also includes `pagination_metadata`, which lets the caller retrieve
-// the next page of results if they exist. More information about pagination can be
-// found in the Pagination-metadata schema.
+// the next page of results if they exist.
 func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Coupon] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
