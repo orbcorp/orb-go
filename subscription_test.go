@@ -509,7 +509,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 		"subscription_id",
 		orb.SubscriptionPriceIntervalsParams{
 			Add: orb.F([]orb.SubscriptionPriceIntervalsParamsAdd{{
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 				AllocationPrice: orb.F(shared.NewAllocationPriceParam{
 					Amount:   orb.F("10.00"),
 					Cadence:  orb.F(shared.NewAllocationPriceCadenceMonthly),
@@ -533,7 +533,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					AmountDiscount: orb.F(0.000000),
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 				}}),
-				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
+				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 				ExternalPriceID: orb.F("external_price_id"),
 				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
@@ -589,7 +589,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
 			AddAdjustments: orb.F([]orb.SubscriptionPriceIntervalsParamsAddAdjustment{{
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion](shared.UnionTime(time.Now())),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 				Adjustment: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion](shared.NewPercentageDiscountParam{
 					AdjustmentType:     orb.F(shared.NewPercentageDiscountAdjustmentTypePercentageDiscount),
 					PercentageDiscount: orb.F(0.000000),
@@ -606,7 +606,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					PriceType:      orb.F(shared.NewPercentageDiscountPriceTypeUsage),
 				}),
 				AdjustmentID: orb.F("h74gfhdjvn7ujokd"),
-				EndDate:      orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
+				EndDate:      orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 			}}),
 			AllowInvoiceCreditOrVoid: orb.F(true),
 			CanDeferBilling:          orb.F(true),
@@ -614,7 +614,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
 				BillingCycleDay: orb.F(int64(0)),
 				CanDeferBilling: orb.F(true),
-				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
+				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					EffectiveDate: orb.F(time.Now()),
@@ -623,13 +623,13 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				MetricParameterOverrides: orb.F(map[string]interface{}{
 					"foo": "bar",
 				}),
-				StartDate:        orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				StartDate:        orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
 			EditAdjustments: orb.F([]orb.SubscriptionPriceIntervalsParamsEditAdjustment{{
 				AdjustmentIntervalID: orb.F("sdfs6wdjvn7ujokd"),
-				EndDate:              orb.F[orb.SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
-				StartDate:            orb.F[orb.SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:              orb.F[orb.SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
+				StartDate:            orb.F[orb.SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion](shared.BillingCycleRelativeDate(shared.BillingCycleRelativeDateStartOfTerm)),
 			}}),
 		},
 	)
