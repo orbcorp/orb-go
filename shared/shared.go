@@ -15062,6 +15062,7 @@ type Price struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -15219,6 +15220,7 @@ type priceJSON struct {
 	Discount                              apijson.Field
 	ExternalPriceID                       apijson.Field
 	FixedPriceQuantity                    apijson.Field
+	InvoiceGroupingKey                    apijson.Field
 	InvoicingCycleConfiguration           apijson.Field
 	Item                                  apijson.Field
 	Maximum                               apijson.Field
@@ -15511,6 +15513,7 @@ type PriceUnitPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -15562,6 +15565,7 @@ type priceUnitPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -15844,6 +15848,7 @@ type PriceTieredPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -15896,6 +15901,7 @@ type priceTieredPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -16180,6 +16186,7 @@ type PriceBulkPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -16230,6 +16237,7 @@ type priceBulkPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -16513,6 +16521,7 @@ type PriceBulkWithFiltersPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -16564,6 +16573,7 @@ type priceBulkWithFiltersPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -16923,6 +16933,7 @@ type PricePackagePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -16975,6 +16986,7 @@ type pricePackagePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -17257,6 +17269,7 @@ type PriceMatrixPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -17309,6 +17322,7 @@ type priceMatrixPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	MatrixConfig                  apijson.Field
@@ -17591,6 +17605,7 @@ type PriceThresholdTotalAmountPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -17643,6 +17658,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -17979,6 +17995,7 @@ type PriceTieredPackagePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -18031,6 +18048,7 @@ type priceTieredPackagePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -18366,6 +18384,7 @@ type PriceTieredWithMinimumPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -18418,6 +18437,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -18759,6 +18779,7 @@ type PriceGroupedTieredPrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_tiered pricing
 	GroupedTieredConfig         PriceGroupedTieredPriceGroupedTieredConfig `json:"grouped_tiered_config" api:"required"`
+	InvoiceGroupingKey          string                                     `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                  `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -18810,6 +18831,7 @@ type priceGroupedTieredPriceJSON struct {
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
 	GroupedTieredConfig           apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -19143,6 +19165,7 @@ type PriceTieredPackageWithMinimumPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -19195,6 +19218,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	Discount                       apijson.Field
 	ExternalPriceID                apijson.Field
 	FixedPriceQuantity             apijson.Field
+	InvoiceGroupingKey             apijson.Field
 	InvoicingCycleConfiguration    apijson.Field
 	Item                           apijson.Field
 	Maximum                        apijson.Field
@@ -19531,6 +19555,7 @@ type PricePackageWithAllocationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -19583,6 +19608,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -19892,6 +19918,7 @@ type PriceUnitWithPercentPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -19944,6 +19971,7 @@ type priceUnitWithPercentPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -20252,6 +20280,7 @@ type PriceMatrixWithAllocationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -20304,6 +20333,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	MatrixWithAllocationConfig    apijson.Field
@@ -20586,6 +20616,7 @@ type PriceTieredWithProrationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -20638,6 +20669,7 @@ type priceTieredWithProrationPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -20971,6 +21003,7 @@ type PriceUnitWithProrationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -21023,6 +21056,7 @@ type priceUnitWithProrationPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -21330,6 +21364,7 @@ type PriceGroupedAllocationPrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_allocation pricing
 	GroupedAllocationConfig     PriceGroupedAllocationPriceGroupedAllocationConfig `json:"grouped_allocation_config" api:"required"`
+	InvoiceGroupingKey          string                                             `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                          `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -21381,6 +21416,7 @@ type priceGroupedAllocationPriceJSON struct {
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
 	GroupedAllocationConfig       apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -21693,6 +21729,7 @@ type PriceBulkWithProrationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -21744,6 +21781,7 @@ type priceBulkWithProrationPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -22076,6 +22114,7 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_prorated_minimum pricing
 	GroupedWithProratedMinimumConfig PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig `json:"grouped_with_prorated_minimum_config" api:"required"`
+	InvoiceGroupingKey               string                                                               `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration      BillingCycleConfiguration                                            `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -22127,6 +22166,7 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	ExternalPriceID                  apijson.Field
 	FixedPriceQuantity               apijson.Field
 	GroupedWithProratedMinimumConfig apijson.Field
+	InvoiceGroupingKey               apijson.Field
 	InvoicingCycleConfiguration      apijson.Field
 	Item                             apijson.Field
 	Maximum                          apijson.Field
@@ -22443,6 +22483,7 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_metered_minimum pricing
 	GroupedWithMeteredMinimumConfig PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig `json:"grouped_with_metered_minimum_config" api:"required"`
+	InvoiceGroupingKey              string                                                             `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration     BillingCycleConfiguration                                          `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -22494,6 +22535,7 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	ExternalPriceID                 apijson.Field
 	FixedPriceQuantity              apijson.Field
 	GroupedWithMeteredMinimumConfig apijson.Field
+	InvoiceGroupingKey              apijson.Field
 	InvoicingCycleConfiguration     apijson.Field
 	Item                            apijson.Field
 	Maximum                         apijson.Field
@@ -22871,6 +22913,7 @@ type PriceGroupedWithMinMaxThresholdsPrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_with_min_max_thresholds pricing
 	GroupedWithMinMaxThresholdsConfig PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig `json:"grouped_with_min_max_thresholds_config" api:"required"`
+	InvoiceGroupingKey                string                                                                 `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration       BillingCycleConfiguration                                              `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -22922,6 +22965,7 @@ type priceGroupedWithMinMaxThresholdsPriceJSON struct {
 	ExternalPriceID                   apijson.Field
 	FixedPriceQuantity                apijson.Field
 	GroupedWithMinMaxThresholdsConfig apijson.Field
+	InvoiceGroupingKey                apijson.Field
 	InvoicingCycleConfiguration       apijson.Field
 	Item                              apijson.Field
 	Maximum                           apijson.Field
@@ -23239,6 +23283,7 @@ type PriceMatrixWithDisplayNamePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -23291,6 +23336,7 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	MatrixWithDisplayNameConfig   apijson.Field
@@ -23632,6 +23678,7 @@ type PriceGroupedTieredPackagePrice struct {
 	FixedPriceQuantity float64  `json:"fixed_price_quantity" api:"required,nullable"`
 	// Configuration for grouped_tiered_package pricing
 	GroupedTieredPackageConfig  PriceGroupedTieredPackagePriceGroupedTieredPackageConfig `json:"grouped_tiered_package_config" api:"required"`
+	InvoiceGroupingKey          string                                                   `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                                `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -23683,6 +23730,7 @@ type priceGroupedTieredPackagePriceJSON struct {
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
 	GroupedTieredPackageConfig    apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -24020,6 +24068,7 @@ type PriceMaxGroupTieredPackagePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -24072,6 +24121,7 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	MaxGroupTieredPackageConfig   apijson.Field
@@ -24409,6 +24459,7 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -24461,6 +24512,7 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	Discount                            apijson.Field
 	ExternalPriceID                     apijson.Field
 	FixedPriceQuantity                  apijson.Field
+	InvoiceGroupingKey                  apijson.Field
 	InvoicingCycleConfiguration         apijson.Field
 	Item                                apijson.Field
 	Maximum                             apijson.Field
@@ -24812,6 +24864,7 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -24864,6 +24917,7 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	Discount                              apijson.Field
 	ExternalPriceID                       apijson.Field
 	FixedPriceQuantity                    apijson.Field
+	InvoiceGroupingKey                    apijson.Field
 	InvoicingCycleConfiguration           apijson.Field
 	Item                                  apijson.Field
 	Maximum                               apijson.Field
@@ -25235,6 +25289,7 @@ type PriceCumulativeGroupedBulkPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -25286,6 +25341,7 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -25625,6 +25681,7 @@ type PriceCumulativeGroupedAllocationPrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -25676,6 +25733,7 @@ type priceCumulativeGroupedAllocationPriceJSON struct {
 	Discount                          apijson.Field
 	ExternalPriceID                   apijson.Field
 	FixedPriceQuantity                apijson.Field
+	InvoiceGroupingKey                apijson.Field
 	InvoicingCycleConfiguration       apijson.Field
 	Item                              apijson.Field
 	Maximum                           apijson.Field
@@ -25993,6 +26051,7 @@ type PriceMinimumCompositePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -26045,6 +26104,7 @@ type priceMinimumCompositePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -26353,6 +26413,7 @@ type PricePercentCompositePrice struct {
 	Discount                    Discount                  `json:"discount" api:"required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -26405,6 +26466,7 @@ type pricePercentCompositePriceJSON struct {
 	Discount                      apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
@@ -26712,6 +26774,7 @@ type PriceEventOutputPrice struct {
 	EventOutputConfig           PriceEventOutputPriceEventOutputConfig `json:"event_output_config" api:"required"`
 	ExternalPriceID             string                                 `json:"external_price_id" api:"required,nullable"`
 	FixedPriceQuantity          float64                                `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                                 `json:"invoice_grouping_key" api:"required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration              `json:"invoicing_cycle_configuration" api:"required,nullable"`
 	// A minimal representation of an Item containing only the essential identifying
 	// information.
@@ -26763,6 +26826,7 @@ type priceEventOutputPriceJSON struct {
 	EventOutputConfig             apijson.Field
 	ExternalPriceID               apijson.Field
 	FixedPriceQuantity            apijson.Field
+	InvoiceGroupingKey            apijson.Field
 	InvoicingCycleConfiguration   apijson.Field
 	Item                          apijson.Field
 	Maximum                       apijson.Field
