@@ -79,14 +79,17 @@ func (r *CreditBlockService) Delete(ctx context.Context, blockID string, opts ..
 
 // This endpoint returns the credit block and its associated purchasing invoices.
 //
-// If a credit block was purchased (as opposed to being manually added or allocated
-// from a subscription), this endpoint returns the invoices that were created to
-// charge the customer for the credit block. For credit blocks with payment
-// schedules spanning multiple periods (e.g., monthly payments over 12 months),
-// multiple invoices will be returned.
+// If a credit block was purchased (as opposed to being manually added), this
+// endpoint returns the invoices that were created to charge the customer for the
+// credit block. For credit blocks with payment schedules spanning multiple periods
+// (e.g., monthly payments over 12 months), multiple invoices will be returned.
 //
-// If the credit block was not purchased (e.g., manual increment, allocation), an
-// empty invoices list is returned.
+// For credit blocks created by subscription allocation prices, this endpoint
+// returns the subscription invoice containing the allocation line item that
+// created the block.
+//
+// If the credit block was not purchased (e.g., manual increment), an empty
+// invoices list is returned.
 //
 // **Note: This endpoint is currently experimental and its interface may change in
 // future releases. Please contact support before building production integrations
