@@ -26,8 +26,8 @@ func TestLicenseTypeNew(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.LicenseTypes.New(context.TODO(), orb.LicenseTypeNewParams{
-		GroupingKey: orb.F("grouping_key"),
-		Name:        orb.F("name"),
+		GroupingKey: orb.F("x"),
+		Name:        orb.F("x"),
 	})
 	if err != nil {
 		var apierr *orb.Error
