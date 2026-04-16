@@ -66,8 +66,8 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 	return res, err
 }
 
-// This endpoint can be used to update the `external_plan_id`, and `metadata` of an
-// existing plan.
+// This endpoint can be used to update the `external_plan_id`, `description`, and
+// `metadata` of an existing plan.
 //
 // Other fields on a plan are currently immutable.
 func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
@@ -574,7 +574,9 @@ type PlanNewParams struct {
 	Adjustments param.Field[[]PlanNewParamsAdjustment] `json:"adjustments"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
-	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
+	// An optional user-defined description of the plan.
+	Description    param.Field[string] `json:"description"`
+	ExternalPlanID param.Field[string] `json:"external_plan_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -7035,6 +7037,8 @@ func (r PlanNewParamsStatus) IsKnown() bool {
 }
 
 type PlanUpdateParams struct {
+	// An optional user-defined description of the plan.
+	Description param.Field[string] `json:"description"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
