@@ -45,8 +45,11 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 					Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 					Values:   orb.F([]string{"string"}),
 				}}),
-				ItemID:           orb.F("item_id"),
-				LicenseTypeID:    orb.F("license_type_id"),
+				ItemID:        orb.F("item_id"),
+				LicenseTypeID: orb.F("license_type_id"),
+				Metadata: orb.F(map[string]string{
+					"foo": "string",
+				}),
 				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			LicenseAllocationPrice: orb.F[orb.PlanNewParamsPricesLicenseAllocationPriceUnion](orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
@@ -157,6 +160,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			PlanPhaseOrder: orb.F(int64(0)),
 		}}),
 		DefaultInvoiceMemo: orb.F("default_invoice_memo"),
+		Description:        orb.F("description"),
 		ExternalPlanID:     orb.F("external_plan_id"),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
@@ -195,6 +199,7 @@ func TestPlanUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"plan_id",
 		orb.PlanUpdateParams{
+			Description:    orb.F("description"),
 			ExternalPlanID: orb.F("external_plan_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",

@@ -39,8 +39,8 @@ func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternal
 	return
 }
 
-// This endpoint can be used to update the `external_plan_id`, and `metadata` of an
-// existing plan.
+// This endpoint can be used to update the `external_plan_id`, `description`, and
+// `metadata` of an existing plan.
 //
 // Other fields on a plan are currently immutable.
 func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
@@ -82,6 +82,8 @@ func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID st
 }
 
 type PlanExternalPlanIDUpdateParams struct {
+	// An optional user-defined description of the plan.
+	Description param.Field[string] `json:"description"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
