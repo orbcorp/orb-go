@@ -5395,6 +5395,10 @@ type NewAllocationPriceParam struct {
 	ItemID param.Field[string] `json:"item_id"`
 	// The license type ID to associate the price with license allocation.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The (per-unit) cost basis of each created block. If non-zero, a customer will be
 	// invoiced according to the quantity and per unit cost basis specified for the
 	// allocation each cadence.

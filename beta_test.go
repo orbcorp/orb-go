@@ -64,8 +64,11 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
-					ItemID:           orb.F("item_id"),
-					LicenseTypeID:    orb.F("license_type_id"),
+					ItemID:        orb.F("item_id"),
+					LicenseTypeID: orb.F("license_type_id"),
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				LicenseAllocationPrice: orb.F[orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion](orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
@@ -200,8 +203,11 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
-					ItemID:           orb.F("item_id"),
-					LicenseTypeID:    orb.F("license_type_id"),
+					ItemID:        orb.F("item_id"),
+					LicenseTypeID: orb.F("license_type_id"),
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				LicenseAllocationPrice: orb.F[orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion](orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
