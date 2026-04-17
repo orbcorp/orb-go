@@ -2329,9 +2329,9 @@ func (r CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestPa
 
 type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
-	// A future date (specified in YYYY-MM-DD format) used for expiration change,
-	// denoting when credits transferred (as part of a partial block expiration) should
-	// expire.
+	// A date (specified in YYYY-MM-DD format) used for expiration change, denoting
+	// when credits transferred (as part of a partial block expiration) should expire.
+	// This date must be on or after the effective date of the credit block.
 	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date" api:"required" format:"date"`
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
@@ -2668,9 +2668,9 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEn
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type" api:"required"`
-	// A future date (specified in YYYY-MM-DD format) used for expiration change,
-	// denoting when credits transferred (as part of a partial block expiration) should
-	// expire.
+	// A date (specified in YYYY-MM-DD format) used for expiration change, denoting
+	// when credits transferred (as part of a partial block expiration) should expire.
+	// This date must be on or after the effective date of the credit block.
 	TargetExpiryDate param.Field[time.Time] `json:"target_expiry_date" api:"required" format:"date"`
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
