@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.74.0 (2026-04-24)
+
+Full Changelog: [v1.73.0...v1.74.0](https://github.com/orbcorp/orb-go/compare/v1.73.0...v1.74.0)
+
+### Features
+
+* **go:** add default http client with timeout ([8cef593](https://github.com/orbcorp/orb-go/commit/8cef59345ae1403b5f53ee70acb43aa1820f119e))
+
 ## 1.73.0 (2026-04-24)
 
 Full Changelog: [v1.72.0...v1.73.0](https://github.com/orbcorp/orb-go/compare/v1.72.0...v1.73.0)
