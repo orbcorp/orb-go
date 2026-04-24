@@ -113,7 +113,7 @@ type Client struct {
 // DefaultClientOptions read from the environment (ORB_API_KEY, ORB_WEBHOOK_SECRET,
 // ORB_BASE_URL). This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithEnvironmentProduction()}
+	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentProduction()}
 	if o, ok := os.LookupEnv("ORB_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
