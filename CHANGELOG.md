@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.73.0 (2026-04-24)
+
+Full Changelog: [v1.72.0...v1.73.0](https://github.com/orbcorp/orb-go/compare/v1.72.0...v1.73.0)
+
+### Features
+
+* **api:** api update ([6b6c63a](https://github.com/orbcorp/orb-go/commit/6b6c63a8f8dd59c2d30fade90f35702d178ffbdf))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([42eb4a1](https://github.com/orbcorp/orb-go/commit/42eb4a10f0e1dcf2aa5769fe2f1618d513c461d1))
+
 ## 1.72.0 (2026-04-17)
 
 Full Changelog: [v1.71.0...v1.72.0](https://github.com/orbcorp/orb-go/compare/v1.71.0...v1.72.0)
