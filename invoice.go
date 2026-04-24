@@ -87,6 +87,10 @@ func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body Invo
 // When fetching any `draft` invoices, this returns the last-computed invoice
 // values for each draft invoice, which may not always be up-to-date since Orb
 // regularly refreshes invoices asynchronously.
+//
+// If you don't need line item details, minimums, maximums, or discounts, prefer
+// the [list invoices summary](/api-reference/invoice/list-invoices-summary)
+// endpoint for better performance.
 func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) (res *pagination.Page[shared.Invoice], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -117,6 +121,10 @@ func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts
 // When fetching any `draft` invoices, this returns the last-computed invoice
 // values for each draft invoice, which may not always be up-to-date since Orb
 // regularly refreshes invoices asynchronously.
+//
+// If you don't need line item details, minimums, maximums, or discounts, prefer
+// the [list invoices summary](/api-reference/invoice/list-invoices-summary)
+// endpoint for better performance.
 func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.Invoice] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
