@@ -52,15 +52,15 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 				}),
 				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
-			LicenseAllocationPrice: orb.F[orb.PlanNewParamsPricesLicenseAllocationPriceUnion](orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
-				Cadence: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual),
+			LicenseAllocationPrice: orb.F(orb.PlanNewParamsPricesLicenseAllocationPrice{
+				Cadence: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceCadenceAnnual),
 				ItemID:  orb.F("item_id"),
-				LicenseAllocations: orb.F([]orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation{{
+				LicenseAllocations: orb.F([]orb.PlanNewParamsPricesLicenseAllocationPriceLicenseAllocation{{
 					Amount:          orb.F("amount"),
 					Currency:        orb.F("currency"),
 					WriteOffOverage: orb.F(true),
 				}}),
-				ModelType: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit),
+				ModelType: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
 					UnitAmount: orb.F("unit_amount"),
@@ -73,7 +73,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[orb.PlanNewParamsPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[orb.PlanNewParamsPricesLicenseAllocationPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),

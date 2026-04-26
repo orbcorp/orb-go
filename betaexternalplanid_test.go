@@ -71,15 +71,15 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					}),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
-				LicenseAllocationPrice: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceUnion](orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
-					Cadence: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual),
+				LicenseAllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice{
+					Cadence: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceAnnual),
 					ItemID:  orb.F("item_id"),
-					LicenseAllocations: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation{{
+					LicenseAllocations: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceLicenseAllocation{{
 						Amount:          orb.F("amount"),
 						Currency:        orb.F("currency"),
 						WriteOffOverage: orb.F(true),
 					}}),
-					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit),
+					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
@@ -92,7 +92,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+					ConversionRateConfig: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
 						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 							UnitAmount: orb.F("unit_amount"),
@@ -210,15 +210,15 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					}),
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
-				LicenseAllocationPrice: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceUnion](orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPrice{
-					Cadence: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceCadenceAnnual),
+				LicenseAllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice{
+					Cadence: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceAnnual),
 					ItemID:  orb.F("item_id"),
-					LicenseAllocations: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceLicenseAllocation{{
+					LicenseAllocations: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceLicenseAllocation{{
 						Amount:          orb.F("amount"),
 						Currency:        orb.F("currency"),
 						WriteOffOverage: orb.F(true),
 					}}),
-					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceModelTypeUnit),
+					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
@@ -231,7 +231,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceNewLicenseAllocationUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+					ConversionRateConfig: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
 						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 							UnitAmount: orb.F("unit_amount"),
