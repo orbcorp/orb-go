@@ -5963,7 +5963,8 @@ type SubscriptionNewParamsAddPricesPrice struct {
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                   param.Field[string]      `json:"currency"`
+	DailyCreditAllowanceConfig param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -6049,6 +6050,7 @@ func (r SubscriptionNewParamsAddPricesPrice) implementsSubscriptionNewParamsAddP
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
 // [SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePrice],
 // [SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPrice],
@@ -6656,6 +6658,167 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAlloc
 	return false
 }
 
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                              `json:"unit_config"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig].
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -6989,6 +7152,7 @@ const (
 	SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionNewParamsAddPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk           SubscriptionNewParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
 	SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedAllocation     SubscriptionNewParamsAddPricesPriceModelType = "cumulative_grouped_allocation"
+	SubscriptionNewParamsAddPricesPriceModelTypeDailyCreditAllowance            SubscriptionNewParamsAddPricesPriceModelType = "daily_credit_allowance"
 	SubscriptionNewParamsAddPricesPriceModelTypeMinimumComposite                SubscriptionNewParamsAddPricesPriceModelType = "minimum_composite"
 	SubscriptionNewParamsAddPricesPriceModelTypePercent                         SubscriptionNewParamsAddPricesPriceModelType = "percent"
 	SubscriptionNewParamsAddPricesPriceModelTypeEventOutput                     SubscriptionNewParamsAddPricesPriceModelType = "event_output"
@@ -6996,7 +7160,7 @@ const (
 
 func (r SubscriptionNewParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceModelTypeUnit, SubscriptionNewParamsAddPricesPriceModelTypeTiered, SubscriptionNewParamsAddPricesPriceModelTypeBulk, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithFilters, SubscriptionNewParamsAddPricesPriceModelTypePackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrix, SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeMinimumComposite, SubscriptionNewParamsAddPricesPriceModelTypePercent, SubscriptionNewParamsAddPricesPriceModelTypeEventOutput:
+	case SubscriptionNewParamsAddPricesPriceModelTypeUnit, SubscriptionNewParamsAddPricesPriceModelTypeTiered, SubscriptionNewParamsAddPricesPriceModelTypeBulk, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithFilters, SubscriptionNewParamsAddPricesPriceModelTypePackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrix, SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeDailyCreditAllowance, SubscriptionNewParamsAddPricesPriceModelTypeMinimumComposite, SubscriptionNewParamsAddPricesPriceModelTypePercent, SubscriptionNewParamsAddPricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -7209,7 +7373,8 @@ type SubscriptionNewParamsReplacePricesPrice struct {
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                   param.Field[string]      `json:"currency"`
+	DailyCreditAllowanceConfig param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -7296,6 +7461,7 @@ func (r SubscriptionNewParamsReplacePricesPrice) implementsSubscriptionNewParams
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
 // [SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePrice],
 // [SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPrice],
@@ -7903,6 +8069,167 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedA
 	return false
 }
 
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                  `json:"unit_config"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig].
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -8236,6 +8563,7 @@ const (
 	SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionNewParamsReplacePricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           SubscriptionNewParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
 	SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation     SubscriptionNewParamsReplacePricesPriceModelType = "cumulative_grouped_allocation"
+	SubscriptionNewParamsReplacePricesPriceModelTypeDailyCreditAllowance            SubscriptionNewParamsReplacePricesPriceModelType = "daily_credit_allowance"
 	SubscriptionNewParamsReplacePricesPriceModelTypeMinimumComposite                SubscriptionNewParamsReplacePricesPriceModelType = "minimum_composite"
 	SubscriptionNewParamsReplacePricesPriceModelTypePercent                         SubscriptionNewParamsReplacePricesPriceModelType = "percent"
 	SubscriptionNewParamsReplacePricesPriceModelTypeEventOutput                     SubscriptionNewParamsReplacePricesPriceModelType = "event_output"
@@ -8243,7 +8571,7 @@ const (
 
 func (r SubscriptionNewParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceModelTypeUnit, SubscriptionNewParamsReplacePricesPriceModelTypeTiered, SubscriptionNewParamsReplacePricesPriceModelTypeBulk, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithFilters, SubscriptionNewParamsReplacePricesPriceModelTypePackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrix, SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeMinimumComposite, SubscriptionNewParamsReplacePricesPriceModelTypePercent, SubscriptionNewParamsReplacePricesPriceModelTypeEventOutput:
+	case SubscriptionNewParamsReplacePricesPriceModelTypeUnit, SubscriptionNewParamsReplacePricesPriceModelTypeTiered, SubscriptionNewParamsReplacePricesPriceModelTypeBulk, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithFilters, SubscriptionNewParamsReplacePricesPriceModelTypePackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrix, SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeDailyCreditAllowance, SubscriptionNewParamsReplacePricesPriceModelTypeMinimumComposite, SubscriptionNewParamsReplacePricesPriceModelTypePercent, SubscriptionNewParamsReplacePricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -8736,6 +9064,7 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	ConversionRateConfig              param.Field[interface{}] `json:"conversion_rate_config"`
 	CumulativeGroupedAllocationConfig param.Field[interface{}] `json:"cumulative_grouped_allocation_config"`
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
+	DailyCreditAllowanceConfig        param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -8819,6 +9148,7 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) ImplementsSubscriptionPriceInt
 // [shared.NewFloatingScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewFloatingCumulativeGroupedBulkPriceParam],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePrice],
 // [shared.NewFloatingMinimumCompositePriceParam],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPrice],
@@ -9264,6 +9594,163 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllo
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePrice) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelTypeDailyCreditAllowance SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                             `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                               `json:"unit_config"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfig) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfig].
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -9589,6 +10076,7 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing SubscriptionPriceIntervalsParamsAddPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk           SubscriptionPriceIntervalsParamsAddPriceModelType = "cumulative_grouped_bulk"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedAllocation     SubscriptionPriceIntervalsParamsAddPriceModelType = "cumulative_grouped_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeDailyCreditAllowance            SubscriptionPriceIntervalsParamsAddPriceModelType = "daily_credit_allowance"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimumComposite                SubscriptionPriceIntervalsParamsAddPriceModelType = "minimum_composite"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypePercent                         SubscriptionPriceIntervalsParamsAddPriceModelType = "percent"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeEventOutput                     SubscriptionPriceIntervalsParamsAddPriceModelType = "event_output"
@@ -9596,7 +10084,7 @@ const (
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithFilters, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimumComposite, SubscriptionPriceIntervalsParamsAddPriceModelTypePercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeEventOutput:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithFilters, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeDailyCreditAllowance, SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimumComposite, SubscriptionPriceIntervalsParamsAddPriceModelTypePercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -10162,7 +10650,8 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                   param.Field[string]      `json:"currency"`
+	DailyCreditAllowanceConfig param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -10249,6 +10738,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPrice) implementsSubscripti
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
 // [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPrice],
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePrice],
 // [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPrice],
@@ -10856,6 +11346,167 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulat
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePrice) implementsSubscriptionSchedulePlanChangeParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                             `json:"unit_config"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -11189,6 +11840,7 @@ const (
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedAllocation     SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "cumulative_grouped_allocation"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeDailyCreditAllowance            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "daily_credit_allowance"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimumComposite                SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "minimum_composite"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePercent                         SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "percent"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeEventOutput                     SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "event_output"
@@ -11196,7 +11848,7 @@ const (
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithFilters, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimumComposite, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeEventOutput:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithFilters, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeDailyCreditAllowance, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimumComposite, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -11412,7 +12064,8 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                   param.Field[string]      `json:"currency"`
+	DailyCreditAllowanceConfig param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -11499,6 +12152,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPrice) implementsSubscr
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
 // [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPrice],
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePrice],
 // [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPrice],
@@ -12106,6 +12760,167 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCum
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePrice) implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                 `json:"unit_config"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -12439,6 +13254,7 @@ const (
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation     SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "cumulative_grouped_allocation"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeDailyCreditAllowance            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "daily_credit_allowance"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimumComposite                SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "minimum_composite"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePercent                         SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "percent"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeEventOutput                     SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "event_output"
@@ -12446,7 +13262,7 @@ const (
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithFilters, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimumComposite, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeEventOutput:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithFilters, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeDailyCreditAllowance, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimumComposite, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false

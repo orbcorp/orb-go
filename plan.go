@@ -784,7 +784,8 @@ type PlanNewParamsPricesPrice struct {
 	CumulativeGroupedBulkConfig       param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                   param.Field[string]      `json:"currency"`
+	DailyCreditAllowanceConfig param.Field[interface{}] `json:"daily_credit_allowance_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	EventOutputConfig             param.Field[interface{}]                                  `json:"event_output_config"`
@@ -870,6 +871,7 @@ func (r PlanNewParamsPricesPrice) ImplementsPlanNewParamsPricesPriceUnion() {}
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
 // [PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPrice],
+// [PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePrice],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [PlanNewParamsPricesPriceNewPlanPercentCompositePrice],
 // [PlanNewParamsPricesPriceNewPlanEventOutputPrice], [PlanNewParamsPricesPrice].
@@ -1476,6 +1478,167 @@ func (r PlanNewParamsPricesPriceNewPlanCumulativeGroupedAllocationPriceConversio
 	return false
 }
 
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence] `json:"cadence" api:"required"`
+	// Configuration for daily_credit_allowance pricing
+	DailyCreditAllowanceConfig param.Field[PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfig] `json:"daily_credit_allowance_config" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePrice) ImplementsPlanNewParamsPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence string
+
+const (
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceAnnual     PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "annual"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceSemiAnnual PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "semi_annual"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceMonthly    PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "monthly"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceQuarterly  PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "quarterly"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceOneTime    PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "one_time"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceCustom     PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceAnnual, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceSemiAnnual, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceMonthly, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceQuarterly, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceOneTime, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for daily_credit_allowance pricing
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfig struct {
+	// Credits granted per day. Lose-it-or-use-it; does not roll over.
+	DailyAllowance param.Field[string] `json:"daily_allowance" api:"required"`
+	// Default per-unit credit rate for any usage not bucketed into a specified
+	// matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Event property whose value identifies the day bucket the event belongs to (e.g.
+	// 'event_day' set to an ISO date string in the customer's timezone). The allowance
+	// resets per distinct value of this property.
+	EventDayProperty param.Field[string] `json:"event_day_property" api:"required"`
+	// Per-dimension credit rates
+	MatrixValues param.Field[[]PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue] `json:"matrix_values" api:"required"`
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Per-dimension credit price for the daily credit allowance model.
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this value by. For example, ["model"]
+	// could be used to apply a different credit rate to each AI model.
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Credits charged per unit of usage matching the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelType string
+
+const (
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelTypeDailyCreditAllowance PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelType = "daily_credit_allowance"
+)
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceModelTypeDailyCreditAllowance:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                           `json:"unit_config"`
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfig) ImplementsPlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfig].
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion interface {
+	ImplementsPlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion()
+}
+
+type PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit   PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateType = "unit"
+	PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit, PlanNewParamsPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesPriceNewPlanPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesPriceNewPlanPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -1808,6 +1971,7 @@ const (
 	PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk           PlanNewParamsPricesPriceModelType = "cumulative_grouped_bulk"
 	PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation     PlanNewParamsPricesPriceModelType = "cumulative_grouped_allocation"
+	PlanNewParamsPricesPriceModelTypeDailyCreditAllowance            PlanNewParamsPricesPriceModelType = "daily_credit_allowance"
 	PlanNewParamsPricesPriceModelTypeMinimumComposite                PlanNewParamsPricesPriceModelType = "minimum_composite"
 	PlanNewParamsPricesPriceModelTypePercent                         PlanNewParamsPricesPriceModelType = "percent"
 	PlanNewParamsPricesPriceModelTypeEventOutput                     PlanNewParamsPricesPriceModelType = "event_output"
@@ -1815,7 +1979,7 @@ const (
 
 func (r PlanNewParamsPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesPriceModelTypeUnit, PlanNewParamsPricesPriceModelTypeTiered, PlanNewParamsPricesPriceModelTypeBulk, PlanNewParamsPricesPriceModelTypeBulkWithFilters, PlanNewParamsPricesPriceModelTypePackage, PlanNewParamsPricesPriceModelTypeMatrix, PlanNewParamsPricesPriceModelTypeThresholdTotalAmount, PlanNewParamsPricesPriceModelTypeTieredPackage, PlanNewParamsPricesPriceModelTypeTieredWithMinimum, PlanNewParamsPricesPriceModelTypeGroupedTiered, PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum, PlanNewParamsPricesPriceModelTypePackageWithAllocation, PlanNewParamsPricesPriceModelTypeUnitWithPercent, PlanNewParamsPricesPriceModelTypeMatrixWithAllocation, PlanNewParamsPricesPriceModelTypeTieredWithProration, PlanNewParamsPricesPriceModelTypeUnitWithProration, PlanNewParamsPricesPriceModelTypeGroupedAllocation, PlanNewParamsPricesPriceModelTypeBulkWithProration, PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMinMaxThresholds, PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName, PlanNewParamsPricesPriceModelTypeGroupedTieredPackage, PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage, PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk, PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation, PlanNewParamsPricesPriceModelTypeMinimumComposite, PlanNewParamsPricesPriceModelTypePercent, PlanNewParamsPricesPriceModelTypeEventOutput:
+	case PlanNewParamsPricesPriceModelTypeUnit, PlanNewParamsPricesPriceModelTypeTiered, PlanNewParamsPricesPriceModelTypeBulk, PlanNewParamsPricesPriceModelTypeBulkWithFilters, PlanNewParamsPricesPriceModelTypePackage, PlanNewParamsPricesPriceModelTypeMatrix, PlanNewParamsPricesPriceModelTypeThresholdTotalAmount, PlanNewParamsPricesPriceModelTypeTieredPackage, PlanNewParamsPricesPriceModelTypeTieredWithMinimum, PlanNewParamsPricesPriceModelTypeGroupedTiered, PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum, PlanNewParamsPricesPriceModelTypePackageWithAllocation, PlanNewParamsPricesPriceModelTypeUnitWithPercent, PlanNewParamsPricesPriceModelTypeMatrixWithAllocation, PlanNewParamsPricesPriceModelTypeTieredWithProration, PlanNewParamsPricesPriceModelTypeUnitWithProration, PlanNewParamsPricesPriceModelTypeGroupedAllocation, PlanNewParamsPricesPriceModelTypeBulkWithProration, PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMinMaxThresholds, PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName, PlanNewParamsPricesPriceModelTypeGroupedTieredPackage, PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage, PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk, PlanNewParamsPricesPriceModelTypeCumulativeGroupedAllocation, PlanNewParamsPricesPriceModelTypeDailyCreditAllowance, PlanNewParamsPricesPriceModelTypeMinimumComposite, PlanNewParamsPricesPriceModelTypePercent, PlanNewParamsPricesPriceModelTypeEventOutput:
 		return true
 	}
 	return false
