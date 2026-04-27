@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.76.0 (2026-04-27)
+
+Full Changelog: [v1.75.0...v1.76.0](https://github.com/orbcorp/orb-go/compare/v1.75.0...v1.76.0)
+
+### Features
+
+* support setting headers via env ([f8a4515](https://github.com/orbcorp/orb-go/commit/f8a4515e7a1c52a761acf30ebbe20527d09c3806))
+
 ## 1.75.0 (2026-04-26)
 
 Full Changelog: [v1.74.0...v1.75.0](https://github.com/orbcorp/orb-go/compare/v1.74.0...v1.75.0)
