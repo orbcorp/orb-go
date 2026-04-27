@@ -8701,6 +8701,122 @@ const PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice = shared.Pric
 type PriceCumulativeGroupedAllocationPriceLicenseType = shared.PriceCumulativeGroupedAllocationPriceLicenseType
 
 // This is an alias to an internal type.
+type PriceDailyCreditAllowancePrice = shared.PriceDailyCreditAllowancePrice
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceBillingMode = shared.PriceDailyCreditAllowancePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceBillingModeInAdvance = shared.PriceDailyCreditAllowancePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceBillingModeInArrear = shared.PriceDailyCreditAllowancePriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceCadence = shared.PriceDailyCreditAllowancePriceCadence
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceOneTime = shared.PriceDailyCreditAllowancePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceMonthly = shared.PriceDailyCreditAllowancePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceQuarterly = shared.PriceDailyCreditAllowancePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceSemiAnnual = shared.PriceDailyCreditAllowancePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceAnnual = shared.PriceDailyCreditAllowancePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCadenceCustom = shared.PriceDailyCreditAllowancePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceCompositePriceFilter = shared.PriceDailyCreditAllowancePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceCompositePriceFiltersField = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPriceID = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersFieldItemID = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPriceType = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersFieldCurrency = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceCompositePriceFiltersOperator = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersOperatorIncludes = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceCompositePriceFiltersOperatorExcludes = shared.PriceDailyCreditAllowancePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceConversionRateConfig = shared.PriceDailyCreditAllowancePriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceConversionRateConfigConversionRateType = shared.PriceDailyCreditAllowancePriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit = shared.PriceDailyCreditAllowancePriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered = shared.PriceDailyCreditAllowancePriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for daily_credit_allowance pricing
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceDailyCreditAllowanceConfig = shared.PriceDailyCreditAllowancePriceDailyCreditAllowanceConfig
+
+// Per-dimension credit price for the daily credit allowance model.
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue = shared.PriceDailyCreditAllowancePriceDailyCreditAllowanceConfigMatrixValue
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceModelType = shared.PriceDailyCreditAllowancePriceModelType
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePriceModelTypeDailyCreditAllowance = shared.PriceDailyCreditAllowancePriceModelTypeDailyCreditAllowance
+
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePricePriceType = shared.PriceDailyCreditAllowancePricePriceType
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePricePriceTypeUsagePrice = shared.PriceDailyCreditAllowancePricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePricePriceTypeFixedPrice = shared.PriceDailyCreditAllowancePricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceDailyCreditAllowancePricePriceTypeCompositePrice = shared.PriceDailyCreditAllowancePricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceDailyCreditAllowancePriceLicenseType = shared.PriceDailyCreditAllowancePriceLicenseType
+
+// This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
 
 // This is an alias to an internal type.
@@ -9151,6 +9267,9 @@ const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroup
 
 // This is an alias to an internal value.
 const PriceModelTypeCumulativeGroupedAllocation = shared.PriceModelTypeCumulativeGroupedAllocation
+
+// This is an alias to an internal value.
+const PriceModelTypeDailyCreditAllowance = shared.PriceModelTypeDailyCreditAllowance
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimumComposite = shared.PriceModelTypeMinimumComposite
