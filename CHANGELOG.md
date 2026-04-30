@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.77.1 (2026-04-30)
+
+Full Changelog: [v1.77.0...v1.77.1](https://github.com/orbcorp/orb-go/compare/v1.77.0...v1.77.1)
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([1749eb0](https://github.com/orbcorp/orb-go/commit/1749eb085aeacef0ec780b82c1a87b7287a9c9b6))
+
 ## 1.77.0 (2026-04-27)
 
 Full Changelog: [v1.76.0...v1.77.0](https://github.com/orbcorp/orb-go/compare/v1.76.0...v1.77.0)
