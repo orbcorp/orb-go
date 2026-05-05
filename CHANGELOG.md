@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.78.0 (2026-05-05)
+
+Full Changelog: [v1.77.0...v1.78.0](https://github.com/orbcorp/orb-go/compare/v1.77.0...v1.78.0)
+
+### Features
+
+* **api:** api update ([15d24fa](https://github.com/orbcorp/orb-go/commit/15d24fa884eb1ba67d557fb63b174d2237a967a4))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([1749eb0](https://github.com/orbcorp/orb-go/commit/1749eb085aeacef0ec780b82c1a87b7287a9c9b6))
+
 ## 1.77.0 (2026-04-27)
 
 Full Changelog: [v1.76.0...v1.77.0](https://github.com/orbcorp/orb-go/compare/v1.76.0...v1.77.0)
