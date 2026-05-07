@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.78.1 (2026-05-07)
+
+Full Changelog: [v1.78.0...v1.78.1](https://github.com/orbcorp/orb-go/compare/v1.78.0...v1.78.1)
+
+### Bug Fixes
+
+* **go:** avoid panic when http.DefaultTransport is wrapped ([fc21486](https://github.com/orbcorp/orb-go/commit/fc214867fa99db8c3d67f6a834b5a27d30c85550))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([e3d2e5c](https://github.com/orbcorp/orb-go/commit/e3d2e5cab0be4089b8297d1d507be4c0aa521b77))
+
 ## 1.78.0 (2026-05-05)
 
 Full Changelog: [v1.77.0...v1.78.0](https://github.com/orbcorp/orb-go/compare/v1.77.0...v1.78.0)
