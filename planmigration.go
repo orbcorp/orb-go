@@ -111,11 +111,17 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 }
 
 type PlanMigrationGetResponse struct {
-	ID            string                                     `json:"id" api:"required"`
+	// Unique identifier for this plan version change.
+	ID string `json:"id" api:"required"`
+	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+	// when scheduled to be at the end of the current billing period.
 	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
-	PlanID        string                                     `json:"plan_id" api:"required"`
-	Status        PlanMigrationGetResponseStatus             `json:"status" api:"required"`
-	JSON          planMigrationGetResponseJSON               `json:"-"`
+	// The ID of the plan being migrated.
+	PlanID string `json:"plan_id" api:"required"`
+	// Current status of the migration: 'not_started', 'in_progress', 'completed',
+	// 'action_needed', or 'canceled'.
+	Status PlanMigrationGetResponseStatus `json:"status" api:"required"`
+	JSON   planMigrationGetResponseJSON   `json:"-"`
 }
 
 // planMigrationGetResponseJSON contains the JSON metadata for the struct
@@ -137,6 +143,9 @@ func (r planMigrationGetResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+// when scheduled to be at the end of the current billing period.
+//
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationGetResponseEffectiveTimeString].
 type PlanMigrationGetResponseEffectiveTimeUnion interface {
@@ -179,6 +188,8 @@ func (r PlanMigrationGetResponseEffectiveTimeString) IsKnown() bool {
 func (r PlanMigrationGetResponseEffectiveTimeString) ImplementsPlanMigrationGetResponseEffectiveTimeUnion() {
 }
 
+// Current status of the migration: 'not_started', 'in_progress', 'completed',
+// 'action_needed', or 'canceled'.
 type PlanMigrationGetResponseStatus string
 
 const (
@@ -198,11 +209,17 @@ func (r PlanMigrationGetResponseStatus) IsKnown() bool {
 }
 
 type PlanMigrationListResponse struct {
-	ID            string                                      `json:"id" api:"required"`
+	// Unique identifier for this plan version change.
+	ID string `json:"id" api:"required"`
+	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+	// when scheduled to be at the end of the current billing period.
 	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
-	PlanID        string                                      `json:"plan_id" api:"required"`
-	Status        PlanMigrationListResponseStatus             `json:"status" api:"required"`
-	JSON          planMigrationListResponseJSON               `json:"-"`
+	// The ID of the plan being migrated.
+	PlanID string `json:"plan_id" api:"required"`
+	// Current status of the migration: 'not_started', 'in_progress', 'completed',
+	// 'action_needed', or 'canceled'.
+	Status PlanMigrationListResponseStatus `json:"status" api:"required"`
+	JSON   planMigrationListResponseJSON   `json:"-"`
 }
 
 // planMigrationListResponseJSON contains the JSON metadata for the struct
@@ -224,6 +241,9 @@ func (r planMigrationListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+// when scheduled to be at the end of the current billing period.
+//
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationListResponseEffectiveTimeString].
 type PlanMigrationListResponseEffectiveTimeUnion interface {
@@ -266,6 +286,8 @@ func (r PlanMigrationListResponseEffectiveTimeString) IsKnown() bool {
 func (r PlanMigrationListResponseEffectiveTimeString) ImplementsPlanMigrationListResponseEffectiveTimeUnion() {
 }
 
+// Current status of the migration: 'not_started', 'in_progress', 'completed',
+// 'action_needed', or 'canceled'.
 type PlanMigrationListResponseStatus string
 
 const (
@@ -285,11 +307,17 @@ func (r PlanMigrationListResponseStatus) IsKnown() bool {
 }
 
 type PlanMigrationCancelResponse struct {
-	ID            string                                        `json:"id" api:"required"`
+	// Unique identifier for this plan version change.
+	ID string `json:"id" api:"required"`
+	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+	// when scheduled to be at the end of the current billing period.
 	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
-	PlanID        string                                        `json:"plan_id" api:"required"`
-	Status        PlanMigrationCancelResponseStatus             `json:"status" api:"required"`
-	JSON          planMigrationCancelResponseJSON               `json:"-"`
+	// The ID of the plan being migrated.
+	PlanID string `json:"plan_id" api:"required"`
+	// Current status of the migration: 'not_started', 'in_progress', 'completed',
+	// 'action_needed', or 'canceled'.
+	Status PlanMigrationCancelResponseStatus `json:"status" api:"required"`
+	JSON   planMigrationCancelResponseJSON   `json:"-"`
 }
 
 // planMigrationCancelResponseJSON contains the JSON metadata for the struct
@@ -311,6 +339,9 @@ func (r planMigrationCancelResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
+// when scheduled to be at the end of the current billing period.
+//
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationCancelResponseEffectiveTimeString].
 type PlanMigrationCancelResponseEffectiveTimeUnion interface {
@@ -353,6 +384,8 @@ func (r PlanMigrationCancelResponseEffectiveTimeString) IsKnown() bool {
 func (r PlanMigrationCancelResponseEffectiveTimeString) ImplementsPlanMigrationCancelResponseEffectiveTimeUnion() {
 }
 
+// Current status of the migration: 'not_started', 'in_progress', 'completed',
+// 'action_needed', or 'canceled'.
 type PlanMigrationCancelResponseStatus string
 
 const (
