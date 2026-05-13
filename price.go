@@ -445,6 +445,7 @@ func (r priceEvaluatePreviewEventsResponseDataJSON) RawJSON() string {
 // [PriceNewParamsNewFloatingCumulativeGroupedBulkPrice],
 // [PriceNewParamsNewFloatingCumulativeGroupedAllocationPrice],
 // [PriceNewParamsNewFloatingDailyCreditAllowancePrice],
+// [PriceNewParamsNewFloatingMeteredAllowancePrice],
 // [PriceNewParamsNewFloatingMinimumCompositePrice],
 // [PriceNewParamsNewFloatingPercentCompositePrice],
 // [PriceNewParamsNewFloatingEventOutputPrice].
@@ -4589,6 +4590,155 @@ func (r PriceNewParamsNewFloatingDailyCreditAllowancePriceConversionRateConfigCo
 	return false
 }
 
+type PriceNewParamsNewFloatingMeteredAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingMeteredAllowancePriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// Configuration for metered_allowance pricing
+	MeteredAllowanceConfig param.Field[PriceNewParamsNewFloatingMeteredAllowancePriceMeteredAllowanceConfig] `json:"metered_allowance_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceNewParamsNewFloatingMeteredAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingMeteredAllowancePrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingMeteredAllowancePriceCadence string
+
+const (
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceAnnual     PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "annual"
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceSemiAnnual PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceMonthly    PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "monthly"
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceQuarterly  PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceOneTime    PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "one_time"
+	PriceNewParamsNewFloatingMeteredAllowancePriceCadenceCustom     PriceNewParamsNewFloatingMeteredAllowancePriceCadence = "custom"
+)
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMeteredAllowancePriceCadenceAnnual, PriceNewParamsNewFloatingMeteredAllowancePriceCadenceSemiAnnual, PriceNewParamsNewFloatingMeteredAllowancePriceCadenceMonthly, PriceNewParamsNewFloatingMeteredAllowancePriceCadenceQuarterly, PriceNewParamsNewFloatingMeteredAllowancePriceCadenceOneTime, PriceNewParamsNewFloatingMeteredAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for metered_allowance pricing
+type PriceNewParamsNewFloatingMeteredAllowancePriceMeteredAllowanceConfig struct {
+	// The grouping_key value whose summed quantity represents the allowance for this
+	// period (e.g. 'storage_snapshot' emitting 3 × avg storage). Capped at consumption
+	// — credit can never exceed actual usage.
+	AllowanceGroupingValue param.Field[string] `json:"allowance_grouping_value" api:"required"`
+	// The grouping_key value whose summed quantity represents consumption (e.g.
+	// 'download'). Charged at unit_amount.
+	ConsumptionGroupingValue param.Field[string] `json:"consumption_grouping_value" api:"required"`
+	// Event property used to partition the metric into consumption and allowance
+	// quantities (e.g. 'event_name'). The metric is queried with this key and the two
+	// values below select which partition is which.
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Per-unit price applied to gross consumption and to the allowance credit.
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// Sub-line label for the credit row (e.g. 'Up to 3x free egress').
+	AllowanceDisplayName param.Field[string] `json:"allowance_display_name"`
+	// Sub-line label for the gross consumption row (e.g. 'bytes gotten').
+	ConsumptionDisplayName param.Field[string] `json:"consumption_display_name"`
+}
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceMeteredAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type PriceNewParamsNewFloatingMeteredAllowancePriceModelType string
+
+const (
+	PriceNewParamsNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance PriceNewParamsNewFloatingMeteredAllowancePriceModelType = "metered_allowance"
+)
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                 `json:"unit_config"`
+}
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfig) ImplementsPriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfig].
+type PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigUnion interface {
+	ImplementsPriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigUnion()
+}
+
+type PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit   PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "unit"
+	PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit, PriceNewParamsNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingMinimumCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PriceNewParamsNewFloatingMinimumCompositePriceCadence] `json:"cadence" api:"required"`
@@ -5153,6 +5303,7 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPrice struct {
 	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
 	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MeteredAllowanceConfig      param.Field[interface{}]                            `json:"metered_allowance_config"`
 	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
 	// Configuration for package pricing
 	PackageConfig                         param.Field[shared.PackageConfigParam] `json:"package_config"`
@@ -5209,6 +5360,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPrice) ImplementsPriceEvaluat
 // [shared.NewFloatingCumulativeGroupedBulkPriceParam],
 // [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPrice],
 // [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingDailyCreditAllowancePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice],
 // [shared.NewFloatingMinimumCompositePriceParam],
 // [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice],
 // [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPrice],
@@ -5811,6 +5963,154 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingDailyCreditAl
 	return false
 }
 
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// Configuration for metered_allowance pricing
+	MeteredAllowanceConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig] `json:"metered_allowance_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "custom"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for metered_allowance pricing
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig struct {
+	// The grouping_key value whose summed quantity represents the allowance for this
+	// period (e.g. 'storage_snapshot' emitting 3 × avg storage). Capped at consumption
+	// — credit can never exceed actual usage.
+	AllowanceGroupingValue param.Field[string] `json:"allowance_grouping_value" api:"required"`
+	// The grouping_key value whose summed quantity represents consumption (e.g.
+	// 'download'). Charged at unit_amount.
+	ConsumptionGroupingValue param.Field[string] `json:"consumption_grouping_value" api:"required"`
+	// Event property used to partition the metric into consumption and allowance
+	// quantities (e.g. 'event_name'). The metric is queried with this key and the two
+	// values below select which partition is which.
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Per-unit price applied to gross consumption and to the allowance credit.
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// Sub-line label for the credit row (e.g. 'Up to 3x free egress').
+	AllowanceDisplayName param.Field[string] `json:"allowance_display_name"`
+	// Sub-line label for the gross consumption row (e.g. 'bytes gotten').
+	ConsumptionDisplayName param.Field[string] `json:"consumption_display_name"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType = "metered_allowance"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance:
+		return true
+	}
+	return false
+}
+
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                 `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                   `json:"unit_config"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig].
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion interface {
+	ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion()
+}
+
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "unit"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -6137,6 +6437,7 @@ const (
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "cumulative_grouped_bulk"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation     PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "cumulative_grouped_allocation"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "daily_credit_allowance"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMeteredAllowance                PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "metered_allowance"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMinimumComposite                PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "minimum_composite"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePercent                         PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "percent"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeEventOutput                     PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "event_output"
@@ -6144,7 +6445,7 @@ const (
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeEventOutput:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -6273,6 +6574,7 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice struct {
 	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
 	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MeteredAllowanceConfig      param.Field[interface{}]                            `json:"metered_allowance_config"`
 	MinimumCompositeConfig      param.Field[interface{}]                            `json:"minimum_composite_config"`
 	// Configuration for package pricing
 	PackageConfig                         param.Field[shared.PackageConfigParam] `json:"package_config"`
@@ -6329,6 +6631,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice) ImplementsPriceEv
 // [shared.NewFloatingCumulativeGroupedBulkPriceParam],
 // [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedAllocationPrice],
 // [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingDailyCreditAllowancePrice],
+// [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice],
 // [shared.NewFloatingMinimumCompositePriceParam],
 // [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice],
 // [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPrice],
@@ -6931,6 +7234,154 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingDailyCre
 	return false
 }
 
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// Configuration for metered_allowance pricing
+	MeteredAllowanceConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig] `json:"metered_allowance_config" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePrice) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceAnnual     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "annual"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "semi_annual"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceMonthly    PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "monthly"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceQuarterly  PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "quarterly"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceOneTime    PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "one_time"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceCustom     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence = "custom"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceAnnual, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceMonthly, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceQuarterly, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceOneTime, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// Configuration for metered_allowance pricing
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig struct {
+	// The grouping_key value whose summed quantity represents the allowance for this
+	// period (e.g. 'storage_snapshot' emitting 3 × avg storage). Capped at consumption
+	// — credit can never exceed actual usage.
+	AllowanceGroupingValue param.Field[string] `json:"allowance_grouping_value" api:"required"`
+	// The grouping_key value whose summed quantity represents consumption (e.g.
+	// 'download'). Charged at unit_amount.
+	ConsumptionGroupingValue param.Field[string] `json:"consumption_grouping_value" api:"required"`
+	// Event property used to partition the metric into consumption and allowance
+	// quantities (e.g. 'event_name'). The metric is queried with this key and the two
+	// values below select which partition is which.
+	GroupingKey param.Field[string] `json:"grouping_key" api:"required"`
+	// Per-unit price applied to gross consumption and to the allowance credit.
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// Sub-line label for the credit row (e.g. 'Up to 3x free egress').
+	AllowanceDisplayName param.Field[string] `json:"allowance_display_name"`
+	// Sub-line label for the gross consumption row (e.g. 'bytes gotten').
+	ConsumptionDisplayName param.Field[string] `json:"consumption_display_name"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceMeteredAllowanceConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType = "metered_allowance"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceModelTypeMeteredAllowance:
+		return true
+	}
+	return false
+}
+
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                        `json:"unit_config"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfig].
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion interface {
+	ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigUnion()
+}
+
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit   PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "unit"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceCadence] `json:"cadence" api:"required"`
@@ -7257,6 +7708,7 @@ const (
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk           PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "cumulative_grouped_bulk"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "cumulative_grouped_allocation"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance            PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "daily_credit_allowance"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMeteredAllowance                PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "metered_allowance"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMinimumComposite                PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "minimum_composite"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePercent                         PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "percent"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeEventOutput                     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "event_output"
@@ -7264,7 +7716,7 @@ const (
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeEventOutput:
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeEventOutput:
 		return true
 	}
 	return false

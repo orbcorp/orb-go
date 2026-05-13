@@ -8817,6 +8817,117 @@ const PriceDailyCreditAllowancePricePriceTypeCompositePrice = shared.PriceDailyC
 type PriceDailyCreditAllowancePriceLicenseType = shared.PriceDailyCreditAllowancePriceLicenseType
 
 // This is an alias to an internal type.
+type PriceMeteredAllowancePrice = shared.PriceMeteredAllowancePrice
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceBillingMode = shared.PriceMeteredAllowancePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceBillingModeInAdvance = shared.PriceMeteredAllowancePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceBillingModeInArrear = shared.PriceMeteredAllowancePriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceCadence = shared.PriceMeteredAllowancePriceCadence
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceOneTime = shared.PriceMeteredAllowancePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceMonthly = shared.PriceMeteredAllowancePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceQuarterly = shared.PriceMeteredAllowancePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceSemiAnnual = shared.PriceMeteredAllowancePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceAnnual = shared.PriceMeteredAllowancePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCadenceCustom = shared.PriceMeteredAllowancePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceCompositePriceFilter = shared.PriceMeteredAllowancePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceCompositePriceFiltersField = shared.PriceMeteredAllowancePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersFieldPriceID = shared.PriceMeteredAllowancePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersFieldItemID = shared.PriceMeteredAllowancePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersFieldPriceType = shared.PriceMeteredAllowancePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersFieldCurrency = shared.PriceMeteredAllowancePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMeteredAllowancePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceCompositePriceFiltersOperator = shared.PriceMeteredAllowancePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersOperatorIncludes = shared.PriceMeteredAllowancePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceCompositePriceFiltersOperatorExcludes = shared.PriceMeteredAllowancePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceConversionRateConfig = shared.PriceMeteredAllowancePriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceConversionRateConfigConversionRateType = shared.PriceMeteredAllowancePriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit = shared.PriceMeteredAllowancePriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMeteredAllowancePriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for metered_allowance pricing
+//
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceMeteredAllowanceConfig = shared.PriceMeteredAllowancePriceMeteredAllowanceConfig
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceModelType = shared.PriceMeteredAllowancePriceModelType
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePriceModelTypeMeteredAllowance = shared.PriceMeteredAllowancePriceModelTypeMeteredAllowance
+
+// This is an alias to an internal type.
+type PriceMeteredAllowancePricePriceType = shared.PriceMeteredAllowancePricePriceType
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePricePriceTypeUsagePrice = shared.PriceMeteredAllowancePricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePricePriceTypeFixedPrice = shared.PriceMeteredAllowancePricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceMeteredAllowancePricePriceTypeCompositePrice = shared.PriceMeteredAllowancePricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMeteredAllowancePriceLicenseType = shared.PriceMeteredAllowancePriceLicenseType
+
+// This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
 
 // This is an alias to an internal type.
@@ -9270,6 +9381,9 @@ const PriceModelTypeCumulativeGroupedAllocation = shared.PriceModelTypeCumulativ
 
 // This is an alias to an internal value.
 const PriceModelTypeDailyCreditAllowance = shared.PriceModelTypeDailyCreditAllowance
+
+// This is an alias to an internal value.
+const PriceModelTypeMeteredAllowance = shared.PriceModelTypeMeteredAllowance
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimumComposite = shared.PriceModelTypeMinimumComposite
