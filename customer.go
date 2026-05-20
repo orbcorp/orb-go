@@ -280,12 +280,27 @@ func (r *CustomerService) UpdateByExternalID(ctx context.Context, id string, bod
 }
 
 type AccountingProviderConfigParam struct {
-	ExternalProviderID param.Field[string] `json:"external_provider_id" api:"required"`
-	ProviderType       param.Field[string] `json:"provider_type" api:"required"`
+	ExternalProviderID param.Field[string]                               `json:"external_provider_id" api:"required"`
+	ProviderType       param.Field[AccountingProviderConfigProviderType] `json:"provider_type" api:"required"`
 }
 
 func (r AccountingProviderConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type AccountingProviderConfigProviderType string
+
+const (
+	AccountingProviderConfigProviderTypeQuickbooks AccountingProviderConfigProviderType = "quickbooks"
+	AccountingProviderConfigProviderTypeNetsuite   AccountingProviderConfigProviderType = "netsuite"
+)
+
+func (r AccountingProviderConfigProviderType) IsKnown() bool {
+	switch r {
+	case AccountingProviderConfigProviderTypeQuickbooks, AccountingProviderConfigProviderTypeNetsuite:
+		return true
+	}
+	return false
 }
 
 type AddressInputParam struct {
@@ -655,14 +670,13 @@ func (r customerAccountingSyncConfigurationAccountingProviderJSON) RawJSON() str
 type CustomerAccountingSyncConfigurationAccountingProvidersProviderType string
 
 const (
-	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks        CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "quickbooks"
-	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite          CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "netsuite"
-	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuiteAmpersand CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "netsuite_ampersand"
+	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "quickbooks"
+	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite   CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "netsuite"
 )
 
 func (r CustomerAccountingSyncConfigurationAccountingProvidersProviderType) IsKnown() bool {
 	switch r {
-	case CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuiteAmpersand:
+	case CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite:
 		return true
 	}
 	return false
