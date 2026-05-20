@@ -66,9 +66,8 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 	return res, err
 }
 
-// This endpoint is used to fetch [metric](/core-concepts##metric) details given a
-// metric identifier. It returns information about the metrics including its name,
-// description, and item.
+// This endpoint is used to list [metrics](/core-concepts#metric). It returns
+// information about the metrics including its name, description, and item.
 func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -86,15 +85,15 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 	return res, nil
 }
 
-// This endpoint is used to fetch [metric](/core-concepts##metric) details given a
-// metric identifier. It returns information about the metrics including its name,
-// description, and item.
+// This endpoint is used to list [metrics](/core-concepts#metric). It returns
+// information about the metrics including its name, description, and item.
 func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[BillableMetric] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// This endpoint is used to list [metrics](/core-concepts#metric). It returns
-// information about the metrics including its name, description, and item.
+// This endpoint is used to fetch [metric](/core-concepts#metric) details given a
+// metric identifier. It returns information about the metrics including its name,
+// description, and item.
 func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
