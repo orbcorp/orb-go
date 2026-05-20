@@ -33,7 +33,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
 			AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 				ExternalProviderID: orb.F("external_provider_id"),
-				ProviderType:       orb.F("provider_type"),
+				ProviderType:       orb.F(orb.AccountingProviderConfigProviderTypeQuickbooks),
 			}}),
 			Excluded: orb.F(true),
 		}),
@@ -119,7 +119,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
 				AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
+					ProviderType:       orb.F(orb.AccountingProviderConfigProviderTypeQuickbooks),
 				}}),
 				Excluded: orb.F(true),
 			}),
@@ -346,7 +346,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
 				AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
+					ProviderType:       orb.F(orb.AccountingProviderConfigProviderTypeQuickbooks),
 				}}),
 				Excluded: orb.F(true),
 			}),
