@@ -919,11 +919,13 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 	// | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+	// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 	// | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 	// | France                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 	// | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 	// | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 	// | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 	// | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -935,6 +937,7 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 	// | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 	// | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 	// | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 	// | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -965,6 +968,7 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 	// | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 	// | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+	// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -986,6 +990,7 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 	// | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 	// | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 	// | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 	// | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
@@ -2332,11 +2337,13 @@ func (r customerMinifiedJSON) RawJSON() string {
 // | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 // | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 // | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 // | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 // | France                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 // | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 // | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 // | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 // | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -2348,6 +2355,7 @@ func (r customerMinifiedJSON) RawJSON() string {
 // | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 // | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 // | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 // | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 // | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 // | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -2378,6 +2386,7 @@ func (r customerMinifiedJSON) RawJSON() string {
 // | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 // | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 // | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 // | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 // | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 // | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -2399,6 +2408,7 @@ func (r customerMinifiedJSON) RawJSON() string {
 // | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 // | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 // | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 // | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 // | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
@@ -2478,9 +2488,9 @@ const (
 	CustomerTaxIDCountryCo CustomerTaxIDCountry = "CO"
 	CustomerTaxIDCountryCr CustomerTaxIDCountry = "CR"
 	CustomerTaxIDCountryCv CustomerTaxIDCountry = "CV"
-	CustomerTaxIDCountryDe CustomerTaxIDCountry = "DE"
 	CustomerTaxIDCountryCy CustomerTaxIDCountry = "CY"
 	CustomerTaxIDCountryCz CustomerTaxIDCountry = "CZ"
+	CustomerTaxIDCountryDe CustomerTaxIDCountry = "DE"
 	CustomerTaxIDCountryDk CustomerTaxIDCountry = "DK"
 	CustomerTaxIDCountryDo CustomerTaxIDCountry = "DO"
 	CustomerTaxIDCountryEc CustomerTaxIDCountry = "EC"
@@ -2490,9 +2500,11 @@ const (
 	CustomerTaxIDCountryEt CustomerTaxIDCountry = "ET"
 	CustomerTaxIDCountryEu CustomerTaxIDCountry = "EU"
 	CustomerTaxIDCountryFi CustomerTaxIDCountry = "FI"
+	CustomerTaxIDCountryFo CustomerTaxIDCountry = "FO"
 	CustomerTaxIDCountryFr CustomerTaxIDCountry = "FR"
 	CustomerTaxIDCountryGB CustomerTaxIDCountry = "GB"
 	CustomerTaxIDCountryGe CustomerTaxIDCountry = "GE"
+	CustomerTaxIDCountryGi CustomerTaxIDCountry = "GI"
 	CustomerTaxIDCountryGn CustomerTaxIDCountry = "GN"
 	CustomerTaxIDCountryGr CustomerTaxIDCountry = "GR"
 	CustomerTaxIDCountryHk CustomerTaxIDCountry = "HK"
@@ -2512,6 +2524,7 @@ const (
 	CustomerTaxIDCountryKz CustomerTaxIDCountry = "KZ"
 	CustomerTaxIDCountryLa CustomerTaxIDCountry = "LA"
 	CustomerTaxIDCountryLi CustomerTaxIDCountry = "LI"
+	CustomerTaxIDCountryLk CustomerTaxIDCountry = "LK"
 	CustomerTaxIDCountryLt CustomerTaxIDCountry = "LT"
 	CustomerTaxIDCountryLu CustomerTaxIDCountry = "LU"
 	CustomerTaxIDCountryLv CustomerTaxIDCountry = "LV"
@@ -2533,6 +2546,7 @@ const (
 	CustomerTaxIDCountryPh CustomerTaxIDCountry = "PH"
 	CustomerTaxIDCountryPl CustomerTaxIDCountry = "PL"
 	CustomerTaxIDCountryPt CustomerTaxIDCountry = "PT"
+	CustomerTaxIDCountryPy CustomerTaxIDCountry = "PY"
 	CustomerTaxIDCountryRo CustomerTaxIDCountry = "RO"
 	CustomerTaxIDCountryRs CustomerTaxIDCountry = "RS"
 	CustomerTaxIDCountryRu CustomerTaxIDCountry = "RU"
@@ -2563,7 +2577,7 @@ const (
 
 func (r CustomerTaxIDCountry) IsKnown() bool {
 	switch r {
-	case CustomerTaxIDCountryAd, CustomerTaxIDCountryAe, CustomerTaxIDCountryAl, CustomerTaxIDCountryAm, CustomerTaxIDCountryAo, CustomerTaxIDCountryAr, CustomerTaxIDCountryAt, CustomerTaxIDCountryAu, CustomerTaxIDCountryAw, CustomerTaxIDCountryAz, CustomerTaxIDCountryBa, CustomerTaxIDCountryBb, CustomerTaxIDCountryBd, CustomerTaxIDCountryBe, CustomerTaxIDCountryBf, CustomerTaxIDCountryBg, CustomerTaxIDCountryBh, CustomerTaxIDCountryBj, CustomerTaxIDCountryBo, CustomerTaxIDCountryBr, CustomerTaxIDCountryBs, CustomerTaxIDCountryBy, CustomerTaxIDCountryCa, CustomerTaxIDCountryCd, CustomerTaxIDCountryCh, CustomerTaxIDCountryCl, CustomerTaxIDCountryCm, CustomerTaxIDCountryCn, CustomerTaxIDCountryCo, CustomerTaxIDCountryCr, CustomerTaxIDCountryCv, CustomerTaxIDCountryDe, CustomerTaxIDCountryCy, CustomerTaxIDCountryCz, CustomerTaxIDCountryDk, CustomerTaxIDCountryDo, CustomerTaxIDCountryEc, CustomerTaxIDCountryEe, CustomerTaxIDCountryEg, CustomerTaxIDCountryEs, CustomerTaxIDCountryEt, CustomerTaxIDCountryEu, CustomerTaxIDCountryFi, CustomerTaxIDCountryFr, CustomerTaxIDCountryGB, CustomerTaxIDCountryGe, CustomerTaxIDCountryGn, CustomerTaxIDCountryGr, CustomerTaxIDCountryHk, CustomerTaxIDCountryHr, CustomerTaxIDCountryHu, CustomerTaxIDCountryID, CustomerTaxIDCountryIe, CustomerTaxIDCountryIl, CustomerTaxIDCountryIn, CustomerTaxIDCountryIs, CustomerTaxIDCountryIt, CustomerTaxIDCountryJp, CustomerTaxIDCountryKe, CustomerTaxIDCountryKg, CustomerTaxIDCountryKh, CustomerTaxIDCountryKr, CustomerTaxIDCountryKz, CustomerTaxIDCountryLa, CustomerTaxIDCountryLi, CustomerTaxIDCountryLt, CustomerTaxIDCountryLu, CustomerTaxIDCountryLv, CustomerTaxIDCountryMa, CustomerTaxIDCountryMd, CustomerTaxIDCountryMe, CustomerTaxIDCountryMk, CustomerTaxIDCountryMr, CustomerTaxIDCountryMt, CustomerTaxIDCountryMx, CustomerTaxIDCountryMy, CustomerTaxIDCountryNg, CustomerTaxIDCountryNl, CustomerTaxIDCountryNo, CustomerTaxIDCountryNp, CustomerTaxIDCountryNz, CustomerTaxIDCountryOm, CustomerTaxIDCountryPe, CustomerTaxIDCountryPh, CustomerTaxIDCountryPl, CustomerTaxIDCountryPt, CustomerTaxIDCountryRo, CustomerTaxIDCountryRs, CustomerTaxIDCountryRu, CustomerTaxIDCountrySa, CustomerTaxIDCountrySe, CustomerTaxIDCountrySg, CustomerTaxIDCountrySi, CustomerTaxIDCountrySk, CustomerTaxIDCountrySn, CustomerTaxIDCountrySr, CustomerTaxIDCountrySv, CustomerTaxIDCountryTh, CustomerTaxIDCountryTj, CustomerTaxIDCountryTr, CustomerTaxIDCountryTw, CustomerTaxIDCountryTz, CustomerTaxIDCountryUa, CustomerTaxIDCountryUg, CustomerTaxIDCountryUs, CustomerTaxIDCountryUy, CustomerTaxIDCountryUz, CustomerTaxIDCountryVe, CustomerTaxIDCountryVn, CustomerTaxIDCountryZa, CustomerTaxIDCountryZm, CustomerTaxIDCountryZw:
+	case CustomerTaxIDCountryAd, CustomerTaxIDCountryAe, CustomerTaxIDCountryAl, CustomerTaxIDCountryAm, CustomerTaxIDCountryAo, CustomerTaxIDCountryAr, CustomerTaxIDCountryAt, CustomerTaxIDCountryAu, CustomerTaxIDCountryAw, CustomerTaxIDCountryAz, CustomerTaxIDCountryBa, CustomerTaxIDCountryBb, CustomerTaxIDCountryBd, CustomerTaxIDCountryBe, CustomerTaxIDCountryBf, CustomerTaxIDCountryBg, CustomerTaxIDCountryBh, CustomerTaxIDCountryBj, CustomerTaxIDCountryBo, CustomerTaxIDCountryBr, CustomerTaxIDCountryBs, CustomerTaxIDCountryBy, CustomerTaxIDCountryCa, CustomerTaxIDCountryCd, CustomerTaxIDCountryCh, CustomerTaxIDCountryCl, CustomerTaxIDCountryCm, CustomerTaxIDCountryCn, CustomerTaxIDCountryCo, CustomerTaxIDCountryCr, CustomerTaxIDCountryCv, CustomerTaxIDCountryCy, CustomerTaxIDCountryCz, CustomerTaxIDCountryDe, CustomerTaxIDCountryDk, CustomerTaxIDCountryDo, CustomerTaxIDCountryEc, CustomerTaxIDCountryEe, CustomerTaxIDCountryEg, CustomerTaxIDCountryEs, CustomerTaxIDCountryEt, CustomerTaxIDCountryEu, CustomerTaxIDCountryFi, CustomerTaxIDCountryFo, CustomerTaxIDCountryFr, CustomerTaxIDCountryGB, CustomerTaxIDCountryGe, CustomerTaxIDCountryGi, CustomerTaxIDCountryGn, CustomerTaxIDCountryGr, CustomerTaxIDCountryHk, CustomerTaxIDCountryHr, CustomerTaxIDCountryHu, CustomerTaxIDCountryID, CustomerTaxIDCountryIe, CustomerTaxIDCountryIl, CustomerTaxIDCountryIn, CustomerTaxIDCountryIs, CustomerTaxIDCountryIt, CustomerTaxIDCountryJp, CustomerTaxIDCountryKe, CustomerTaxIDCountryKg, CustomerTaxIDCountryKh, CustomerTaxIDCountryKr, CustomerTaxIDCountryKz, CustomerTaxIDCountryLa, CustomerTaxIDCountryLi, CustomerTaxIDCountryLk, CustomerTaxIDCountryLt, CustomerTaxIDCountryLu, CustomerTaxIDCountryLv, CustomerTaxIDCountryMa, CustomerTaxIDCountryMd, CustomerTaxIDCountryMe, CustomerTaxIDCountryMk, CustomerTaxIDCountryMr, CustomerTaxIDCountryMt, CustomerTaxIDCountryMx, CustomerTaxIDCountryMy, CustomerTaxIDCountryNg, CustomerTaxIDCountryNl, CustomerTaxIDCountryNo, CustomerTaxIDCountryNp, CustomerTaxIDCountryNz, CustomerTaxIDCountryOm, CustomerTaxIDCountryPe, CustomerTaxIDCountryPh, CustomerTaxIDCountryPl, CustomerTaxIDCountryPt, CustomerTaxIDCountryPy, CustomerTaxIDCountryRo, CustomerTaxIDCountryRs, CustomerTaxIDCountryRu, CustomerTaxIDCountrySa, CustomerTaxIDCountrySe, CustomerTaxIDCountrySg, CustomerTaxIDCountrySi, CustomerTaxIDCountrySk, CustomerTaxIDCountrySn, CustomerTaxIDCountrySr, CustomerTaxIDCountrySv, CustomerTaxIDCountryTh, CustomerTaxIDCountryTj, CustomerTaxIDCountryTr, CustomerTaxIDCountryTw, CustomerTaxIDCountryTz, CustomerTaxIDCountryUa, CustomerTaxIDCountryUg, CustomerTaxIDCountryUs, CustomerTaxIDCountryUy, CustomerTaxIDCountryUz, CustomerTaxIDCountryVe, CustomerTaxIDCountryVn, CustomerTaxIDCountryZa, CustomerTaxIDCountryZm, CustomerTaxIDCountryZw:
 		return true
 	}
 	return false
@@ -2617,8 +2631,10 @@ const (
 	CustomerTaxIDTypeEsCif    CustomerTaxIDType = "es_cif"
 	CustomerTaxIDTypeEtTin    CustomerTaxIDType = "et_tin"
 	CustomerTaxIDTypeEuOssVat CustomerTaxIDType = "eu_oss_vat"
+	CustomerTaxIDTypeFoVat    CustomerTaxIDType = "fo_vat"
 	CustomerTaxIDTypeGBVat    CustomerTaxIDType = "gb_vat"
 	CustomerTaxIDTypeGeVat    CustomerTaxIDType = "ge_vat"
+	CustomerTaxIDTypeGiTin    CustomerTaxIDType = "gi_tin"
 	CustomerTaxIDTypeGnNif    CustomerTaxIDType = "gn_nif"
 	CustomerTaxIDTypeHkBr     CustomerTaxIDType = "hk_br"
 	CustomerTaxIDTypeHrOib    CustomerTaxIDType = "hr_oib"
@@ -2627,6 +2643,7 @@ const (
 	CustomerTaxIDTypeIlVat    CustomerTaxIDType = "il_vat"
 	CustomerTaxIDTypeInGst    CustomerTaxIDType = "in_gst"
 	CustomerTaxIDTypeIsVat    CustomerTaxIDType = "is_vat"
+	CustomerTaxIDTypeItCf     CustomerTaxIDType = "it_cf"
 	CustomerTaxIDTypeJpCn     CustomerTaxIDType = "jp_cn"
 	CustomerTaxIDTypeJpRn     CustomerTaxIDType = "jp_rn"
 	CustomerTaxIDTypeJpTrn    CustomerTaxIDType = "jp_trn"
@@ -2638,6 +2655,7 @@ const (
 	CustomerTaxIDTypeLaTin    CustomerTaxIDType = "la_tin"
 	CustomerTaxIDTypeLiUid    CustomerTaxIDType = "li_uid"
 	CustomerTaxIDTypeLiVat    CustomerTaxIDType = "li_vat"
+	CustomerTaxIDTypeLkVat    CustomerTaxIDType = "lk_vat"
 	CustomerTaxIDTypeMaVat    CustomerTaxIDType = "ma_vat"
 	CustomerTaxIDTypeMdVat    CustomerTaxIDType = "md_vat"
 	CustomerTaxIDTypeMePib    CustomerTaxIDType = "me_pib"
@@ -2656,6 +2674,7 @@ const (
 	CustomerTaxIDTypePeRuc    CustomerTaxIDType = "pe_ruc"
 	CustomerTaxIDTypePhTin    CustomerTaxIDType = "ph_tin"
 	CustomerTaxIDTypePlNip    CustomerTaxIDType = "pl_nip"
+	CustomerTaxIDTypePyRuc    CustomerTaxIDType = "py_ruc"
 	CustomerTaxIDTypeRoTin    CustomerTaxIDType = "ro_tin"
 	CustomerTaxIDTypeRsPib    CustomerTaxIDType = "rs_pib"
 	CustomerTaxIDTypeRuInn    CustomerTaxIDType = "ru_inn"
@@ -2687,7 +2706,7 @@ const (
 
 func (r CustomerTaxIDType) IsKnown() bool {
 	switch r {
-	case CustomerTaxIDTypeAdNrt, CustomerTaxIDTypeAeTrn, CustomerTaxIDTypeAlTin, CustomerTaxIDTypeAmTin, CustomerTaxIDTypeAoTin, CustomerTaxIDTypeArCuit, CustomerTaxIDTypeEuVat, CustomerTaxIDTypeAuAbn, CustomerTaxIDTypeAuArn, CustomerTaxIDTypeAwTin, CustomerTaxIDTypeAzTin, CustomerTaxIDTypeBaTin, CustomerTaxIDTypeBbTin, CustomerTaxIDTypeBdBin, CustomerTaxIDTypeBfIfu, CustomerTaxIDTypeBgUic, CustomerTaxIDTypeBhVat, CustomerTaxIDTypeBjIfu, CustomerTaxIDTypeBoTin, CustomerTaxIDTypeBrCnpj, CustomerTaxIDTypeBrCpf, CustomerTaxIDTypeBsTin, CustomerTaxIDTypeByTin, CustomerTaxIDTypeCaBn, CustomerTaxIDTypeCaGstHst, CustomerTaxIDTypeCaPstBc, CustomerTaxIDTypeCaPstMB, CustomerTaxIDTypeCaPstSk, CustomerTaxIDTypeCaQst, CustomerTaxIDTypeCdNif, CustomerTaxIDTypeChUid, CustomerTaxIDTypeChVat, CustomerTaxIDTypeClTin, CustomerTaxIDTypeCmNiu, CustomerTaxIDTypeCnTin, CustomerTaxIDTypeCoNit, CustomerTaxIDTypeCrTin, CustomerTaxIDTypeCvNif, CustomerTaxIDTypeDeStn, CustomerTaxIDTypeDoRcn, CustomerTaxIDTypeEcRuc, CustomerTaxIDTypeEgTin, CustomerTaxIDTypeEsCif, CustomerTaxIDTypeEtTin, CustomerTaxIDTypeEuOssVat, CustomerTaxIDTypeGBVat, CustomerTaxIDTypeGeVat, CustomerTaxIDTypeGnNif, CustomerTaxIDTypeHkBr, CustomerTaxIDTypeHrOib, CustomerTaxIDTypeHuTin, CustomerTaxIDTypeIDNpwp, CustomerTaxIDTypeIlVat, CustomerTaxIDTypeInGst, CustomerTaxIDTypeIsVat, CustomerTaxIDTypeJpCn, CustomerTaxIDTypeJpRn, CustomerTaxIDTypeJpTrn, CustomerTaxIDTypeKePin, CustomerTaxIDTypeKgTin, CustomerTaxIDTypeKhTin, CustomerTaxIDTypeKrBrn, CustomerTaxIDTypeKzBin, CustomerTaxIDTypeLaTin, CustomerTaxIDTypeLiUid, CustomerTaxIDTypeLiVat, CustomerTaxIDTypeMaVat, CustomerTaxIDTypeMdVat, CustomerTaxIDTypeMePib, CustomerTaxIDTypeMkVat, CustomerTaxIDTypeMrNif, CustomerTaxIDTypeMxRfc, CustomerTaxIDTypeMyFrp, CustomerTaxIDTypeMyItn, CustomerTaxIDTypeMySst, CustomerTaxIDTypeNgTin, CustomerTaxIDTypeNoVat, CustomerTaxIDTypeNoVoec, CustomerTaxIDTypeNpPan, CustomerTaxIDTypeNzGst, CustomerTaxIDTypeOmVat, CustomerTaxIDTypePeRuc, CustomerTaxIDTypePhTin, CustomerTaxIDTypePlNip, CustomerTaxIDTypeRoTin, CustomerTaxIDTypeRsPib, CustomerTaxIDTypeRuInn, CustomerTaxIDTypeRuKpp, CustomerTaxIDTypeSaVat, CustomerTaxIDTypeSgGst, CustomerTaxIDTypeSgUen, CustomerTaxIDTypeSiTin, CustomerTaxIDTypeSnNinea, CustomerTaxIDTypeSrFin, CustomerTaxIDTypeSvNit, CustomerTaxIDTypeThVat, CustomerTaxIDTypeTjTin, CustomerTaxIDTypeTrTin, CustomerTaxIDTypeTwVat, CustomerTaxIDTypeTzVat, CustomerTaxIDTypeUaVat, CustomerTaxIDTypeUgTin, CustomerTaxIDTypeUsEin, CustomerTaxIDTypeUyRuc, CustomerTaxIDTypeUzTin, CustomerTaxIDTypeUzVat, CustomerTaxIDTypeVeRif, CustomerTaxIDTypeVnTin, CustomerTaxIDTypeZaVat, CustomerTaxIDTypeZmTin, CustomerTaxIDTypeZwTin:
+	case CustomerTaxIDTypeAdNrt, CustomerTaxIDTypeAeTrn, CustomerTaxIDTypeAlTin, CustomerTaxIDTypeAmTin, CustomerTaxIDTypeAoTin, CustomerTaxIDTypeArCuit, CustomerTaxIDTypeEuVat, CustomerTaxIDTypeAuAbn, CustomerTaxIDTypeAuArn, CustomerTaxIDTypeAwTin, CustomerTaxIDTypeAzTin, CustomerTaxIDTypeBaTin, CustomerTaxIDTypeBbTin, CustomerTaxIDTypeBdBin, CustomerTaxIDTypeBfIfu, CustomerTaxIDTypeBgUic, CustomerTaxIDTypeBhVat, CustomerTaxIDTypeBjIfu, CustomerTaxIDTypeBoTin, CustomerTaxIDTypeBrCnpj, CustomerTaxIDTypeBrCpf, CustomerTaxIDTypeBsTin, CustomerTaxIDTypeByTin, CustomerTaxIDTypeCaBn, CustomerTaxIDTypeCaGstHst, CustomerTaxIDTypeCaPstBc, CustomerTaxIDTypeCaPstMB, CustomerTaxIDTypeCaPstSk, CustomerTaxIDTypeCaQst, CustomerTaxIDTypeCdNif, CustomerTaxIDTypeChUid, CustomerTaxIDTypeChVat, CustomerTaxIDTypeClTin, CustomerTaxIDTypeCmNiu, CustomerTaxIDTypeCnTin, CustomerTaxIDTypeCoNit, CustomerTaxIDTypeCrTin, CustomerTaxIDTypeCvNif, CustomerTaxIDTypeDeStn, CustomerTaxIDTypeDoRcn, CustomerTaxIDTypeEcRuc, CustomerTaxIDTypeEgTin, CustomerTaxIDTypeEsCif, CustomerTaxIDTypeEtTin, CustomerTaxIDTypeEuOssVat, CustomerTaxIDTypeFoVat, CustomerTaxIDTypeGBVat, CustomerTaxIDTypeGeVat, CustomerTaxIDTypeGiTin, CustomerTaxIDTypeGnNif, CustomerTaxIDTypeHkBr, CustomerTaxIDTypeHrOib, CustomerTaxIDTypeHuTin, CustomerTaxIDTypeIDNpwp, CustomerTaxIDTypeIlVat, CustomerTaxIDTypeInGst, CustomerTaxIDTypeIsVat, CustomerTaxIDTypeItCf, CustomerTaxIDTypeJpCn, CustomerTaxIDTypeJpRn, CustomerTaxIDTypeJpTrn, CustomerTaxIDTypeKePin, CustomerTaxIDTypeKgTin, CustomerTaxIDTypeKhTin, CustomerTaxIDTypeKrBrn, CustomerTaxIDTypeKzBin, CustomerTaxIDTypeLaTin, CustomerTaxIDTypeLiUid, CustomerTaxIDTypeLiVat, CustomerTaxIDTypeLkVat, CustomerTaxIDTypeMaVat, CustomerTaxIDTypeMdVat, CustomerTaxIDTypeMePib, CustomerTaxIDTypeMkVat, CustomerTaxIDTypeMrNif, CustomerTaxIDTypeMxRfc, CustomerTaxIDTypeMyFrp, CustomerTaxIDTypeMyItn, CustomerTaxIDTypeMySst, CustomerTaxIDTypeNgTin, CustomerTaxIDTypeNoVat, CustomerTaxIDTypeNoVoec, CustomerTaxIDTypeNpPan, CustomerTaxIDTypeNzGst, CustomerTaxIDTypeOmVat, CustomerTaxIDTypePeRuc, CustomerTaxIDTypePhTin, CustomerTaxIDTypePlNip, CustomerTaxIDTypePyRuc, CustomerTaxIDTypeRoTin, CustomerTaxIDTypeRsPib, CustomerTaxIDTypeRuInn, CustomerTaxIDTypeRuKpp, CustomerTaxIDTypeSaVat, CustomerTaxIDTypeSgGst, CustomerTaxIDTypeSgUen, CustomerTaxIDTypeSiTin, CustomerTaxIDTypeSnNinea, CustomerTaxIDTypeSrFin, CustomerTaxIDTypeSvNit, CustomerTaxIDTypeThVat, CustomerTaxIDTypeTjTin, CustomerTaxIDTypeTrTin, CustomerTaxIDTypeTwVat, CustomerTaxIDTypeTzVat, CustomerTaxIDTypeUaVat, CustomerTaxIDTypeUgTin, CustomerTaxIDTypeUsEin, CustomerTaxIDTypeUyRuc, CustomerTaxIDTypeUzTin, CustomerTaxIDTypeUzVat, CustomerTaxIDTypeVeRif, CustomerTaxIDTypeVnTin, CustomerTaxIDTypeZaVat, CustomerTaxIDTypeZmTin, CustomerTaxIDTypeZwTin:
 		return true
 	}
 	return false
@@ -2750,11 +2769,13 @@ func (r CustomerTaxIDType) IsKnown() bool {
 // | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 // | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 // | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 // | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 // | France                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 // | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 // | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 // | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 // | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -2766,6 +2787,7 @@ func (r CustomerTaxIDType) IsKnown() bool {
 // | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 // | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 // | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 // | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 // | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 // | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -2796,6 +2818,7 @@ func (r CustomerTaxIDType) IsKnown() bool {
 // | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 // | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 // | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 // | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 // | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 // | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -2817,6 +2840,7 @@ func (r CustomerTaxIDType) IsKnown() bool {
 // | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 // | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 // | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 // | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 // | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
@@ -3142,11 +3166,13 @@ type Invoice struct {
 	// | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 	// | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+	// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 	// | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 	// | France                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 	// | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 	// | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 	// | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 	// | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -3158,6 +3184,7 @@ type Invoice struct {
 	// | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 	// | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 	// | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 	// | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 	// | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 	// | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -3188,6 +3215,7 @@ type Invoice struct {
 	// | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 	// | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 	// | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+	// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -3209,6 +3237,7 @@ type Invoice struct {
 	// | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 	// | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 	// | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 	// | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 	// | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 	// | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
