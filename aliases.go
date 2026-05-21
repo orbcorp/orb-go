@@ -549,11 +549,13 @@ type CustomerMinified = shared.CustomerMinified
 // | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 // | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 // | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 // | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 // | France                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 // | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 // | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 // | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 // | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -565,6 +567,7 @@ type CustomerMinified = shared.CustomerMinified
 // | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 // | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 // | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 // | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 // | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 // | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -595,6 +598,7 @@ type CustomerMinified = shared.CustomerMinified
 // | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 // | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 // | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 // | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 // | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 // | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -616,6 +620,7 @@ type CustomerMinified = shared.CustomerMinified
 // | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 // | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 // | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 // | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 // | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
@@ -738,13 +743,13 @@ const CustomerTaxIDCountryCr = shared.CustomerTaxIDCountryCr
 const CustomerTaxIDCountryCv = shared.CustomerTaxIDCountryCv
 
 // This is an alias to an internal value.
-const CustomerTaxIDCountryDe = shared.CustomerTaxIDCountryDe
-
-// This is an alias to an internal value.
 const CustomerTaxIDCountryCy = shared.CustomerTaxIDCountryCy
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryCz = shared.CustomerTaxIDCountryCz
+
+// This is an alias to an internal value.
+const CustomerTaxIDCountryDe = shared.CustomerTaxIDCountryDe
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryDk = shared.CustomerTaxIDCountryDk
@@ -774,6 +779,9 @@ const CustomerTaxIDCountryEu = shared.CustomerTaxIDCountryEu
 const CustomerTaxIDCountryFi = shared.CustomerTaxIDCountryFi
 
 // This is an alias to an internal value.
+const CustomerTaxIDCountryFo = shared.CustomerTaxIDCountryFo
+
+// This is an alias to an internal value.
 const CustomerTaxIDCountryFr = shared.CustomerTaxIDCountryFr
 
 // This is an alias to an internal value.
@@ -781,6 +789,9 @@ const CustomerTaxIDCountryGB = shared.CustomerTaxIDCountryGB
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryGe = shared.CustomerTaxIDCountryGe
+
+// This is an alias to an internal value.
+const CustomerTaxIDCountryGi = shared.CustomerTaxIDCountryGi
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryGn = shared.CustomerTaxIDCountryGn
@@ -838,6 +849,9 @@ const CustomerTaxIDCountryLa = shared.CustomerTaxIDCountryLa
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryLi = shared.CustomerTaxIDCountryLi
+
+// This is an alias to an internal value.
+const CustomerTaxIDCountryLk = shared.CustomerTaxIDCountryLk
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryLt = shared.CustomerTaxIDCountryLt
@@ -901,6 +915,9 @@ const CustomerTaxIDCountryPl = shared.CustomerTaxIDCountryPl
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryPt = shared.CustomerTaxIDCountryPt
+
+// This is an alias to an internal value.
+const CustomerTaxIDCountryPy = shared.CustomerTaxIDCountryPy
 
 // This is an alias to an internal value.
 const CustomerTaxIDCountryRo = shared.CustomerTaxIDCountryRo
@@ -1119,10 +1136,16 @@ const CustomerTaxIDTypeEtTin = shared.CustomerTaxIDTypeEtTin
 const CustomerTaxIDTypeEuOssVat = shared.CustomerTaxIDTypeEuOssVat
 
 // This is an alias to an internal value.
+const CustomerTaxIDTypeFoVat = shared.CustomerTaxIDTypeFoVat
+
+// This is an alias to an internal value.
 const CustomerTaxIDTypeGBVat = shared.CustomerTaxIDTypeGBVat
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeGeVat = shared.CustomerTaxIDTypeGeVat
+
+// This is an alias to an internal value.
+const CustomerTaxIDTypeGiTin = shared.CustomerTaxIDTypeGiTin
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeGnNif = shared.CustomerTaxIDTypeGnNif
@@ -1147,6 +1170,9 @@ const CustomerTaxIDTypeInGst = shared.CustomerTaxIDTypeInGst
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeIsVat = shared.CustomerTaxIDTypeIsVat
+
+// This is an alias to an internal value.
+const CustomerTaxIDTypeItCf = shared.CustomerTaxIDTypeItCf
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeJpCn = shared.CustomerTaxIDTypeJpCn
@@ -1180,6 +1206,9 @@ const CustomerTaxIDTypeLiUid = shared.CustomerTaxIDTypeLiUid
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeLiVat = shared.CustomerTaxIDTypeLiVat
+
+// This is an alias to an internal value.
+const CustomerTaxIDTypeLkVat = shared.CustomerTaxIDTypeLkVat
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeMaVat = shared.CustomerTaxIDTypeMaVat
@@ -1234,6 +1263,9 @@ const CustomerTaxIDTypePhTin = shared.CustomerTaxIDTypePhTin
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypePlNip = shared.CustomerTaxIDTypePlNip
+
+// This is an alias to an internal value.
+const CustomerTaxIDTypePyRuc = shared.CustomerTaxIDTypePyRuc
 
 // This is an alias to an internal value.
 const CustomerTaxIDTypeRoTin = shared.CustomerTaxIDTypeRoTin
@@ -1373,11 +1405,13 @@ const CustomerTaxIDTypeZwTin = shared.CustomerTaxIDTypeZwTin
 // | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
 // | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
 // | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+// | Faroe Islands          | `fo_vat`     | Faroe Islands VAT Number                                                                                |
 // | Finland                | `eu_vat`     | European VAT Number                                                                                     |
 // | France                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
 // | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
 // | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+// | Gibraltar              | `gi_tin`     | Gibraltar Tax Identification Number                                                                     |
 // | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
 // | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
@@ -1389,6 +1423,7 @@ const CustomerTaxIDTypeZwTin = shared.CustomerTaxIDTypeZwTin
 // | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
 // | Israel                 | `il_vat`     | Israel VAT                                                                                              |
 // | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Italy                  | `it_cf`      | Italian Codice Fiscale Number                                                                           |
 // | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
 // | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
 // | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
@@ -1419,6 +1454,7 @@ const CustomerTaxIDTypeZwTin = shared.CustomerTaxIDTypeZwTin
 // | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
 // | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
 // | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+// | Paraguay               | `py_ruc`     | Paraguayan RUC Number                                                                                   |
 // | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
 // | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
 // | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
@@ -1440,6 +1476,7 @@ const CustomerTaxIDTypeZwTin = shared.CustomerTaxIDTypeZwTin
 // | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
 // | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
 // | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+// | Sri Lanka              | `lk_vat`     | Sri Lanka VAT Number                                                                                    |
 // | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
 // | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
 // | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
