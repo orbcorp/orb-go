@@ -15039,6 +15039,7 @@ type Price struct {
 	// [[]PricePackageWithAllocationPriceCompositePriceFilter],
 	// [[]PriceUnitWithPercentPriceCompositePriceFilter],
 	// [[]PriceMatrixWithAllocationPriceCompositePriceFilter],
+	// [[]PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter],
 	// [[]PriceTieredWithProrationPriceCompositePriceFilter],
 	// [[]PriceUnitWithProrationPriceCompositePriceFilter],
 	// [[]PriceGroupedAllocationPriceCompositePriceFilter],
@@ -15072,6 +15073,7 @@ type Price struct {
 	// [PricePackageWithAllocationPriceConversionRateConfig],
 	// [PriceUnitWithPercentPriceConversionRateConfig],
 	// [PriceMatrixWithAllocationPriceConversionRateConfig],
+	// [PriceMatrixWithThresholdDiscountsPriceConversionRateConfig],
 	// [PriceTieredWithProrationPriceConversionRateConfig],
 	// [PriceUnitWithProrationPriceConversionRateConfig],
 	// [PriceGroupedAllocationPriceConversionRateConfig],
@@ -15171,6 +15173,7 @@ type Price struct {
 	// [PricePackageWithAllocationPriceLicenseType],
 	// [PriceUnitWithPercentPriceLicenseType],
 	// [PriceMatrixWithAllocationPriceLicenseType],
+	// [PriceMatrixWithThresholdDiscountsPriceLicenseType],
 	// [PriceTieredWithProrationPriceLicenseType],
 	// [PriceUnitWithProrationPriceLicenseType],
 	// [PriceGroupedAllocationPriceLicenseType],
@@ -15197,6 +15200,9 @@ type Price struct {
 	// This field can have the runtime type of
 	// [PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig].
 	MatrixWithDisplayNameConfig interface{} `json:"matrix_with_display_name_config"`
+	// This field can have the runtime type of
+	// [PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig].
+	MatrixWithThresholdDiscountsConfig interface{} `json:"matrix_with_threshold_discounts_config"`
 	// This field can have the runtime type of
 	// [PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig].
 	MaxGroupTieredPackageConfig interface{} `json:"max_group_tiered_package_config"`
@@ -15296,6 +15302,7 @@ type priceJSON struct {
 	MatrixConfig                          apijson.Field
 	MatrixWithAllocationConfig            apijson.Field
 	MatrixWithDisplayNameConfig           apijson.Field
+	MatrixWithThresholdDiscountsConfig    apijson.Field
 	MaxGroupTieredPackageConfig           apijson.Field
 	MeteredAllowanceConfig                apijson.Field
 	MinimumCompositeConfig                apijson.Field
@@ -15339,12 +15346,12 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // [PriceTieredWithMinimumPrice], [PriceGroupedTieredPrice],
 // [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
 // [PriceUnitWithPercentPrice], [PriceMatrixWithAllocationPrice],
-// [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
-// [PriceGroupedAllocationPrice], [PriceBulkWithProrationPrice],
-// [PriceGroupedWithProratedMinimumPrice], [PriceGroupedWithMeteredMinimumPrice],
-// [PriceGroupedWithMinMaxThresholdsPrice], [PriceMatrixWithDisplayNamePrice],
-// [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
-// [PriceScalableMatrixWithUnitPricingPrice],
+// [PriceMatrixWithThresholdDiscountsPrice], [PriceTieredWithProrationPrice],
+// [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
+// [PriceBulkWithProrationPrice], [PriceGroupedWithProratedMinimumPrice],
+// [PriceGroupedWithMeteredMinimumPrice], [PriceGroupedWithMinMaxThresholdsPrice],
+// [PriceMatrixWithDisplayNamePrice], [PriceGroupedTieredPackagePrice],
+// [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
 // [PriceCumulativeGroupedAllocationPrice], [PriceDailyCreditAllowancePrice],
 // [PriceMeteredAllowancePrice], [PriceMinimumCompositePrice],
@@ -15370,12 +15377,12 @@ func (r Price) AsUnion() PriceUnion {
 // [PriceTieredWithMinimumPrice], [PriceGroupedTieredPrice],
 // [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
 // [PriceUnitWithPercentPrice], [PriceMatrixWithAllocationPrice],
-// [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
-// [PriceGroupedAllocationPrice], [PriceBulkWithProrationPrice],
-// [PriceGroupedWithProratedMinimumPrice], [PriceGroupedWithMeteredMinimumPrice],
-// [PriceGroupedWithMinMaxThresholdsPrice], [PriceMatrixWithDisplayNamePrice],
-// [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
-// [PriceScalableMatrixWithUnitPricingPrice],
+// [PriceMatrixWithThresholdDiscountsPrice], [PriceTieredWithProrationPrice],
+// [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
+// [PriceBulkWithProrationPrice], [PriceGroupedWithProratedMinimumPrice],
+// [PriceGroupedWithMeteredMinimumPrice], [PriceGroupedWithMinMaxThresholdsPrice],
+// [PriceMatrixWithDisplayNamePrice], [PriceGroupedTieredPackagePrice],
+// [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
 // [PriceCumulativeGroupedAllocationPrice], [PriceDailyCreditAllowancePrice],
 // [PriceMeteredAllowancePrice], [PriceMinimumCompositePrice],
@@ -15457,6 +15464,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceMatrixWithAllocationPrice{}),
 			DiscriminatorValue: "matrix_with_allocation",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceMatrixWithThresholdDiscountsPrice{}),
+			DiscriminatorValue: "matrix_with_threshold_discounts",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -20656,6 +20668,442 @@ func (r *PriceMatrixWithAllocationPriceLicenseType) UnmarshalJSON(data []byte) (
 }
 
 func (r priceMatrixWithAllocationPriceLicenseTypeJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithThresholdDiscountsPrice struct {
+	ID                        string                                                       `json:"id" api:"required"`
+	BillableMetric            BillableMetricTiny                                           `json:"billable_metric" api:"required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                    `json:"billing_cycle_configuration" api:"required"`
+	BillingMode               PriceMatrixWithThresholdDiscountsPriceBillingMode            `json:"billing_mode" api:"required"`
+	Cadence                   PriceMatrixWithThresholdDiscountsPriceCadence                `json:"cadence" api:"required"`
+	CompositePriceFilters     []PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter `json:"composite_price_filters" api:"required,nullable"`
+	ConversionRate            float64                                                      `json:"conversion_rate" api:"required,nullable"`
+	ConversionRateConfig      PriceMatrixWithThresholdDiscountsPriceConversionRateConfig   `json:"conversion_rate_config" api:"required,nullable"`
+	CreatedAt                 time.Time                                                    `json:"created_at" api:"required" format:"date-time"`
+	CreditAllocation          Allocation                                                   `json:"credit_allocation" api:"required,nullable"`
+	Currency                  string                                                       `json:"currency" api:"required"`
+	// Deprecated: deprecated
+	Discount                    Discount                  `json:"discount" api:"required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id" api:"required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity" api:"required,nullable"`
+	InvoiceGroupingKey          string                    `json:"invoice_grouping_key" api:"required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration" api:"required,nullable"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item" api:"required"`
+	// Configuration for matrix_with_threshold_discounts pricing
+	MatrixWithThresholdDiscountsConfig PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig `json:"matrix_with_threshold_discounts_config" api:"required"`
+	// Deprecated: deprecated
+	Maximum Maximum `json:"maximum" api:"required,nullable"`
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount" api:"required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata" api:"required"`
+	// Deprecated: deprecated
+	Minimum Minimum `json:"minimum" api:"required,nullable"`
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
+	// The pricing model type
+	ModelType      PriceMatrixWithThresholdDiscountsPriceModelType `json:"model_type" api:"required"`
+	Name           string                                          `json:"name" api:"required"`
+	PlanPhaseOrder int64                                           `json:"plan_phase_order" api:"required,nullable"`
+	PriceType      PriceMatrixWithThresholdDiscountsPricePriceType `json:"price_type" api:"required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id" api:"required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration" api:"nullable"`
+	// The LicenseType resource represents a type of license that can be assigned to
+	// users. License types are used during billing by grouping metrics on the
+	// configured grouping key.
+	LicenseType PriceMatrixWithThresholdDiscountsPriceLicenseType `json:"license_type" api:"nullable"`
+	JSON        priceMatrixWithThresholdDiscountsPriceJSON        `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceJSON contains the JSON metadata for the
+// struct [PriceMatrixWithThresholdDiscountsPrice]
+type priceMatrixWithThresholdDiscountsPriceJSON struct {
+	ID                                 apijson.Field
+	BillableMetric                     apijson.Field
+	BillingCycleConfiguration          apijson.Field
+	BillingMode                        apijson.Field
+	Cadence                            apijson.Field
+	CompositePriceFilters              apijson.Field
+	ConversionRate                     apijson.Field
+	ConversionRateConfig               apijson.Field
+	CreatedAt                          apijson.Field
+	CreditAllocation                   apijson.Field
+	Currency                           apijson.Field
+	Discount                           apijson.Field
+	ExternalPriceID                    apijson.Field
+	FixedPriceQuantity                 apijson.Field
+	InvoiceGroupingKey                 apijson.Field
+	InvoicingCycleConfiguration        apijson.Field
+	Item                               apijson.Field
+	MatrixWithThresholdDiscountsConfig apijson.Field
+	Maximum                            apijson.Field
+	MaximumAmount                      apijson.Field
+	Metadata                           apijson.Field
+	Minimum                            apijson.Field
+	MinimumAmount                      apijson.Field
+	ModelType                          apijson.Field
+	Name                               apijson.Field
+	PlanPhaseOrder                     apijson.Field
+	PriceType                          apijson.Field
+	ReplacesPriceID                    apijson.Field
+	DimensionalPriceConfiguration      apijson.Field
+	LicenseType                        apijson.Field
+	raw                                string
+	ExtraFields                        map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceMatrixWithThresholdDiscountsPrice) implementsPrice() {}
+
+type PriceMatrixWithThresholdDiscountsPriceBillingMode string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceBillingModeInAdvance PriceMatrixWithThresholdDiscountsPriceBillingMode = "in_advance"
+	PriceMatrixWithThresholdDiscountsPriceBillingModeInArrear  PriceMatrixWithThresholdDiscountsPriceBillingMode = "in_arrear"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceBillingModeInAdvance, PriceMatrixWithThresholdDiscountsPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
+
+type PriceMatrixWithThresholdDiscountsPriceCadence string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceCadenceOneTime    PriceMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	PriceMatrixWithThresholdDiscountsPriceCadenceMonthly    PriceMatrixWithThresholdDiscountsPriceCadence = "monthly"
+	PriceMatrixWithThresholdDiscountsPriceCadenceQuarterly  PriceMatrixWithThresholdDiscountsPriceCadence = "quarterly"
+	PriceMatrixWithThresholdDiscountsPriceCadenceSemiAnnual PriceMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	PriceMatrixWithThresholdDiscountsPriceCadenceAnnual     PriceMatrixWithThresholdDiscountsPriceCadence = "annual"
+	PriceMatrixWithThresholdDiscountsPriceCadenceCustom     PriceMatrixWithThresholdDiscountsPriceCadence = "custom"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceCadenceOneTime, PriceMatrixWithThresholdDiscountsPriceCadenceMonthly, PriceMatrixWithThresholdDiscountsPriceCadenceQuarterly, PriceMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, PriceMatrixWithThresholdDiscountsPriceCadenceAnnual, PriceMatrixWithThresholdDiscountsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                       `json:"values" api:"required"`
+	JSON   priceMatrixWithThresholdDiscountsPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct
+// [PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter]
+type priceMatrixWithThresholdDiscountsPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceID       PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = "price_id"
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldItemID        PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = "item_id"
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceType     PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = "price_type"
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldCurrency      PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = "currency"
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPricingUnitID PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceID, PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldItemID, PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceType, PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldCurrency, PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorIncludes PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator = "includes"
+	PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorExcludes PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorIncludes, PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type PriceMatrixWithThresholdDiscountsPriceConversionRateConfig struct {
+	ConversionRateType PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType `json:"conversion_rate_type" api:"required"`
+	TieredConfig       ConversionRateTieredConfig                                                   `json:"tiered_config"`
+	UnitConfig         ConversionRateUnitConfig                                                     `json:"unit_config"`
+	JSON               priceMatrixWithThresholdDiscountsPriceConversionRateConfigJSON               `json:"-"`
+	union              PriceMatrixWithThresholdDiscountsPriceConversionRateConfigUnion
+}
+
+// priceMatrixWithThresholdDiscountsPriceConversionRateConfigJSON contains the JSON
+// metadata for the struct
+// [PriceMatrixWithThresholdDiscountsPriceConversionRateConfig]
+type priceMatrixWithThresholdDiscountsPriceConversionRateConfigJSON struct {
+	ConversionRateType apijson.Field
+	TieredConfig       apijson.Field
+	UnitConfig         apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceConversionRateConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
+	*r = PriceMatrixWithThresholdDiscountsPriceConversionRateConfig{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [PriceMatrixWithThresholdDiscountsPriceConversionRateConfigUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [UnitConversionRateConfig],
+// [TieredConversionRateConfig].
+func (r PriceMatrixWithThresholdDiscountsPriceConversionRateConfig) AsUnion() PriceMatrixWithThresholdDiscountsPriceConversionRateConfigUnion {
+	return r.union
+}
+
+// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
+type PriceMatrixWithThresholdDiscountsPriceConversionRateConfigUnion interface {
+	ImplementsPriceMatrixWithThresholdDiscountsPriceConversionRateConfig()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*PriceMatrixWithThresholdDiscountsPriceConversionRateConfigUnion)(nil)).Elem(),
+		"conversion_rate_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
+			DiscriminatorValue: "unit",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
+			DiscriminatorValue: "tiered",
+		},
+	)
+}
+
+type PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeUnit   PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType = "unit"
+	PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeTiered PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeUnit, PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+// Configuration for matrix_with_threshold_discounts pricing
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig struct {
+	// Unit price used for usage that does not match any defined matrix cell.
+	DefaultUnitAmount string `json:"default_unit_amount" api:"required"`
+	// First matrix dimension key.
+	FirstDimension string `json:"first_dimension" api:"required"`
+	// Per-cell unit prices.
+	MatrixValues []PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue `json:"matrix_values" api:"required"`
+	// Optional second matrix dimension key.
+	SecondDimension         string                                                                                           `json:"second_dimension" api:"nullable"`
+	ThresholdDiscountGroups []PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup `json:"threshold_discount_groups"`
+	JSON                    priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigJSON                     `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigJSON
+// contains the JSON metadata for the struct
+// [PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig]
+type priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigJSON struct {
+	DefaultUnitAmount       apijson.Field
+	FirstDimension          apijson.Field
+	MatrixValues            apijson.Field
+	SecondDimension         apijson.Field
+	ThresholdDiscountGroups apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue struct {
+	FirstDimensionValue  string                                                                                  `json:"first_dimension_value" api:"required"`
+	UnitAmount           string                                                                                  `json:"unit_amount" api:"required"`
+	SecondDimensionValue string                                                                                  `json:"second_dimension_value" api:"nullable"`
+	JSON                 priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValueJSON `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValueJSON
+// contains the JSON metadata for the struct
+// [PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue]
+type priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValueJSON struct {
+	FirstDimensionValue  apijson.Field
+	UnitAmount           apijson.Field
+	SecondDimensionValue apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValueJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup struct {
+	// Discount rate applied to spend above the threshold.
+	AboveThresholdDiscountPercentage string `json:"above_threshold_discount_percentage" api:"required"`
+	// Discount rate applied to spend at or below the threshold. Set to 0 for no
+	// baseline discount.
+	BelowThresholdDiscountPercentage string `json:"below_threshold_discount_percentage" api:"required"`
+	// Semicolon-separated list of matrix cell coordinates targeted by this group. Each
+	// coordinate is `first,second` when the matrix has two dimensions, or just `first`
+	// for a single-dimension matrix. Example: `blue,circle;green,triangle`.
+	CellCoordinates string                                                                                             `json:"cell_coordinates" api:"required"`
+	ThresholdAmount string                                                                                             `json:"threshold_amount" api:"required"`
+	Description     string                                                                                             `json:"description" api:"nullable"`
+	JSON            priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroupJSON `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroupJSON
+// contains the JSON metadata for the struct
+// [PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup]
+type priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroupJSON struct {
+	AboveThresholdDiscountPercentage apijson.Field
+	BelowThresholdDiscountPercentage apijson.Field
+	CellCoordinates                  apijson.Field
+	ThresholdAmount                  apijson.Field
+	Description                      apijson.Field
+	raw                              string
+	ExtraFields                      map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroupJSON) RawJSON() string {
+	return r.raw
+}
+
+// The pricing model type
+type PriceMatrixWithThresholdDiscountsPriceModelType string
+
+const (
+	PriceMatrixWithThresholdDiscountsPriceModelTypeMatrixWithThresholdDiscounts PriceMatrixWithThresholdDiscountsPriceModelType = "matrix_with_threshold_discounts"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPriceModelTypeMatrixWithThresholdDiscounts:
+		return true
+	}
+	return false
+}
+
+type PriceMatrixWithThresholdDiscountsPricePriceType string
+
+const (
+	PriceMatrixWithThresholdDiscountsPricePriceTypeUsagePrice     PriceMatrixWithThresholdDiscountsPricePriceType = "usage_price"
+	PriceMatrixWithThresholdDiscountsPricePriceTypeFixedPrice     PriceMatrixWithThresholdDiscountsPricePriceType = "fixed_price"
+	PriceMatrixWithThresholdDiscountsPricePriceTypeCompositePrice PriceMatrixWithThresholdDiscountsPricePriceType = "composite_price"
+)
+
+func (r PriceMatrixWithThresholdDiscountsPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithThresholdDiscountsPricePriceTypeUsagePrice, PriceMatrixWithThresholdDiscountsPricePriceTypeFixedPrice, PriceMatrixWithThresholdDiscountsPricePriceTypeCompositePrice:
+		return true
+	}
+	return false
+}
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+type PriceMatrixWithThresholdDiscountsPriceLicenseType struct {
+	// The Orb-assigned unique identifier for the license type.
+	ID string `json:"id" api:"required"`
+	// The key used for grouping licenses of this type. This is typically a user
+	// identifier field.
+	GroupingKey string `json:"grouping_key" api:"required"`
+	// The name of the license type.
+	Name string                                                `json:"name" api:"required"`
+	JSON priceMatrixWithThresholdDiscountsPriceLicenseTypeJSON `json:"-"`
+}
+
+// priceMatrixWithThresholdDiscountsPriceLicenseTypeJSON contains the JSON metadata
+// for the struct [PriceMatrixWithThresholdDiscountsPriceLicenseType]
+type priceMatrixWithThresholdDiscountsPriceLicenseTypeJSON struct {
+	ID          apijson.Field
+	GroupingKey apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithThresholdDiscountsPriceLicenseType) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithThresholdDiscountsPriceLicenseTypeJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -28017,6 +28465,7 @@ const (
 	PriceModelTypePackageWithAllocation           PriceModelType = "package_with_allocation"
 	PriceModelTypeUnitWithPercent                 PriceModelType = "unit_with_percent"
 	PriceModelTypeMatrixWithAllocation            PriceModelType = "matrix_with_allocation"
+	PriceModelTypeMatrixWithThresholdDiscounts    PriceModelType = "matrix_with_threshold_discounts"
 	PriceModelTypeTieredWithProration             PriceModelType = "tiered_with_proration"
 	PriceModelTypeUnitWithProration               PriceModelType = "unit_with_proration"
 	PriceModelTypeGroupedAllocation               PriceModelType = "grouped_allocation"
@@ -28040,7 +28489,7 @@ const (
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypeBulkWithFilters, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeCumulativeGroupedAllocation, PriceModelTypeDailyCreditAllowance, PriceModelTypeMeteredAllowance, PriceModelTypeMinimumComposite, PriceModelTypePercent, PriceModelTypeEventOutput:
+	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypeBulkWithFilters, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeMatrixWithThresholdDiscounts, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeCumulativeGroupedAllocation, PriceModelTypeDailyCreditAllowance, PriceModelTypeMeteredAllowance, PriceModelTypeMinimumComposite, PriceModelTypePercent, PriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -28486,6 +28935,9 @@ func (r TieredConversionRateConfig) ImplementsPriceUnitWithPercentPriceConversio
 
 func (r TieredConversionRateConfig) ImplementsPriceMatrixWithAllocationPriceConversionRateConfig() {}
 
+func (r TieredConversionRateConfig) ImplementsPriceMatrixWithThresholdDiscountsPriceConversionRateConfig() {
+}
+
 func (r TieredConversionRateConfig) ImplementsPriceTieredWithProrationPriceConversionRateConfig() {}
 
 func (r TieredConversionRateConfig) ImplementsPriceUnitWithProrationPriceConversionRateConfig() {}
@@ -28710,6 +29162,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPr
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -28735,6 +29190,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsRepla
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -28764,6 +29222,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVers
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -28791,6 +29252,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVers
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -28816,6 +29280,9 @@ func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesLicenseAll
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -28881,6 +29348,9 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnit
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -28941,6 +29411,9 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEven
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
@@ -28960,6 +29433,9 @@ func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPr
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
@@ -29058,6 +29534,9 @@ func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionUnitWithProrat
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -29080,6 +29559,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPrice
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -29106,6 +29588,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplaceP
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
@@ -29125,6 +29610,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsPar
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -29149,6 +29637,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -29410,6 +29901,9 @@ func (r UnitConversionRateConfig) ImplementsPriceUnitWithPercentPriceConversionR
 
 func (r UnitConversionRateConfig) ImplementsPriceMatrixWithAllocationPriceConversionRateConfig() {}
 
+func (r UnitConversionRateConfig) ImplementsPriceMatrixWithThresholdDiscountsPriceConversionRateConfig() {
+}
+
 func (r UnitConversionRateConfig) ImplementsPriceTieredWithProrationPriceConversionRateConfig() {}
 
 func (r UnitConversionRateConfig) ImplementsPriceUnitWithProrationPriceConversionRateConfig() {}
@@ -29632,6 +30126,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPric
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -29657,6 +30154,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplace
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -29686,6 +30186,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersio
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -29713,6 +30216,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersio
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -29738,6 +30244,9 @@ func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesLicenseAlloc
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -29803,6 +30312,9 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitWi
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -29863,6 +30375,9 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEventO
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
@@ -29882,6 +30397,9 @@ func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPric
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
@@ -29980,6 +30498,9 @@ func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionUnitWithProratio
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
@@ -30002,6 +30523,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesP
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -30028,6 +30552,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePri
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
@@ -30047,6 +30574,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParam
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -30071,6 +30601,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeP
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
