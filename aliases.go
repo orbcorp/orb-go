@@ -7129,6 +7129,123 @@ const PriceMatrixWithAllocationPricePriceTypeCompositePrice = shared.PriceMatrix
 type PriceMatrixWithAllocationPriceLicenseType = shared.PriceMatrixWithAllocationPriceLicenseType
 
 // This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPrice = shared.PriceMatrixWithThresholdDiscountsPrice
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceBillingMode = shared.PriceMatrixWithThresholdDiscountsPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceBillingModeInAdvance = shared.PriceMatrixWithThresholdDiscountsPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceBillingModeInArrear = shared.PriceMatrixWithThresholdDiscountsPriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceCadence = shared.PriceMatrixWithThresholdDiscountsPriceCadence
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceOneTime = shared.PriceMatrixWithThresholdDiscountsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceMonthly = shared.PriceMatrixWithThresholdDiscountsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceQuarterly = shared.PriceMatrixWithThresholdDiscountsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceSemiAnnual = shared.PriceMatrixWithThresholdDiscountsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceAnnual = shared.PriceMatrixWithThresholdDiscountsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCadenceCustom = shared.PriceMatrixWithThresholdDiscountsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceID = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldItemID = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceType = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldCurrency = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorIncludes = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorExcludes = shared.PriceMatrixWithThresholdDiscountsPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceConversionRateConfig = shared.PriceMatrixWithThresholdDiscountsPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType = shared.PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithThresholdDiscountsPriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for matrix_with_threshold_discounts pricing
+//
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig = shared.PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfig
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue = shared.PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigMatrixValue
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup = shared.PriceMatrixWithThresholdDiscountsPriceMatrixWithThresholdDiscountsConfigThresholdDiscountGroup
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceModelType = shared.PriceMatrixWithThresholdDiscountsPriceModelType
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPriceModelTypeMatrixWithThresholdDiscounts = shared.PriceMatrixWithThresholdDiscountsPriceModelTypeMatrixWithThresholdDiscounts
+
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPricePriceType = shared.PriceMatrixWithThresholdDiscountsPricePriceType
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPricePriceTypeUsagePrice = shared.PriceMatrixWithThresholdDiscountsPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPricePriceTypeFixedPrice = shared.PriceMatrixWithThresholdDiscountsPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceMatrixWithThresholdDiscountsPricePriceTypeCompositePrice = shared.PriceMatrixWithThresholdDiscountsPricePriceTypeCompositePrice
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithThresholdDiscountsPriceLicenseType = shared.PriceMatrixWithThresholdDiscountsPriceLicenseType
+
+// This is an alias to an internal type.
 type PriceTieredWithProrationPrice = shared.PriceTieredWithProrationPrice
 
 // This is an alias to an internal type.
@@ -9373,6 +9490,9 @@ const PriceModelTypeUnitWithPercent = shared.PriceModelTypeUnitWithPercent
 
 // This is an alias to an internal value.
 const PriceModelTypeMatrixWithAllocation = shared.PriceModelTypeMatrixWithAllocation
+
+// This is an alias to an internal value.
+const PriceModelTypeMatrixWithThresholdDiscounts = shared.PriceModelTypeMatrixWithThresholdDiscounts
 
 // This is an alias to an internal value.
 const PriceModelTypeTieredWithProration = shared.PriceModelTypeTieredWithProration
