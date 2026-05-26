@@ -341,6 +341,11 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 // customer_id or external_customer_id query parameters. To filter subscriptions
 // for multiple customers, use the customer_id[] or external_customer_id[] query
 // parameters.
+//
+// Subscriptions can be filtered by status using the status query parameter (one of
+// `active`, `ended`, or `upcoming`). To filter for multiple statuses in a single
+// request, use the status[] query parameter, e.g.
+// `status[]=active&status[]=ended`.
 func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -367,6 +372,11 @@ func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListPa
 // customer_id or external_customer_id query parameters. To filter subscriptions
 // for multiple customers, use the customer_id[] or external_customer_id[] query
 // parameters.
+//
+// Subscriptions can be filtered by status using the status query parameter (one of
+// `active`, `ended`, or `upcoming`). To filter for multiple statuses in a single
+// request, use the status[] query parameter, e.g.
+// `status[]=active&status[]=ended`.
 func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
