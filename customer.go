@@ -372,9 +372,13 @@ type Customer struct {
 	PaymentProvider CustomerPaymentProvider `json:"payment_provider" api:"required,nullable"`
 	// The ID of this customer in an external payments solution, such as Stripe. This
 	// is used for creating charges or invoices in the external system via Orb.
-	PaymentProviderID string         `json:"payment_provider_id" api:"required,nullable"`
-	PortalURL         string         `json:"portal_url" api:"required,nullable"`
-	ShippingAddress   shared.Address `json:"shipping_address" api:"required,nullable"`
+	PaymentProviderID string `json:"payment_provider_id" api:"required,nullable"`
+	// Deprecated. Returns the URL of the most recent non-expired portal link, or null.
+	// When the account has opted into customer portal sessions, this field always
+	// returns null. Use POST /v1/customers/{id}/portal_sessions to mint short-lived
+	// portal session URLs.
+	PortalURL       string         `json:"portal_url" api:"required,nullable"`
+	ShippingAddress shared.Address `json:"shipping_address" api:"required,nullable"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
