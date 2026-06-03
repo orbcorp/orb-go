@@ -493,8 +493,8 @@ type InvoiceFetchUpcomingResponse struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
-	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
-	// invoice's due date, or 60 days after being re-generated through the UI.
+	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
+	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// Automatically generated invoice number to help track and reconcile invoices.
 	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
@@ -1369,8 +1369,8 @@ type InvoiceIssueSummaryResponse struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
-	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
-	// invoice's due date, or 60 days after being re-generated through the UI.
+	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
+	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
 	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
@@ -1898,8 +1898,8 @@ type InvoiceListSummaryResponse struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
-	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
-	// invoice's due date, or 60 days after being re-generated through the UI.
+	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
+	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
 	// The scheduled date of the invoice
 	InvoiceDate time.Time `json:"invoice_date" api:"required" format:"date-time"`
