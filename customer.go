@@ -614,17 +614,16 @@ func (r customerHierarchyJSON) RawJSON() string {
 type CustomerPaymentProvider string
 
 const (
-	CustomerPaymentProviderQuickbooks        CustomerPaymentProvider = "quickbooks"
-	CustomerPaymentProviderBillCom           CustomerPaymentProvider = "bill.com"
-	CustomerPaymentProviderStripeCharge      CustomerPaymentProvider = "stripe_charge"
-	CustomerPaymentProviderStripeInvoice     CustomerPaymentProvider = "stripe_invoice"
-	CustomerPaymentProviderNetsuite          CustomerPaymentProvider = "netsuite"
-	CustomerPaymentProviderNetsuiteAmpersand CustomerPaymentProvider = "netsuite_ampersand"
+	CustomerPaymentProviderQuickbooks    CustomerPaymentProvider = "quickbooks"
+	CustomerPaymentProviderBillCom       CustomerPaymentProvider = "bill.com"
+	CustomerPaymentProviderStripeCharge  CustomerPaymentProvider = "stripe_charge"
+	CustomerPaymentProviderStripeInvoice CustomerPaymentProvider = "stripe_invoice"
+	CustomerPaymentProviderNetsuite      CustomerPaymentProvider = "netsuite"
 )
 
 func (r CustomerPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerPaymentProviderQuickbooks, CustomerPaymentProviderBillCom, CustomerPaymentProviderStripeCharge, CustomerPaymentProviderStripeInvoice, CustomerPaymentProviderNetsuite, CustomerPaymentProviderNetsuiteAmpersand:
+	case CustomerPaymentProviderQuickbooks, CustomerPaymentProviderBillCom, CustomerPaymentProviderStripeCharge, CustomerPaymentProviderStripeInvoice, CustomerPaymentProviderNetsuite:
 		return true
 	}
 	return false
@@ -1176,17 +1175,16 @@ func (r CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType) IsKno
 type CustomerNewParamsPaymentProvider string
 
 const (
-	CustomerNewParamsPaymentProviderQuickbooks        CustomerNewParamsPaymentProvider = "quickbooks"
-	CustomerNewParamsPaymentProviderBillCom           CustomerNewParamsPaymentProvider = "bill.com"
-	CustomerNewParamsPaymentProviderStripeCharge      CustomerNewParamsPaymentProvider = "stripe_charge"
-	CustomerNewParamsPaymentProviderStripeInvoice     CustomerNewParamsPaymentProvider = "stripe_invoice"
-	CustomerNewParamsPaymentProviderNetsuite          CustomerNewParamsPaymentProvider = "netsuite"
-	CustomerNewParamsPaymentProviderNetsuiteAmpersand CustomerNewParamsPaymentProvider = "netsuite_ampersand"
+	CustomerNewParamsPaymentProviderQuickbooks    CustomerNewParamsPaymentProvider = "quickbooks"
+	CustomerNewParamsPaymentProviderBillCom       CustomerNewParamsPaymentProvider = "bill.com"
+	CustomerNewParamsPaymentProviderStripeCharge  CustomerNewParamsPaymentProvider = "stripe_charge"
+	CustomerNewParamsPaymentProviderStripeInvoice CustomerNewParamsPaymentProvider = "stripe_invoice"
+	CustomerNewParamsPaymentProviderNetsuite      CustomerNewParamsPaymentProvider = "netsuite"
 )
 
 func (r CustomerNewParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsPaymentProviderQuickbooks, CustomerNewParamsPaymentProviderBillCom, CustomerNewParamsPaymentProviderStripeCharge, CustomerNewParamsPaymentProviderStripeInvoice, CustomerNewParamsPaymentProviderNetsuite, CustomerNewParamsPaymentProviderNetsuiteAmpersand:
+	case CustomerNewParamsPaymentProviderQuickbooks, CustomerNewParamsPaymentProviderBillCom, CustomerNewParamsPaymentProviderStripeCharge, CustomerNewParamsPaymentProviderStripeInvoice, CustomerNewParamsPaymentProviderNetsuite:
 		return true
 	}
 	return false
@@ -1590,17 +1588,16 @@ func (r CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType) Is
 type CustomerUpdateParamsPaymentProvider string
 
 const (
-	CustomerUpdateParamsPaymentProviderQuickbooks        CustomerUpdateParamsPaymentProvider = "quickbooks"
-	CustomerUpdateParamsPaymentProviderBillCom           CustomerUpdateParamsPaymentProvider = "bill.com"
-	CustomerUpdateParamsPaymentProviderStripeCharge      CustomerUpdateParamsPaymentProvider = "stripe_charge"
-	CustomerUpdateParamsPaymentProviderStripeInvoice     CustomerUpdateParamsPaymentProvider = "stripe_invoice"
-	CustomerUpdateParamsPaymentProviderNetsuite          CustomerUpdateParamsPaymentProvider = "netsuite"
-	CustomerUpdateParamsPaymentProviderNetsuiteAmpersand CustomerUpdateParamsPaymentProvider = "netsuite_ampersand"
+	CustomerUpdateParamsPaymentProviderQuickbooks    CustomerUpdateParamsPaymentProvider = "quickbooks"
+	CustomerUpdateParamsPaymentProviderBillCom       CustomerUpdateParamsPaymentProvider = "bill.com"
+	CustomerUpdateParamsPaymentProviderStripeCharge  CustomerUpdateParamsPaymentProvider = "stripe_charge"
+	CustomerUpdateParamsPaymentProviderStripeInvoice CustomerUpdateParamsPaymentProvider = "stripe_invoice"
+	CustomerUpdateParamsPaymentProviderNetsuite      CustomerUpdateParamsPaymentProvider = "netsuite"
 )
 
 func (r CustomerUpdateParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsPaymentProviderQuickbooks, CustomerUpdateParamsPaymentProviderBillCom, CustomerUpdateParamsPaymentProviderStripeCharge, CustomerUpdateParamsPaymentProviderStripeInvoice, CustomerUpdateParamsPaymentProviderNetsuite, CustomerUpdateParamsPaymentProviderNetsuiteAmpersand:
+	case CustomerUpdateParamsPaymentProviderQuickbooks, CustomerUpdateParamsPaymentProviderBillCom, CustomerUpdateParamsPaymentProviderStripeCharge, CustomerUpdateParamsPaymentProviderStripeInvoice, CustomerUpdateParamsPaymentProviderNetsuite:
 		return true
 	}
 	return false
@@ -2024,17 +2021,16 @@ func (r CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProv
 type CustomerUpdateByExternalIDParamsPaymentProvider string
 
 const (
-	CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks        CustomerUpdateByExternalIDParamsPaymentProvider = "quickbooks"
-	CustomerUpdateByExternalIDParamsPaymentProviderBillCom           CustomerUpdateByExternalIDParamsPaymentProvider = "bill.com"
-	CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge      CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_charge"
-	CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice     CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_invoice"
-	CustomerUpdateByExternalIDParamsPaymentProviderNetsuite          CustomerUpdateByExternalIDParamsPaymentProvider = "netsuite"
-	CustomerUpdateByExternalIDParamsPaymentProviderNetsuiteAmpersand CustomerUpdateByExternalIDParamsPaymentProvider = "netsuite_ampersand"
+	CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks    CustomerUpdateByExternalIDParamsPaymentProvider = "quickbooks"
+	CustomerUpdateByExternalIDParamsPaymentProviderBillCom       CustomerUpdateByExternalIDParamsPaymentProvider = "bill.com"
+	CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge  CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_charge"
+	CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_invoice"
+	CustomerUpdateByExternalIDParamsPaymentProviderNetsuite      CustomerUpdateByExternalIDParamsPaymentProvider = "netsuite"
 )
 
 func (r CustomerUpdateByExternalIDParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks, CustomerUpdateByExternalIDParamsPaymentProviderBillCom, CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge, CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice, CustomerUpdateByExternalIDParamsPaymentProviderNetsuite, CustomerUpdateByExternalIDParamsPaymentProviderNetsuiteAmpersand:
+	case CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks, CustomerUpdateByExternalIDParamsPaymentProviderBillCom, CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge, CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice, CustomerUpdateByExternalIDParamsPaymentProviderNetsuite:
 		return true
 	}
 	return false
