@@ -623,6 +623,9 @@ type AlertNewForSubscriptionParams struct {
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type" api:"required"`
+	// The case sensitive currency or custom pricing unit to use for grouped cost
+	// alerts. Required when grouping_keys is set.
+	Currency param.Field[string] `json:"currency"`
 	// The property keys to group cost alerts by. Only applicable for cost_exceeded
 	// alerts.
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
@@ -632,9 +635,6 @@ type AlertNewForSubscriptionParams struct {
 	// Supports filtering by price_id, item_id, or price_type with includes/excludes
 	// operators. Only applicable when grouping_keys is set.
 	PriceFilters param.Field[[]AlertNewForSubscriptionParamsPriceFilter] `json:"price_filters"`
-	// The pricing unit to use for grouped cost alerts. Required when grouping_keys is
-	// set.
-	PricingUnitID param.Field[string] `json:"pricing_unit_id"`
 	// Per-group threshold overrides. Each override maps a specific combination of
 	// grouping_keys values to a list of thresholds that fully replaces the default
 	// thresholds for that group. An empty thresholds list silences the group. Groups

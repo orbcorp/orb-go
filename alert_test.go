@@ -183,6 +183,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 				Value: orb.F(0.000000),
 			}}),
 			Type:         orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),
+			Currency:     orb.F("currency"),
 			GroupingKeys: orb.F([]string{"string"}),
 			MetricID:     orb.F("metric_id"),
 			PriceFilters: orb.F([]orb.AlertNewForSubscriptionParamsPriceFilter{{
@@ -190,7 +191,6 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 				Operator: orb.F(orb.AlertNewForSubscriptionParamsPriceFiltersOperatorIncludes),
 				Values:   orb.F([]string{"string"}),
 			}}),
-			PricingUnitID: orb.F("pricing_unit_id"),
 			ThresholdOverrides: orb.F([]orb.AlertNewForSubscriptionParamsThresholdOverride{{
 				GroupValues: orb.F([]string{"string"}),
 				Thresholds: orb.F([]orb.ThresholdParam{{

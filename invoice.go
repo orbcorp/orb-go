@@ -1167,11 +1167,12 @@ type InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider string
 
 const (
 	InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderStripe InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider = "stripe"
+	InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderAdyen  InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider = "adyen"
 )
 
 func (r InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider) IsKnown() bool {
 	switch r {
-	case InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderStripe:
+	case InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderStripe, InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -1696,11 +1697,12 @@ type InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider string
 
 const (
 	InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderStripe InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider = "stripe"
+	InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderAdyen  InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider = "adyen"
 )
 
 func (r InvoiceIssueSummaryResponsePaymentAttemptsPaymentProvider) IsKnown() bool {
 	switch r {
-	case InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderStripe:
+	case InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderStripe, InvoiceIssueSummaryResponsePaymentAttemptsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -2225,11 +2227,12 @@ type InvoiceListSummaryResponsePaymentAttemptsPaymentProvider string
 
 const (
 	InvoiceListSummaryResponsePaymentAttemptsPaymentProviderStripe InvoiceListSummaryResponsePaymentAttemptsPaymentProvider = "stripe"
+	InvoiceListSummaryResponsePaymentAttemptsPaymentProviderAdyen  InvoiceListSummaryResponsePaymentAttemptsPaymentProvider = "adyen"
 )
 
 func (r InvoiceListSummaryResponsePaymentAttemptsPaymentProvider) IsKnown() bool {
 	switch r {
-	case InvoiceListSummaryResponsePaymentAttemptsPaymentProviderStripe:
+	case InvoiceListSummaryResponsePaymentAttemptsPaymentProviderStripe, InvoiceListSummaryResponsePaymentAttemptsPaymentProviderAdyen:
 		return true
 	}
 	return false

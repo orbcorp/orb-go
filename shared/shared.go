@@ -1706,11 +1706,12 @@ type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider s
 
 const (
 	ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider = "stripe"
+	ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderAdyen  ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider = "adyen"
 )
 
 func (r ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider) IsKnown() bool {
 	switch r {
-	case ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe:
+	case ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe, ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -3941,11 +3942,12 @@ type InvoicePaymentAttemptsPaymentProvider string
 
 const (
 	InvoicePaymentAttemptsPaymentProviderStripe InvoicePaymentAttemptsPaymentProvider = "stripe"
+	InvoicePaymentAttemptsPaymentProviderAdyen  InvoicePaymentAttemptsPaymentProvider = "adyen"
 )
 
 func (r InvoicePaymentAttemptsPaymentProvider) IsKnown() bool {
 	switch r {
-	case InvoicePaymentAttemptsPaymentProviderStripe:
+	case InvoicePaymentAttemptsPaymentProviderStripe, InvoicePaymentAttemptsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -27976,17 +27978,28 @@ func (r PricePercentCompositePriceModelType) IsKnown() bool {
 
 // Configuration for percent pricing
 type PricePercentCompositePricePercentConfig struct {
-	// What percent of the component subtotals to charge
-	Percent float64                                     `json:"percent" api:"required"`
-	JSON    pricePercentCompositePricePercentConfigJSON `json:"-"`
+	// Fraction of the component subtotals to charge (0 < percent <= 1).
+	Percent float64 `json:"percent" api:"required"`
+	// Maximum amount to charge. If unset, the fee has no upper bound.
+	MaximumAmount string `json:"maximum_amount" api:"nullable"`
+	// Minimum amount to charge. If unset, the fee is bounded below by 0.
+	MinimumAmount string `json:"minimum_amount" api:"nullable"`
+	// If true, the minimum_amount is prorated based on the service period. The
+	// maximum_amount is an absolute cap (never prorated), and the percent applied to
+	// upstream subtotals is never prorated either.
+	Prorated bool                                        `json:"prorated"`
+	JSON     pricePercentCompositePricePercentConfigJSON `json:"-"`
 }
 
 // pricePercentCompositePricePercentConfigJSON contains the JSON metadata for the
 // struct [PricePercentCompositePricePercentConfig]
 type pricePercentCompositePricePercentConfigJSON struct {
-	Percent     apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	Percent       apijson.Field
+	MaximumAmount apijson.Field
+	MinimumAmount apijson.Field
+	Prorated      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
 }
 
 func (r *PricePercentCompositePricePercentConfig) UnmarshalJSON(data []byte) (err error) {
