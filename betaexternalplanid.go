@@ -1674,8 +1674,16 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompos
 
 // Configuration for percent pricing
 type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig struct {
-	// What percent of the component subtotals to charge
+	// Fraction of the component subtotals to charge (0 < percent <= 1).
 	Percent param.Field[float64] `json:"percent" api:"required"`
+	// Maximum amount to charge. If unset, the fee has no upper bound.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Minimum amount to charge. If unset, the fee is bounded below by 0.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// If true, the minimum_amount is prorated based on the service period. The
+	// maximum_amount is an absolute cap (never prorated), and the percent applied to
+	// upstream subtotals is never prorated either.
+	Prorated param.Field[bool] `json:"prorated"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
@@ -3525,8 +3533,16 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCo
 
 // Configuration for percent pricing
 type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig struct {
-	// What percent of the component subtotals to charge
+	// Fraction of the component subtotals to charge (0 < percent <= 1).
 	Percent param.Field[float64] `json:"percent" api:"required"`
+	// Maximum amount to charge. If unset, the fee has no upper bound.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Minimum amount to charge. If unset, the fee is bounded below by 0.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// If true, the minimum_amount is prorated based on the service period. The
+	// maximum_amount is an absolute cap (never prorated), and the percent applied to
+	// upstream subtotals is never prorated either.
+	Prorated param.Field[bool] `json:"prorated"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePricePercentConfig) MarshalJSON() (data []byte, err error) {
