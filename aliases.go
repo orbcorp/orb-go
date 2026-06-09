@@ -361,6 +361,9 @@ type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider =
 // This is an alias to an internal value.
 const ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe = shared.ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe
 
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderAdyen = shared.ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderAdyen
+
 // This is an alias to an internal type.
 type ChangedSubscriptionResourcesCreatedInvoicesStatus = shared.ChangedSubscriptionResourcesCreatedInvoicesStatus
 
@@ -1653,6 +1656,9 @@ type InvoicePaymentAttemptsPaymentProvider = shared.InvoicePaymentAttemptsPaymen
 
 // This is an alias to an internal value.
 const InvoicePaymentAttemptsPaymentProviderStripe = shared.InvoicePaymentAttemptsPaymentProviderStripe
+
+// This is an alias to an internal value.
+const InvoicePaymentAttemptsPaymentProviderAdyen = shared.InvoicePaymentAttemptsPaymentProviderAdyen
 
 // This is an alias to an internal type.
 type InvoiceStatus = shared.InvoiceStatus

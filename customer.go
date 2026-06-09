@@ -538,6 +538,12 @@ type Customer struct {
 	// Whether automatic tax calculation is enabled for this customer. This field is
 	// nullable for backwards compatibility but will always return a boolean value.
 	AutomaticTaxEnabled bool `json:"automatic_tax_enabled" api:"nullable"`
+	// A payment method represents a customer's stored payment instrument held with an
+	// external payment provider (such as Adyen or Stripe).
+	//
+	// The serialization is intentionally minimal for now; provider-pulled details
+	// (e.g. card display metadata) will be added over time.
+	DefaultPaymentMethod CustomerDefaultPaymentMethod `json:"default_payment_method" api:"nullable"`
 	// Payment configuration for the customer, applicable when using Orb Invoicing with
 	// a supported payment provider such as Stripe.
 	PaymentConfiguration   CustomerPaymentConfiguration   `json:"payment_configuration" api:"nullable"`
@@ -570,6 +576,7 @@ type customerJSON struct {
 	Timezone                    apijson.Field
 	AccountingSyncConfiguration apijson.Field
 	AutomaticTaxEnabled         apijson.Field
+	DefaultPaymentMethod        apijson.Field
 	PaymentConfiguration        apijson.Field
 	ReportingConfiguration      apijson.Field
 	raw                         string
@@ -619,11 +626,12 @@ const (
 	CustomerPaymentProviderStripeCharge  CustomerPaymentProvider = "stripe_charge"
 	CustomerPaymentProviderStripeInvoice CustomerPaymentProvider = "stripe_invoice"
 	CustomerPaymentProviderNetsuite      CustomerPaymentProvider = "netsuite"
+	CustomerPaymentProviderAdyen         CustomerPaymentProvider = "adyen"
 )
 
 func (r CustomerPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerPaymentProviderQuickbooks, CustomerPaymentProviderBillCom, CustomerPaymentProviderStripeCharge, CustomerPaymentProviderStripeInvoice, CustomerPaymentProviderNetsuite:
+	case CustomerPaymentProviderQuickbooks, CustomerPaymentProviderBillCom, CustomerPaymentProviderStripeCharge, CustomerPaymentProviderStripeInvoice, CustomerPaymentProviderNetsuite, CustomerPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -685,6 +693,72 @@ const (
 func (r CustomerAccountingSyncConfigurationAccountingProvidersProviderType) IsKnown() bool {
 	switch r {
 	case CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite:
+		return true
+	}
+	return false
+}
+
+// A payment method represents a customer's stored payment instrument held with an
+// external payment provider (such as Adyen or Stripe).
+//
+// The serialization is intentionally minimal for now; provider-pulled details
+// (e.g. card display metadata) will be added over time.
+type CustomerDefaultPaymentMethod struct {
+	// The Orb-assigned unique identifier for the payment method.
+	ID string `json:"id" api:"required"`
+	// The time at which the payment method was created.
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The ID of the Orb customer this payment method is attached to.
+	CustomerID string `json:"customer_id" api:"required"`
+	// Whether this is the customer's default payment method.
+	Default bool `json:"default" api:"required"`
+	// The identifier of this payment method in the external payment provider.
+	ExternalPaymentMethodID string `json:"external_payment_method_id" api:"required"`
+	// The type of the underlying payment instrument, e.g. `card` or `us_bank_account`.
+	PaymentMethodType CustomerDefaultPaymentMethodPaymentMethodType `json:"payment_method_type" api:"required"`
+	// The external payment provider this method belongs to, derived from the linked
+	// payment gateway connection (e.g. `adyen` or `stripe`). Null if the connection
+	// has been removed.
+	ProviderType string                           `json:"provider_type" api:"required,nullable"`
+	JSON         customerDefaultPaymentMethodJSON `json:"-"`
+}
+
+// customerDefaultPaymentMethodJSON contains the JSON metadata for the struct
+// [CustomerDefaultPaymentMethod]
+type customerDefaultPaymentMethodJSON struct {
+	ID                      apijson.Field
+	CreatedAt               apijson.Field
+	CustomerID              apijson.Field
+	Default                 apijson.Field
+	ExternalPaymentMethodID apijson.Field
+	PaymentMethodType       apijson.Field
+	ProviderType            apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
+}
+
+func (r *CustomerDefaultPaymentMethod) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerDefaultPaymentMethodJSON) RawJSON() string {
+	return r.raw
+}
+
+// The type of the underlying payment instrument, e.g. `card` or `us_bank_account`.
+type CustomerDefaultPaymentMethodPaymentMethodType string
+
+const (
+	CustomerDefaultPaymentMethodPaymentMethodTypeCard          CustomerDefaultPaymentMethodPaymentMethodType = "card"
+	CustomerDefaultPaymentMethodPaymentMethodTypeUsBankAccount CustomerDefaultPaymentMethodPaymentMethodType = "us_bank_account"
+	CustomerDefaultPaymentMethodPaymentMethodTypeLink          CustomerDefaultPaymentMethodPaymentMethodType = "link"
+	CustomerDefaultPaymentMethodPaymentMethodTypeAmazonPay     CustomerDefaultPaymentMethodPaymentMethodType = "amazon_pay"
+	CustomerDefaultPaymentMethodPaymentMethodTypeCrypto        CustomerDefaultPaymentMethodPaymentMethodType = "crypto"
+)
+
+func (r CustomerDefaultPaymentMethodPaymentMethodType) IsKnown() bool {
+	switch r {
+	case CustomerDefaultPaymentMethodPaymentMethodTypeCard, CustomerDefaultPaymentMethodPaymentMethodTypeUsBankAccount, CustomerDefaultPaymentMethodPaymentMethodTypeLink, CustomerDefaultPaymentMethodPaymentMethodTypeAmazonPay, CustomerDefaultPaymentMethodPaymentMethodTypeCrypto:
 		return true
 	}
 	return false
@@ -1180,11 +1254,12 @@ const (
 	CustomerNewParamsPaymentProviderStripeCharge  CustomerNewParamsPaymentProvider = "stripe_charge"
 	CustomerNewParamsPaymentProviderStripeInvoice CustomerNewParamsPaymentProvider = "stripe_invoice"
 	CustomerNewParamsPaymentProviderNetsuite      CustomerNewParamsPaymentProvider = "netsuite"
+	CustomerNewParamsPaymentProviderAdyen         CustomerNewParamsPaymentProvider = "adyen"
 )
 
 func (r CustomerNewParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsPaymentProviderQuickbooks, CustomerNewParamsPaymentProviderBillCom, CustomerNewParamsPaymentProviderStripeCharge, CustomerNewParamsPaymentProviderStripeInvoice, CustomerNewParamsPaymentProviderNetsuite:
+	case CustomerNewParamsPaymentProviderQuickbooks, CustomerNewParamsPaymentProviderBillCom, CustomerNewParamsPaymentProviderStripeCharge, CustomerNewParamsPaymentProviderStripeInvoice, CustomerNewParamsPaymentProviderNetsuite, CustomerNewParamsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -1342,6 +1417,9 @@ type CustomerUpdateParams struct {
 	// not set at creation or update time, it will be set at subscription creation
 	// time.
 	Currency param.Field[string] `json:"currency"`
+	// The Orb ID of the payment method to set as this customer's default. Pass `null`
+	// to clear the customer's default payment method.
+	DefaultPaymentMethodID param.Field[string] `json:"default_payment_method_id"`
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
@@ -1593,11 +1671,12 @@ const (
 	CustomerUpdateParamsPaymentProviderStripeCharge  CustomerUpdateParamsPaymentProvider = "stripe_charge"
 	CustomerUpdateParamsPaymentProviderStripeInvoice CustomerUpdateParamsPaymentProvider = "stripe_invoice"
 	CustomerUpdateParamsPaymentProviderNetsuite      CustomerUpdateParamsPaymentProvider = "netsuite"
+	CustomerUpdateParamsPaymentProviderAdyen         CustomerUpdateParamsPaymentProvider = "adyen"
 )
 
 func (r CustomerUpdateParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsPaymentProviderQuickbooks, CustomerUpdateParamsPaymentProviderBillCom, CustomerUpdateParamsPaymentProviderStripeCharge, CustomerUpdateParamsPaymentProviderStripeInvoice, CustomerUpdateParamsPaymentProviderNetsuite:
+	case CustomerUpdateParamsPaymentProviderQuickbooks, CustomerUpdateParamsPaymentProviderBillCom, CustomerUpdateParamsPaymentProviderStripeCharge, CustomerUpdateParamsPaymentProviderStripeInvoice, CustomerUpdateParamsPaymentProviderNetsuite, CustomerUpdateParamsPaymentProviderAdyen:
 		return true
 	}
 	return false
@@ -1775,6 +1854,9 @@ type CustomerUpdateByExternalIDParams struct {
 	// not set at creation or update time, it will be set at subscription creation
 	// time.
 	Currency param.Field[string] `json:"currency"`
+	// The Orb ID of the payment method to set as this customer's default. Pass `null`
+	// to clear the customer's default payment method.
+	DefaultPaymentMethodID param.Field[string] `json:"default_payment_method_id"`
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
@@ -2026,11 +2108,12 @@ const (
 	CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge  CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_charge"
 	CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice CustomerUpdateByExternalIDParamsPaymentProvider = "stripe_invoice"
 	CustomerUpdateByExternalIDParamsPaymentProviderNetsuite      CustomerUpdateByExternalIDParamsPaymentProvider = "netsuite"
+	CustomerUpdateByExternalIDParamsPaymentProviderAdyen         CustomerUpdateByExternalIDParamsPaymentProvider = "adyen"
 )
 
 func (r CustomerUpdateByExternalIDParamsPaymentProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks, CustomerUpdateByExternalIDParamsPaymentProviderBillCom, CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge, CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice, CustomerUpdateByExternalIDParamsPaymentProviderNetsuite:
+	case CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks, CustomerUpdateByExternalIDParamsPaymentProviderBillCom, CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge, CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice, CustomerUpdateByExternalIDParamsPaymentProviderNetsuite, CustomerUpdateByExternalIDParamsPaymentProviderAdyen:
 		return true
 	}
 	return false
