@@ -82,6 +82,7 @@ type AdjustmentIntervalAdjustment struct {
 	// [[]PlanPhaseUsageDiscountAdjustmentFilter],
 	// [[]PlanPhaseAmountDiscountAdjustmentFilter],
 	// [[]PlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter],
 	// [[]PlanPhaseMinimumAdjustmentFilter], [[]PlanPhaseMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
@@ -108,6 +109,9 @@ type AdjustmentIntervalAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                          `json:"usage_discount"`
@@ -131,6 +135,7 @@ type adjustmentIntervalAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -154,6 +159,7 @@ func (r *AdjustmentIntervalAdjustment) UnmarshalJSON(data []byte) (err error) {
 //
 // Possible runtime types of the union are [PlanPhaseUsageDiscountAdjustment],
 // [PlanPhaseAmountDiscountAdjustment], [PlanPhasePercentageDiscountAdjustment],
+// [AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment],
 // [PlanPhaseMinimumAdjustment], [PlanPhaseMaximumAdjustment].
 func (r AdjustmentIntervalAdjustment) AsUnion() AdjustmentIntervalAdjustmentUnion {
 	return r.union
@@ -161,6 +167,7 @@ func (r AdjustmentIntervalAdjustment) AsUnion() AdjustmentIntervalAdjustmentUnio
 
 // Union satisfied by [PlanPhaseUsageDiscountAdjustment],
 // [PlanPhaseAmountDiscountAdjustment], [PlanPhasePercentageDiscountAdjustment],
+// [AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment],
 // [PlanPhaseMinimumAdjustment] or [PlanPhaseMaximumAdjustment].
 type AdjustmentIntervalAdjustmentUnion interface {
 	ImplementsAdjustmentIntervalAdjustment()
@@ -187,6 +194,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PlanPhaseMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -198,19 +210,187 @@ func init() {
 	)
 }
 
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                                `json:"id" api:"required"`
+	AdjustmentType AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment]
+type adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment) ImplementsAdjustmentIntervalAdjustment() {
+}
+
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                          `json:"values" api:"required"`
+	JSON   adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter]
+type adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID       AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID        AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType     AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency      AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID, AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID, AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType, AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency, AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                         `json:"upper_bound" api:"nullable"`
+	JSON       adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTierJSON
+// contains the JSON metadata for the struct
+// [AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier]
+type adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r adjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type AdjustmentIntervalAdjustmentAdjustmentType string
 
 const (
-	AdjustmentIntervalAdjustmentAdjustmentTypeUsageDiscount      AdjustmentIntervalAdjustmentAdjustmentType = "usage_discount"
-	AdjustmentIntervalAdjustmentAdjustmentTypeAmountDiscount     AdjustmentIntervalAdjustmentAdjustmentType = "amount_discount"
-	AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount AdjustmentIntervalAdjustmentAdjustmentType = "percentage_discount"
-	AdjustmentIntervalAdjustmentAdjustmentTypeMinimum            AdjustmentIntervalAdjustmentAdjustmentType = "minimum"
-	AdjustmentIntervalAdjustmentAdjustmentTypeMaximum            AdjustmentIntervalAdjustmentAdjustmentType = "maximum"
+	AdjustmentIntervalAdjustmentAdjustmentTypeUsageDiscount            AdjustmentIntervalAdjustmentAdjustmentType = "usage_discount"
+	AdjustmentIntervalAdjustmentAdjustmentTypeAmountDiscount           AdjustmentIntervalAdjustmentAdjustmentType = "amount_discount"
+	AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount       AdjustmentIntervalAdjustmentAdjustmentType = "percentage_discount"
+	AdjustmentIntervalAdjustmentAdjustmentTypeTieredPercentageDiscount AdjustmentIntervalAdjustmentAdjustmentType = "tiered_percentage_discount"
+	AdjustmentIntervalAdjustmentAdjustmentTypeMinimum                  AdjustmentIntervalAdjustmentAdjustmentType = "minimum"
+	AdjustmentIntervalAdjustmentAdjustmentTypeMaximum                  AdjustmentIntervalAdjustmentAdjustmentType = "maximum"
 )
 
 func (r AdjustmentIntervalAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case AdjustmentIntervalAdjustmentAdjustmentTypeUsageDiscount, AdjustmentIntervalAdjustmentAdjustmentTypeAmountDiscount, AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount, AdjustmentIntervalAdjustmentAdjustmentTypeMinimum, AdjustmentIntervalAdjustmentAdjustmentTypeMaximum:
+	case AdjustmentIntervalAdjustmentAdjustmentTypeUsageDiscount, AdjustmentIntervalAdjustmentAdjustmentTypeAmountDiscount, AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount, AdjustmentIntervalAdjustmentAdjustmentTypeTieredPercentageDiscount, AdjustmentIntervalAdjustmentAdjustmentTypeMinimum, AdjustmentIntervalAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -1427,6 +1607,7 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment struct {
 	// [[]MonetaryUsageDiscountAdjustmentFilter],
 	// [[]MonetaryAmountDiscountAdjustmentFilter],
 	// [[]MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter],
 	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
@@ -1451,6 +1632,9 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                                                            `json:"usage_discount"`
@@ -1475,6 +1659,7 @@ type changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -1499,6 +1684,7 @@ func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment) Unmarsh
 //
 // Possible runtime types of the union are [MonetaryUsageDiscountAdjustment],
 // [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [MonetaryMinimumAdjustment], [MonetaryMaximumAdjustment].
 func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment) AsUnion() ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion {
 	return r.union
@@ -1506,6 +1692,7 @@ func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment) AsUnion(
 
 // Union satisfied by [MonetaryUsageDiscountAdjustment],
 // [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [MonetaryMinimumAdjustment] or [MonetaryMaximumAdjustment].
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion interface {
 	ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment()
@@ -1532,6 +1719,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(MonetaryMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -1543,19 +1735,187 @@ func init() {
 	)
 }
 
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                                                                  `json:"id" api:"required"`
+	AdjustmentType ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The value applied by an adjustment.
+	Amount string `json:"amount" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment]
+type changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                                            `json:"values" api:"required"`
+	JSON   changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter]
+type changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID       ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID        ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType     ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency      ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                                                           `json:"upper_bound" api:"nullable"`
+	JSON       changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON
+// contains the JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier]
+type changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType string
 
 const (
-	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount      ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "usage_discount"
-	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount     ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "amount_discount"
-	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "percentage_discount"
-	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum            ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "minimum"
-	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum            ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "maximum"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount            ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "usage_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount           ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "amount_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount       ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "percentage_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "tiered_percentage_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum                  ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "minimum"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum                  ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "maximum"
 )
 
 func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
 	switch r {
-	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum:
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -2903,12 +3263,16 @@ type Discount struct {
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// This field can have the runtime type of [[]PercentageDiscountFilter],
-	// [[]TrialDiscountFilter], [[]UsageDiscountFilter], [[]AmountDiscountFilter].
+	// [[]TrialDiscountFilter], [[]UsageDiscountFilter], [[]AmountDiscountFilter],
+	// [[]DiscountTieredPercentageDiscountFilter].
 	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
 	Reason             string  `json:"reason" api:"nullable"`
+	// This field can have the runtime type of
+	// [[]DiscountTieredPercentageDiscountTier].
+	Tiers interface{} `json:"tiers"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount string `json:"trial_amount_discount" api:"nullable"`
 	// Only available if discount_type is `trial`
@@ -2928,6 +3292,7 @@ type discountJSON struct {
 	Filters                 apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
+	Tiers                   apijson.Field
 	TrialAmountDiscount     apijson.Field
 	TrialPercentageDiscount apijson.Field
 	UsageDiscount           apijson.Field
@@ -2952,13 +3317,13 @@ func (r *Discount) UnmarshalJSON(data []byte) (err error) {
 // types for more type safety.
 //
 // Possible runtime types of the union are [PercentageDiscount], [TrialDiscount],
-// [UsageDiscount], [AmountDiscount].
+// [UsageDiscount], [AmountDiscount], [DiscountTieredPercentageDiscount].
 func (r Discount) AsUnion() DiscountUnion {
 	return r.union
 }
 
-// Union satisfied by [PercentageDiscount], [TrialDiscount], [UsageDiscount] or
-// [AmountDiscount].
+// Union satisfied by [PercentageDiscount], [TrialDiscount], [UsageDiscount],
+// [AmountDiscount] or [DiscountTieredPercentageDiscount].
 type DiscountUnion interface {
 	ImplementsDiscount()
 }
@@ -2987,21 +3352,175 @@ func init() {
 			Type:               reflect.TypeOf(AmountDiscount{}),
 			DiscriminatorValue: "amount",
 		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(DiscountTieredPercentageDiscount{}),
+			DiscriminatorValue: "tiered_percentage",
+		},
 	)
+}
+
+type DiscountTieredPercentageDiscount struct {
+	DiscountType DiscountTieredPercentageDiscountDiscountType `json:"discount_type" api:"required"`
+	// Only available if discount_type is `tiered_percentage`. The ordered, contiguous
+	// bands of cumulative eligible spend, each discounted at its own percentage
+	// (progressive fill-a-tier).
+	Tiers []DiscountTieredPercentageDiscountTier `json:"tiers" api:"required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
+	// The filters that determine which prices to apply this discount to.
+	Filters []DiscountTieredPercentageDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                                   `json:"reason" api:"nullable"`
+	JSON    discountTieredPercentageDiscountJSON     `json:"-"`
+}
+
+// discountTieredPercentageDiscountJSON contains the JSON metadata for the struct
+// [DiscountTieredPercentageDiscount]
+type discountTieredPercentageDiscountJSON struct {
+	DiscountType      apijson.Field
+	Tiers             apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *DiscountTieredPercentageDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r discountTieredPercentageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r DiscountTieredPercentageDiscount) ImplementsDiscount() {}
+
+type DiscountTieredPercentageDiscountDiscountType string
+
+const (
+	DiscountTieredPercentageDiscountDiscountTypeTieredPercentage DiscountTieredPercentageDiscountDiscountType = "tiered_percentage"
+)
+
+func (r DiscountTieredPercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountTieredPercentageDiscountDiscountTypeTieredPercentage:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type DiscountTieredPercentageDiscountTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                  `json:"upper_bound" api:"nullable"`
+	JSON       discountTieredPercentageDiscountTierJSON `json:"-"`
+}
+
+// discountTieredPercentageDiscountTierJSON contains the JSON metadata for the
+// struct [DiscountTieredPercentageDiscountTier]
+type discountTieredPercentageDiscountTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *DiscountTieredPercentageDiscountTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r discountTieredPercentageDiscountTierJSON) RawJSON() string {
+	return r.raw
+}
+
+type DiscountTieredPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field DiscountTieredPercentageDiscountFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator DiscountTieredPercentageDiscountFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                   `json:"values" api:"required"`
+	JSON   discountTieredPercentageDiscountFilterJSON `json:"-"`
+}
+
+// discountTieredPercentageDiscountFilterJSON contains the JSON metadata for the
+// struct [DiscountTieredPercentageDiscountFilter]
+type discountTieredPercentageDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *DiscountTieredPercentageDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r discountTieredPercentageDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type DiscountTieredPercentageDiscountFiltersField string
+
+const (
+	DiscountTieredPercentageDiscountFiltersFieldPriceID       DiscountTieredPercentageDiscountFiltersField = "price_id"
+	DiscountTieredPercentageDiscountFiltersFieldItemID        DiscountTieredPercentageDiscountFiltersField = "item_id"
+	DiscountTieredPercentageDiscountFiltersFieldPriceType     DiscountTieredPercentageDiscountFiltersField = "price_type"
+	DiscountTieredPercentageDiscountFiltersFieldCurrency      DiscountTieredPercentageDiscountFiltersField = "currency"
+	DiscountTieredPercentageDiscountFiltersFieldPricingUnitID DiscountTieredPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r DiscountTieredPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case DiscountTieredPercentageDiscountFiltersFieldPriceID, DiscountTieredPercentageDiscountFiltersFieldItemID, DiscountTieredPercentageDiscountFiltersFieldPriceType, DiscountTieredPercentageDiscountFiltersFieldCurrency, DiscountTieredPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type DiscountTieredPercentageDiscountFiltersOperator string
+
+const (
+	DiscountTieredPercentageDiscountFiltersOperatorIncludes DiscountTieredPercentageDiscountFiltersOperator = "includes"
+	DiscountTieredPercentageDiscountFiltersOperatorExcludes DiscountTieredPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r DiscountTieredPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case DiscountTieredPercentageDiscountFiltersOperatorIncludes, DiscountTieredPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type DiscountDiscountType string
 
 const (
-	DiscountDiscountTypePercentage DiscountDiscountType = "percentage"
-	DiscountDiscountTypeTrial      DiscountDiscountType = "trial"
-	DiscountDiscountTypeUsage      DiscountDiscountType = "usage"
-	DiscountDiscountTypeAmount     DiscountDiscountType = "amount"
+	DiscountDiscountTypePercentage       DiscountDiscountType = "percentage"
+	DiscountDiscountTypeTrial            DiscountDiscountType = "trial"
+	DiscountDiscountTypeUsage            DiscountDiscountType = "usage"
+	DiscountDiscountTypeAmount           DiscountDiscountType = "amount"
+	DiscountDiscountTypeTieredPercentage DiscountDiscountType = "tiered_percentage"
 )
 
 func (r DiscountDiscountType) IsKnown() bool {
 	switch r {
-	case DiscountDiscountTypePercentage, DiscountDiscountTypeTrial, DiscountDiscountTypeUsage, DiscountDiscountTypeAmount:
+	case DiscountDiscountTypePercentage, DiscountDiscountTypeTrial, DiscountDiscountTypeUsage, DiscountDiscountTypeAmount, DiscountDiscountTypeTieredPercentage:
 		return true
 	}
 	return false
@@ -3015,8 +3534,9 @@ type DiscountParam struct {
 	Filters           param.Field[interface{}] `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	Reason             param.Field[string]  `json:"reason"`
+	PercentageDiscount param.Field[float64]     `json:"percentage_discount"`
+	Reason             param.Field[string]      `json:"reason"`
+	Tiers              param.Field[interface{}] `json:"tiers"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `trial`
@@ -3033,9 +3553,62 @@ func (r DiscountParam) MarshalJSON() (data []byte, err error) {
 func (r DiscountParam) ImplementsDiscountUnionParam() {}
 
 // Satisfied by [shared.PercentageDiscountParam], [shared.TrialDiscountParam],
-// [shared.UsageDiscountParam], [shared.AmountDiscountParam], [DiscountParam].
+// [shared.UsageDiscountParam], [shared.AmountDiscountParam],
+// [shared.DiscountTieredPercentageDiscountParam], [DiscountParam].
 type DiscountUnionParam interface {
 	ImplementsDiscountUnionParam()
+}
+
+type DiscountTieredPercentageDiscountParam struct {
+	DiscountType param.Field[DiscountTieredPercentageDiscountDiscountType] `json:"discount_type" api:"required"`
+	// Only available if discount_type is `tiered_percentage`. The ordered, contiguous
+	// bands of cumulative eligible spend, each discounted at its own percentage
+	// (progressive fill-a-tier).
+	Tiers param.Field[[]DiscountTieredPercentageDiscountTierParam] `json:"tiers" api:"required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// The filters that determine which prices to apply this discount to.
+	Filters param.Field[[]DiscountTieredPercentageDiscountFilterParam] `json:"filters"`
+	Reason  param.Field[string]                                        `json:"reason"`
+}
+
+func (r DiscountTieredPercentageDiscountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r DiscountTieredPercentageDiscountParam) ImplementsDiscountUnionParam() {}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type DiscountTieredPercentageDiscountTierParam struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound param.Field[float64] `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage param.Field[float64] `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound param.Field[float64] `json:"upper_bound"`
+}
+
+func (r DiscountTieredPercentageDiscountTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type DiscountTieredPercentageDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[DiscountTieredPercentageDiscountFiltersField] `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[DiscountTieredPercentageDiscountFiltersOperator] `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values" api:"required"`
+}
+
+func (r DiscountTieredPercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type FixedFeeQuantityScheduleEntry struct {
@@ -3668,6 +4241,7 @@ type InvoiceLineItemsAdjustment struct {
 	// [[]MonetaryUsageDiscountAdjustmentFilter],
 	// [[]MonetaryAmountDiscountAdjustmentFilter],
 	// [[]MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter],
 	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
@@ -3692,6 +4266,9 @@ type InvoiceLineItemsAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                        `json:"usage_discount"`
@@ -3715,6 +4292,7 @@ type invoiceLineItemsAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -3738,6 +4316,7 @@ func (r *InvoiceLineItemsAdjustment) UnmarshalJSON(data []byte) (err error) {
 //
 // Possible runtime types of the union are [MonetaryUsageDiscountAdjustment],
 // [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [MonetaryMinimumAdjustment], [MonetaryMaximumAdjustment].
 func (r InvoiceLineItemsAdjustment) AsUnion() InvoiceLineItemsAdjustmentsUnion {
 	return r.union
@@ -3745,6 +4324,7 @@ func (r InvoiceLineItemsAdjustment) AsUnion() InvoiceLineItemsAdjustmentsUnion {
 
 // Union satisfied by [MonetaryUsageDiscountAdjustment],
 // [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [MonetaryMinimumAdjustment] or [MonetaryMaximumAdjustment].
 type InvoiceLineItemsAdjustmentsUnion interface {
 	ImplementsInvoiceLineItemsAdjustment()
@@ -3771,6 +4351,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(MonetaryMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -3782,19 +4367,187 @@ func init() {
 	)
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                              `json:"id" api:"required"`
+	AdjustmentType InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The value applied by an adjustment.
+	Amount string `json:"amount" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment]
+type invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {
+}
+
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                        `json:"values" api:"required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                       `json:"upper_bound" api:"nullable"`
+	JSON       invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier]
+type invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemsAdjustmentsAdjustmentType string
 
 const (
-	InvoiceLineItemsAdjustmentsAdjustmentTypeUsageDiscount      InvoiceLineItemsAdjustmentsAdjustmentType = "usage_discount"
-	InvoiceLineItemsAdjustmentsAdjustmentTypeAmountDiscount     InvoiceLineItemsAdjustmentsAdjustmentType = "amount_discount"
-	InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount InvoiceLineItemsAdjustmentsAdjustmentType = "percentage_discount"
-	InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum            InvoiceLineItemsAdjustmentsAdjustmentType = "minimum"
-	InvoiceLineItemsAdjustmentsAdjustmentTypeMaximum            InvoiceLineItemsAdjustmentsAdjustmentType = "maximum"
+	InvoiceLineItemsAdjustmentsAdjustmentTypeUsageDiscount            InvoiceLineItemsAdjustmentsAdjustmentType = "usage_discount"
+	InvoiceLineItemsAdjustmentsAdjustmentTypeAmountDiscount           InvoiceLineItemsAdjustmentsAdjustmentType = "amount_discount"
+	InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount       InvoiceLineItemsAdjustmentsAdjustmentType = "percentage_discount"
+	InvoiceLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount InvoiceLineItemsAdjustmentsAdjustmentType = "tiered_percentage_discount"
+	InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum                  InvoiceLineItemsAdjustmentsAdjustmentType = "minimum"
+	InvoiceLineItemsAdjustmentsAdjustmentTypeMaximum                  InvoiceLineItemsAdjustmentsAdjustmentType = "maximum"
 )
 
 func (r InvoiceLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
 	switch r {
-	case InvoiceLineItemsAdjustmentsAdjustmentTypeUsageDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypeAmountDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum, InvoiceLineItemsAdjustmentsAdjustmentTypeMaximum:
+	case InvoiceLineItemsAdjustmentsAdjustmentTypeUsageDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypeAmountDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount, InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum, InvoiceLineItemsAdjustmentsAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -3978,12 +4731,16 @@ type InvoiceLevelDiscount struct {
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// This field can have the runtime type of [[]PercentageDiscountFilter],
-	// [[]AmountDiscountFilter], [[]TrialDiscountFilter].
+	// [[]AmountDiscountFilter], [[]TrialDiscountFilter],
+	// [[]InvoiceLevelDiscountTieredPercentageDiscountFilter].
 	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
 	Reason             string  `json:"reason" api:"nullable"`
+	// This field can have the runtime type of
+	// [[]InvoiceLevelDiscountTieredPercentageDiscountTier].
+	Tiers interface{} `json:"tiers"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount string `json:"trial_amount_discount" api:"nullable"`
 	// Only available if discount_type is `trial`
@@ -4001,6 +4758,7 @@ type invoiceLevelDiscountJSON struct {
 	Filters                 apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
+	Tiers                   apijson.Field
 	TrialAmountDiscount     apijson.Field
 	TrialPercentageDiscount apijson.Field
 	raw                     string
@@ -4024,12 +4782,13 @@ func (r *InvoiceLevelDiscount) UnmarshalJSON(data []byte) (err error) {
 // the specific types for more type safety.
 //
 // Possible runtime types of the union are [PercentageDiscount], [AmountDiscount],
-// [TrialDiscount].
+// [TrialDiscount], [InvoiceLevelDiscountTieredPercentageDiscount].
 func (r InvoiceLevelDiscount) AsUnion() InvoiceLevelDiscountUnion {
 	return r.union
 }
 
-// Union satisfied by [PercentageDiscount], [AmountDiscount] or [TrialDiscount].
+// Union satisfied by [PercentageDiscount], [AmountDiscount], [TrialDiscount] or
+// [InvoiceLevelDiscountTieredPercentageDiscount].
 type InvoiceLevelDiscountUnion interface {
 	ImplementsInvoiceLevelDiscount()
 }
@@ -4053,20 +4812,174 @@ func init() {
 			Type:               reflect.TypeOf(TrialDiscount{}),
 			DiscriminatorValue: "trial",
 		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLevelDiscountTieredPercentageDiscount{}),
+			DiscriminatorValue: "tiered_percentage",
+		},
 	)
+}
+
+type InvoiceLevelDiscountTieredPercentageDiscount struct {
+	DiscountType InvoiceLevelDiscountTieredPercentageDiscountDiscountType `json:"discount_type" api:"required"`
+	// Only available if discount_type is `tiered_percentage`. The ordered, contiguous
+	// bands of cumulative eligible spend, each discounted at its own percentage
+	// (progressive fill-a-tier).
+	Tiers []InvoiceLevelDiscountTieredPercentageDiscountTier `json:"tiers" api:"required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"nullable"`
+	// The filters that determine which prices to apply this discount to.
+	Filters []InvoiceLevelDiscountTieredPercentageDiscountFilter `json:"filters" api:"nullable"`
+	Reason  string                                               `json:"reason" api:"nullable"`
+	JSON    invoiceLevelDiscountTieredPercentageDiscountJSON     `json:"-"`
+}
+
+// invoiceLevelDiscountTieredPercentageDiscountJSON contains the JSON metadata for
+// the struct [InvoiceLevelDiscountTieredPercentageDiscount]
+type invoiceLevelDiscountTieredPercentageDiscountJSON struct {
+	DiscountType      apijson.Field
+	Tiers             apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceLevelDiscountTieredPercentageDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLevelDiscountTieredPercentageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLevelDiscountTieredPercentageDiscount) ImplementsInvoiceLevelDiscount() {}
+
+type InvoiceLevelDiscountTieredPercentageDiscountDiscountType string
+
+const (
+	InvoiceLevelDiscountTieredPercentageDiscountDiscountTypeTieredPercentage InvoiceLevelDiscountTieredPercentageDiscountDiscountType = "tiered_percentage"
+)
+
+func (r InvoiceLevelDiscountTieredPercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case InvoiceLevelDiscountTieredPercentageDiscountDiscountTypeTieredPercentage:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type InvoiceLevelDiscountTieredPercentageDiscountTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                              `json:"upper_bound" api:"nullable"`
+	JSON       invoiceLevelDiscountTieredPercentageDiscountTierJSON `json:"-"`
+}
+
+// invoiceLevelDiscountTieredPercentageDiscountTierJSON contains the JSON metadata
+// for the struct [InvoiceLevelDiscountTieredPercentageDiscountTier]
+type invoiceLevelDiscountTieredPercentageDiscountTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLevelDiscountTieredPercentageDiscountTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLevelDiscountTieredPercentageDiscountTierJSON) RawJSON() string {
+	return r.raw
+}
+
+type InvoiceLevelDiscountTieredPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLevelDiscountTieredPercentageDiscountFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values" api:"required"`
+	JSON   invoiceLevelDiscountTieredPercentageDiscountFilterJSON `json:"-"`
+}
+
+// invoiceLevelDiscountTieredPercentageDiscountFilterJSON contains the JSON
+// metadata for the struct [InvoiceLevelDiscountTieredPercentageDiscountFilter]
+type invoiceLevelDiscountTieredPercentageDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLevelDiscountTieredPercentageDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLevelDiscountTieredPercentageDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLevelDiscountTieredPercentageDiscountFiltersField string
+
+const (
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceID       InvoiceLevelDiscountTieredPercentageDiscountFiltersField = "price_id"
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldItemID        InvoiceLevelDiscountTieredPercentageDiscountFiltersField = "item_id"
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceType     InvoiceLevelDiscountTieredPercentageDiscountFiltersField = "price_type"
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldCurrency      InvoiceLevelDiscountTieredPercentageDiscountFiltersField = "currency"
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPricingUnitID InvoiceLevelDiscountTieredPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLevelDiscountTieredPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceID, InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldItemID, InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceType, InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldCurrency, InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator string
+
+const (
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorIncludes InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator = "includes"
+	InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorExcludes InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorIncludes, InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type InvoiceLevelDiscountDiscountType string
 
 const (
-	InvoiceLevelDiscountDiscountTypePercentage InvoiceLevelDiscountDiscountType = "percentage"
-	InvoiceLevelDiscountDiscountTypeAmount     InvoiceLevelDiscountDiscountType = "amount"
-	InvoiceLevelDiscountDiscountTypeTrial      InvoiceLevelDiscountDiscountType = "trial"
+	InvoiceLevelDiscountDiscountTypePercentage       InvoiceLevelDiscountDiscountType = "percentage"
+	InvoiceLevelDiscountDiscountTypeAmount           InvoiceLevelDiscountDiscountType = "amount"
+	InvoiceLevelDiscountDiscountTypeTrial            InvoiceLevelDiscountDiscountType = "trial"
+	InvoiceLevelDiscountDiscountTypeTieredPercentage InvoiceLevelDiscountDiscountType = "tiered_percentage"
 )
 
 func (r InvoiceLevelDiscountDiscountType) IsKnown() bool {
 	switch r {
-	case InvoiceLevelDiscountDiscountTypePercentage, InvoiceLevelDiscountDiscountTypeAmount, InvoiceLevelDiscountDiscountTypeTrial:
+	case InvoiceLevelDiscountDiscountTypePercentage, InvoiceLevelDiscountDiscountTypeAmount, InvoiceLevelDiscountDiscountTypeTrial, InvoiceLevelDiscountDiscountTypeTieredPercentage:
 		return true
 	}
 	return false

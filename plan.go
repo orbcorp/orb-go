@@ -256,6 +256,7 @@ type PlanAdjustment struct {
 	// [[]shared.PlanPhaseUsageDiscountAdjustmentFilter],
 	// [[]shared.PlanPhaseAmountDiscountAdjustmentFilter],
 	// [[]shared.PlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilter],
 	// [[]shared.PlanPhaseMinimumAdjustmentFilter],
 	// [[]shared.PlanPhaseMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
@@ -283,6 +284,9 @@ type PlanAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64            `json:"usage_discount"`
@@ -305,6 +309,7 @@ type planAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -330,6 +335,7 @@ func (r *PlanAdjustment) UnmarshalJSON(data []byte) (err error) {
 // [shared.PlanPhaseUsageDiscountAdjustment],
 // [shared.PlanPhaseAmountDiscountAdjustment],
 // [shared.PlanPhasePercentageDiscountAdjustment],
+// [PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment],
 // [shared.PlanPhaseMinimumAdjustment], [shared.PlanPhaseMaximumAdjustment].
 func (r PlanAdjustment) AsUnion() PlanAdjustmentsUnion {
 	return r.union
@@ -338,6 +344,7 @@ func (r PlanAdjustment) AsUnion() PlanAdjustmentsUnion {
 // Union satisfied by [shared.PlanPhaseUsageDiscountAdjustment],
 // [shared.PlanPhaseAmountDiscountAdjustment],
 // [shared.PlanPhasePercentageDiscountAdjustment],
+// [PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment],
 // [shared.PlanPhaseMinimumAdjustment] or [shared.PlanPhaseMaximumAdjustment].
 type PlanAdjustmentsUnion interface {
 	ImplementsPlanAdjustment()
@@ -364,6 +371,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(shared.PlanPhaseMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -375,19 +387,186 @@ func init() {
 	)
 }
 
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                   `json:"id" api:"required"`
+	AdjustmentType PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order" api:"required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentJSON contains the JSON
+// metadata for the struct
+// [PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment]
+type planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustment) ImplementsPlanAdjustment() {}
+
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                             `json:"values" api:"required"`
+	JSON   planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON contains
+// the JSON metadata for the struct
+// [PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilter]
+type planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                            `json:"upper_bound" api:"nullable"`
+	JSON       planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTierJSON contains the
+// JSON metadata for the struct
+// [PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTier]
+type planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanAdjustmentsAdjustmentType string
 
 const (
-	PlanAdjustmentsAdjustmentTypeUsageDiscount      PlanAdjustmentsAdjustmentType = "usage_discount"
-	PlanAdjustmentsAdjustmentTypeAmountDiscount     PlanAdjustmentsAdjustmentType = "amount_discount"
-	PlanAdjustmentsAdjustmentTypePercentageDiscount PlanAdjustmentsAdjustmentType = "percentage_discount"
-	PlanAdjustmentsAdjustmentTypeMinimum            PlanAdjustmentsAdjustmentType = "minimum"
-	PlanAdjustmentsAdjustmentTypeMaximum            PlanAdjustmentsAdjustmentType = "maximum"
+	PlanAdjustmentsAdjustmentTypeUsageDiscount            PlanAdjustmentsAdjustmentType = "usage_discount"
+	PlanAdjustmentsAdjustmentTypeAmountDiscount           PlanAdjustmentsAdjustmentType = "amount_discount"
+	PlanAdjustmentsAdjustmentTypePercentageDiscount       PlanAdjustmentsAdjustmentType = "percentage_discount"
+	PlanAdjustmentsAdjustmentTypeTieredPercentageDiscount PlanAdjustmentsAdjustmentType = "tiered_percentage_discount"
+	PlanAdjustmentsAdjustmentTypeMinimum                  PlanAdjustmentsAdjustmentType = "minimum"
+	PlanAdjustmentsAdjustmentTypeMaximum                  PlanAdjustmentsAdjustmentType = "maximum"
 )
 
 func (r PlanAdjustmentsAdjustmentType) IsKnown() bool {
 	switch r {
-	case PlanAdjustmentsAdjustmentTypeUsageDiscount, PlanAdjustmentsAdjustmentTypeAmountDiscount, PlanAdjustmentsAdjustmentTypePercentageDiscount, PlanAdjustmentsAdjustmentTypeMinimum, PlanAdjustmentsAdjustmentTypeMaximum:
+	case PlanAdjustmentsAdjustmentTypeUsageDiscount, PlanAdjustmentsAdjustmentTypeAmountDiscount, PlanAdjustmentsAdjustmentTypePercentageDiscount, PlanAdjustmentsAdjustmentTypeTieredPercentageDiscount, PlanAdjustmentsAdjustmentTypeMinimum, PlanAdjustmentsAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -2355,6 +2534,7 @@ type PlanNewParamsAdjustmentsAdjustment struct {
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
 	// If set, only prices of the specified type will have the adjustment applied.
 	PriceType     param.Field[PlanNewParamsAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	Tiers         param.Field[interface{}]                                 `json:"tiers"`
 	UsageDiscount param.Field[float64]                                     `json:"usage_discount"`
 }
 
@@ -2369,24 +2549,162 @@ func (r PlanNewParamsAdjustmentsAdjustment) ImplementsPlanNewParamsAdjustmentsAd
 // Satisfied by [shared.NewPercentageDiscountParam],
 // [shared.NewUsageDiscountParam], [shared.NewAmountDiscountParam],
 // [shared.NewMinimumParam], [shared.NewMaximumParam],
+// [PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscount],
 // [PlanNewParamsAdjustmentsAdjustment].
 type PlanNewParamsAdjustmentsAdjustmentUnion interface {
 	ImplementsPlanNewParamsAdjustmentsAdjustmentUnion()
 }
 
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscount struct {
+	AdjustmentType param.Field[PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	Tiers          param.Field[[]PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountTier]         `json:"tiers" api:"required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFilter] `json:"filters"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType] `json:"price_type"`
+}
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscount) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {
+}
+
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound param.Field[float64] `json:"lower_bound" api:"required"`
+	// The percentage (0-1) discounted from spend in this tier.
+	Percentage param.Field[float64] `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend; null for the final open-ended tier.
+	UpperBound param.Field[float64] `json:"upper_bound"`
+}
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll bool
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll = true
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField] `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator] `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values" api:"required"`
+}
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID       PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_id"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID        PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "item_id"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType     PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_type"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency      PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "currency"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "includes"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage          PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "usage"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_advance"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_arrears"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed          PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed"
+	PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears      PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "in_arrears"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed, PlanNewParamsAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsAdjustmentsAdjustmentAdjustmentType string
 
 const (
-	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
-	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "usage_discount"
-	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "amount_discount"
-	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum            PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "minimum"
-	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum            PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "maximum"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount       PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount            PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "usage_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount           PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum                  PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "minimum"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum                  PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "maximum"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "tiered_percentage_discount"
 )
 
 func (r PlanNewParamsAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount:
 		return true
 	}
 	return false
