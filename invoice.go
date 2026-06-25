@@ -888,6 +888,7 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
 	// [[]shared.MonetaryUsageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryAmountDiscountAdjustmentFilter],
 	// [[]shared.MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryMinimumAdjustmentFilter],
 	// [[]shared.MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
@@ -913,6 +914,9 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                                             `json:"usage_discount"`
@@ -936,6 +940,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -961,6 +966,7 @@ func (r *InvoiceFetchUpcomingResponseLineItemsAdjustment) UnmarshalJSON(data []b
 // [shared.MonetaryUsageDiscountAdjustment],
 // [shared.MonetaryAmountDiscountAdjustment],
 // [shared.MonetaryPercentageDiscountAdjustment],
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [shared.MonetaryMinimumAdjustment], [shared.MonetaryMaximumAdjustment].
 func (r InvoiceFetchUpcomingResponseLineItemsAdjustment) AsUnion() InvoiceFetchUpcomingResponseLineItemsAdjustmentsUnion {
 	return r.union
@@ -969,6 +975,7 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustment) AsUnion() InvoiceFetchU
 // Union satisfied by [shared.MonetaryUsageDiscountAdjustment],
 // [shared.MonetaryAmountDiscountAdjustment],
 // [shared.MonetaryPercentageDiscountAdjustment],
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [shared.MonetaryMinimumAdjustment] or [shared.MonetaryMaximumAdjustment].
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsUnion interface {
 	ImplementsInvoiceFetchUpcomingResponseLineItemsAdjustment()
@@ -995,6 +1002,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(shared.MonetaryMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -1006,19 +1018,187 @@ func init() {
 	)
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                                                   `json:"id" api:"required"`
+	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The value applied by an adjustment.
+	Amount string `json:"amount" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment) ImplementsInvoiceFetchUpcomingResponseLineItemsAdjustment() {
+}
+
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                             `json:"values" api:"required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                                            `json:"upper_bound" api:"nullable"`
+	JSON       invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType string
 
 const (
-	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeUsageDiscount      InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "usage_discount"
-	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeAmountDiscount     InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "amount_discount"
-	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypePercentageDiscount InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "percentage_discount"
-	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMinimum            InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "minimum"
-	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMaximum            InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "maximum"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeUsageDiscount            InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "usage_discount"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeAmountDiscount           InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "amount_discount"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypePercentageDiscount       InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "percentage_discount"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "tiered_percentage_discount"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMinimum                  InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "minimum"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMaximum                  InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType = "maximum"
 )
 
 func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
 	switch r {
-	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeUsageDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeAmountDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypePercentageDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMinimum, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMaximum:
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeUsageDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeAmountDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypePercentageDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMinimum, InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentTypeMaximum:
 		return true
 	}
 	return false

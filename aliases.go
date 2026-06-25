@@ -43,6 +43,57 @@ type AdjustmentInterval = shared.AdjustmentInterval
 type AdjustmentIntervalAdjustment = shared.AdjustmentIntervalAdjustment
 
 // This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustment
+
+// This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentType
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount
+
+// This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentFiltersOperatorExcludes
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier = shared.AdjustmentIntervalAdjustmentPlanPhaseTieredPercentageDiscountAdjustmentTier
+
+// This is an alias to an internal type.
 type AdjustmentIntervalAdjustmentAdjustmentType = shared.AdjustmentIntervalAdjustmentAdjustmentType
 
 // This is an alias to an internal value.
@@ -53,6 +104,9 @@ const AdjustmentIntervalAdjustmentAdjustmentTypeAmountDiscount = shared.Adjustme
 
 // This is an alias to an internal value.
 const AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount = shared.AdjustmentIntervalAdjustmentAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const AdjustmentIntervalAdjustmentAdjustmentTypeTieredPercentageDiscount = shared.AdjustmentIntervalAdjustmentAdjustmentTypeTieredPercentageDiscount
 
 // This is an alias to an internal value.
 const AdjustmentIntervalAdjustmentAdjustmentTypeMinimum = shared.AdjustmentIntervalAdjustmentAdjustmentTypeMinimum
@@ -318,6 +372,57 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem = shared.ChangedSubscri
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment
 
 // This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier
+
+// This is an alias to an internal type.
 type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType
 
 // This is an alias to an internal value.
@@ -328,6 +433,9 @@ const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentT
 
 // This is an alias to an internal value.
 const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount
 
 // This is an alias to an internal value.
 const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum
@@ -1512,6 +1620,57 @@ type DimensionalPriceConfiguration = shared.DimensionalPriceConfiguration
 type Discount = shared.Discount
 
 // This is an alias to an internal type.
+type DiscountTieredPercentageDiscount = shared.DiscountTieredPercentageDiscount
+
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountDiscountType = shared.DiscountTieredPercentageDiscountDiscountType
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountDiscountTypeTieredPercentage = shared.DiscountTieredPercentageDiscountDiscountTypeTieredPercentage
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountTier = shared.DiscountTieredPercentageDiscountTier
+
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountFilter = shared.DiscountTieredPercentageDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountFiltersField = shared.DiscountTieredPercentageDiscountFiltersField
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersFieldPriceID = shared.DiscountTieredPercentageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersFieldItemID = shared.DiscountTieredPercentageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersFieldPriceType = shared.DiscountTieredPercentageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersFieldCurrency = shared.DiscountTieredPercentageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersFieldPricingUnitID = shared.DiscountTieredPercentageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountFiltersOperator = shared.DiscountTieredPercentageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersOperatorIncludes = shared.DiscountTieredPercentageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const DiscountTieredPercentageDiscountFiltersOperatorExcludes = shared.DiscountTieredPercentageDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type DiscountDiscountType = shared.DiscountDiscountType
 
 // This is an alias to an internal value.
@@ -1526,8 +1685,25 @@ const DiscountDiscountTypeUsage = shared.DiscountDiscountTypeUsage
 // This is an alias to an internal value.
 const DiscountDiscountTypeAmount = shared.DiscountDiscountTypeAmount
 
+// This is an alias to an internal value.
+const DiscountDiscountTypeTieredPercentage = shared.DiscountDiscountTypeTieredPercentage
+
 // This is an alias to an internal type.
 type DiscountUnionParam = shared.DiscountUnionParam
+
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountParam = shared.DiscountTieredPercentageDiscountParam
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountTierParam = shared.DiscountTieredPercentageDiscountTierParam
+
+// This is an alias to an internal type.
+type DiscountTieredPercentageDiscountFilterParam = shared.DiscountTieredPercentageDiscountFilterParam
 
 // This is an alias to an internal type.
 type FixedFeeQuantityScheduleEntry = shared.FixedFeeQuantityScheduleEntry
@@ -1614,6 +1790,57 @@ type InvoiceLineItem = shared.InvoiceLineItem
 type InvoiceLineItemsAdjustment = shared.InvoiceLineItemsAdjustment
 
 // This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustment
+
+// This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount
+
+// This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier = shared.InvoiceLineItemsAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier
+
+// This is an alias to an internal type.
 type InvoiceLineItemsAdjustmentsAdjustmentType = shared.InvoiceLineItemsAdjustmentsAdjustmentType
 
 // This is an alias to an internal value.
@@ -1624,6 +1851,9 @@ const InvoiceLineItemsAdjustmentsAdjustmentTypeAmountDiscount = shared.InvoiceLi
 
 // This is an alias to an internal value.
 const InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount = shared.InvoiceLineItemsAdjustmentsAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const InvoiceLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount = shared.InvoiceLineItemsAdjustmentsAdjustmentTypeTieredPercentageDiscount
 
 // This is an alias to an internal value.
 const InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum = shared.InvoiceLineItemsAdjustmentsAdjustmentTypeMinimum
@@ -1682,6 +1912,57 @@ const InvoiceStatusDraft = shared.InvoiceStatusDraft
 type InvoiceLevelDiscount = shared.InvoiceLevelDiscount
 
 // This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscount = shared.InvoiceLevelDiscountTieredPercentageDiscount
+
+// This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscountDiscountType = shared.InvoiceLevelDiscountTieredPercentageDiscountDiscountType
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountDiscountTypeTieredPercentage = shared.InvoiceLevelDiscountTieredPercentageDiscountDiscountTypeTieredPercentage
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+//
+// This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscountTier = shared.InvoiceLevelDiscountTieredPercentageDiscountTier
+
+// This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscountFilter = shared.InvoiceLevelDiscountTieredPercentageDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscountFiltersField = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersField
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceID = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldItemID = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceType = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldCurrency = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPricingUnitID = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorIncludes = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorExcludes = shared.InvoiceLevelDiscountTieredPercentageDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type InvoiceLevelDiscountDiscountType = shared.InvoiceLevelDiscountDiscountType
 
 // This is an alias to an internal value.
@@ -1692,6 +1973,9 @@ const InvoiceLevelDiscountDiscountTypeAmount = shared.InvoiceLevelDiscountDiscou
 
 // This is an alias to an internal value.
 const InvoiceLevelDiscountDiscountTypeTrial = shared.InvoiceLevelDiscountDiscountTypeTrial
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountDiscountTypeTieredPercentage = shared.InvoiceLevelDiscountDiscountTypeTieredPercentage
 
 // This is an alias to an internal type.
 type InvoiceTiny = shared.InvoiceTiny

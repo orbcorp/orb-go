@@ -160,6 +160,7 @@ type InvoiceLineItemNewResponseAdjustment struct {
 	// [[]shared.MonetaryUsageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryAmountDiscountAdjustmentFilter],
 	// [[]shared.MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter],
 	// [[]shared.MonetaryMinimumAdjustmentFilter],
 	// [[]shared.MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters" api:"required"`
@@ -185,6 +186,9 @@ type InvoiceLineItemNewResponseAdjustment struct {
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier].
+	Tiers interface{} `json:"tiers"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                                  `json:"usage_discount"`
@@ -208,6 +212,7 @@ type invoiceLineItemNewResponseAdjustmentJSON struct {
 	MaximumAmount        apijson.Field
 	MinimumAmount        apijson.Field
 	PercentageDiscount   apijson.Field
+	Tiers                apijson.Field
 	UsageDiscount        apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
@@ -233,6 +238,7 @@ func (r *InvoiceLineItemNewResponseAdjustment) UnmarshalJSON(data []byte) (err e
 // [shared.MonetaryUsageDiscountAdjustment],
 // [shared.MonetaryAmountDiscountAdjustment],
 // [shared.MonetaryPercentageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [shared.MonetaryMinimumAdjustment], [shared.MonetaryMaximumAdjustment].
 func (r InvoiceLineItemNewResponseAdjustment) AsUnion() InvoiceLineItemNewResponseAdjustmentsUnion {
 	return r.union
@@ -241,6 +247,7 @@ func (r InvoiceLineItemNewResponseAdjustment) AsUnion() InvoiceLineItemNewRespon
 // Union satisfied by [shared.MonetaryUsageDiscountAdjustment],
 // [shared.MonetaryAmountDiscountAdjustment],
 // [shared.MonetaryPercentageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment],
 // [shared.MonetaryMinimumAdjustment] or [shared.MonetaryMaximumAdjustment].
 type InvoiceLineItemNewResponseAdjustmentsUnion interface {
 	ImplementsInvoiceLineItemNewResponseAdjustment()
@@ -267,6 +274,11 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "tiered_percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(shared.MonetaryMinimumAdjustment{}),
 			DiscriminatorValue: "minimum",
 		},
@@ -278,19 +290,187 @@ func init() {
 	)
 }
 
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment struct {
+	ID             string                                                                                        `json:"id" api:"required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type" api:"required"`
+	// The value applied by an adjustment.
+	Amount string `json:"amount" api:"required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids" api:"required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter `json:"filters" api:"required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level" api:"required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason" api:"required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id" api:"required,nullable"`
+	// The ordered, contiguous bands of cumulative eligible spend, each discounted at
+	// its own percentage (progressive fill-a-tier), applied to the prices this
+	// adjustment covers in a given billing period.
+	Tiers []InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier `json:"tiers" api:"required"`
+	JSON  invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON   `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment]
+type invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	Tiers                apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                  `json:"values" api:"required"`
+	JSON   invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter]
+type invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID       InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID        InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType     InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency      InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "currency"
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceID, InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldItemID, InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPriceType, InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldCurrency, InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorIncludes, InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                                 `json:"upper_bound" api:"nullable"`
+	JSON       invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier]
+type invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsMonetaryTieredPercentageDiscountAdjustmentTierJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemNewResponseAdjustmentsAdjustmentType string
 
 const (
-	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount      InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "usage_discount"
-	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount     InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "amount_discount"
-	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "percentage_discount"
-	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum            InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "minimum"
-	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum            InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "maximum"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount            InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "usage_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount           InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "amount_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount       InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "percentage_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeTieredPercentageDiscount InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "tiered_percentage_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum                  InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "minimum"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum                  InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "maximum"
 )
 
 func (r InvoiceLineItemNewResponseAdjustmentsAdjustmentType) IsKnown() bool {
 	switch r {
-	case InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum:
+	case InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeTieredPercentageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum:
 		return true
 	}
 	return false
