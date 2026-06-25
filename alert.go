@@ -526,9 +526,82 @@ func (r ThresholdParam) MarshalJSON() (data []byte, err error) {
 type AlertUpdateParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
+	// Replaces the price filters on a grouped cost alert; an empty list clears them.
+	// Only applicable to cost alerts with grouping_keys. Omit to leave unchanged.
+	PriceFilters param.Field[[]AlertUpdateParamsPriceFilter] `json:"price_filters"`
+	// Replaces the per-group threshold overrides on a grouped cost alert; an empty
+	// list clears them. Only applicable to cost alerts with grouping_keys. Omit to
+	// leave unchanged.
+	ThresholdOverrides param.Field[[]AlertUpdateParamsThresholdOverride] `json:"threshold_overrides"`
 }
 
 func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertUpdateParamsPriceFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[AlertUpdateParamsPriceFiltersField] `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[AlertUpdateParamsPriceFiltersOperator] `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values" api:"required"`
+}
+
+func (r AlertUpdateParamsPriceFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type AlertUpdateParamsPriceFiltersField string
+
+const (
+	AlertUpdateParamsPriceFiltersFieldPriceID       AlertUpdateParamsPriceFiltersField = "price_id"
+	AlertUpdateParamsPriceFiltersFieldItemID        AlertUpdateParamsPriceFiltersField = "item_id"
+	AlertUpdateParamsPriceFiltersFieldPriceType     AlertUpdateParamsPriceFiltersField = "price_type"
+	AlertUpdateParamsPriceFiltersFieldCurrency      AlertUpdateParamsPriceFiltersField = "currency"
+	AlertUpdateParamsPriceFiltersFieldPricingUnitID AlertUpdateParamsPriceFiltersField = "pricing_unit_id"
+)
+
+func (r AlertUpdateParamsPriceFiltersField) IsKnown() bool {
+	switch r {
+	case AlertUpdateParamsPriceFiltersFieldPriceID, AlertUpdateParamsPriceFiltersFieldItemID, AlertUpdateParamsPriceFiltersFieldPriceType, AlertUpdateParamsPriceFiltersFieldCurrency, AlertUpdateParamsPriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AlertUpdateParamsPriceFiltersOperator string
+
+const (
+	AlertUpdateParamsPriceFiltersOperatorIncludes AlertUpdateParamsPriceFiltersOperator = "includes"
+	AlertUpdateParamsPriceFiltersOperatorExcludes AlertUpdateParamsPriceFiltersOperator = "excludes"
+)
+
+func (r AlertUpdateParamsPriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case AlertUpdateParamsPriceFiltersOperatorIncludes, AlertUpdateParamsPriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// Per-group threshold override on a grouped cost alert.
+//
+// - An empty `thresholds` list silences alerts for this group (never fires).
+// - A non-empty list fully replaces the default thresholds for this group.
+type AlertUpdateParamsThresholdOverride struct {
+	// The values of the grouping keys that identify this group. The list length must
+	// match the alert's grouping_keys, and values appear in the same order as
+	// grouping_keys.
+	GroupValues param.Field[[]string] `json:"group_values" api:"required"`
+	// The thresholds to apply to this group. An empty list silences alerts for this
+	// group. A non-empty list fully replaces the default thresholds for this group.
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
+}
+
+func (r AlertUpdateParamsThresholdOverride) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 

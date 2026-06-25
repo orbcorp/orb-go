@@ -36,7 +36,7 @@ func TestAlertGet(t *testing.T) {
 	}
 }
 
-func TestAlertUpdate(t *testing.T) {
+func TestAlertUpdateWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -54,6 +54,17 @@ func TestAlertUpdate(t *testing.T) {
 		orb.AlertUpdateParams{
 			Thresholds: orb.F([]orb.ThresholdParam{{
 				Value: orb.F(0.000000),
+			}}),
+			PriceFilters: orb.F([]orb.AlertUpdateParamsPriceFilter{{
+				Field:    orb.F(orb.AlertUpdateParamsPriceFiltersFieldPriceID),
+				Operator: orb.F(orb.AlertUpdateParamsPriceFiltersOperatorIncludes),
+				Values:   orb.F([]string{"string"}),
+			}}),
+			ThresholdOverrides: orb.F([]orb.AlertUpdateParamsThresholdOverride{{
+				GroupValues: orb.F([]string{"string"}),
+				Thresholds: orb.F([]orb.ThresholdParam{{
+					Value: orb.F(0.000000),
+				}}),
 			}}),
 		},
 	)
