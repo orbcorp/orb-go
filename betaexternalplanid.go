@@ -136,6 +136,7 @@ type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustment struct {
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
 	// If set, only prices of the specified type will have the adjustment applied.
 	PriceType     param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	Tiers         param.Field[interface{}]                                                             `json:"tiers"`
 	UsageDiscount param.Field[float64]                                                                 `json:"usage_discount"`
 }
 
@@ -151,24 +152,162 @@ func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustment) Implemen
 // Satisfied by [shared.NewPercentageDiscountParam],
 // [shared.NewUsageDiscountParam], [shared.NewAmountDiscountParam],
 // [shared.NewMinimumParam], [shared.NewMaximumParam],
+// [BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscount],
 // [BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustment].
 type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion interface {
 	ImplementsBetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion()
 }
 
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscount struct {
+	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	Tiers          param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountTier]         `json:"tiers" api:"required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFilter] `json:"filters"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType] `json:"price_type"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscount) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound param.Field[float64] `json:"lower_bound" api:"required"`
+	// The percentage (0-1) discounted from spend in this tier.
+	Percentage param.Field[float64] `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend; null for the final open-ended tier.
+	UpperBound param.Field[float64] `json:"upper_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll bool
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll = true
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField] `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator] `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID       BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_id"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID        BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "item_id"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType     BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_type"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency      BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "currency"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "includes"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage          BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "usage"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_advance"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_arrears"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed          BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears      BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType string
 
 const (
-	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
-	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "usage_discount"
-	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
-	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum            BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
-	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum            BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount       BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount            BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "usage_discount"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount           BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum                  BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum                  BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
+	BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType = "tiered_percentage_discount"
 )
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum, BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount:
 		return true
 	}
 	return false
@@ -1993,6 +2132,7 @@ type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustment struct {
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
 	// If set, only prices of the specified type will have the adjustment applied.
 	PriceType     param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	Tiers         param.Field[interface{}]                                                                 `json:"tiers"`
 	UsageDiscount param.Field[float64]                                                                     `json:"usage_discount"`
 }
 
@@ -2008,24 +2148,162 @@ func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustment) Impl
 // Satisfied by [shared.NewPercentageDiscountParam],
 // [shared.NewUsageDiscountParam], [shared.NewAmountDiscountParam],
 // [shared.NewMinimumParam], [shared.NewMaximumParam],
+// [BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscount],
 // [BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustment].
 type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion interface {
 	ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion()
 }
 
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscount struct {
+	AdjustmentType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType] `json:"adjustment_type" api:"required"`
+	Tiers          param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountTier]         `json:"tiers" api:"required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFilter] `json:"filters"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType] `json:"price_type"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscount) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType = "tiered_percentage_discount"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAdjustmentTypeTieredPercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound param.Field[float64] `json:"lower_bound" api:"required"`
+	// The percentage (0-1) discounted from spend in this tier.
+	Percentage param.Field[float64] `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend; null for the final open-ended tier.
+	UpperBound param.Field[float64] `json:"upper_bound"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll bool
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll = true
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField] `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator] `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values" api:"required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID       BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_id"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID        BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "item_id"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType     BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "price_type"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency      BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "currency"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceID, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldItemID, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPriceType, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldCurrency, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "includes"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorIncludes, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage          BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "usage"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_advance"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed_in_arrears"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed          BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "fixed"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears      BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeUsage, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInAdvance, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixedInArrears, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeFixed, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewTieredPercentageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType string
 
 const (
-	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
-	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "usage_discount"
-	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "amount_discount"
-	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum            BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "minimum"
-	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum            BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "maximum"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount       BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount            BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "usage_discount"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount           BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum                  BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "minimum"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum                  BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "maximum"
+	BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType = "tiered_percentage_discount"
 )
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum, BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeTieredPercentageDiscount:
 		return true
 	}
 	return false

@@ -268,7 +268,8 @@ type MutatedSubscriptionDiscountInterval struct {
 	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
 	// This field can have the runtime type of [[]shared.AmountDiscountIntervalFilter],
 	// [[]shared.PercentageDiscountIntervalFilter],
-	// [[]shared.UsageDiscountIntervalFilter].
+	// [[]shared.UsageDiscountIntervalFilter],
+	// [[]MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilter].
 	Filters interface{} `json:"filters" api:"required"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
@@ -277,6 +278,9 @@ type MutatedSubscriptionDiscountInterval struct {
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
+	// This field can have the runtime type of
+	// [[]MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTier].
+	Tiers interface{} `json:"tiers"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount float64                                 `json:"usage_discount"`
@@ -294,6 +298,7 @@ type mutatedSubscriptionDiscountIntervalJSON struct {
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
 	PercentageDiscount        apijson.Field
+	Tiers                     apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
 	ExtraFields               map[string]apijson.Field
@@ -316,13 +321,15 @@ func (r *MutatedSubscriptionDiscountInterval) UnmarshalJSON(data []byte) (err er
 // you can cast to the specific types for more type safety.
 //
 // Possible runtime types of the union are [shared.AmountDiscountInterval],
-// [shared.PercentageDiscountInterval], [shared.UsageDiscountInterval].
+// [shared.PercentageDiscountInterval], [shared.UsageDiscountInterval],
+// [MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval].
 func (r MutatedSubscriptionDiscountInterval) AsUnion() MutatedSubscriptionDiscountIntervalsUnion {
 	return r.union
 }
 
 // Union satisfied by [shared.AmountDiscountInterval],
-// [shared.PercentageDiscountInterval] or [shared.UsageDiscountInterval].
+// [shared.PercentageDiscountInterval], [shared.UsageDiscountInterval] or
+// [MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval].
 type MutatedSubscriptionDiscountIntervalsUnion interface {
 	ImplementsMutatedSubscriptionDiscountInterval()
 }
@@ -346,20 +353,180 @@ func init() {
 			Type:               reflect.TypeOf(shared.UsageDiscountInterval{}),
 			DiscriminatorValue: "usage",
 		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval{}),
+			DiscriminatorValue: "tiered_percentage",
+		},
 	)
+}
+
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval struct {
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                         `json:"applies_to_price_interval_ids" api:"required"`
+	DiscountType              MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountType `json:"discount_type" api:"required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
+	// The filters that determine which prices this discount interval applies to.
+	Filters []MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilter `json:"filters" api:"required"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date" api:"required" format:"date-time"`
+	// Only available if discount_type is `tiered_percentage`. The ordered, contiguous
+	// bands of cumulative eligible spend, each discounted at its own percentage.
+	Tiers []MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTier `json:"tiers" api:"required"`
+	JSON  mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalJSON   `json:"-"`
+}
+
+// mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval]
+type mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	StartDate                 apijson.Field
+	Tiers                     apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountInterval) ImplementsMutatedSubscriptionDiscountInterval() {
+}
+
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountType string
+
+const (
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountTypeTieredPercentage MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountType = "tiered_percentage"
+)
+
+func (r MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalDiscountTypeTieredPercentage:
+		return true
+	}
+	return false
+}
+
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                       `json:"values" api:"required"`
+	JSON   mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilterJSON `json:"-"`
+}
+
+// mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilterJSON
+// contains the JSON metadata for the struct
+// [MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilter]
+type mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField string
+
+const (
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPriceID       MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField = "price_id"
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldItemID        MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField = "item_id"
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPriceType     MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField = "price_type"
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldCurrency      MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField = "currency"
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPricingUnitID MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPriceID, MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldItemID, MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPriceType, MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldCurrency, MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperator string
+
+const (
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperatorIncludes MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperator = "includes"
+	MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperatorExcludes MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperatorIncludes, MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// One band of a tiered percentage discount. Bounds are denominated in the
+// discount's currency. `lower_bound` is the exclusive start of the band and
+// `upper_bound` is the inclusive end; `upper_bound` is null only for the
+// open-ended final tier.
+type MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTier struct {
+	// Exclusive lower bound of cumulative spend for this tier.
+	LowerBound float64 `json:"lower_bound" api:"required"`
+	// The percentage (between 0 and 1) discounted from spend that falls within this
+	// tier.
+	Percentage float64 `json:"percentage" api:"required"`
+	// Inclusive upper bound of cumulative spend for this tier; null for the final
+	// open-ended tier.
+	UpperBound float64                                                                      `json:"upper_bound" api:"nullable"`
+	JSON       mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTierJSON `json:"-"`
+}
+
+// mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTierJSON
+// contains the JSON metadata for the struct
+// [MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTier]
+type mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTierJSON struct {
+	LowerBound  apijson.Field
+	Percentage  apijson.Field
+	UpperBound  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTier) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r mutatedSubscriptionDiscountIntervalsTieredPercentageDiscountIntervalTierJSON) RawJSON() string {
+	return r.raw
 }
 
 type MutatedSubscriptionDiscountIntervalsDiscountType string
 
 const (
-	MutatedSubscriptionDiscountIntervalsDiscountTypeAmount     MutatedSubscriptionDiscountIntervalsDiscountType = "amount"
-	MutatedSubscriptionDiscountIntervalsDiscountTypePercentage MutatedSubscriptionDiscountIntervalsDiscountType = "percentage"
-	MutatedSubscriptionDiscountIntervalsDiscountTypeUsage      MutatedSubscriptionDiscountIntervalsDiscountType = "usage"
+	MutatedSubscriptionDiscountIntervalsDiscountTypeAmount           MutatedSubscriptionDiscountIntervalsDiscountType = "amount"
+	MutatedSubscriptionDiscountIntervalsDiscountTypePercentage       MutatedSubscriptionDiscountIntervalsDiscountType = "percentage"
+	MutatedSubscriptionDiscountIntervalsDiscountTypeUsage            MutatedSubscriptionDiscountIntervalsDiscountType = "usage"
+	MutatedSubscriptionDiscountIntervalsDiscountTypeTieredPercentage MutatedSubscriptionDiscountIntervalsDiscountType = "tiered_percentage"
 )
 
 func (r MutatedSubscriptionDiscountIntervalsDiscountType) IsKnown() bool {
 	switch r {
-	case MutatedSubscriptionDiscountIntervalsDiscountTypeAmount, MutatedSubscriptionDiscountIntervalsDiscountTypePercentage, MutatedSubscriptionDiscountIntervalsDiscountTypeUsage:
+	case MutatedSubscriptionDiscountIntervalsDiscountTypeAmount, MutatedSubscriptionDiscountIntervalsDiscountTypePercentage, MutatedSubscriptionDiscountIntervalsDiscountTypeUsage, MutatedSubscriptionDiscountIntervalsDiscountTypeTieredPercentage:
 		return true
 	}
 	return false
