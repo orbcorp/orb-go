@@ -84,7 +84,7 @@ func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdate
 // This endpoint returns a list of all [plans](/core-concepts#plan-and-price) for
 // an account in a list format. The list of plans is ordered starting from the most
 // recently created plan. The response also includes
-// [`pagination_metadata`](/api-reference/pagination), which lets the caller
+// [`pagination_metadata`](/api-reference/pagination) which lets the caller
 // retrieve the next page of results if they exist.
 func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...option.RequestOption) (res *pagination.Page[Plan], err error) {
 	var raw *http.Response
@@ -106,7 +106,7 @@ func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...op
 // This endpoint returns a list of all [plans](/core-concepts#plan-and-price) for
 // an account in a list format. The list of plans is ordered starting from the most
 // recently created plan. The response also includes
-// [`pagination_metadata`](/api-reference/pagination), which lets the caller
+// [`pagination_metadata`](/api-reference/pagination) which lets the caller
 // retrieve the next page of results if they exist.
 func (r *PlanService) ListAutoPaging(ctx context.Context, query PlanListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Plan] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
