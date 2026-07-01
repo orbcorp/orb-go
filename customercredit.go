@@ -17,6 +17,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
@@ -148,12 +149,17 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID                    string                             `json:"id" api:"required"`
-	Balance               float64                            `json:"balance" api:"required"`
-	EffectiveDate         time.Time                          `json:"effective_date" api:"required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                          `json:"expiry_date" api:"required,nullable" format:"date-time"`
-	Filters               []CustomerCreditListResponseFilter `json:"filters" api:"required"`
-	MaximumInitialBalance float64                            `json:"maximum_initial_balance" api:"required,nullable"`
+	ID      string  `json:"id" api:"required"`
+	Balance float64 `json:"balance" api:"required"`
+	// How this credit block was created: `allocation` (a subscription's recurring
+	// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+	// `manual` (a manual credit ledger increment, including credits voided or expired
+	// off another block).
+	CreditBlockSource     CustomerCreditListResponseCreditBlockSource `json:"credit_block_source" api:"required"`
+	EffectiveDate         time.Time                                   `json:"effective_date" api:"required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                   `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListResponseFilter          `json:"filters" api:"required"`
+	MaximumInitialBalance float64                                     `json:"maximum_initial_balance" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -161,7 +167,10 @@ type CustomerCreditListResponse struct {
 	Metadata         map[string]string                `json:"metadata" api:"required"`
 	PerUnitCostBasis string                           `json:"per_unit_cost_basis" api:"required,nullable"`
 	Status           CustomerCreditListResponseStatus `json:"status" api:"required"`
-	JSON             customerCreditListResponseJSON   `json:"-"`
+	// The credit allocation that funded a block. Extends the allocation resource
+	// serialized on prices with the catalog-item attribution of the funding price.
+	CreditAllocation CustomerCreditListResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
+	JSON             customerCreditListResponseJSON             `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
@@ -169,6 +178,7 @@ type CustomerCreditListResponse struct {
 type customerCreditListResponseJSON struct {
 	ID                    apijson.Field
 	Balance               apijson.Field
+	CreditBlockSource     apijson.Field
 	EffectiveDate         apijson.Field
 	ExpiryDate            apijson.Field
 	Filters               apijson.Field
@@ -176,6 +186,7 @@ type customerCreditListResponseJSON struct {
 	Metadata              apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
+	CreditAllocation      apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
 }
@@ -186,6 +197,26 @@ func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
 
 func (r customerCreditListResponseJSON) RawJSON() string {
 	return r.raw
+}
+
+// How this credit block was created: `allocation` (a subscription's recurring
+// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+// `manual` (a manual credit ledger increment, including credits voided or expired
+// off another block).
+type CustomerCreditListResponseCreditBlockSource string
+
+const (
+	CustomerCreditListResponseCreditBlockSourceAllocation CustomerCreditListResponseCreditBlockSource = "allocation"
+	CustomerCreditListResponseCreditBlockSourceTopUp      CustomerCreditListResponseCreditBlockSource = "top_up"
+	CustomerCreditListResponseCreditBlockSourceManual     CustomerCreditListResponseCreditBlockSource = "manual"
+)
+
+func (r CustomerCreditListResponseCreditBlockSource) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseCreditBlockSourceAllocation, CustomerCreditListResponseCreditBlockSourceTopUp, CustomerCreditListResponseCreditBlockSourceManual:
+		return true
+	}
+	return false
 }
 
 // A PriceFilter that only allows item_id field for block filters.
@@ -263,13 +294,116 @@ func (r CustomerCreditListResponseStatus) IsKnown() bool {
 	return false
 }
 
+// The credit allocation that funded a block. Extends the allocation resource
+// serialized on prices with the catalog-item attribution of the funding price.
+type CustomerCreditListResponseCreditAllocation struct {
+	AllowsRollover   bool                    `json:"allows_rollover" api:"required"`
+	Currency         string                  `json:"currency" api:"required"`
+	CustomExpiration shared.CustomExpiration `json:"custom_expiration" api:"required,nullable"`
+	// The ID of the catalog item this block was allocated from, derived from the
+	// allocation's price.
+	ItemID        string                                             `json:"item_id" api:"required"`
+	Filters       []CustomerCreditListResponseCreditAllocationFilter `json:"filters"`
+	LicenseTypeID string                                             `json:"license_type_id" api:"nullable"`
+	JSON          customerCreditListResponseCreditAllocationJSON     `json:"-"`
+}
+
+// customerCreditListResponseCreditAllocationJSON contains the JSON metadata for
+// the struct [CustomerCreditListResponseCreditAllocation]
+type customerCreditListResponseCreditAllocationJSON struct {
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	ItemID           apijson.Field
+	Filters          apijson.Field
+	LicenseTypeID    apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *CustomerCreditListResponseCreditAllocation) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListResponseCreditAllocationJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCreditListResponseCreditAllocationFilter struct {
+	// The property of the price to filter on.
+	Field CustomerCreditListResponseCreditAllocationFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CustomerCreditListResponseCreditAllocationFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                             `json:"values" api:"required"`
+	JSON   customerCreditListResponseCreditAllocationFilterJSON `json:"-"`
+}
+
+// customerCreditListResponseCreditAllocationFilterJSON contains the JSON metadata
+// for the struct [CustomerCreditListResponseCreditAllocationFilter]
+type customerCreditListResponseCreditAllocationFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCreditListResponseCreditAllocationFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListResponseCreditAllocationFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CustomerCreditListResponseCreditAllocationFiltersField string
+
+const (
+	CustomerCreditListResponseCreditAllocationFiltersFieldPriceID       CustomerCreditListResponseCreditAllocationFiltersField = "price_id"
+	CustomerCreditListResponseCreditAllocationFiltersFieldItemID        CustomerCreditListResponseCreditAllocationFiltersField = "item_id"
+	CustomerCreditListResponseCreditAllocationFiltersFieldPriceType     CustomerCreditListResponseCreditAllocationFiltersField = "price_type"
+	CustomerCreditListResponseCreditAllocationFiltersFieldCurrency      CustomerCreditListResponseCreditAllocationFiltersField = "currency"
+	CustomerCreditListResponseCreditAllocationFiltersFieldPricingUnitID CustomerCreditListResponseCreditAllocationFiltersField = "pricing_unit_id"
+)
+
+func (r CustomerCreditListResponseCreditAllocationFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseCreditAllocationFiltersFieldPriceID, CustomerCreditListResponseCreditAllocationFiltersFieldItemID, CustomerCreditListResponseCreditAllocationFiltersFieldPriceType, CustomerCreditListResponseCreditAllocationFiltersFieldCurrency, CustomerCreditListResponseCreditAllocationFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditListResponseCreditAllocationFiltersOperator string
+
+const (
+	CustomerCreditListResponseCreditAllocationFiltersOperatorIncludes CustomerCreditListResponseCreditAllocationFiltersOperator = "includes"
+	CustomerCreditListResponseCreditAllocationFiltersOperatorExcludes CustomerCreditListResponseCreditAllocationFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditListResponseCreditAllocationFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseCreditAllocationFiltersOperatorIncludes, CustomerCreditListResponseCreditAllocationFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditListByExternalIDResponse struct {
-	ID                    string                                         `json:"id" api:"required"`
-	Balance               float64                                        `json:"balance" api:"required"`
-	EffectiveDate         time.Time                                      `json:"effective_date" api:"required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                                      `json:"expiry_date" api:"required,nullable" format:"date-time"`
-	Filters               []CustomerCreditListByExternalIDResponseFilter `json:"filters" api:"required"`
-	MaximumInitialBalance float64                                        `json:"maximum_initial_balance" api:"required,nullable"`
+	ID      string  `json:"id" api:"required"`
+	Balance float64 `json:"balance" api:"required"`
+	// How this credit block was created: `allocation` (a subscription's recurring
+	// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+	// `manual` (a manual credit ledger increment, including credits voided or expired
+	// off another block).
+	CreditBlockSource     CustomerCreditListByExternalIDResponseCreditBlockSource `json:"credit_block_source" api:"required"`
+	EffectiveDate         time.Time                                               `json:"effective_date" api:"required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                               `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListByExternalIDResponseFilter          `json:"filters" api:"required"`
+	MaximumInitialBalance float64                                                 `json:"maximum_initial_balance" api:"required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -277,7 +411,10 @@ type CustomerCreditListByExternalIDResponse struct {
 	Metadata         map[string]string                            `json:"metadata" api:"required"`
 	PerUnitCostBasis string                                       `json:"per_unit_cost_basis" api:"required,nullable"`
 	Status           CustomerCreditListByExternalIDResponseStatus `json:"status" api:"required"`
-	JSON             customerCreditListByExternalIDResponseJSON   `json:"-"`
+	// The credit allocation that funded a block. Extends the allocation resource
+	// serialized on prices with the catalog-item attribution of the funding price.
+	CreditAllocation CustomerCreditListByExternalIDResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
+	JSON             customerCreditListByExternalIDResponseJSON             `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
@@ -285,6 +422,7 @@ type CustomerCreditListByExternalIDResponse struct {
 type customerCreditListByExternalIDResponseJSON struct {
 	ID                    apijson.Field
 	Balance               apijson.Field
+	CreditBlockSource     apijson.Field
 	EffectiveDate         apijson.Field
 	ExpiryDate            apijson.Field
 	Filters               apijson.Field
@@ -292,6 +430,7 @@ type customerCreditListByExternalIDResponseJSON struct {
 	Metadata              apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
+	CreditAllocation      apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
 }
@@ -302,6 +441,26 @@ func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err
 
 func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 	return r.raw
+}
+
+// How this credit block was created: `allocation` (a subscription's recurring
+// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+// `manual` (a manual credit ledger increment, including credits voided or expired
+// off another block).
+type CustomerCreditListByExternalIDResponseCreditBlockSource string
+
+const (
+	CustomerCreditListByExternalIDResponseCreditBlockSourceAllocation CustomerCreditListByExternalIDResponseCreditBlockSource = "allocation"
+	CustomerCreditListByExternalIDResponseCreditBlockSourceTopUp      CustomerCreditListByExternalIDResponseCreditBlockSource = "top_up"
+	CustomerCreditListByExternalIDResponseCreditBlockSourceManual     CustomerCreditListByExternalIDResponseCreditBlockSource = "manual"
+)
+
+func (r CustomerCreditListByExternalIDResponseCreditBlockSource) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseCreditBlockSourceAllocation, CustomerCreditListByExternalIDResponseCreditBlockSourceTopUp, CustomerCreditListByExternalIDResponseCreditBlockSourceManual:
+		return true
+	}
+	return false
 }
 
 // A PriceFilter that only allows item_id field for block filters.
@@ -374,6 +533,105 @@ const (
 func (r CustomerCreditListByExternalIDResponseStatus) IsKnown() bool {
 	switch r {
 	case CustomerCreditListByExternalIDResponseStatusActive, CustomerCreditListByExternalIDResponseStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
+// The credit allocation that funded a block. Extends the allocation resource
+// serialized on prices with the catalog-item attribution of the funding price.
+type CustomerCreditListByExternalIDResponseCreditAllocation struct {
+	AllowsRollover   bool                    `json:"allows_rollover" api:"required"`
+	Currency         string                  `json:"currency" api:"required"`
+	CustomExpiration shared.CustomExpiration `json:"custom_expiration" api:"required,nullable"`
+	// The ID of the catalog item this block was allocated from, derived from the
+	// allocation's price.
+	ItemID        string                                                         `json:"item_id" api:"required"`
+	Filters       []CustomerCreditListByExternalIDResponseCreditAllocationFilter `json:"filters"`
+	LicenseTypeID string                                                         `json:"license_type_id" api:"nullable"`
+	JSON          customerCreditListByExternalIDResponseCreditAllocationJSON     `json:"-"`
+}
+
+// customerCreditListByExternalIDResponseCreditAllocationJSON contains the JSON
+// metadata for the struct [CustomerCreditListByExternalIDResponseCreditAllocation]
+type customerCreditListByExternalIDResponseCreditAllocationJSON struct {
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	ItemID           apijson.Field
+	Filters          apijson.Field
+	LicenseTypeID    apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *CustomerCreditListByExternalIDResponseCreditAllocation) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseCreditAllocationJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCreditListByExternalIDResponseCreditAllocationFilter struct {
+	// The property of the price to filter on.
+	Field CustomerCreditListByExternalIDResponseCreditAllocationFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                                         `json:"values" api:"required"`
+	JSON   customerCreditListByExternalIDResponseCreditAllocationFilterJSON `json:"-"`
+}
+
+// customerCreditListByExternalIDResponseCreditAllocationFilterJSON contains the
+// JSON metadata for the struct
+// [CustomerCreditListByExternalIDResponseCreditAllocationFilter]
+type customerCreditListByExternalIDResponseCreditAllocationFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCreditListByExternalIDResponseCreditAllocationFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseCreditAllocationFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CustomerCreditListByExternalIDResponseCreditAllocationFiltersField string
+
+const (
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPriceID       CustomerCreditListByExternalIDResponseCreditAllocationFiltersField = "price_id"
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldItemID        CustomerCreditListByExternalIDResponseCreditAllocationFiltersField = "item_id"
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPriceType     CustomerCreditListByExternalIDResponseCreditAllocationFiltersField = "price_type"
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldCurrency      CustomerCreditListByExternalIDResponseCreditAllocationFiltersField = "currency"
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPricingUnitID CustomerCreditListByExternalIDResponseCreditAllocationFiltersField = "pricing_unit_id"
+)
+
+func (r CustomerCreditListByExternalIDResponseCreditAllocationFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPriceID, CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldItemID, CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPriceType, CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldCurrency, CustomerCreditListByExternalIDResponseCreditAllocationFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator string
+
+const (
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperatorIncludes CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator = "includes"
+	CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperatorExcludes CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperatorIncludes, CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperatorExcludes:
 		return true
 	}
 	return false
