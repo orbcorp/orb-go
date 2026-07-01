@@ -130,6 +130,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		}}),
 		AlignBillingWithSubscriptionStartDate: orb.F(true),
 		AutoCollection:                        orb.F(true),
+		AutoIssuance:                          orb.F(true),
 		AwsRegion:                             orb.F("aws_region"),
 		BillingCycleAnchorConfiguration: orb.F(shared.BillingCycleAnchorConfigurationParam{
 			Day:   orb.F(int64(1)),
@@ -292,6 +293,7 @@ func TestSubscriptionUpdateWithOptionalParams(t *testing.T) {
 		"subscription_id",
 		orb.SubscriptionUpdateParams{
 			AutoCollection:     orb.F(true),
+			AutoIssuance:       orb.F(true),
 			DefaultInvoiceMemo: orb.F("default_invoice_memo"),
 			InvoicingThreshold: orb.F("10.00"),
 			Metadata: orb.F(map[string]string{
@@ -802,6 +804,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			}}),
 			AlignBillingWithPlanChangeDate: orb.F(true),
 			AutoCollection:                 orb.F(true),
+			AutoIssuance:                   orb.F(true),
 			BillingCycleAlignment:          orb.F(orb.SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentUnchanged),
 			BillingCycleAnchorConfiguration: orb.F(shared.BillingCycleAnchorConfigurationParam{
 				Day:   orb.F(int64(1)),

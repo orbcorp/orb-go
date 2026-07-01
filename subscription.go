@@ -5021,7 +5021,12 @@ type Subscription struct {
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
 	// the plan's behavior. If null, defaults to the customer's setting.
-	AutoCollection                  bool                                   `json:"auto_collection" api:"required,nullable"`
+	AutoCollection bool `json:"auto_collection" api:"required,nullable"`
+	// Determines whether invoices for this subscription will be automatically issued.
+	// This resolves the effective setting for the subscription: a subscription-level
+	// override if set, otherwise the customer-level setting, otherwise the
+	// account-level default.
+	AutoIssuance                    bool                                   `json:"auto_issuance" api:"required,nullable"`
 	BillingCycleAnchorConfiguration shared.BillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration" api:"required"`
 	// The day of the month on which the billing cycle is anchored. If the maximum
 	// number of days in a month is greater than this value, the last day of the month
@@ -5113,6 +5118,7 @@ type subscriptionJSON struct {
 	ActivePlanPhaseOrder            apijson.Field
 	AdjustmentIntervals             apijson.Field
 	AutoCollection                  apijson.Field
+	AutoIssuance                    apijson.Field
 	BillingCycleAnchorConfiguration apijson.Field
 	BillingCycleDay                 apijson.Field
 	CreatedAt                       apijson.Field
@@ -5872,7 +5878,12 @@ type SubscriptionNewParams struct {
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. If not specified, this
 	// defaults to the behavior configured for this customer.
-	AutoCollection                  param.Field[bool]                                        `json:"auto_collection"`
+	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this subscription will be automatically
+	// issued. If true, invoices will be automatically issued. If false, invoices will
+	// require manual approval. If `null` is specified, this defaults to the behavior
+	// configured for this customer.
+	AutoIssuance                    param.Field[bool]                                        `json:"auto_issuance"`
 	AwsRegion                       param.Field[string]                                      `json:"aws_region"`
 	BillingCycleAnchorConfiguration param.Field[shared.BillingCycleAnchorConfigurationParam] `json:"billing_cycle_anchor_configuration"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
@@ -9713,6 +9724,11 @@ type SubscriptionUpdateParams struct {
 	// charged with the saved payment method on the due date. This property defaults to
 	// the plan's behavior.
 	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this subscription will be automatically
+	// issued. If true, invoices will be automatically issued. If false, invoices will
+	// require manual approval. If `null` is specified, this defaults to the behavior
+	// configured for this customer.
+	AutoIssuance param.Field[bool] `json:"auto_issuance"`
 	// Determines the default memo on this subscription's invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
@@ -11976,6 +11992,11 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// charged with the saved payment method on the due date. If not specified, this
 	// defaults to the behavior configured for this customer.
 	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this subscription will be automatically
+	// issued. If true, invoices will be automatically issued. If false, invoices will
+	// require manual approval. If `null` is specified, this defaults to the behavior
+	// configured for this customer.
+	AutoIssuance param.Field[bool] `json:"auto_issuance"`
 	// Reset billing periods to be aligned with the plan change's effective date or
 	// start of the month. Defaults to `unchanged` which keeps subscription's existing
 	// billing cycle alignment.
