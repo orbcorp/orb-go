@@ -1,0 +1,52 @@
+name: Trigger back-sync on release
+
+# On the production repo: when release-please publishes a release, dispatch
+# the staging repo's back-sync so the version/changelog commits come home
+# within seconds instead of waiting for the poll.
+#
+# This file reaches the production repo via the promote (it is sealed into the
+# staging repo alongside the other stlc workflows); the `if` guard routes so
+# only the production copy runs. Source of truth: dev-docs stainless/sdk-workflows/.
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    if: ${{ !endsWith(github.repository, '-staging') }}
+    steps:
+      - name: Derive staging repo name
+        id: repos
+        run: |
+          short="${GITHUB_REPOSITORY#*/}"
+          echo "staging=${short}-staging" >> "$GITHUB_OUTPUT"
+
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_APP_ID }}
+          private-key: ${{ secrets.STLC_APP_PRIVATE_KEY }}
+          owner: orbcorp
+          repositories: ${{ steps.repos.outputs.staging }}
+
+      - name: Dispatch back-sync to staging
+        env:
+          DISPATCH_TOKEN: ${{ steps.app-token.outputs.token }}
+          STAGING_REPO: orbcorp/${{ steps.repos.outputs.staging }}
+        run: |
+          code=$(curl -sS -o /tmp/dispatch.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer ${DISPATCH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${STAGING_REPO}/dispatches" \
+            -d '{"event_type":"prod-released"}')
+          if [ "$code" = "204" ]; then
+            echo "Back-sync dispatched to ${STAGING_REPO}."
+          else
+            echo "Dispatch failed (HTTP $code)" >&2; cat /tmp/dispatch.txt >&2; exit 1
+          fi

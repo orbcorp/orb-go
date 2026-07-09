@@ -1,0 +1,95 @@
+name: Promote SDK to production
+
+# Fast-forwards production `main` up to the staging trunk, preserving commit
+# SHAs, so the two trunks stay identical and linear and the sealed custom-code
+# commit stays an ancestor of both.
+#
+# Runs nightly (00:15 UTC, matching the retired Stainless cloud's release
+# cadence) plus manual dispatch for ship-it-now moments. Both are idempotent:
+# no-op when production already has staging's content, hard refusal if the
+# trunks have somehow forked.
+#
+# This file is sealed into every two-repo staging SDK repo as custom code and
+# reaches the production repo via the promote itself; the `if` guards route so
+# only the staging copy runs. Source of truth: dev-docs stainless/sdk-workflows/.
+on:
+  schedule:
+    - cron: '15 0 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stlc-promote
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    # Staging repos only; csharp is generate-only while its generator bugs are
+    # open with Stainless, and typescript has no production repo.
+    if: >-
+      endsWith(github.repository, '-staging') &&
+      github.repository != 'orbcorp/orb-csharp-staging' &&
+      github.repository != 'orbcorp/orb-typescript-staging'
+    steps:
+      - name: Derive repo names
+        id: repos
+        run: |
+          short="${GITHUB_REPOSITORY#*/}"
+          echo "staging=$short" >> "$GITHUB_OUTPUT"
+          echo "production=${short%-staging}" >> "$GITHUB_OUTPUT"
+
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_APP_ID }}
+          private-key: ${{ secrets.STLC_APP_PRIVATE_KEY }}
+          owner: orbcorp
+          repositories: ${{ steps.repos.outputs.staging }},${{ steps.repos.outputs.production }}
+
+      - name: Check out staging
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch production main
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PRODUCTION_REPO: orbcorp/${{ steps.repos.outputs.production }}
+        run: |
+          git remote add production \
+            "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
+          git fetch production main
+
+      - name: Check whether production already has staging's content
+        id: diff
+        run: |
+          # After a release, production carries release-please's version and
+          # changelog commits that staging lacks. Ask whether merging staging
+          # into production would change production's tree: if not, production
+          # already has staging's content.
+          MERGED=$(git merge-tree --write-tree production/main origin/main) || MERGED=conflict
+          PRODUCTION_TREE=$(git rev-parse 'production/main^{tree}')
+          if [ "$MERGED" = "$PRODUCTION_TREE" ]; then
+            echo "Production already contains staging's content. Nothing to promote."
+            echo "synced=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "synced=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Promote staging to production (fast-forward)
+        if: steps.diff.outputs.synced == 'false'
+        run: |
+          # Refuse unless production/main is an ancestor of staging/main. If it
+          # is not, the trunks have forked (someone advanced production out of
+          # band without back-syncing first) and a fast-forward is unsafe.
+          if ! git merge-base --is-ancestor production/main origin/main; then
+            echo "::error title=Promote blocked::production/main is not an ancestor of staging main. Back-sync production into staging first."
+            exit 1
+          fi
+          git push production origin/main:refs/heads/main
+          echo "Fast-forwarded production/main to staging/main."
