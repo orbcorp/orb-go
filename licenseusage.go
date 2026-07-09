@@ -245,7 +245,7 @@ type LicenseUsageGetAllUsageParams struct {
 	EndDate param.Field[time.Time] `query:"end_date" format:"date"`
 	// How to group the results. Valid values: 'license', 'day'. Can be combined (e.g.,
 	// 'license,day').
-	GroupBy param.Field[[]string] `query:"group_by"`
+	GroupBy param.Field[string] `query:"group_by"`
 	// Maximum number of rows in the response data (default 20, max 100).
 	Limit param.Field[int64] `query:"limit"`
 	// Start date for the usage period (YYYY-MM-DD). Defaults to start of current
@@ -270,7 +270,7 @@ type LicenseUsageGetUsageParams struct {
 	EndDate param.Field[time.Time] `query:"end_date" format:"date"`
 	// How to group the results. Valid values: 'license', 'day'. Can be combined (e.g.,
 	// 'license,day').
-	GroupBy param.Field[[]string] `query:"group_by"`
+	GroupBy param.Field[string] `query:"group_by"`
 	// Maximum number of rows in the response data (default 20, max 100).
 	Limit param.Field[int64] `query:"limit"`
 	// Start date for the usage period (YYYY-MM-DD). Defaults to start of current

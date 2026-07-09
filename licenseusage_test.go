@@ -31,7 +31,7 @@ func TestLicenseUsageGetAllUsageWithOptionalParams(t *testing.T) {
 		SubscriptionID: orb.F("subscription_id"),
 		Cursor:         orb.F("cursor"),
 		EndDate:        orb.F(time.Now()),
-		GroupBy:        orb.F([]string{"string"}),
+		GroupBy:        orb.F("group_by"),
 		Limit:          orb.F(int64(1)),
 		StartDate:      orb.F(time.Now()),
 	})
@@ -62,7 +62,7 @@ func TestLicenseUsageGetUsageWithOptionalParams(t *testing.T) {
 		orb.LicenseUsageGetUsageParams{
 			Cursor:    orb.F("cursor"),
 			EndDate:   orb.F(time.Now()),
-			GroupBy:   orb.F([]string{"string"}),
+			GroupBy:   orb.F("group_by"),
 			Limit:     orb.F(int64(1)),
 			StartDate: orb.F(time.Now()),
 		},
