@@ -2440,8 +2440,9 @@ type InvoiceNewParams struct {
 	// An ISO 4217 currency string. Must be the same as the customer's currency if it
 	// is set.
 	Currency param.Field[string] `json:"currency" api:"required"`
-	// Optional invoice date to set. Must be in the past, if not set, `invoice_date` is
-	// set to the current time in the customer's timezone.
+	// An ISO 8601 date or timestamp, interpreted in the customer's timezone. Must be
+	// in the past. If a date is set without a time, `invoice_date` is set to midnight
+	// on the chosen date in the customer's timezone.
 	InvoiceDate param.Field[time.Time]                  `json:"invoice_date" api:"required" format:"date-time"`
 	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items" api:"required"`
 	// Determines whether this invoice will automatically attempt to charge a saved
