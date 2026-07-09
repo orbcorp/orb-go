@@ -1,0 +1,40 @@
+name: Auto-merge release PRs
+
+# Restores the retired Stainless cloud's hands-off release behavior: when
+# release-please opens (or updates) its version/changelog PR on the production
+# repo, enable auto-merge so it lands without a human. Squash is
+# release-please's recommended merge strategy; the resulting new commit on
+# production main comes back to staging via the back-sync.
+#
+# Sealed into the staging repos as custom code and reaches production via the
+# promote; the `if` guard routes so only the production copy acts. Source of
+# truth: dev-docs stainless/sdk-workflows/.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    if: >-
+      !endsWith(github.repository, '-staging') &&
+      startsWith(github.event.pull_request.head.ref, 'release-please--')
+    steps:
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_APP_ID }}
+          private-key: ${{ secrets.STLC_APP_PRIVATE_KEY }}
+
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh pr merge --auto --squash "${{ github.event.pull_request.number }}" \
+            --repo "$GITHUB_REPOSITORY"
+          echo "Auto-merge enabled for release PR #${{ github.event.pull_request.number }}."

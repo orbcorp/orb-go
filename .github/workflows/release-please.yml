@@ -14,7 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Token comes from the orb-stlc-automation app rather than a
+      # RELEASE_PLEASE_TOKEN PAT: no expiry to rotate, and app-created releases
+      # still trigger the publish and back-sync workflows (GITHUB_TOKEN-created
+      # events would not).
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_APP_ID }}
+          private-key: ${{ secrets.STLC_APP_PRIVATE_KEY }}
+
       - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         id: release
         with:
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
