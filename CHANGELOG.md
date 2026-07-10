@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.97.1 (2026-07-10)
+
+Full Changelog: [v1.97.0...v1.97.1](https://github.com/orbcorp/orb-go/compare/v1.97.0...v1.97.1)
+
 ## 1.97.0 (2026-07-09)
 
 Full Changelog: [v1.96.0...v1.97.0](https://github.com/orbcorp/orb-go/compare/v1.96.0...v1.97.0)
