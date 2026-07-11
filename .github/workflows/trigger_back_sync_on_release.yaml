@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   dispatch:
-    runs-on: ubuntu-latest
+    runs-on: runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/runner=2cpu-linux-x64/spot=false/tag=sdk-release-dispatch
     if: ${{ !endsWith(github.repository, '-staging') }}
     steps:
       - name: Derive staging repo name

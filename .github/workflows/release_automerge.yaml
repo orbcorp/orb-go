@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   automerge:
-    runs-on: ubuntu-latest
+    runs-on: runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/runner=2cpu-linux-x64/spot=false/tag=sdk-release-automerge
     if: >-
       !endsWith(github.repository, '-staging') &&
       startsWith(github.event.pull_request.head.ref, 'release-please--')

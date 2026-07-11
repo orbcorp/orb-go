@@ -26,7 +26,7 @@ concurrency:
 
 jobs:
   promote:
-    runs-on: ubuntu-latest
+    runs-on: runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/runner=2cpu-linux-x64/spot=false/tag=sdk-promote
     # Staging repos only; csharp is generate-only while its generator bugs are
     # open with Stainless, and typescript has no production repo.
     if: >-

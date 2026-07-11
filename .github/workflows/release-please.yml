@@ -11,8 +11,7 @@ permissions:
 jobs:
   release-please:
     if: github.repository == 'orbcorp/orb-go'
-    runs-on: ubuntu-latest
-
+    runs-on: runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/runner=2cpu-linux-x64/spot=false/tag=sdk-release-please
     steps:
       # Token comes from the orb-stlc-automation app rather than a
       # RELEASE_PLEASE_TOKEN PAT: no expiry to rotate, and app-created releases
