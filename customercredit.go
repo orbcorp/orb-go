@@ -152,7 +152,8 @@ type CustomerCreditListResponse struct {
 	ID      string  `json:"id" api:"required"`
 	Balance float64 `json:"balance" api:"required"`
 	// How this credit block was created: `allocation` (a subscription's recurring
-	// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+	// credit allocation), `top_up` (an automatic balance-threshold top-up),
+	// `commitment` (a subscription commitment true-up rolled forward as credit), or
 	// `manual` (a manual credit ledger increment, including credits voided or expired
 	// off another block).
 	CreditBlockSource     CustomerCreditListResponseCreditBlockSource `json:"credit_block_source" api:"required"`
@@ -170,6 +171,9 @@ type CustomerCreditListResponse struct {
 	// The credit allocation that funded a block. Extends the allocation resource
 	// serialized on prices with the catalog-item attribution of the funding price.
 	CreditAllocation CustomerCreditListResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
+	// The subscription commitment whose true-up rolled forward into this credit block.
+	// Present only when `credit_block_source` is `commitment`.
+	CreditCommitment CustomerCreditListResponseCreditCommitment `json:"credit_commitment" api:"nullable"`
 	JSON             customerCreditListResponseJSON             `json:"-"`
 }
 
@@ -187,6 +191,7 @@ type customerCreditListResponseJSON struct {
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
 	CreditAllocation      apijson.Field
+	CreditCommitment      apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
 }
@@ -200,7 +205,8 @@ func (r customerCreditListResponseJSON) RawJSON() string {
 }
 
 // How this credit block was created: `allocation` (a subscription's recurring
-// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+// credit allocation), `top_up` (an automatic balance-threshold top-up),
+// `commitment` (a subscription commitment true-up rolled forward as credit), or
 // `manual` (a manual credit ledger increment, including credits voided or expired
 // off another block).
 type CustomerCreditListResponseCreditBlockSource string
@@ -208,12 +214,13 @@ type CustomerCreditListResponseCreditBlockSource string
 const (
 	CustomerCreditListResponseCreditBlockSourceAllocation CustomerCreditListResponseCreditBlockSource = "allocation"
 	CustomerCreditListResponseCreditBlockSourceTopUp      CustomerCreditListResponseCreditBlockSource = "top_up"
+	CustomerCreditListResponseCreditBlockSourceCommitment CustomerCreditListResponseCreditBlockSource = "commitment"
 	CustomerCreditListResponseCreditBlockSourceManual     CustomerCreditListResponseCreditBlockSource = "manual"
 )
 
 func (r CustomerCreditListResponseCreditBlockSource) IsKnown() bool {
 	switch r {
-	case CustomerCreditListResponseCreditBlockSourceAllocation, CustomerCreditListResponseCreditBlockSourceTopUp, CustomerCreditListResponseCreditBlockSourceManual:
+	case CustomerCreditListResponseCreditBlockSourceAllocation, CustomerCreditListResponseCreditBlockSourceTopUp, CustomerCreditListResponseCreditBlockSourceCommitment, CustomerCreditListResponseCreditBlockSourceManual:
 		return true
 	}
 	return false
@@ -392,11 +399,39 @@ func (r CustomerCreditListResponseCreditAllocationFiltersOperator) IsKnown() boo
 	return false
 }
 
+// The subscription commitment whose true-up rolled forward into this credit block.
+// Present only when `credit_block_source` is `commitment`.
+type CustomerCreditListResponseCreditCommitment struct {
+	// The ID of the subscription commitment this block was rolled forward from.
+	ID string `json:"id" api:"required"`
+	// The subscription the commitment belongs to.
+	SubscriptionID string                                         `json:"subscription_id" api:"nullable"`
+	JSON           customerCreditListResponseCreditCommitmentJSON `json:"-"`
+}
+
+// customerCreditListResponseCreditCommitmentJSON contains the JSON metadata for
+// the struct [CustomerCreditListResponseCreditCommitment]
+type customerCreditListResponseCreditCommitmentJSON struct {
+	ID             apijson.Field
+	SubscriptionID apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *CustomerCreditListResponseCreditCommitment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListResponseCreditCommitmentJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditListByExternalIDResponse struct {
 	ID      string  `json:"id" api:"required"`
 	Balance float64 `json:"balance" api:"required"`
 	// How this credit block was created: `allocation` (a subscription's recurring
-	// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+	// credit allocation), `top_up` (an automatic balance-threshold top-up),
+	// `commitment` (a subscription commitment true-up rolled forward as credit), or
 	// `manual` (a manual credit ledger increment, including credits voided or expired
 	// off another block).
 	CreditBlockSource     CustomerCreditListByExternalIDResponseCreditBlockSource `json:"credit_block_source" api:"required"`
@@ -414,6 +449,9 @@ type CustomerCreditListByExternalIDResponse struct {
 	// The credit allocation that funded a block. Extends the allocation resource
 	// serialized on prices with the catalog-item attribution of the funding price.
 	CreditAllocation CustomerCreditListByExternalIDResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
+	// The subscription commitment whose true-up rolled forward into this credit block.
+	// Present only when `credit_block_source` is `commitment`.
+	CreditCommitment CustomerCreditListByExternalIDResponseCreditCommitment `json:"credit_commitment" api:"nullable"`
 	JSON             customerCreditListByExternalIDResponseJSON             `json:"-"`
 }
 
@@ -431,6 +469,7 @@ type customerCreditListByExternalIDResponseJSON struct {
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
 	CreditAllocation      apijson.Field
+	CreditCommitment      apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
 }
@@ -444,7 +483,8 @@ func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 }
 
 // How this credit block was created: `allocation` (a subscription's recurring
-// credit allocation), `top_up` (an automatic balance-threshold top-up), or
+// credit allocation), `top_up` (an automatic balance-threshold top-up),
+// `commitment` (a subscription commitment true-up rolled forward as credit), or
 // `manual` (a manual credit ledger increment, including credits voided or expired
 // off another block).
 type CustomerCreditListByExternalIDResponseCreditBlockSource string
@@ -452,12 +492,13 @@ type CustomerCreditListByExternalIDResponseCreditBlockSource string
 const (
 	CustomerCreditListByExternalIDResponseCreditBlockSourceAllocation CustomerCreditListByExternalIDResponseCreditBlockSource = "allocation"
 	CustomerCreditListByExternalIDResponseCreditBlockSourceTopUp      CustomerCreditListByExternalIDResponseCreditBlockSource = "top_up"
+	CustomerCreditListByExternalIDResponseCreditBlockSourceCommitment CustomerCreditListByExternalIDResponseCreditBlockSource = "commitment"
 	CustomerCreditListByExternalIDResponseCreditBlockSourceManual     CustomerCreditListByExternalIDResponseCreditBlockSource = "manual"
 )
 
 func (r CustomerCreditListByExternalIDResponseCreditBlockSource) IsKnown() bool {
 	switch r {
-	case CustomerCreditListByExternalIDResponseCreditBlockSourceAllocation, CustomerCreditListByExternalIDResponseCreditBlockSourceTopUp, CustomerCreditListByExternalIDResponseCreditBlockSourceManual:
+	case CustomerCreditListByExternalIDResponseCreditBlockSourceAllocation, CustomerCreditListByExternalIDResponseCreditBlockSourceTopUp, CustomerCreditListByExternalIDResponseCreditBlockSourceCommitment, CustomerCreditListByExternalIDResponseCreditBlockSourceManual:
 		return true
 	}
 	return false
@@ -635,6 +676,33 @@ func (r CustomerCreditListByExternalIDResponseCreditAllocationFiltersOperator) I
 		return true
 	}
 	return false
+}
+
+// The subscription commitment whose true-up rolled forward into this credit block.
+// Present only when `credit_block_source` is `commitment`.
+type CustomerCreditListByExternalIDResponseCreditCommitment struct {
+	// The ID of the subscription commitment this block was rolled forward from.
+	ID string `json:"id" api:"required"`
+	// The subscription the commitment belongs to.
+	SubscriptionID string                                                     `json:"subscription_id" api:"nullable"`
+	JSON           customerCreditListByExternalIDResponseCreditCommitmentJSON `json:"-"`
+}
+
+// customerCreditListByExternalIDResponseCreditCommitmentJSON contains the JSON
+// metadata for the struct [CustomerCreditListByExternalIDResponseCreditCommitment]
+type customerCreditListByExternalIDResponseCreditCommitmentJSON struct {
+	ID             apijson.Field
+	SubscriptionID apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *CustomerCreditListByExternalIDResponseCreditCommitment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseCreditCommitmentJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditListParams struct {
