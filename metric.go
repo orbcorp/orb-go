@@ -119,8 +119,11 @@ type BillableMetric struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata             map[string]string        `json:"metadata" api:"required"`
-	Name                 string                   `json:"name" api:"required"`
+	Metadata map[string]string `json:"metadata" api:"required"`
+	Name     string            `json:"name" api:"required"`
+	// The SQL definition of the metric. For metrics defined via configuration rather
+	// than SQL, this is a derived SQL representation.
+	Sql                  string                   `json:"sql" api:"required"`
 	Status               BillableMetricStatus     `json:"status" api:"required"`
 	ParameterDefinitions []map[string]interface{} `json:"parameter_definitions" api:"nullable"`
 	JSON                 billableMetricJSON       `json:"-"`
@@ -133,6 +136,7 @@ type billableMetricJSON struct {
 	Item                 apijson.Field
 	Metadata             apijson.Field
 	Name                 apijson.Field
+	Sql                  apijson.Field
 	Status               apijson.Field
 	ParameterDefinitions apijson.Field
 	raw                  string
