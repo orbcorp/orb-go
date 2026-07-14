@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.98.0](https://github.com/orbcorp/orb-go/compare/v1.97.1...v1.98.0) (2026-07-14)
+
+
+### Features
+
+* **api:** add `commitment` credit block source and `credit_commitment` field ([42082fb](https://github.com/orbcorp/orb-go/commit/42082fbff6ab5d6b0d175d5bed8cf2f188126c0f))
+* **api:** api update ([9a59509](https://github.com/orbcorp/orb-go/commit/9a59509b4730c8ec269287fe3885b8a51c3ba138))
+
 ## 1.97.1 (2026-07-10)
 
 Full Changelog: [v1.97.0...v1.97.1](https://github.com/orbcorp/orb-go/compare/v1.97.0...v1.97.1)
