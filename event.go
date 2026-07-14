@@ -416,8 +416,7 @@ type EventIngestResponse struct {
 	// Contains all failing validation events. In the case of a 200, this array will
 	// always be empty. This field will always be present.
 	ValidationFailed []EventIngestResponseValidationFailed `json:"validation_failed" api:"required"`
-	// Optional debug information (only present when debug=true is passed to the
-	// endpoint). Contains ingested and duplicate event idempotency keys.
+	// Deprecated: deprecated
 	Debug EventIngestResponseDebug `json:"debug" api:"nullable"`
 	JSON  eventIngestResponseJSON  `json:"-"`
 }
@@ -465,8 +464,7 @@ func (r eventIngestResponseValidationFailedJSON) RawJSON() string {
 	return r.raw
 }
 
-// Optional debug information (only present when debug=true is passed to the
-// endpoint). Contains ingested and duplicate event idempotency keys.
+// Deprecated: deprecated
 type EventIngestResponseDebug struct {
 	Duplicate []string                     `json:"duplicate" api:"required"`
 	Ingested  []string                     `json:"ingested" api:"required"`
