@@ -291,6 +291,74 @@ func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, body Invoice
 	return res, err
 }
 
+// This endpoint triggers a regeneration of the PDF for a finalized invoice.
+//
+// The invoice must be finalized (`issued`, `paid`, `synced`, or `void`) and must
+// already have an existing PDF. The original PDF is archived (not permanently
+// deleted) to maintain an audit trail.
+//
+// **Important Legal Considerations:**
+//
+// Regenerating invoice PDFs may not be permitted in all jurisdictions. Many tax
+// authorities require that issued invoices remain unmodified. Before using this
+// endpoint, ensure that:
+//
+//   - Your local tax regulations permit modification of issued billing documents
+//   - You have a legitimate business reason (e.g., fixing template errors, updating
+//     branding)
+//   - You maintain proper records of the original PDF (archived automatically by
+//     Orb)
+//
+// Recommended use cases:
+//
+// - Correcting template rendering issues
+// - Applying updated company branding
+// - Updating customer data that was incorrect at issuance
+func (r *InvoiceService) RegenerateInvoicePdf(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("invoices/%s/regenerate_invoice_pdf", invoiceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// This endpoint triggers a regeneration of the receipt PDF for a paid invoice.
+//
+// The invoice must be in `paid` status and must already have an existing receipt
+// PDF. The original PDF is archived (not permanently deleted) to maintain an audit
+// trail.
+//
+// **Important Legal Considerations:**
+//
+// Regenerating receipt PDFs may not be permitted in all jurisdictions. Many tax
+// authorities require that issued receipts remain unmodified. Before using this
+// endpoint, ensure that:
+//
+//   - Your local tax regulations permit modification of issued billing documents
+//   - You have a legitimate business reason (e.g., fixing template errors, updating
+//     branding)
+//   - You maintain proper records of the original PDF (archived automatically by
+//     Orb)
+//
+// Recommended use cases:
+//
+// - Correcting template rendering issues
+// - Applying updated company branding
+// - Updating customer data that was incorrect at issuance
+func (r *InvoiceService) RegenerateReceiptPdf(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("invoices/%s/regenerate_receipt_pdf", invoiceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
 // This endpoint allows an invoice's status to be set to the `void` status. This
 // can only be done to invoices that are in the `issued` status.
 //

@@ -195,6 +195,38 @@ func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ..
 	return err
 }
 
+// Creates a portal session for the customer, returning a short-lived URL that
+// provides authenticated access to the customer's billing portal. The session
+// expires after `expires_in_minutes` (default 60, max 180). By default, creating a
+// new session invalidates any other active portal sessions for the customer; pass
+// `invalidate_existing=false` to allow concurrent sessions.
+func (r *CustomerService) NewPortalSession(ctx context.Context, customerID string, body CustomerNewPortalSessionParams, opts ...option.RequestOption) (res *CustomerNewPortalSessionResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("customers/%s/portal_sessions", customerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
+// Creates a portal session for the customer, returning a short-lived URL that
+// provides authenticated access to the customer's billing portal. The session
+// expires after `expires_in_minutes` (default 60, max 180). By default, creating a
+// new session invalidates any other active portal sessions for the customer; pass
+// `invalidate_existing=false` to allow concurrent sessions.
+func (r *CustomerService) NewPortalSessionByExternalID(ctx context.Context, externalCustomerID string, body CustomerNewPortalSessionByExternalIDParams, opts ...option.RequestOption) (res *CustomerNewPortalSessionByExternalIDResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("customers/external_customer_id/%s/portal_sessions", externalCustomerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
 // This endpoint is used to fetch customer details given an identifier. If the
 // `Customer` is in the process of being deleted, only the properties `id` and
 // `deleted: true` will be returned.
@@ -986,6 +1018,64 @@ func (r NewTaxJarConfigurationTaxProvider) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type CustomerNewPortalSessionResponse struct {
+	ID         string                               `json:"id" api:"required"`
+	CreatedAt  time.Time                            `json:"created_at" api:"required" format:"date-time"`
+	CustomerID string                               `json:"customer_id" api:"required"`
+	ExpiresAt  time.Time                            `json:"expires_at" api:"required,nullable" format:"date-time"`
+	URL        string                               `json:"url" api:"required"`
+	JSON       customerNewPortalSessionResponseJSON `json:"-"`
+}
+
+// customerNewPortalSessionResponseJSON contains the JSON metadata for the struct
+// [CustomerNewPortalSessionResponse]
+type customerNewPortalSessionResponseJSON struct {
+	ID          apijson.Field
+	CreatedAt   apijson.Field
+	CustomerID  apijson.Field
+	ExpiresAt   apijson.Field
+	URL         apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerNewPortalSessionResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerNewPortalSessionResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerNewPortalSessionByExternalIDResponse struct {
+	ID         string                                           `json:"id" api:"required"`
+	CreatedAt  time.Time                                        `json:"created_at" api:"required" format:"date-time"`
+	CustomerID string                                           `json:"customer_id" api:"required"`
+	ExpiresAt  time.Time                                        `json:"expires_at" api:"required,nullable" format:"date-time"`
+	URL        string                                           `json:"url" api:"required"`
+	JSON       customerNewPortalSessionByExternalIDResponseJSON `json:"-"`
+}
+
+// customerNewPortalSessionByExternalIDResponseJSON contains the JSON metadata for
+// the struct [CustomerNewPortalSessionByExternalIDResponse]
+type customerNewPortalSessionByExternalIDResponseJSON struct {
+	ID          apijson.Field
+	CreatedAt   apijson.Field
+	CustomerID  apijson.Field
+	ExpiresAt   apijson.Field
+	URL         apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerNewPortalSessionByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerNewPortalSessionByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerNewParams struct {
@@ -1831,6 +1921,36 @@ func (r CustomerListParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type CustomerNewPortalSessionParams struct {
+	// Duration in minutes until the portal session expires. Defaults to 60.
+	// Maximum 180.
+	ExpiresInMinutes param.Field[int64] `json:"expires_in_minutes"`
+	// When true (default), creating this session soft-deletes any other active portal
+	// sessions for the customer. Set to false to allow concurrent sessions — useful
+	// when minting portal links for multiple authenticated end-users at once. The
+	// customer's permanent portal link (if any) is never invalidated by this.
+	InvalidateExisting param.Field[bool] `json:"invalidate_existing"`
+}
+
+func (r CustomerNewPortalSessionParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CustomerNewPortalSessionByExternalIDParams struct {
+	// Duration in minutes until the portal session expires. Defaults to 60.
+	// Maximum 180.
+	ExpiresInMinutes param.Field[int64] `json:"expires_in_minutes"`
+	// When true (default), creating this session soft-deletes any other active portal
+	// sessions for the customer. Set to false to allow concurrent sessions — useful
+	// when minting portal links for multiple authenticated end-users at once. The
+	// customer's permanent portal link (if any) is never invalidated by this.
+	InvalidateExisting param.Field[bool] `json:"invalidate_existing"`
+}
+
+func (r CustomerNewPortalSessionByExternalIDParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type CustomerUpdateByExternalIDParams struct {
