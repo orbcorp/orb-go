@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.99.0](https://github.com/orbcorp/orb-go/compare/v1.98.0...v1.99.0) (2026-07-15)
+
+
+### Features
+
+* **api:** deprecate debug mode ingestion response field ([62b0d7c](https://github.com/orbcorp/orb-go/commit/62b0d7ca3264ce34311c055e558f6f8b56fdc713))
+
 ## [1.98.0](https://github.com/orbcorp/orb-go/compare/v1.97.1...v1.98.0) (2026-07-14)
 
 
