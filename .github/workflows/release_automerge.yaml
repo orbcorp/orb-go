@@ -34,7 +34,15 @@ jobs:
       - name: Enable auto-merge
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR: ${{ github.event.pull_request.number }}
         run: |
-          gh pr merge --auto --squash "${{ github.event.pull_request.number }}" \
-            --repo "$GITHUB_REPOSITORY"
-          echo "Auto-merge enabled for release PR #${{ github.event.pull_request.number }}."
+          # Auto-merge can only be enabled while the PR is blocked on
+          # requirements; on a repo with no required checks it errors, so fall
+          # back to merging directly — the same outcome auto-merge would have
+          # produced immediately.
+          if gh pr merge --auto --squash "$PR" --repo "$GITHUB_REPOSITORY"; then
+            echo "Auto-merge enabled for release PR #$PR."
+          else
+            gh pr merge --squash "$PR" --repo "$GITHUB_REPOSITORY"
+            echo "Merged release PR #$PR directly."
+          fi

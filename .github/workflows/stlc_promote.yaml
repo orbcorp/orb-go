@@ -28,11 +28,10 @@ jobs:
   promote:
     runs-on: runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/runner=2cpu-linux-x64/spot=false/tag=sdk-promote
     # Staging repos only; csharp is generate-only while its generator bugs are
-    # open with Stainless, and typescript has no production repo.
+    # open with Stainless.
     if: >-
       endsWith(github.repository, '-staging') &&
-      github.repository != 'orbcorp/orb-csharp-staging' &&
-      github.repository != 'orbcorp/orb-typescript-staging'
+      github.repository != 'orbcorp/orb-csharp-staging'
     steps:
       - name: Derive repo names
         id: repos
@@ -57,16 +56,28 @@ jobs:
           persist-credentials: false
 
       - name: Fetch production main
+        id: fetch
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PRODUCTION_REPO: orbcorp/${{ steps.repos.outputs.production }}
         run: |
           git remote add production \
             "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
-          git fetch production main
+          # A brand-new production repo has no main yet (first promote for a
+          # new SDK): skip the diff and let the promote push bootstrap it. A
+          # transient ls-remote failure lands here too, and then the plain
+          # (non-force) push below surfaces the real error.
+          if git ls-remote --exit-code production refs/heads/main >/dev/null 2>&1; then
+            git fetch production main
+            echo "has_main=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Production main does not exist yet; will bootstrap it from staging."
+            echo "has_main=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Check whether production already has staging's content
         id: diff
+        if: steps.fetch.outputs.has_main == 'true'
         run: |
           # After a release, production carries release-please's version and
           # changelog commits that staging lacks. Ask whether merging staging
@@ -82,14 +93,18 @@ jobs:
           fi
 
       - name: Promote staging to production (fast-forward)
-        if: steps.diff.outputs.synced == 'false'
+        if: steps.fetch.outputs.has_main == 'false' || steps.diff.outputs.synced == 'false'
         run: |
           # Refuse unless production/main is an ancestor of staging/main. If it
           # is not, the trunks have forked (someone advanced production out of
           # band without back-syncing first) and a fast-forward is unsafe.
-          if ! git merge-base --is-ancestor production/main origin/main; then
-            echo "::error title=Promote blocked::production/main is not an ancestor of staging main. Back-sync production into staging first."
-            exit 1
+          # When production main doesn't exist yet there is nothing to compare
+          # — the plain push below can only create, never rewrite.
+          if git rev-parse -q --verify production/main >/dev/null; then
+            if ! git merge-base --is-ancestor production/main origin/main; then
+              echo "::error title=Promote blocked::production/main is not an ancestor of staging main. Back-sync production into staging first."
+              exit 1
+            fi
           fi
           git push production origin/main:refs/heads/main
           echo "Fast-forwarded production/main to staging/main."
