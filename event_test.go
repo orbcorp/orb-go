@@ -94,7 +94,6 @@ func TestEventIngestWithOptionalParams(t *testing.T) {
 			ExternalCustomerID: orb.F("external_customer_id"),
 		}}),
 		BackfillID: orb.F("backfill_id"),
-		Debug:      orb.F(true),
 	})
 	if err != nil {
 		var apierr *orb.Error

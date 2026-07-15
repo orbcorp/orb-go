@@ -416,16 +416,13 @@ type EventIngestResponse struct {
 	// Contains all failing validation events. In the case of a 200, this array will
 	// always be empty. This field will always be present.
 	ValidationFailed []EventIngestResponseValidationFailed `json:"validation_failed" api:"required"`
-	// Deprecated: deprecated
-	Debug EventIngestResponseDebug `json:"debug" api:"nullable"`
-	JSON  eventIngestResponseJSON  `json:"-"`
+	JSON             eventIngestResponseJSON               `json:"-"`
 }
 
 // eventIngestResponseJSON contains the JSON metadata for the struct
 // [EventIngestResponse]
 type eventIngestResponseJSON struct {
 	ValidationFailed apijson.Field
-	Debug            apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
 }
@@ -461,30 +458,6 @@ func (r *EventIngestResponseValidationFailed) UnmarshalJSON(data []byte) (err er
 }
 
 func (r eventIngestResponseValidationFailedJSON) RawJSON() string {
-	return r.raw
-}
-
-// Deprecated: deprecated
-type EventIngestResponseDebug struct {
-	Duplicate []string                     `json:"duplicate" api:"required"`
-	Ingested  []string                     `json:"ingested" api:"required"`
-	JSON      eventIngestResponseDebugJSON `json:"-"`
-}
-
-// eventIngestResponseDebugJSON contains the JSON metadata for the struct
-// [EventIngestResponseDebug]
-type eventIngestResponseDebugJSON struct {
-	Duplicate   apijson.Field
-	Ingested    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *EventIngestResponseDebug) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r eventIngestResponseDebugJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -584,9 +557,6 @@ type EventIngestParams struct {
 	// If this ingestion request is part of a backfill, this parameter ties the
 	// ingested events to the backfill
 	BackfillID param.Field[string] `query:"backfill_id"`
-	// Pending Deprecation: Flag to enable additional debug information in the endpoint
-	// response
-	Debug param.Field[bool] `query:"debug"`
 }
 
 func (r EventIngestParams) MarshalJSON() (data []byte, err error) {
