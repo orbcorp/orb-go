@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.100.0](https://github.com/orbcorp/orb-go/compare/v1.99.0...v1.100.0) (2026-07-16)
+
+
+### Features
+
+* **api:** add alert deletion, customer portal session, and invoice PDF regeneration endpoints ([2918859](https://github.com/orbcorp/orb-go/commit/2918859287601607d1de2e9ba38ee17d45f680d6))
+* **api:** remove deprecated debug field from events backfill endpoints ([ada8bf3](https://github.com/orbcorp/orb-go/commit/ada8bf3f3cbcca8e910cdfba4af7e3b6b3c145a4))
+* **api:** remove deprecated debug parameter and field from backfill endpoints ([ada8bf3](https://github.com/orbcorp/orb-go/commit/ada8bf3f3cbcca8e910cdfba4af7e3b6b3c145a4))
+* **api:** remove deprecated debug query parameter and field from events API ([ada8bf3](https://github.com/orbcorp/orb-go/commit/ada8bf3f3cbcca8e910cdfba4af7e3b6b3c145a4))
+
 ## [1.99.0](https://github.com/orbcorp/orb-go/compare/v1.98.0...v1.99.0) (2026-07-15)
 
 
