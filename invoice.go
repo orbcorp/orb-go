@@ -2508,9 +2508,10 @@ type InvoiceNewParams struct {
 	// An ISO 4217 currency string. Must be the same as the customer's currency if it
 	// is set.
 	Currency param.Field[string] `json:"currency" api:"required"`
-	// An ISO 8601 date or timestamp, interpreted in the customer's timezone. Must be
-	// in the past. If a date is set without a time, `invoice_date` is set to midnight
-	// on the chosen date in the customer's timezone.
+	// An ISO 8601 date or timestamp, interpreted in the customer's timezone. If a date
+	// is set without a time, `invoice_date` is set to midnight on the chosen date in
+	// the customer's timezone. `invoice_date` cannot be more than one year in the
+	// future.
 	InvoiceDate param.Field[time.Time]                  `json:"invoice_date" api:"required" format:"date-time"`
 	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items" api:"required"`
 	// Determines whether this invoice will automatically attempt to charge a saved
@@ -2541,9 +2542,9 @@ type InvoiceNewParams struct {
 	// on issue, whereas a value of '30' represents that the customer has 30 days to
 	// pay the invoice. Do not set this field if you want to set a custom due date.
 	NetTerms param.Field[int64] `json:"net_terms"`
-	// When true, this invoice will be submitted for issuance upon creation. When
-	// false, the resulting invoice will require manual review to issue. Defaulted to
-	// false.
+	// When true, auto-issues the invoice on the invoice date. If the invoice date is
+	// today's date or earlier, the invoice will be issued upon creation. When false,
+	// the resulting invoice will require manual review to issue. Defaults to false.
 	WillAutoIssue param.Field[bool] `json:"will_auto_issue"`
 }
 
