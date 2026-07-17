@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.101.0](https://github.com/orbcorp/orb-go/compare/v1.100.0...v1.101.0) (2026-07-17)
+
+
+### Features
+
+* **api:** allow future invoice dates (up to one year) for one-off invoice creation ([a9d4dd2](https://github.com/orbcorp/orb-go/commit/a9d4dd2fc94d99195d0994a152935c6a35ca5f15))
+
 ## [1.100.0](https://github.com/orbcorp/orb-go/compare/v1.99.0...v1.100.0) (2026-07-16)
 
 
