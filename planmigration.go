@@ -113,8 +113,9 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 type PlanMigrationGetResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-	// when scheduled to be at the end of the current billing period.
+	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
@@ -143,8 +144,9 @@ func (r planMigrationGetResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-// when scheduled to be at the end of the current billing period.
+// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+// when scheduled to be at the start of the next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationGetResponseEffectiveTimeString].
@@ -174,12 +176,13 @@ func init() {
 type PlanMigrationGetResponseEffectiveTimeString string
 
 const (
-	PlanMigrationGetResponseEffectiveTimeStringEndOfTerm PlanMigrationGetResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationGetResponseEffectiveTimeStringEndOfTerm    PlanMigrationGetResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice PlanMigrationGetResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationGetResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationGetResponseEffectiveTimeStringEndOfTerm:
+	case PlanMigrationGetResponseEffectiveTimeStringEndOfTerm, PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
@@ -211,8 +214,9 @@ func (r PlanMigrationGetResponseStatus) IsKnown() bool {
 type PlanMigrationListResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-	// when scheduled to be at the end of the current billing period.
+	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
@@ -241,8 +245,9 @@ func (r planMigrationListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-// when scheduled to be at the end of the current billing period.
+// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+// when scheduled to be at the start of the next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationListResponseEffectiveTimeString].
@@ -272,12 +277,13 @@ func init() {
 type PlanMigrationListResponseEffectiveTimeString string
 
 const (
-	PlanMigrationListResponseEffectiveTimeStringEndOfTerm PlanMigrationListResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationListResponseEffectiveTimeStringEndOfTerm    PlanMigrationListResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationListResponseEffectiveTimeStringEndOfInvoice PlanMigrationListResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationListResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationListResponseEffectiveTimeStringEndOfTerm:
+	case PlanMigrationListResponseEffectiveTimeStringEndOfTerm, PlanMigrationListResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
@@ -309,8 +315,9 @@ func (r PlanMigrationListResponseStatus) IsKnown() bool {
 type PlanMigrationCancelResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-	// when scheduled to be at the end of the current billing period.
+	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
@@ -339,8 +346,9 @@ func (r planMigrationCancelResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, or 'end_of_term'
-// when scheduled to be at the end of the current billing period.
+// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
+// scheduled to be at the end of the current billing period, or 'end_of_invoice'
+// when scheduled to be at the start of the next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationCancelResponseEffectiveTimeString].
@@ -370,12 +378,13 @@ func init() {
 type PlanMigrationCancelResponseEffectiveTimeString string
 
 const (
-	PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm PlanMigrationCancelResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm    PlanMigrationCancelResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice PlanMigrationCancelResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationCancelResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm:
+	case PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm, PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
