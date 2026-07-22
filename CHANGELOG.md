@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.102.0](https://github.com/orbcorp/orb-go/compare/v1.101.0...v1.102.0) (2026-07-22)
+
+
+### Features
+
+* **api:** support `end_of_invoice` effective time for plan version migrations ([44c13ff](https://github.com/orbcorp/orb-go/commit/44c13ffeda0e5503188dbbb62d805008adc2e188))
+
 ## [1.101.0](https://github.com/orbcorp/orb-go/compare/v1.100.0...v1.101.0) (2026-07-17)
 
 
