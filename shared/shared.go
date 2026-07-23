@@ -3641,7 +3641,7 @@ func (r fixedFeeQuantityScheduleEntryJSON) RawJSON() string {
 type FixedFeeQuantityTransition struct {
 	EffectiveDate time.Time                      `json:"effective_date" api:"required" format:"date-time"`
 	PriceID       string                         `json:"price_id" api:"required"`
-	Quantity      int64                          `json:"quantity" api:"required"`
+	Quantity      float64                        `json:"quantity" api:"required"`
 	JSON          fixedFeeQuantityTransitionJSON `json:"-"`
 }
 

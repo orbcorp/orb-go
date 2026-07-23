@@ -549,7 +549,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
 					EffectiveDate: orb.F(time.Now()),
-					Quantity:      orb.F(int64(5)),
+					Quantity:      orb.F(5.000000),
 				}}),
 				MaximumAmount: orb.F(0.000000),
 				MetricParameterOverrides: orb.F(map[string]interface{}{
@@ -629,7 +629,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					EffectiveDate: orb.F(time.Now()),
-					Quantity:      orb.F(int64(5)),
+					Quantity:      orb.F(5.000000),
 				}}),
 				MetricParameterOverrides: orb.F(map[string]interface{}{
 					"foo": "bar",

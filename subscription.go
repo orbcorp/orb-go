@@ -10174,7 +10174,7 @@ type SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
 	EffectiveDate param.Field[time.Time] `json:"effective_date" api:"required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
-	Quantity param.Field[int64] `json:"quantity" api:"required"`
+	Quantity param.Field[float64] `json:"quantity" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJSON() (data []byte, err error) {
@@ -11896,7 +11896,7 @@ type SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
 	EffectiveDate param.Field[time.Time] `json:"effective_date" api:"required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
-	Quantity param.Field[int64] `json:"quantity" api:"required"`
+	Quantity param.Field[float64] `json:"quantity" api:"required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition) MarshalJSON() (data []byte, err error) {
