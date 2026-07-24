@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.103.0](https://github.com/orbcorp/orb-go/compare/v1.102.0...v1.103.0) (2026-07-24)
+
+
+### Features
+
+* **api:** increase max page limit for credit ledger endpoints from 500 to 1000 ([4b06dc1](https://github.com/orbcorp/orb-go/commit/4b06dc1b0b38d0887e11f8941d9f64b83bb56ca7))
+* **api:** support decimal quantities for fixed fee quantity transitions ([39166f2](https://github.com/orbcorp/orb-go/commit/39166f210ea1f752a5e4a0bcc5b5bef2e79c91c8))
+
 ## [1.102.0](https://github.com/orbcorp/orb-go/compare/v1.101.0...v1.102.0) (2026-07-22)
 
 
