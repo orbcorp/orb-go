@@ -112,11 +112,11 @@ func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// This endpoint trashes a subscription- or customer-scoped alert. The alert is
+// This endpoint deletes a subscription or customer-scoped alert. The alert is
 // soft-deleted: it stops firing immediately and no longer appears in fetch or list
 // responses, while the underlying record is retained internally for audit.
 //
-// Plan-level alerts cannot be trashed via the API — disable them instead
+// Plan-level alerts cannot be deleted via the API — disable them instead
 // (`POST /v1/alerts/{alert_configuration_id}/disable`). Their removal would need
 // to be unwound from every subscription the alert was propagated to, which isn't
 // supported yet.
