@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.104.0](https://github.com/orbcorp/orb-go/compare/v1.103.0...v1.104.0) (2026-07-25)
+
+
+### Features
+
+* **api:** rename "trash alert" endpoint to "delete alert" ([36656c5](https://github.com/orbcorp/orb-go/commit/36656c5f2135ba2ff25c2cd94dc632385a6dee39))
+
+
+### Bug Fixes
+
+* **api:** rename "trash alert" endpoint to "delete alert" ([36656c5](https://github.com/orbcorp/orb-go/commit/36656c5f2135ba2ff25c2cd94dc632385a6dee39))
+
 ## [1.103.0](https://github.com/orbcorp/orb-go/compare/v1.102.0...v1.103.0) (2026-07-24)
 
 
