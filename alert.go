@@ -172,15 +172,18 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 
 // This endpoint is used to create alerts at the subscription level.
 //
-// Subscription level alerts can be one of two types: `usage_exceeded` or
-// `cost_exceeded`. A `usage_exceeded` alert is scoped to a particular metric and
-// is triggered when the usage of that metric exceeds predefined thresholds during
-// the current billing cycle. A `cost_exceeded` alert is triggered when the total
-// amount due during the current billing cycle surpasses predefined thresholds.
-// `cost_exceeded` alerts do not include burndown of pre-purchase credits. Each
+// Subscription level alerts can be one of three types: `usage_exceeded`,
+// `cost_exceeded`, or `spend_exceeded`. A `usage_exceeded` alert is scoped to a
+// particular metric and is triggered when the usage of that metric exceeds
+// predefined thresholds during the current billing cycle. A `cost_exceeded` alert
+// is triggered when the total amount due during the current billing cycle
+// surpasses predefined thresholds. `cost_exceeded` alerts do not include burndown
+// of pre-purchase credits. A `spend_exceeded` alert is triggered when the rated
+// spend (the pricing subtotal, before invoice-level adjustments and credits)
+// denominated in the alert's currency exceeds predefined thresholds during the
+// current billing cycle; `price_filters` can scope which prices contribute. Each
 // subscription can have one `cost_exceeded` alert and one `usage_exceeded` alert
-// per metric that is a part of the subscription. Alerts are triggered based on
-// usage or cost conditions met during the current billing cycle.
+// per metric that is a part of the subscription.
 func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
@@ -353,12 +356,13 @@ const (
 	AlertTypeCreditBalanceRecovered         AlertType = "credit_balance_recovered"
 	AlertTypeUsageExceeded                  AlertType = "usage_exceeded"
 	AlertTypeCostExceeded                   AlertType = "cost_exceeded"
+	AlertTypeSpendExceeded                  AlertType = "spend_exceeded"
 	AlertTypeLicenseBalanceThresholdReached AlertType = "license_balance_threshold_reached"
 )
 
 func (r AlertType) IsKnown() bool {
 	switch r {
-	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered, AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeLicenseBalanceThresholdReached:
+	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered, AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeSpendExceeded, AlertTypeLicenseBalanceThresholdReached:
 		return true
 	}
 	return false
@@ -716,17 +720,18 @@ type AlertNewForSubscriptionParams struct {
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type" api:"required"`
-	// The case sensitive currency or custom pricing unit to use for grouped cost
-	// alerts. Required when grouping_keys is set.
+	// The case sensitive currency or custom pricing unit the alert is denominated in.
+	// Required for spend_exceeded alerts and when grouping_keys is set.
 	Currency param.Field[string] `json:"currency"`
 	// The property keys to group cost alerts by. Only applicable for cost_exceeded
 	// alerts.
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
 	// The metric to track usage for.
 	MetricID param.Field[string] `json:"metric_id"`
-	// Filters to scope which prices are included in grouped cost alert evaluation.
-	// Supports filtering by price_id, item_id, or price_type with includes/excludes
-	// operators. Only applicable when grouping_keys is set.
+	// Filters to scope which prices are included in alert evaluation. Supports
+	// filtering by price_id, item_id, or price_type with includes/excludes operators.
+	// Only applicable to spend_exceeded alerts and to cost_exceeded alerts with
+	// grouping_keys set.
 	PriceFilters param.Field[[]AlertNewForSubscriptionParamsPriceFilter] `json:"price_filters"`
 	// Per-group threshold overrides. Each override maps a specific combination of
 	// grouping_keys values to a list of thresholds that fully replaces the default
@@ -746,11 +751,12 @@ type AlertNewForSubscriptionParamsType string
 const (
 	AlertNewForSubscriptionParamsTypeUsageExceeded AlertNewForSubscriptionParamsType = "usage_exceeded"
 	AlertNewForSubscriptionParamsTypeCostExceeded  AlertNewForSubscriptionParamsType = "cost_exceeded"
+	AlertNewForSubscriptionParamsTypeSpendExceeded AlertNewForSubscriptionParamsType = "spend_exceeded"
 )
 
 func (r AlertNewForSubscriptionParamsType) IsKnown() bool {
 	switch r {
-	case AlertNewForSubscriptionParamsTypeUsageExceeded, AlertNewForSubscriptionParamsTypeCostExceeded:
+	case AlertNewForSubscriptionParamsTypeUsageExceeded, AlertNewForSubscriptionParamsTypeCostExceeded, AlertNewForSubscriptionParamsTypeSpendExceeded:
 		return true
 	}
 	return false
