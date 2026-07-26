@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.105.0](https://github.com/orbcorp/orb-go/compare/v1.104.0...v1.105.0) (2026-07-26)
+
+
+### Features
+
+* **api:** add `spend_exceeded` alert type for subscription-level alerts ([f736daa](https://github.com/orbcorp/orb-go/commit/f736daa5cba825f0e4214bffde97060c82dd43b7))
+
 ## [1.104.0](https://github.com/orbcorp/orb-go/compare/v1.103.0...v1.104.0) (2026-07-25)
 
 
