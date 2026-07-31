@@ -57,7 +57,10 @@ func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.R
 	return res, err
 }
 
-// This endpoint updates the thresholds of an alert.
+// This endpoint updates the thresholds of an alert. On cost alerts it also updates
+// `price_filters`, and on subscription-scoped grouped cost alerts
+// `threshold_overrides`; omitting either leaves it unchanged, and an empty list
+// clears it.
 func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, body AlertUpdateParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
@@ -258,7 +261,9 @@ type Alert struct {
 	GroupingKeys []string `json:"grouping_keys" api:"nullable"`
 	// Minified license type for alert serialization.
 	LicenseType AlertLicenseType `json:"license_type" api:"nullable"`
-	// Filters scoping which prices are included in grouped cost alert evaluation.
+	// Filters scoping which prices are included in spend and grouped cost alert
+	// evaluation. Alerts use the price_id, item_id, and price_type fields only; the
+	// alert's pricing unit is reported by currency.
 	PriceFilters []AlertPriceFilter `json:"price_filters" api:"nullable"`
 	// Per-group threshold overrides. Each override maps a specific combination of
 	// grouping_keys values to a replacement threshold list. Only present for grouped
@@ -550,8 +555,10 @@ func (r ThresholdParam) MarshalJSON() (data []byte, err error) {
 type AlertUpdateParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
-	// Replaces the price filters on a grouped cost alert; an empty list clears them.
-	// Only applicable to cost alerts with grouping_keys. Omit to leave unchanged.
+	// Replaces the price filters on the alert; an empty list clears them. Only
+	// applicable to spend_exceeded alerts and to cost_exceeded alerts with
+	// grouping_keys set. Alerts accept the price_id, item_id, and price_type fields
+	// only. Omit to leave unchanged.
 	PriceFilters param.Field[[]AlertUpdateParamsPriceFilter] `json:"price_filters"`
 	// Replaces the per-group threshold overrides on a grouped cost alert; an empty
 	// list clears them. Only applicable to cost alerts with grouping_keys. Omit to
