@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.106.0](https://github.com/orbcorp/orb-go/compare/v1.105.0...v1.106.0) (2026-07-31)
+
+
+### Features
+
+* **api:** add endpoint to create plan-level alerts ([33f9925](https://github.com/orbcorp/orb-go/commit/33f9925ea1be34a02062216536c22d6fefff11e8))
+* **api:** add endpoint to create plan-level alerts and allow PUT updates for plan usage alert thresholds ([33f9925](https://github.com/orbcorp/orb-go/commit/33f9925ea1be34a02062216536c22d6fefff11e8))
+
 ## [1.105.0](https://github.com/orbcorp/orb-go/compare/v1.104.0...v1.105.0) (2026-07-26)
 
 
