@@ -695,9 +695,9 @@ type InvoiceFetchUpcomingResponseAutoCollection struct {
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
-	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
-	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
-	// `next_attempt_time` is null).
+	// `previously_attempted_at` is non-null, and `next_attempt_at` is non-null), or if
+	// dunning has been exhausted (`previously_attempted_at` is non-null, but
+	// `next_attempt_at` is null).
 	PreviouslyAttemptedAt time.Time                                      `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceFetchUpcomingResponseAutoCollectionJSON `json:"-"`
 }
@@ -1736,9 +1736,9 @@ type InvoiceIssueSummaryResponseAutoCollection struct {
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
-	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
-	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
-	// `next_attempt_time` is null).
+	// `previously_attempted_at` is non-null, and `next_attempt_at` is non-null), or if
+	// dunning has been exhausted (`previously_attempted_at` is non-null, but
+	// `next_attempt_at` is null).
 	PreviouslyAttemptedAt time.Time                                     `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceIssueSummaryResponseAutoCollectionJSON `json:"-"`
 }
@@ -2266,9 +2266,9 @@ type InvoiceListSummaryResponseAutoCollection struct {
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
-	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
-	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
-	// `next_attempt_time` is null).
+	// `previously_attempted_at` is non-null, and `next_attempt_at` is non-null), or if
+	// dunning has been exhausted (`previously_attempted_at` is non-null, but
+	// `next_attempt_at` is null).
 	PreviouslyAttemptedAt time.Time                                    `json:"previously_attempted_at" api:"required,nullable" format:"date-time"`
 	JSON                  invoiceListSummaryResponseAutoCollectionJSON `json:"-"`
 }

@@ -51,6 +51,9 @@ func (r *LicenseUsageService) GetAllUsage(ctx context.Context, query LicenseUsag
 
 // Returns usage and remaining credits for a specific license over a date range.
 //
+// Resolves the license by ID regardless of whether it is currently active, unlike
+// the external-license-ID variant, which only resolves a currently active license.
+//
 // Date range defaults to the current billing period if not specified.
 func (r *LicenseUsageService) GetUsage(ctx context.Context, licenseID string, query LicenseUsageGetUsageParams, opts ...option.RequestOption) (res *LicenseUsageGetUsageResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
