@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.108.0](https://github.com/orbcorp/orb-go/compare/v1.107.0...v1.108.0) (2026-08-04)
+
+
+### Features
+
+* **api:** api update ([715a636](https://github.com/orbcorp/orb-go/commit/715a636ddbbd56603da20aba0d9c3aa062af5907))
+* **api:** api update ([715a636](https://github.com/orbcorp/orb-go/commit/715a636ddbbd56603da20aba0d9c3aa062af5907))
+* **api:** api update ([715a636](https://github.com/orbcorp/orb-go/commit/715a636ddbbd56603da20aba0d9c3aa062af5907))
+
+
+### Bug Fixes
+
+* **api:** correct next_attempt_at accuracy in invoice auto-collection response ([715a636](https://github.com/orbcorp/orb-go/commit/715a636ddbbd56603da20aba0d9c3aa062af5907))
+
 ## [1.107.0](https://github.com/orbcorp/orb-go/compare/v1.106.0...v1.107.0) (2026-08-01)
 
 
