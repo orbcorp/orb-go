@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.109.0](https://github.com/orbcorp/orb-go/compare/v1.108.0...v1.109.0) (2026-08-05)
+
+
+### Features
+
+* **api:** add `grouped_tiered_matrix` price model for per-dimension tiered rates ([f047cbd](https://github.com/orbcorp/orb-go/commit/f047cbd5dcf69c01d46eed012d4dbe367cde7691))
+
 ## [1.108.0](https://github.com/orbcorp/orb-go/compare/v1.107.0...v1.108.0) (2026-08-04)
 
 
