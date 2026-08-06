@@ -866,6 +866,17 @@ func (r *SubscriptionService) RedeemCoupon(ctx context.Context, subscriptionID s
 // Note that one of `plan_id` or `external_plan_id` is required in the request body
 // for this operation.
 //
+// ## Interaction with scheduled cancellations
+//
+// Scheduling a plan change also unschedules a pending cancellation, as long as the
+// cancellation date is on or after the plan change date: Orb honors the plan
+// change over the scheduled cancellation, and the subscription continues on the
+// new plan. Scheduling a plan change after the subscription's end date returns a
+// validation error instead.
+//
+// Any plan changes already scheduled at or after the new plan change's date are
+// unscheduled and replaced by it.
+//
 // ## Customize your customer's subscriptions
 //
 // Prices and adjustments in a plan can be added, removed, or replaced on the
@@ -1042,11 +1053,19 @@ func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID s
 // cancellation. This operation will turn on auto-renew, ensuring that the
 // subscription does not end at the currently scheduled cancellation time.
 //
-// Note: uncancellation is a lossy operation. Price intervals that were cut short
-// by the cancellation are extended to infinity (original end dates are lost), and
-// future intervals or phases scheduled after the cancellation time are permanently
-// deleted. For complex subscriptions with phases or scheduled plan changes,
-// consider creating a new plan change instead of uncancelling.
+// A cancellation that has already taken effect cannot be unscheduled. This
+// includes backdated cancellations: once the subscription's end date is in the
+// past, this endpoint returns a validation error.
+//
+// Note: uncancellation is a lossy operation. Price and adjustment intervals that
+// were cut short by the cancellation are extended to infinity (original end dates
+// are lost), and future intervals or phases scheduled after the cancellation time
+// are permanently deleted. For complex subscriptions with phases or scheduled plan
+// changes, consider creating a new plan change instead of uncancelling.
+//
+// If the scheduled cancellation already produced invoices or credit notes (for
+// example, a proration refund credit note for an in-advance fee), uncancelling
+// voids and reissues them as needed to match the subscription's new state.
 func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
@@ -1075,7 +1094,21 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 }
 
 // This endpoint can be used to unschedule any pending plan changes on an existing
-// subscription. When called, all upcoming plan changes will be unscheduled.
+// subscription. When called, all upcoming plan changes will be unscheduled; it is
+// not possible to unschedule a single plan change if multiple are scheduled.
+//
+// Note: unscheduling a plan change is a lossy operation, with the same semantics
+// as
+// [unscheduling a cancellation](/api-reference/subscription/unschedule-subscription-cancellation).
+// Prices and adjustments on the current plan that were scheduled to end at the
+// plan change time are extended to infinity (original end dates are lost), and
+// anything scheduled to start after the plan change time is permanently deleted.
+// Coupons redeemed as part of an unscheduled plan change are released and can be
+// redeemed again.
+//
+// A scheduled cancellation is not affected by this operation: if the subscription
+// has both a pending plan change and a scheduled cancellation, unscheduling the
+// plan change leaves the cancellation in place.
 func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
