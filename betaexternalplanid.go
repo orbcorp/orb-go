@@ -370,7 +370,8 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice struc
 	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// License allocations to associate with this price. Each entry defines a
 	// per-license credit pool granted each cadence. Requires license_type_id or
-	// license_type_configuration to be set.
+	// license_type_configuration to be set. Usage prices draw down from these
+	// allocations only if they set the same license type.
 	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
 	// The pricing model type
 	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPriceModelType] `json:"model_type" api:"required"`
@@ -406,7 +407,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesLicenseAllocationPrice struc
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -556,7 +561,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// Configuration for matrix pricing
 	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
@@ -676,7 +685,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanBulkWithFiltersP
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -839,7 +852,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedTieredMat
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -994,7 +1011,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMatrixWithThresh
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1166,7 +1187,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrat
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1316,7 +1341,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMa
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1459,7 +1488,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanCumulativeGroupe
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1602,7 +1635,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanDailyCreditAllow
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1763,7 +1800,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanMeteredAllowance
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -1915,7 +1956,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentComposite
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -2060,7 +2105,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPrice
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -2526,7 +2575,8 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice s
 	ItemID param.Field[string] `json:"item_id" api:"required"`
 	// License allocations to associate with this price. Each entry defines a
 	// per-license credit pool granted each cadence. Requires license_type_id or
-	// license_type_configuration to be set.
+	// license_type_configuration to be set. Usage prices draw down from these
+	// allocations only if they set the same license type.
 	LicenseAllocations param.Field[[]BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceLicenseAllocation] `json:"license_allocations" api:"required"`
 	// The pricing model type
 	ModelType param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPriceModelType] `json:"model_type" api:"required"`
@@ -2562,7 +2612,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesLicenseAllocationPrice s
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -2712,7 +2766,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// Configuration for matrix pricing
 	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
@@ -2832,7 +2890,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanBulkWithFilt
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -2995,7 +3057,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedTiere
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3150,7 +3216,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMatrixWithTh
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3322,7 +3392,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithPr
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3472,7 +3546,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithM
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3615,7 +3693,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanCumulativeGr
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3758,7 +3840,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanDailyCreditA
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -3919,7 +4005,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanMeteredAllow
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -4071,7 +4161,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompo
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
@@ -4216,7 +4310,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputP
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// The ID of the license type to associate with this price.
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
 	LicenseTypeID param.Field[string] `json:"license_type_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
