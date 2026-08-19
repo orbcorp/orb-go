@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.111.0](https://github.com/orbcorp/orb-go/compare/v1.110.0...v1.111.0) (2026-08-19)
+
+
+### Features
+
+* **api:** api update ([090030f](https://github.com/orbcorp/orb-go/commit/090030f501551da88c560d570cdd87d6e52cb155))
+
 ## [1.110.0](https://github.com/orbcorp/orb-go/compare/v1.109.0...v1.110.0) (2026-08-07)
 
 
