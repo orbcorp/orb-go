@@ -34,8 +34,9 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
 		UnitConfig: orb.F(shared.UnitConfigParam{
-			UnitAmount: orb.F("unit_amount"),
-			Prorated:   orb.F(true),
+			UnitAmount:    orb.F("unit_amount"),
+			Prorated:      orb.F(true),
+			ScalingFactor: orb.F(0.000000),
 		}),
 		BillableMetricID: orb.F("billable_metric_id"),
 		BilledInAdvance:  orb.F(true),
@@ -51,7 +52,7 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 			}),
 		}),
 		DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
-			DimensionValues:                 orb.F([]string{"string"}),
+			DimensionValues:                 orb.F([]string{"x"}),
 			DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 			ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
 		}),
@@ -198,8 +199,9 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
-					UnitAmount: orb.F("unit_amount"),
-					Prorated:   orb.F(true),
+					UnitAmount:    orb.F("unit_amount"),
+					Prorated:      orb.F(true),
+					ScalingFactor: orb.F(0.000000),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
@@ -215,7 +217,7 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 					}),
 				}),
 				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
-					DimensionValues:                 orb.F([]string{"string"}),
+					DimensionValues:                 orb.F([]string{"x"}),
 					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 					ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
 				}),
@@ -283,8 +285,9 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
-					UnitAmount: orb.F("unit_amount"),
-					Prorated:   orb.F(true),
+					UnitAmount:    orb.F("unit_amount"),
+					Prorated:      orb.F(true),
+					ScalingFactor: orb.F(0.000000),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
@@ -300,7 +303,7 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 					}),
 				}),
 				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
-					DimensionValues:                 orb.F([]string{"string"}),
+					DimensionValues:                 orb.F([]string{"x"}),
 					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 					ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
 				}),

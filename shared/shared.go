@@ -5039,8 +5039,13 @@ type MatrixConfig struct {
 	// One or two event property values to evaluate matrix groups by
 	Dimensions []string `json:"dimensions" api:"required"`
 	// Matrix values configuration
-	MatrixValues []MatrixValue    `json:"matrix_values" api:"required"`
-	JSON         matrixConfigJSON `json:"-"`
+	MatrixValues []MatrixValue `json:"matrix_values" api:"required"`
+	// Optional multiplier applied to default-bucket quantity before
+	// default_unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor float64          `json:"scaling_factor" api:"nullable"`
+	JSON          matrixConfigJSON `json:"-"`
 }
 
 // matrixConfigJSON contains the JSON metadata for the struct [MatrixConfig]
@@ -5048,6 +5053,7 @@ type matrixConfigJSON struct {
 	DefaultUnitAmount apijson.Field
 	Dimensions        apijson.Field
 	MatrixValues      apijson.Field
+	ScalingFactor     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
 }
@@ -5068,6 +5074,11 @@ type MatrixConfigParam struct {
 	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
 	// Matrix values configuration
 	MatrixValues param.Field[[]MatrixValueParam] `json:"matrix_values" api:"required"`
+	// Optional multiplier applied to default-bucket quantity before
+	// default_unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r MatrixConfigParam) MarshalJSON() (data []byte, err error) {
@@ -5137,14 +5148,19 @@ type MatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by
 	DimensionValues []string `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string          `json:"unit_amount" api:"required"`
-	JSON       matrixValueJSON `json:"-"`
+	UnitAmount string `json:"unit_amount" api:"required"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor float64         `json:"scaling_factor" api:"nullable"`
+	JSON          matrixValueJSON `json:"-"`
 }
 
 // matrixValueJSON contains the JSON metadata for the struct [MatrixValue]
 type matrixValueJSON struct {
 	DimensionValues apijson.Field
 	UnitAmount      apijson.Field
+	ScalingFactor   apijson.Field
 	raw             string
 	ExtraFields     map[string]apijson.Field
 }
@@ -5163,6 +5179,10 @@ type MatrixValueParam struct {
 	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r MatrixValueParam) MarshalJSON() (data []byte, err error) {
@@ -5179,7 +5199,12 @@ type MatrixWithAllocationConfig struct {
 	Dimensions []string `json:"dimensions" api:"required"`
 	// Matrix values configuration
 	MatrixValues []MatrixWithAllocationConfigMatrixValue `json:"matrix_values" api:"required"`
-	JSON         matrixWithAllocationConfigJSON          `json:"-"`
+	// Optional multiplier applied to default-bucket quantity before
+	// default_unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor string                         `json:"scaling_factor" api:"nullable"`
+	JSON          matrixWithAllocationConfigJSON `json:"-"`
 }
 
 // matrixWithAllocationConfigJSON contains the JSON metadata for the struct
@@ -5189,6 +5214,7 @@ type matrixWithAllocationConfigJSON struct {
 	DefaultUnitAmount apijson.Field
 	Dimensions        apijson.Field
 	MatrixValues      apijson.Field
+	ScalingFactor     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
 }
@@ -5208,8 +5234,12 @@ type MatrixWithAllocationConfigMatrixValue struct {
 	// instance tier.
 	DimensionValues []string `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string                                    `json:"unit_amount" api:"required"`
-	JSON       matrixWithAllocationConfigMatrixValueJSON `json:"-"`
+	UnitAmount string `json:"unit_amount" api:"required"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor string                                    `json:"scaling_factor" api:"nullable"`
+	JSON          matrixWithAllocationConfigMatrixValueJSON `json:"-"`
 }
 
 // matrixWithAllocationConfigMatrixValueJSON contains the JSON metadata for the
@@ -5217,6 +5247,7 @@ type MatrixWithAllocationConfigMatrixValue struct {
 type matrixWithAllocationConfigMatrixValueJSON struct {
 	DimensionValues apijson.Field
 	UnitAmount      apijson.Field
+	ScalingFactor   apijson.Field
 	raw             string
 	ExtraFields     map[string]apijson.Field
 }
@@ -5239,6 +5270,11 @@ type MatrixWithAllocationConfigParam struct {
 	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
 	// Matrix values configuration
 	MatrixValues param.Field[[]MatrixWithAllocationConfigMatrixValueParam] `json:"matrix_values" api:"required"`
+	// Optional multiplier applied to default-bucket quantity before
+	// default_unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor param.Field[string] `json:"scaling_factor"`
 }
 
 func (r MatrixWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -5253,6 +5289,10 @@ type MatrixWithAllocationConfigMatrixValueParam struct {
 	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor param.Field[string] `json:"scaling_factor"`
 }
 
 func (r MatrixWithAllocationConfigMatrixValueParam) MarshalJSON() (data []byte, err error) {
@@ -31398,16 +31438,21 @@ type UnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount string `json:"unit_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
-	Prorated bool           `json:"prorated"`
-	JSON     unitConfigJSON `json:"-"`
+	Prorated bool `json:"prorated"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor float64        `json:"scaling_factor" api:"nullable"`
+	JSON          unitConfigJSON `json:"-"`
 }
 
 // unitConfigJSON contains the JSON metadata for the struct [UnitConfig]
 type unitConfigJSON struct {
-	UnitAmount  apijson.Field
-	Prorated    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	UnitAmount    apijson.Field
+	Prorated      apijson.Field
+	ScalingFactor apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
 }
 
 func (r *UnitConfig) UnmarshalJSON(data []byte) (err error) {
@@ -31424,6 +31469,10 @@ type UnitConfigParam struct {
 	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
 	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
+	// Optional multiplier applied to rated quantity before unit_amount.
+	//
+	// Deprecated: deprecated
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r UnitConfigParam) MarshalJSON() (data []byte, err error) {

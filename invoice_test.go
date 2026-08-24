@@ -38,8 +38,9 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			Quantity:  orb.F(1.000000),
 			StartDate: orb.F(time.Now()),
 			UnitConfig: orb.F(shared.UnitConfigParam{
-				UnitAmount: orb.F("unit_amount"),
-				Prorated:   orb.F(true),
+				UnitAmount:    orb.F("unit_amount"),
+				Prorated:      orb.F(true),
+				ScalingFactor: orb.F(0.000000),
 			}),
 		}}),
 		AutoCollection: orb.F(true),
