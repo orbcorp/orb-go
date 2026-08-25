@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.112.0](https://github.com/orbcorp/orb-go/compare/v1.111.0...v1.112.0) (2026-08-25)
+
+
+### Features
+
+* **api:** restore deprecated `scaling_factor` field on unit and matrix price configs ([d609030](https://github.com/orbcorp/orb-go/commit/d609030aea7055fb72caa29d53d0154ff65aa4ce))
+
+
+### Bug Fixes
+
+* **api:** reject empty or missing dimension values in dimensional price configuration ([d609030](https://github.com/orbcorp/orb-go/commit/d609030aea7055fb72caa29d53d0154ff65aa4ce))
+
 ## [1.111.0](https://github.com/orbcorp/orb-go/compare/v1.110.0...v1.111.0) (2026-08-19)
 
 
