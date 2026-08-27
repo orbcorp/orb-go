@@ -336,8 +336,8 @@ func (r AccountingProviderConfigProviderType) IsKnown() bool {
 }
 
 type AddressInputParam struct {
+	Country    param.Field[string] `json:"country" api:"required"`
 	City       param.Field[string] `json:"city"`
-	Country    param.Field[string] `json:"country"`
 	Line1      param.Field[string] `json:"line1"`
 	Line2      param.Field[string] `json:"line2"`
 	PostalCode param.Field[string] `json:"postal_code"`

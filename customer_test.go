@@ -41,8 +41,8 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		AutoCollection:   orb.F(true),
 		AutoIssuance:     orb.F(true),
 		BillingAddress: orb.F(orb.AddressInputParam{
+			Country:    orb.F("x"),
 			City:       orb.F("city"),
-			Country:    orb.F("country"),
 			Line1:      orb.F("line1"),
 			Line2:      orb.F("line2"),
 			PostalCode: orb.F("postal_code"),
@@ -71,8 +71,8 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 			Exempt: orb.F(true),
 		}),
 		ShippingAddress: orb.F(orb.AddressInputParam{
+			Country:    orb.F("x"),
 			City:       orb.F("city"),
-			Country:    orb.F("country"),
 			Line1:      orb.F("line1"),
 			Line2:      orb.F("line2"),
 			PostalCode: orb.F("postal_code"),
@@ -127,8 +127,8 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			AutoCollection:   orb.F(true),
 			AutoIssuance:     orb.F(true),
 			BillingAddress: orb.F(orb.AddressInputParam{
+				Country:    orb.F("x"),
 				City:       orb.F("city"),
-				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
 				Line2:      orb.F("line2"),
 				PostalCode: orb.F("postal_code"),
@@ -160,8 +160,8 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 				Exempt: orb.F(true),
 			}),
 			ShippingAddress: orb.F(orb.AddressInputParam{
+				Country:    orb.F("x"),
 				City:       orb.F("city"),
-				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
 				Line2:      orb.F("line2"),
 				PostalCode: orb.F("postal_code"),
@@ -413,8 +413,8 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			AutoCollection:   orb.F(true),
 			AutoIssuance:     orb.F(true),
 			BillingAddress: orb.F(orb.AddressInputParam{
+				Country:    orb.F("x"),
 				City:       orb.F("city"),
-				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
 				Line2:      orb.F("line2"),
 				PostalCode: orb.F("postal_code"),
@@ -446,8 +446,8 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 				Exempt: orb.F(true),
 			}),
 			ShippingAddress: orb.F(orb.AddressInputParam{
+				Country:    orb.F("x"),
 				City:       orb.F("city"),
-				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
 				Line2:      orb.F("line2"),
 				PostalCode: orb.F("postal_code"),
