@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.112.1](https://github.com/orbcorp/orb-go/compare/v1.112.0...v1.112.1) (2026-08-28)
+
+
+### Bug Fixes
+
+* **api:** require non-empty `country` in customer address input ([ede5b01](https://github.com/orbcorp/orb-go/commit/ede5b01fa11e532fd53da425e14b7c4559b05bf9))
+
 ## [1.112.0](https://github.com/orbcorp/orb-go/compare/v1.111.0...v1.112.0) (2026-08-25)
 
 
