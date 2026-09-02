@@ -489,12 +489,15 @@ func (r AlertPriceFiltersOperator) IsKnown() bool {
 // An empty `thresholds` list means the group is silenced (never fires). A
 // non-empty list fully replaces the default thresholds for that group.
 type AlertThresholdOverride struct {
-	// The values of the grouping keys that identify this group. The list length
-	// matches the alert's grouping_keys.
+	// The values identifying this group, ordered to match group_keys when set and the
+	// alert's grouping_keys otherwise.
 	GroupValues []string `json:"group_values" api:"required"`
 	// The thresholds applied to this group. An empty list means the group is silenced.
-	Thresholds []Threshold                `json:"thresholds" api:"required"`
-	JSON       alertThresholdOverrideJSON `json:"-"`
+	Thresholds []Threshold `json:"thresholds" api:"required"`
+	// The subset of the alert's grouping_keys this override binds. Null when the
+	// override targets one exact group across every grouping key.
+	GroupKeys []string                   `json:"group_keys" api:"nullable"`
+	JSON      alertThresholdOverrideJSON `json:"-"`
 }
 
 // alertThresholdOverrideJSON contains the JSON metadata for the struct
@@ -502,6 +505,7 @@ type AlertThresholdOverride struct {
 type alertThresholdOverrideJSON struct {
 	GroupValues apijson.Field
 	Thresholds  apijson.Field
+	GroupKeys   apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -624,12 +628,17 @@ func (r AlertUpdateParamsPriceFiltersOperator) IsKnown() bool {
 // - A non-empty list fully replaces the default thresholds for this group.
 type AlertUpdateParamsThresholdOverride struct {
 	// The values of the grouping keys that identify this group. The list length must
-	// match the alert's grouping_keys, and values appear in the same order as
-	// grouping_keys.
+	// match group_keys when it is set, and the alert's grouping_keys otherwise, with
+	// values in the same order as whichever applies.
 	GroupValues param.Field[[]string] `json:"group_values" api:"required"`
 	// The thresholds to apply to this group. An empty list silences alerts for this
 	// group. A non-empty list fully replaces the default thresholds for this group.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
+	// The subset of the alert's grouping_keys that this override binds. Any grouping
+	// key not named is unconstrained, so the override applies to every group matching
+	// the named values. When omitted, group_values must cover every grouping key in
+	// order.
+	GroupKeys param.Field[[]string] `json:"group_keys"`
 }
 
 func (r AlertUpdateParamsThresholdOverride) MarshalJSON() (data []byte, err error) {
@@ -823,12 +832,17 @@ func (r AlertNewForSubscriptionParamsPriceFiltersOperator) IsKnown() bool {
 // - A non-empty list fully replaces the default thresholds for this group.
 type AlertNewForSubscriptionParamsThresholdOverride struct {
 	// The values of the grouping keys that identify this group. The list length must
-	// match the alert's grouping_keys, and values appear in the same order as
-	// grouping_keys.
+	// match group_keys when it is set, and the alert's grouping_keys otherwise, with
+	// values in the same order as whichever applies.
 	GroupValues param.Field[[]string] `json:"group_values" api:"required"`
 	// The thresholds to apply to this group. An empty list silences alerts for this
 	// group. A non-empty list fully replaces the default thresholds for this group.
 	Thresholds param.Field[[]ThresholdParam] `json:"thresholds" api:"required"`
+	// The subset of the alert's grouping_keys that this override binds. Any grouping
+	// key not named is unconstrained, so the override applies to every group matching
+	// the named values. When omitted, group_values must cover every grouping key in
+	// order.
+	GroupKeys param.Field[[]string] `json:"group_keys"`
 }
 
 func (r AlertNewForSubscriptionParamsThresholdOverride) MarshalJSON() (data []byte, err error) {

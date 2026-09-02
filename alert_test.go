@@ -65,6 +65,7 @@ func TestAlertUpdateWithOptionalParams(t *testing.T) {
 				Thresholds: orb.F([]orb.ThresholdParam{{
 					Value: orb.F(0.000000),
 				}}),
+				GroupKeys: orb.F([]string{"string"}),
 			}}),
 		},
 	)
@@ -229,6 +230,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 				Thresholds: orb.F([]orb.ThresholdParam{{
 					Value: orb.F(0.000000),
 				}}),
+				GroupKeys: orb.F([]string{"string"}),
 			}}),
 		},
 	)
