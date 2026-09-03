@@ -87,7 +87,9 @@ func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, 
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// Archive item
+// This endpoint archives an item, and cascades to archive every price for that
+// item that is still active. An item that is already archived cannot be archived
+// again.
 func (r *ItemService) Archive(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {

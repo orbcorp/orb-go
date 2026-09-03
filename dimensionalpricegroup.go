@@ -55,7 +55,10 @@ func (r *DimensionalPriceGroupService) New(ctx context.Context, body Dimensional
 	return res, err
 }
 
-// Fetch dimensional price group
+// This endpoint returns a dimensional price group identified by its ID. A
+// dimensional price group partitions the result of a billable metric by a set of
+// dimensions, and the prices in the group specify which partition their usage is
+// derived from.
 func (r *DimensionalPriceGroupService) Get(ctx context.Context, dimensionalPriceGroupID string, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if dimensionalPriceGroupID == "" {
@@ -81,7 +84,13 @@ func (r *DimensionalPriceGroupService) Update(ctx context.Context, dimensionalPr
 	return res, err
 }
 
-// List dimensional price groups
+// This endpoint returns a list of all dimensional price groups for an account. A
+// dimensional price group partitions the result of a billable metric by a set of
+// dimensions, and the prices in the group specify which partition their usage is
+// derived from.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *DimensionalPriceGroupService) List(ctx context.Context, query DimensionalPriceGroupListParams, opts ...option.RequestOption) (res *pagination.Page[DimensionalPriceGroup], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -99,7 +108,13 @@ func (r *DimensionalPriceGroupService) List(ctx context.Context, query Dimension
 	return res, nil
 }
 
-// List dimensional price groups
+// This endpoint returns a list of all dimensional price groups for an account. A
+// dimensional price group partitions the result of a billable metric by a set of
+// dimensions, and the prices in the group specify which partition their usage is
+// derived from.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *DimensionalPriceGroupService) ListAutoPaging(ctx context.Context, query DimensionalPriceGroupListParams, opts ...option.RequestOption) *pagination.PageAutoPager[DimensionalPriceGroup] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }

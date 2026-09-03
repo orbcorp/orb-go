@@ -36,7 +36,10 @@ func NewDimensionalPriceGroupExternalDimensionalPriceGroupIDService(opts ...opti
 	return
 }
 
-// Fetch dimensional price group by external ID
+// This endpoint returns a dimensional price group identified by the external ID
+// you assigned it, rather than by its Orb ID. A dimensional price group partitions
+// the result of a billable metric by a set of dimensions, and the prices in the
+// group specify which partition their usage is derived from.
 func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx context.Context, externalDimensionalPriceGroupID string, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if externalDimensionalPriceGroupID == "" {

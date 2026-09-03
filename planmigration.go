@@ -45,7 +45,9 @@ func NewPlanMigrationService(opts ...option.RequestOption) (r *PlanMigrationServ
 	return
 }
 
-// Fetch migration
+// This endpoint returns a migration for a plan, identified by its ID. A migration
+// moves a plan's subscriptions onto a new version of that plan; the response
+// reports the effective time it is scheduled for and its current status.
 func (r *PlanMigrationService) Get(ctx context.Context, planID string, migrationID string, opts ...option.RequestOption) (res *PlanMigrationGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if planID == "" {

@@ -59,7 +59,13 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 	return res, err
 }
 
-// List top-ups
+// This endpoint returns a list of a customer's active top-ups; a top-up that has
+// been deactivated is not included. While a top-up is active, the customer's
+// balance is increased by the top-up amount whenever it falls to the top-up's
+// threshold.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -81,7 +87,13 @@ func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string
 	return res, nil
 }
 
-// List top-ups
+// This endpoint returns a list of a customer's active top-ups; a top-up that has
+// been deactivated is not included. While a top-up is active, the customer's
+// balance is increased by the top-up amount whenever it falls to the top-up's
+// threshold.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
@@ -140,7 +152,13 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 	return err
 }
 
-// List top-ups by external ID
+// This endpoint returns a list of a customer's active top-ups; a top-up that has
+// been deactivated is not included. While a top-up is active, the customer's
+// balance is increased by the top-up amount whenever it falls to the top-up's
+// threshold.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -162,7 +180,13 @@ func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, exter
 	return res, nil
 }
 
-// List top-ups by external ID
+// This endpoint returns a list of a customer's active top-ups; a top-up that has
+// been deactivated is not included. While a top-up is active, the customer's
+// balance is increased by the top-up amount whenever it falls to the top-up's
+// threshold.
+//
+// The response also includes pagination_metadata, which lets the caller retrieve
+// the next page of results if they exist.
 func (r *CustomerCreditTopUpService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListByExternalIDResponse] {
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
