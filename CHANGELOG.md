@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.113.0](https://github.com/orbcorp/orb-go/compare/v1.112.1...v1.113.0) (2026-09-03)
+
+
+### Features
+
+* **api:** support partial grouping key targeting in alert threshold overrides ([bb8a31a](https://github.com/orbcorp/orb-go/commit/bb8a31a57d068c2711899f2d4bb7ba272673e9ac))
+
 ## [1.112.1](https://github.com/orbcorp/orb-go/compare/v1.112.0...v1.112.1) (2026-08-28)
 
 
