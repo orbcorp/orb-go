@@ -7535,6 +7535,122 @@ const PriceMatrixWithAllocationPricePriceTypeCompositePrice = shared.PriceMatrix
 type PriceMatrixWithAllocationPriceLicenseType = shared.PriceMatrixWithAllocationPriceLicenseType
 
 // This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPrice = shared.PriceTieredMatrixWithAllocationPrice
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceBillingMode = shared.PriceTieredMatrixWithAllocationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceBillingModeInAdvance = shared.PriceTieredMatrixWithAllocationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceBillingModeInArrear = shared.PriceTieredMatrixWithAllocationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceCadence = shared.PriceTieredMatrixWithAllocationPriceCadence
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceOneTime = shared.PriceTieredMatrixWithAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceMonthly = shared.PriceTieredMatrixWithAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceQuarterly = shared.PriceTieredMatrixWithAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceSemiAnnual = shared.PriceTieredMatrixWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceAnnual = shared.PriceTieredMatrixWithAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCadenceCustom = shared.PriceTieredMatrixWithAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceCompositePriceFilter = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceCompositePriceFiltersField = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldItemID = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperator = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceConversionRateConfig = shared.PriceTieredMatrixWithAllocationPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = shared.PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceModelType = shared.PriceTieredMatrixWithAllocationPriceModelType
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation = shared.PriceTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation
+
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPricePriceType = shared.PriceTieredMatrixWithAllocationPricePriceType
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPricePriceTypeUsagePrice = shared.PriceTieredMatrixWithAllocationPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPricePriceTypeFixedPrice = shared.PriceTieredMatrixWithAllocationPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceTieredMatrixWithAllocationPricePriceTypeCompositePrice = shared.PriceTieredMatrixWithAllocationPricePriceTypeCompositePrice
+
+// Configuration for tiered_matrix_with_allocation pricing
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig = shared.PriceTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig
+
+// Configuration for a single tier scoped to one matrix cell
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier = shared.PriceTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceTieredMatrixWithAllocationPriceLicenseType = shared.PriceTieredMatrixWithAllocationPriceLicenseType
+
+// This is an alias to an internal type.
 type PriceMatrixWithThresholdDiscountsPrice = shared.PriceMatrixWithThresholdDiscountsPrice
 
 // This is an alias to an internal type.
@@ -9899,6 +10015,9 @@ const PriceModelTypeUnitWithPercent = shared.PriceModelTypeUnitWithPercent
 
 // This is an alias to an internal value.
 const PriceModelTypeMatrixWithAllocation = shared.PriceModelTypeMatrixWithAllocation
+
+// This is an alias to an internal value.
+const PriceModelTypeTieredMatrixWithAllocation = shared.PriceModelTypeTieredMatrixWithAllocation
 
 // This is an alias to an internal value.
 const PriceModelTypeMatrixWithThresholdDiscounts = shared.PriceModelTypeMatrixWithThresholdDiscounts

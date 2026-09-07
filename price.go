@@ -431,6 +431,7 @@ func (r priceEvaluatePreviewEventsResponseDataJSON) RawJSON() string {
 // [PriceNewParamsNewFloatingPackageWithAllocationPrice],
 // [PriceNewParamsNewFloatingUnitWithPercentPrice],
 // [PriceNewParamsNewFloatingMatrixWithAllocationPrice],
+// [PriceNewParamsNewFloatingTieredMatrixWithAllocationPrice],
 // [PriceNewParamsNewFloatingMatrixWithThresholdDiscountsPrice],
 // [PriceNewParamsNewFloatingTieredWithProrationPrice],
 // [PriceNewParamsNewFloatingUnitWithProrationPrice],
@@ -2580,6 +2581,166 @@ const (
 func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceNewParamsNewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_matrix_with_allocation pricing
+	TieredMatrixWithAllocationConfig param.Field[PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig] `json:"tiered_matrix_with_allocation_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingTieredMatrixWithAllocationPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual     PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly    PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime    PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceCustom     PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelType = "tiered_matrix_with_allocation"
+)
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_matrix_with_allocation pricing
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig struct {
+	// Usage allocation, pooled across all matrix cells
+	Allocation param.Field[string] `json:"allocation" api:"required"`
+	// Per unit rate for usage whose matrix cell has no configured tiers
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix cells by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Graduated tiers keyed by matrix cell; usage in a cell is tiered only against its
+	// own rows
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier scoped to one matrix cell
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier struct {
+	// The matrix cell this tier applies to, as one or two dimension values
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Exclusive tier starting value. The tier runs up to and including the next bound
+	// configured for the same matrix cell.
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                           `json:"unit_config"`
+}
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) ImplementsPriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig].
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsPriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion()
+}
+
+type PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceNewParamsNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -5790,11 +5951,12 @@ type PriceEvaluateMultipleParamsPriceEvaluationsPrice struct {
 	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]               `json:"scalable_matrix_with_unit_pricing_config"`
 	ThresholdTotalAmountConfig            param.Field[interface{}]               `json:"threshold_total_amount_config"`
 	// Configuration for tiered pricing
-	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	TieredConfig                     param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredMatrixWithAllocationConfig param.Field[interface{}]              `json:"tiered_matrix_with_allocation_config"`
+	TieredPackageConfig              param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig   param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig          param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig        param.Field[interface{}]              `json:"tiered_with_proration_config"`
 	// Configuration for unit pricing
 	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
 	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
@@ -5823,6 +5985,7 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPrice) ImplementsPriceEvaluat
 // [shared.NewFloatingPackageWithAllocationPriceParam],
 // [shared.NewFloatingUnitWithPercentPriceParam],
 // [shared.NewFloatingMatrixWithAllocationPriceParam],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice],
 // [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPrice],
 // [shared.NewFloatingTieredWithProrationPriceParam],
 // [shared.NewFloatingUnitWithProrationPriceParam],
@@ -6161,6 +6324,165 @@ const (
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_matrix_with_allocation pricing
+	TieredMatrixWithAllocationConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig] `json:"tiered_matrix_with_allocation_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType = "tiered_matrix_with_allocation"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_matrix_with_allocation pricing
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig struct {
+	// Usage allocation, pooled across all matrix cells
+	Allocation param.Field[string] `json:"allocation" api:"required"`
+	// Per unit rate for usage whose matrix cell has no configured tiers
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix cells by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Graduated tiers keyed by matrix cell; usage in a cell is tiered only against its
+	// own rows
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier scoped to one matrix cell
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier struct {
+	// The matrix cell this tier applies to, as one or two dimension values
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Exclusive tier starting value. The tier runs up to and including the next bound
+	// configured for the same matrix cell.
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                             `json:"unit_config"`
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig].
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion()
+}
+
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -7265,6 +7587,7 @@ const (
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "package_with_allocation"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent                 PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "unit_with_percent"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "matrix_with_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredMatrixWithAllocation      PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_matrix_with_allocation"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts    PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "matrix_with_threshold_discounts"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration             PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_with_proration"
 	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration               PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "unit_with_proration"
@@ -7289,7 +7612,7 @@ const (
 
 func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeEventOutput:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -7434,11 +7757,12 @@ type PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice struct {
 	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]               `json:"scalable_matrix_with_unit_pricing_config"`
 	ThresholdTotalAmountConfig            param.Field[interface{}]               `json:"threshold_total_amount_config"`
 	// Configuration for tiered pricing
-	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	TieredConfig                     param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredMatrixWithAllocationConfig param.Field[interface{}]              `json:"tiered_matrix_with_allocation_config"`
+	TieredPackageConfig              param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig   param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig          param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig        param.Field[interface{}]              `json:"tiered_with_proration_config"`
 	// Configuration for unit pricing
 	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
 	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
@@ -7467,6 +7791,7 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPrice) ImplementsPriceEv
 // [shared.NewFloatingPackageWithAllocationPriceParam],
 // [shared.NewFloatingUnitWithPercentPriceParam],
 // [shared.NewFloatingMatrixWithAllocationPriceParam],
+// [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice],
 // [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingMatrixWithThresholdDiscountsPrice],
 // [shared.NewFloatingTieredWithProrationPriceParam],
 // [shared.NewFloatingUnitWithProrationPriceParam],
@@ -7805,6 +8130,165 @@ const (
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedTieredMatrixPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence] `json:"cadence" api:"required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency" api:"required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id" api:"required"`
+	// The pricing model type
+	ModelType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType] `json:"model_type" api:"required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name" api:"required"`
+	// Configuration for tiered_matrix_with_allocation pricing
+	TieredMatrixWithAllocationConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig] `json:"tiered_matrix_with_allocation_config" api:"required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// The ID of the license type to associate with this price. On a usage price this
+	// also marks the price as eligible to draw down from that license type's
+	// allocation; a usage price created without it is billed normally. Usage prices
+	// with a license type must use the `unit` model, and only draw down when their
+	// currency matches the allocation's.
+	LicenseTypeID param.Field[string] `json:"license_type_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPrice) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "annual"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly    PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "monthly"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly  PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "quarterly"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime    PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "one_time"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom     PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType = "tiered_matrix_with_allocation"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceModelTypeTieredMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_matrix_with_allocation pricing
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig struct {
+	// Usage allocation, pooled across all matrix cells
+	Allocation param.Field[string] `json:"allocation" api:"required"`
+	// Per unit rate for usage whose matrix cell has no configured tiers
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount" api:"required"`
+	// One or two event property values to evaluate matrix cells by
+	Dimensions param.Field[[]string] `json:"dimensions" api:"required"`
+	// Graduated tiers keyed by matrix cell; usage in a cell is tiered only against its
+	// own rows
+	Tiers param.Field[[]PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier] `json:"tiers" api:"required"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier scoped to one matrix cell
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier struct {
+	// The matrix cell this tier applies to, as one or two dimension values
+	DimensionValues param.Field[[]string] `json:"dimension_values" api:"required"`
+	// Exclusive tier starting value. The tier runs up to and including the next bound
+	// configured for the same matrix cell.
+	TierLowerBound param.Field[string] `json:"tier_lower_bound" api:"required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount" api:"required"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceTieredMatrixWithAllocationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type" api:"required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                  `json:"unit_config"`
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfig].
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion interface {
+	ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigUnion()
+}
+
+type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType string
+
+const (
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingTieredMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -8909,6 +9393,7 @@ const (
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackageWithAllocation           PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "package_with_allocation"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithPercent                 PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "unit_with_percent"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation            PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "matrix_with_allocation"
+	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredMatrixWithAllocation      PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "tiered_matrix_with_allocation"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts    PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "matrix_with_threshold_discounts"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithProration             PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "tiered_with_proration"
 	PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithProration               PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType = "unit_with_proration"
@@ -8933,7 +9418,7 @@ const (
 
 func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeEventOutput:
+	case PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithFilters, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredMatrix, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredMatrixWithAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithThresholdDiscounts, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedWithMinMaxThresholds, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeCumulativeGroupedAllocation, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeDailyCreditAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMeteredAllowance, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeMinimumComposite, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypePercent, PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceModelTypeEventOutput:
 		return true
 	}
 	return false
