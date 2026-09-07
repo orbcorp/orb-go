@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.115.0](https://github.com/orbcorp/orb-go/compare/v1.114.0...v1.115.0) (2026-09-07)
+
+
+### Features
+
+* **api:** add `tiered_matrix_with_allocation` price model ([e407185](https://github.com/orbcorp/orb-go/commit/e4071853a0cb6bcebf1a858f7e142d14a3dbd14d))
+
 ## [1.114.0](https://github.com/orbcorp/orb-go/compare/v1.113.0...v1.114.0) (2026-09-04)
 
 
