@@ -344,6 +344,9 @@ const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActi
 // This is an alias to an internal value.
 const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover
 
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionPrepaidCommitCancel = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionPrepaidCommitCancel
+
 // This is an alias to an internal type.
 type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType
 
@@ -1761,6 +1764,9 @@ const InvoiceCustomerBalanceTransactionsActionExternalPayment = shared.InvoiceCu
 
 // This is an alias to an internal value.
 const InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover = shared.InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover
+
+// This is an alias to an internal value.
+const InvoiceCustomerBalanceTransactionsActionPrepaidCommitCancel = shared.InvoiceCustomerBalanceTransactionsActionPrepaidCommitCancel
 
 // This is an alias to an internal type.
 type InvoiceCustomerBalanceTransactionsType = shared.InvoiceCustomerBalanceTransactionsType
