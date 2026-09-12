@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.117.0](https://github.com/orbcorp/orb-go/compare/v1.116.0...v1.117.0) (2026-09-12)
+
+
+### Features
+
+* **api:** remove deprecated debug parameter and response details from ingestion ([67a39fe](https://github.com/orbcorp/orb-go/commit/67a39fe2c32e1992d0f0c7184379d22f689ded95))
+
 ## [1.116.0](https://github.com/orbcorp/orb-go/compare/v1.115.0...v1.116.0) (2026-09-10)
 
 
