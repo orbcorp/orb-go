@@ -121,25 +121,26 @@ func TestInvoiceListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Invoices.List(context.TODO(), orb.InvoiceListParams{
-		Amount:             orb.F("amount"),
-		AmountGt:           orb.F("amount[gt]"),
-		AmountLt:           orb.F("amount[lt]"),
-		Cursor:             orb.F("cursor"),
-		CustomerID:         orb.F("customer_id"),
-		DateType:           orb.F(orb.InvoiceListParamsDateTypeDueDate),
-		DueDate:            orb.F(time.Now()),
-		DueDateWindow:      orb.F("due_date_window"),
-		DueDateGt:          orb.F(time.Now()),
-		DueDateLt:          orb.F(time.Now()),
-		ExternalCustomerID: orb.F("external_customer_id"),
-		InvoiceDateGt:      orb.F(time.Now()),
-		InvoiceDateGte:     orb.F(time.Now()),
-		InvoiceDateLt:      orb.F(time.Now()),
-		InvoiceDateLte:     orb.F(time.Now()),
-		IsRecurring:        orb.F(true),
-		Limit:              orb.F(int64(1)),
-		Status:             orb.F([]orb.InvoiceListParamsStatus{orb.InvoiceListParamsStatusDraft}),
-		SubscriptionID:     orb.F("subscription_id"),
+		Amount:                       orb.F("amount"),
+		AmountGt:                     orb.F("amount[gt]"),
+		AmountLt:                     orb.F("amount[lt]"),
+		Cursor:                       orb.F("cursor"),
+		CustomerID:                   orb.F("customer_id"),
+		DateType:                     orb.F(orb.InvoiceListParamsDateTypeDueDate),
+		DueDate:                      orb.F(time.Now()),
+		DueDateWindow:                orb.F("due_date_window"),
+		DueDateGt:                    orb.F(time.Now()),
+		DueDateLt:                    orb.F(time.Now()),
+		ExternalCustomerID:           orb.F("external_customer_id"),
+		IncludeZeroQuantityLineItems: orb.F(true),
+		InvoiceDateGt:                orb.F(time.Now()),
+		InvoiceDateGte:               orb.F(time.Now()),
+		InvoiceDateLt:                orb.F(time.Now()),
+		InvoiceDateLte:               orb.F(time.Now()),
+		IsRecurring:                  orb.F(true),
+		Limit:                        orb.F(int64(1)),
+		Status:                       orb.F([]orb.InvoiceListParamsStatus{orb.InvoiceListParamsStatusDraft}),
+		SubscriptionID:               orb.F("subscription_id"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -176,7 +177,7 @@ func TestInvoiceDeleteLineItem(t *testing.T) {
 	}
 }
 
-func TestInvoiceFetch(t *testing.T) {
+func TestInvoiceFetchWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -188,7 +189,13 @@ func TestInvoiceFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Fetch(context.TODO(), "invoice_id")
+	_, err := client.Invoices.Fetch(
+		context.TODO(),
+		"invoice_id",
+		orb.InvoiceFetchParams{
+			IncludeZeroQuantityLineItems: orb.F(true),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -198,7 +205,7 @@ func TestInvoiceFetch(t *testing.T) {
 	}
 }
 
-func TestInvoiceFetchUpcoming(t *testing.T) {
+func TestInvoiceFetchUpcomingWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -211,7 +218,8 @@ func TestInvoiceFetchUpcoming(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Invoices.FetchUpcoming(context.TODO(), orb.InvoiceFetchUpcomingParams{
-		SubscriptionID: orb.F("subscription_id"),
+		SubscriptionID:               orb.F("subscription_id"),
+		IncludeZeroQuantityLineItems: orb.F(true),
 	})
 	if err != nil {
 		var apierr *orb.Error

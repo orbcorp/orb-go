@@ -1207,6 +1207,11 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
+	// The number of line items omitted from `line_items` because they have zero
+	// quantity. Amounts such as `subtotal` and `total` are computed over every line
+	// item on the invoice, including the omitted ones. In rare circumstances, hidden
+	// line items may still contribute to these amounts.
+	HiddenLineItemCount int64 `json:"hidden_line_item_count" api:"required"`
 	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
 	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
@@ -1292,6 +1297,7 @@ type changedSubscriptionResourcesCreatedInvoiceJSON struct {
 	Discounts                   apijson.Field
 	DueDate                     apijson.Field
 	EligibleToIssueAt           apijson.Field
+	HiddenLineItemCount         apijson.Field
 	HostedInvoiceURL            apijson.Field
 	InvoiceDate                 apijson.Field
 	InvoiceNumber               apijson.Field
@@ -3849,6 +3855,11 @@ type Invoice struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
+	// The number of line items omitted from `line_items` because they have zero
+	// quantity. Amounts such as `subtotal` and `total` are computed over every line
+	// item on the invoice, including the omitted ones. In rare circumstances, hidden
+	// line items may still contribute to these amounts.
+	HiddenLineItemCount int64 `json:"hidden_line_item_count" api:"required"`
 	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
 	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
@@ -3931,6 +3942,7 @@ type invoiceJSON struct {
 	Discounts                   apijson.Field
 	DueDate                     apijson.Field
 	EligibleToIssueAt           apijson.Field
+	HiddenLineItemCount         apijson.Field
 	HostedInvoiceURL            apijson.Field
 	InvoiceDate                 apijson.Field
 	InvoiceNumber               apijson.Field

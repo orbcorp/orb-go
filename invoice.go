@@ -152,14 +152,14 @@ func (r *InvoiceService) DeleteLineItem(ctx context.Context, invoiceID string, l
 
 // This endpoint is used to fetch an [`Invoice`](/core-concepts#invoice) given an
 // identifier.
-func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
+func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, query InvoiceFetchParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("invoices/%s", invoiceID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return res, err
 }
 
@@ -561,6 +561,11 @@ type InvoiceFetchUpcomingResponse struct {
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
 	EligibleToIssueAt time.Time `json:"eligible_to_issue_at" api:"required,nullable" format:"date-time"`
+	// The number of line items omitted from `line_items` because they have zero
+	// quantity. Amounts such as `subtotal` and `total` are computed over every line
+	// item on the invoice, including the omitted ones. In rare circumstances, hidden
+	// line items may still contribute to these amounts.
+	HiddenLineItemCount int64 `json:"hidden_line_item_count" api:"required"`
 	// A URL for the customer-facing invoice portal. This URL expires 60 days after the
 	// link is generated, or 30 days after the invoice's due date — whichever is later.
 	HostedInvoiceURL string `json:"hosted_invoice_url" api:"required,nullable"`
@@ -644,6 +649,7 @@ type invoiceFetchUpcomingResponseJSON struct {
 	Discounts                   apijson.Field
 	DueDate                     apijson.Field
 	EligibleToIssueAt           apijson.Field
+	HiddenLineItemCount         apijson.Field
 	HostedInvoiceURL            apijson.Field
 	InvoiceNumber               apijson.Field
 	InvoicePdf                  apijson.Field
@@ -2632,11 +2638,15 @@ type InvoiceListParams struct {
 	DueDateGt          param.Field[time.Time] `query:"due_date[gt]" format:"date"`
 	DueDateLt          param.Field[time.Time] `query:"due_date[lt]" format:"date"`
 	ExternalCustomerID param.Field[string]    `query:"external_customer_id"`
-	InvoiceDateGt      param.Field[time.Time] `query:"invoice_date[gt]" format:"date-time"`
-	InvoiceDateGte     param.Field[time.Time] `query:"invoice_date[gte]" format:"date-time"`
-	InvoiceDateLt      param.Field[time.Time] `query:"invoice_date[lt]" format:"date-time"`
-	InvoiceDateLte     param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
-	IsRecurring        param.Field[bool]      `query:"is_recurring"`
+	// Whether to return line items with a quantity of zero. When omitted, Orb returns
+	// every line item. A line item that is grouped as part of a line item minimum is
+	// always returned; an invoice-level minimum does not exempt it.
+	IncludeZeroQuantityLineItems param.Field[bool]      `query:"include_zero_quantity_line_items"`
+	InvoiceDateGt                param.Field[time.Time] `query:"invoice_date[gt]" format:"date-time"`
+	InvoiceDateGte               param.Field[time.Time] `query:"invoice_date[gte]" format:"date-time"`
+	InvoiceDateLt                param.Field[time.Time] `query:"invoice_date[lt]" format:"date-time"`
+	InvoiceDateLte               param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
+	IsRecurring                  param.Field[bool]      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
 	Limit          param.Field[int64]                     `query:"limit"`
 	Status         param.Field[[]InvoiceListParamsStatus] `query:"status"`
@@ -2684,8 +2694,27 @@ func (r InvoiceListParamsStatus) IsKnown() bool {
 	return false
 }
 
+type InvoiceFetchParams struct {
+	// Whether to return line items with a quantity of zero. When omitted, Orb returns
+	// every line item. A line item that is grouped as part of a line item minimum is
+	// always returned; an invoice-level minimum does not exempt it.
+	IncludeZeroQuantityLineItems param.Field[bool] `query:"include_zero_quantity_line_items"`
+}
+
+// URLQuery serializes [InvoiceFetchParams]'s query parameters as `url.Values`.
+func (r InvoiceFetchParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
 type InvoiceFetchUpcomingParams struct {
 	SubscriptionID param.Field[string] `query:"subscription_id" api:"required"`
+	// Whether to return line items with a quantity of zero. When omitted, Orb returns
+	// every line item. A line item that is grouped as part of a line item minimum is
+	// always returned; an invoice-level minimum does not exempt it.
+	IncludeZeroQuantityLineItems param.Field[bool] `query:"include_zero_quantity_line_items"`
 }
 
 // URLQuery serializes [InvoiceFetchUpcomingParams]'s query parameters as
