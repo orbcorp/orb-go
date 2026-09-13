@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.118.0](https://github.com/orbcorp/orb-go/compare/v1.117.0...v1.118.0) (2026-09-13)
+
+
+### Features
+
+* **api:** add `include_zero_quantity_line_items` param and `hidden_line_item_count` to invoice endpoints ([d2d7442](https://github.com/orbcorp/orb-go/commit/d2d744223d551764ab0c1f5b01cd624e2c309622))
+
 ## [1.117.0](https://github.com/orbcorp/orb-go/compare/v1.116.0...v1.117.0) (2026-09-12)
 
 
