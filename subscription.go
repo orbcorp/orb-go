@@ -786,6 +786,19 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // on the price interval. To remove a price interval entirely from a subscription,
 // set the `end_date` to be equivalent to the `start_date`.
 //
+// ## Trials
+//
+// Price intervals inside a subscription's trial period cannot be modified through
+// this endpoint. The restriction applies to the whole price interval, not only to
+// its dates, so a request that edits `filter` or `usage_customer_ids` and leaves
+// the dates unset is rejected in the same way. Trial boundaries are moved with the
+// [update trial](/api-reference/subscription/update-trial) endpoint. A price also
+// cannot be added with a `start_date` that falls before the trial ends.
+//
+// Each usage price in the trial has a second price interval that begins when the
+// trial ends and is not subject to these restrictions. Editing that interval
+// applies the change to all usage from the trial end onward.
+//
 // ## Fixed fee quantity transitions
 //
 // The fixed fee quantity transitions for a fixed fee price interval can also be
