@@ -157,6 +157,91 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscount">UsageDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscountInterval">UsageDiscountInterval</a>
 
+# Webhooks
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BackfillReflectedWebhookEvent">BackfillReflectedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BackfillRevertedWebhookEvent">BackfillRevertedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BillableMetricEditedWebhookEvent">BillableMetricEditedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditBlockAccountingSyncFailedWebhookEvent">CreditBlockAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditBlockAccountingSyncSucceededWebhookEvent">CreditBlockAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditNoteAccountingSyncFailedWebhookEvent">CreditNoteAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditNoteAccountingSyncSucceededWebhookEvent">CreditNoteAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditNoteIssuedWebhookEvent">CreditNoteIssuedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CreditNoteMarkedAsVoidWebhookEvent">CreditNoteMarkedAsVoidWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerAccountingSyncFailedWebhookEvent">CustomerAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerAccountingSyncSucceededWebhookEvent">CustomerAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerBalanceTransactionCreatedWebhookEvent">CustomerBalanceTransactionCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCreatedWebhookEvent">CustomerCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCreditBalanceDepletedWebhookEvent">CustomerCreditBalanceDepletedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCreditBalanceDroppedWebhookEvent">CustomerCreditBalanceDroppedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCreditBalanceRecoveredWebhookEvent">CustomerCreditBalanceRecoveredWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCreditLedgerIncrementedWebhookEvent">CustomerCreditLedgerIncrementedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerEditedWebhookEvent">CustomerEditedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#DataExportsTransferErrorWebhookEvent">DataExportsTransferErrorWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#DataExportsTransferSuccessWebhookEvent">DataExportsTransferSuccessWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventUnmatchedEventWebhookEvent">EventUnmatchedEventWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#IngestionUnmatchedCustomerIDsWebhookEvent">IngestionUnmatchedCustomerIDsWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceAccountingSyncFailedWebhookEvent">InvoiceAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceAccountingSyncSucceededWebhookEvent">InvoiceAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceAutomationScheduleStepExecutedWebhookEvent">InvoiceAutomationScheduleStepExecutedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceCostDataExportedWebhookEvent">InvoiceCostDataExportedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDunningScheduleCreatedWebhookEvent">InvoiceDunningScheduleCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDunningScheduleEndedWebhookEvent">InvoiceDunningScheduleEndedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDunningScheduleResetWebhookEvent">InvoiceDunningScheduleResetWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDunningScheduleStepExecutedWebhookEvent">InvoiceDunningScheduleStepExecutedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceEditedWebhookEvent">InvoiceEditedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceInvoiceDateElapsedWebhookEvent">InvoiceInvoiceDateElapsedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceIssueFailedWebhookEvent">InvoiceIssueFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceIssuedWebhookEvent">InvoiceIssuedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceIssuedSummaryWebhookEvent">InvoiceIssuedSummaryWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceManuallyMarkedAsPaidWebhookEvent">InvoiceManuallyMarkedAsPaidWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceManuallyMarkedAsVoidWebhookEvent">InvoiceManuallyMarkedAsVoidWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoicePaymentFailedWebhookEvent">InvoicePaymentFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoicePaymentProcessingWebhookEvent">InvoicePaymentProcessingWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoicePaymentSucceededWebhookEvent">InvoicePaymentSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceSyncFailedWebhookEvent">InvoiceSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceSyncSucceededWebhookEvent">InvoiceSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceUndoMarkAsPaidWebhookEvent">InvoiceUndoMarkAsPaidWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDueDateRecalculationCanceledWebhookEvent">InvoiceDueDateRecalculationCanceledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDueDateRecalculationCompletedWebhookEvent">InvoiceDueDateRecalculationCompletedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceDueDateRecalculationStartedWebhookEvent">InvoiceDueDateRecalculationStartedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MetricEventsDroppedByWatermarkWebhookEvent">MetricEventsDroppedByWatermarkWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PaymentMethodCreatedWebhookEvent">PaymentMethodCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PaymentMethodDeletedWebhookEvent">PaymentMethodDeletedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanDefaultVersionSetWebhookEvent">PlanDefaultVersionSetWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanVersionCreatedWebhookEvent">PlanVersionCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEditedWebhookEvent">PriceEditedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#ResourceEventTestWebhookEvent">ResourceEventTestWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SalesOrderAccountingSyncFailedWebhookEvent">SalesOrderAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SalesOrderAccountingSyncSucceededWebhookEvent">SalesOrderAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionAccountingSyncFailedWebhookEvent">SubscriptionAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionAccountingSyncSucceededWebhookEvent">SubscriptionAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionAlertDisabledWebhookEvent">SubscriptionAlertDisabledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionCancellationScheduledWebhookEvent">SubscriptionCancellationScheduledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionCancellationUnscheduledWebhookEvent">SubscriptionCancellationUnscheduledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionCostExceededWebhookEvent">SubscriptionCostExceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionCreatedWebhookEvent">SubscriptionCreatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionEditedWebhookEvent">SubscriptionEditedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionEndedWebhookEvent">SubscriptionEndedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionFixedFeeQuantityUpdatedWebhookEvent">SubscriptionFixedFeeQuantityUpdatedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionGroupedCostExceededWebhookEvent">SubscriptionGroupedCostExceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionInvoicingThresholdExceededWebhookEvent">SubscriptionInvoicingThresholdExceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionLicenseAllocationResetWebhookEvent">SubscriptionLicenseAllocationResetWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionLicenseBalanceThresholdReachedWebhookEvent">SubscriptionLicenseBalanceThresholdReachedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionPlanChangeScheduledWebhookEvent">SubscriptionPlanChangeScheduledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionPlanChangedWebhookEvent">SubscriptionPlanChangedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionPlanVersionChangeScheduledWebhookEvent">SubscriptionPlanVersionChangeScheduledWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionPlanVersionChangedWebhookEvent">SubscriptionPlanVersionChangedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionSpendExceededWebhookEvent">SubscriptionSpendExceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionStartedWebhookEvent">SubscriptionStartedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionTrialEndedWebhookEvent">SubscriptionTrialEndedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionUsageExceededWebhookEvent">SubscriptionUsageExceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#TransactionAccountingSyncFailedWebhookEvent">TransactionAccountingSyncFailedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#TransactionAccountingSyncSucceededWebhookEvent">TransactionAccountingSyncSucceededWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#UnwrapWebhookEvent">UnwrapWebhookEvent</a>
+
 # TopLevel
 
 Response Types:

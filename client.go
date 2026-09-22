@@ -101,8 +101,8 @@ type Client struct {
 	Alerts                 *AlertService
 	DimensionalPriceGroups *DimensionalPriceGroupService
 
-	Webhooks *WebhookService
-	SubscriptionChanges    *SubscriptionChangeService
+	Webhooks            *WebhookService
+	SubscriptionChanges *SubscriptionChangeService
 	// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
 	// credits within Orb.
 	CreditBlocks *CreditBlockService
