@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.120.0](https://github.com/orbcorp/orb-go/compare/v1.119.0...v1.120.0) (2026-09-23)
+
+
+### Features
+
+* **api:** api update ([3e64050](https://github.com/orbcorp/orb-go/commit/3e64050c57467fc83ff71a3111064f85cc167c60))
+* **api:** api update ([3e64050](https://github.com/orbcorp/orb-go/commit/3e64050c57467fc83ff71a3111064f85cc167c60))
+* **api:** api update ([3e64050](https://github.com/orbcorp/orb-go/commit/3e64050c57467fc83ff71a3111064f85cc167c60))
+* **api:** api update ([fce7c05](https://github.com/orbcorp/orb-go/commit/fce7c0582b2a8437c28d7123752b9602c53d68a0))
+* **api:** api update ([fce7c05](https://github.com/orbcorp/orb-go/commit/fce7c0582b2a8437c28d7123752b9602c53d68a0))
+* **api:** api update ([fce7c05](https://github.com/orbcorp/orb-go/commit/fce7c0582b2a8437c28d7123752b9602c53d68a0))
+* **api:** api update ([fce7c05](https://github.com/orbcorp/orb-go/commit/fce7c0582b2a8437c28d7123752b9602c53d68a0))
+
+
+### Bug Fixes
+
+* **api:** correctly apply plan name when updating a draft plan ([3e64050](https://github.com/orbcorp/orb-go/commit/3e64050c57467fc83ff71a3111064f85cc167c60))
+
 ## [1.119.0](https://github.com/orbcorp/orb-go/compare/v1.118.0...v1.119.0) (2026-09-21)
 
 
