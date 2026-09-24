@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.121.0](https://github.com/orbcorp/orb-go/compare/v1.120.0...v1.121.0) (2026-09-24)
+
+
+### Features
+
+* **api:** api update ([1a971c5](https://github.com/orbcorp/orb-go/commit/1a971c572dbf72697dc0df48ac109009c999e04a))
+* **api:** api update ([1a971c5](https://github.com/orbcorp/orb-go/commit/1a971c572dbf72697dc0df48ac109009c999e04a))
+* **api:** api update ([1a971c5](https://github.com/orbcorp/orb-go/commit/1a971c572dbf72697dc0df48ac109009c999e04a))
+* **api:** hide internal webapp-api endpoints from public API reference ([85ac348](https://github.com/orbcorp/orb-go/commit/85ac348106c87c9dff4c4997c786db8a1bc2cd55))
+
+
+### Bug Fixes
+
+* **api:** allow exact one-year timeframes for subscription usage/costs endpoints ([85ac348](https://github.com/orbcorp/orb-go/commit/85ac348106c87c9dff4c4997c786db8a1bc2cd55))
+* **api:** fix Java SDK build error caused by empty webhook event properties marker ([85ac348](https://github.com/orbcorp/orb-go/commit/85ac348106c87c9dff4c4997c786db8a1bc2cd55))
+* **api:** no functional change, only schema ordering reshuffled ([85ac348](https://github.com/orbcorp/orb-go/commit/85ac348106c87c9dff4c4997c786db8a1bc2cd55))
+
 ## [1.120.0](https://github.com/orbcorp/orb-go/compare/v1.119.0...v1.120.0) (2026-09-23)
 
 
