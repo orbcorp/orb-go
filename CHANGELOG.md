@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.122.0](https://github.com/orbcorp/orb-go/compare/v1.121.0...v1.122.0) (2026-09-25)
+
+
+### Features
+
+* **api:** api update ([d8c09ec](https://github.com/orbcorp/orb-go/commit/d8c09ec17f7fa74470190518e73ea4c3638bd5d3))
+* **api:** label webhook event operations by event name and category tag ([d8c09ec](https://github.com/orbcorp/orb-go/commit/d8c09ec17f7fa74470190518e73ea4c3638bd5d3))
+
 ## [1.121.0](https://github.com/orbcorp/orb-go/compare/v1.120.0...v1.121.0) (2026-09-24)
 
 
