@@ -7064,6 +7064,13 @@ type InvoiceIssuedSummaryWebhookEventInvoice struct {
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
 	PaymentFailedAt time.Time `json:"payment_failed_at" api:"required,nullable" format:"date-time"`
+	// When payment for this invoice was received. For an invoice manually marked as
+	// paid, this is the `payment_received_date` that was supplied. For an invoice paid
+	// through a payment provider, this is the settlement time reported by that
+	// provider. It is `null` for an invoice that became `paid` without a payment, such
+	// as a $0 invoice or one fully covered by credit notes. By contrast, `paid_at` is
+	// when the invoice reached the `paid` status in Orb.
+	PaymentReceivedAt time.Time `json:"payment_received_at" api:"required,nullable" format:"date-time"`
 	// If payment was attempted on this invoice, this will be the start time of the
 	// most recent attempt. This field is especially useful for delayed-notification
 	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
@@ -7116,6 +7123,7 @@ type invoiceIssuedSummaryWebhookEventInvoiceJSON struct {
 	PaidAt                      apijson.Field
 	PaymentAttempts             apijson.Field
 	PaymentFailedAt             apijson.Field
+	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
 	ShippingAddress             apijson.Field
