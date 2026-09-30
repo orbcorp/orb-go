@@ -57,8 +57,10 @@ func TestEventBackfillListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Events.Backfills.List(context.TODO(), orb.EventBackfillListParams{
-		Cursor: orb.F("cursor"),
-		Limit:  orb.F(int64(1)),
+		Cursor:     orb.F("cursor"),
+		CustomerID: orb.F("customer_id"),
+		Limit:      orb.F(int64(1)),
+		Status:     orb.F(orb.EventBackfillListParamsStatusPending),
 	})
 	if err != nil {
 		var apierr *orb.Error

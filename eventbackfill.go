@@ -78,7 +78,10 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // enables filtering using
 // [computed properties](/extensibility/advanced-metrics#computed-properties). The
 // expressiveness of computed properties allows you to deprecate existing events
-// based on both a period of time and specific property values.
+// based on both a period of time and specific property values. When
+// `deprecation_filter` is provided, the timeframe may extend to `now` rather than
+// the event reporting grace boundary. Matching events that arrive later with
+// timestamps inside the timeframe will also be deprecated.
 //
 // You may not have multiple backfills in a pending or pending_revert state with
 // overlapping timeframes.
@@ -95,6 +98,8 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 // backfill. The response also includes
 // [`pagination_metadata`](/api-reference/pagination), which lets the caller
 // retrieve the next page of results if they exist.
+//
+// Use `customer_id` and `status` to filter the results.
 func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *pagination.Page[EventBackfillListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -118,6 +123,8 @@ func (r *EventBackfillService) List(ctx context.Context, query EventBackfillList
 // backfill. The response also includes
 // [`pagination_metadata`](/api-reference/pagination), which lets the caller
 // retrieve the next page of results if they exist.
+//
+// Use `customer_id` and `status` to filter the results.
 func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) *pagination.PageAutoPager[EventBackfillListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
@@ -572,9 +579,12 @@ func (r EventBackfillNewParams) MarshalJSON() (data []byte, err error) {
 type EventBackfillListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor param.Field[string] `query:"cursor"`
+	Cursor     param.Field[string] `query:"cursor"`
+	CustomerID param.Field[string] `query:"customer_id"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
+	// The status of the backfill.
+	Status param.Field[EventBackfillListParamsStatus] `query:"status"`
 }
 
 // URLQuery serializes [EventBackfillListParams]'s query parameters as
@@ -584,4 +594,22 @@ func (r EventBackfillListParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+// The status of the backfill.
+type EventBackfillListParamsStatus string
+
+const (
+	EventBackfillListParamsStatusPending       EventBackfillListParamsStatus = "pending"
+	EventBackfillListParamsStatusReflected     EventBackfillListParamsStatus = "reflected"
+	EventBackfillListParamsStatusPendingRevert EventBackfillListParamsStatus = "pending_revert"
+	EventBackfillListParamsStatusReverted      EventBackfillListParamsStatus = "reverted"
+)
+
+func (r EventBackfillListParamsStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillListParamsStatusPending, EventBackfillListParamsStatusReflected, EventBackfillListParamsStatusPendingRevert, EventBackfillListParamsStatusReverted:
+		return true
+	}
+	return false
 }
