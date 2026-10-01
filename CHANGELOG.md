@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.123.0](https://github.com/orbcorp/orb-go/compare/v1.122.0...v1.123.0) (2026-10-01)
+
+
+### Features
+
+* **api:** add `customer_id` and `status` filters to list backfills endpoint ([fbac714](https://github.com/orbcorp/orb-go/commit/fbac714313026a5adc08e78051c96620a9bb6f68))
+* **api:** add `payment_received_at` field to invoice responses ([eb7fdef](https://github.com/orbcorp/orb-go/commit/eb7fdefe35d795a6faa7b3fd7ef2f213687bbce5))
+
+
+### Bug Fixes
+
+* **api:** correct webhook doc page titles and remove inapplicable auth section ([eb7fdef](https://github.com/orbcorp/orb-go/commit/eb7fdefe35d795a6faa7b3fd7ef2f213687bbce5))
+
 ## [1.122.0](https://github.com/orbcorp/orb-go/compare/v1.121.0...v1.122.0) (2026-09-25)
 
 
