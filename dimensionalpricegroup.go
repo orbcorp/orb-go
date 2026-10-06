@@ -89,6 +89,9 @@ func (r *DimensionalPriceGroupService) Update(ctx context.Context, dimensionalPr
 // dimensions, and the prices in the group specify which partition their usage is
 // derived from.
 //
+// Filter with `billable_metric_id`. Each group includes `price_count`:
+// non-archived prices in the group. Subscription overrides are not counted.
+//
 // The response also includes pagination_metadata, which lets the caller retrieve
 // the next page of results if they exist.
 func (r *DimensionalPriceGroupService) List(ctx context.Context, query DimensionalPriceGroupListParams, opts ...option.RequestOption) (res *pagination.Page[DimensionalPriceGroup], err error) {
@@ -112,6 +115,9 @@ func (r *DimensionalPriceGroupService) List(ctx context.Context, query Dimension
 // dimensional price group partitions the result of a billable metric by a set of
 // dimensions, and the prices in the group specify which partition their usage is
 // derived from.
+//
+// Filter with `billable_metric_id`. Each group includes `price_count`:
+// non-archived prices in the group. Subscription overrides are not counted.
 //
 // The response also includes pagination_metadata, which lets the caller retrieve
 // the next page of results if they exist.
@@ -138,8 +144,11 @@ type DimensionalPriceGroup struct {
 	// `null`.
 	Metadata map[string]string `json:"metadata" api:"required"`
 	// The name of the dimensional price group
-	Name string                    `json:"name" api:"required"`
-	JSON dimensionalPriceGroupJSON `json:"-"`
+	Name string `json:"name" api:"required"`
+	// The number of prices in this group. Archived prices and subscription overrides
+	// are excluded.
+	PriceCount int64                     `json:"price_count" api:"required"`
+	JSON       dimensionalPriceGroupJSON `json:"-"`
 }
 
 // dimensionalPriceGroupJSON contains the JSON metadata for the struct
@@ -151,6 +160,7 @@ type dimensionalPriceGroupJSON struct {
 	ExternalDimensionalPriceGroupID apijson.Field
 	Metadata                        apijson.Field
 	Name                            apijson.Field
+	PriceCount                      apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -219,6 +229,8 @@ func (r DimensionalPriceGroupUpdateParams) MarshalJSON() (data []byte, err error
 }
 
 type DimensionalPriceGroupListParams struct {
+	// Filter to groups that use this billable metric.
+	BillableMetricID param.Field[string] `query:"billable_metric_id"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`

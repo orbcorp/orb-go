@@ -109,8 +109,9 @@ func TestDimensionalPriceGroupListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.DimensionalPriceGroups.List(context.TODO(), orb.DimensionalPriceGroupListParams{
-		Cursor: orb.F("cursor"),
-		Limit:  orb.F(int64(1)),
+		BillableMetricID: orb.F("billable_metric_id"),
+		Cursor:           orb.F("cursor"),
+		Limit:            orb.F(int64(1)),
 	})
 	if err != nil {
 		var apierr *orb.Error
