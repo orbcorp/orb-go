@@ -53,7 +53,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			LicenseAllocationPrice: orb.F(orb.PlanNewParamsPricesLicenseAllocationPrice{
-				Cadence: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceCadenceAnnual),
+				Cadence: orb.F(orb.PlanNewParamsPricesLicenseAllocationPriceCadenceOneTime),
 				ItemID:  orb.F("item_id"),
 				LicenseAllocations: orb.F([]orb.PlanNewParamsPricesLicenseAllocationPriceLicenseAllocation{{
 					Amount:          orb.F("amount"),
@@ -101,7 +101,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			}),
 			PlanPhaseOrder: orb.F(int64(0)),
 			Price: orb.F[orb.PlanNewParamsPricesPriceUnion](shared.NewPlanUnitPriceParam{
-				Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
+				Cadence:   orb.F(shared.NewPlanUnitPriceCadenceOneTime),
 				ItemID:    orb.F("item_id"),
 				ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),

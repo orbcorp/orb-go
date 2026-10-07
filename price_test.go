@@ -28,7 +28,7 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Prices.New(context.TODO(), orb.PriceNewParamsNewFloatingUnitPrice{
-		Cadence:   orb.F(orb.PriceNewParamsNewFloatingUnitPriceCadenceAnnual),
+		Cadence:   orb.F(orb.PriceNewParamsNewFloatingUnitPriceCadenceOneTime),
 		Currency:  orb.F("currency"),
 		ItemID:    orb.F("item_id"),
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
@@ -193,7 +193,7 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 				"foo": "bar",
 			}),
 			Price: orb.F[orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion](shared.NewFloatingUnitPriceParam{
-				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
+				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceOneTime),
 				Currency:  orb.F("currency"),
 				ItemID:    orb.F("item_id"),
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
@@ -279,7 +279,7 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 				"foo": "bar",
 			}),
 			Price: orb.F[orb.PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion](shared.NewFloatingUnitPriceParam{
-				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
+				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceOneTime),
 				Currency:  orb.F("currency"),
 				ItemID:    orb.F("item_id"),
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),

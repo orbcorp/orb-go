@@ -2548,10 +2548,7 @@ type NewFloatingBulkPriceParam = shared.NewFloatingBulkPriceParam
 type NewFloatingBulkPriceCadence = shared.NewFloatingBulkPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingBulkPriceCadenceAnnual = shared.NewFloatingBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBulkPriceCadenceSemiAnnual = shared.NewFloatingBulkPriceCadenceSemiAnnual
+const NewFloatingBulkPriceCadenceOneTime = shared.NewFloatingBulkPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingBulkPriceCadenceMonthly = shared.NewFloatingBulkPriceCadenceMonthly
@@ -2560,7 +2557,10 @@ const NewFloatingBulkPriceCadenceMonthly = shared.NewFloatingBulkPriceCadenceMon
 const NewFloatingBulkPriceCadenceQuarterly = shared.NewFloatingBulkPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingBulkPriceCadenceOneTime = shared.NewFloatingBulkPriceCadenceOneTime
+const NewFloatingBulkPriceCadenceSemiAnnual = shared.NewFloatingBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingBulkPriceCadenceAnnual = shared.NewFloatingBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingBulkPriceCadenceCustom = shared.NewFloatingBulkPriceCadenceCustom
@@ -2604,10 +2604,7 @@ type NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam = shared.
 type NewFloatingBulkWithProrationPriceCadence = shared.NewFloatingBulkWithProrationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceCadenceAnnual = shared.NewFloatingBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceCadenceSemiAnnual = shared.NewFloatingBulkWithProrationPriceCadenceSemiAnnual
+const NewFloatingBulkWithProrationPriceCadenceOneTime = shared.NewFloatingBulkWithProrationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingBulkWithProrationPriceCadenceMonthly = shared.NewFloatingBulkWithProrationPriceCadenceMonthly
@@ -2616,7 +2613,10 @@ const NewFloatingBulkWithProrationPriceCadenceMonthly = shared.NewFloatingBulkWi
 const NewFloatingBulkWithProrationPriceCadenceQuarterly = shared.NewFloatingBulkWithProrationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceCadenceOneTime = shared.NewFloatingBulkWithProrationPriceCadenceOneTime
+const NewFloatingBulkWithProrationPriceCadenceSemiAnnual = shared.NewFloatingBulkWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingBulkWithProrationPriceCadenceAnnual = shared.NewFloatingBulkWithProrationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingBulkWithProrationPriceCadenceCustom = shared.NewFloatingBulkWithProrationPriceCadenceCustom
@@ -2650,10 +2650,7 @@ type NewFloatingCumulativeGroupedBulkPriceParam = shared.NewFloatingCumulativeGr
 type NewFloatingCumulativeGroupedBulkPriceCadence = shared.NewFloatingCumulativeGroupedBulkPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceCadenceAnnual = shared.NewFloatingCumulativeGroupedBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual
+const NewFloatingCumulativeGroupedBulkPriceCadenceOneTime = shared.NewFloatingCumulativeGroupedBulkPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingCumulativeGroupedBulkPriceCadenceMonthly = shared.NewFloatingCumulativeGroupedBulkPriceCadenceMonthly
@@ -2662,7 +2659,10 @@ const NewFloatingCumulativeGroupedBulkPriceCadenceMonthly = shared.NewFloatingCu
 const NewFloatingCumulativeGroupedBulkPriceCadenceQuarterly = shared.NewFloatingCumulativeGroupedBulkPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceCadenceOneTime = shared.NewFloatingCumulativeGroupedBulkPriceCadenceOneTime
+const NewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingCumulativeGroupedBulkPriceCadenceAnnual = shared.NewFloatingCumulativeGroupedBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingCumulativeGroupedBulkPriceCadenceCustom = shared.NewFloatingCumulativeGroupedBulkPriceCadenceCustom
@@ -2706,10 +2706,7 @@ type NewFloatingGroupedAllocationPriceParam = shared.NewFloatingGroupedAllocatio
 type NewFloatingGroupedAllocationPriceCadence = shared.NewFloatingGroupedAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceCadenceAnnual = shared.NewFloatingGroupedAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceCadenceSemiAnnual = shared.NewFloatingGroupedAllocationPriceCadenceSemiAnnual
+const NewFloatingGroupedAllocationPriceCadenceOneTime = shared.NewFloatingGroupedAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingGroupedAllocationPriceCadenceMonthly = shared.NewFloatingGroupedAllocationPriceCadenceMonthly
@@ -2718,7 +2715,10 @@ const NewFloatingGroupedAllocationPriceCadenceMonthly = shared.NewFloatingGroupe
 const NewFloatingGroupedAllocationPriceCadenceQuarterly = shared.NewFloatingGroupedAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceCadenceOneTime = shared.NewFloatingGroupedAllocationPriceCadenceOneTime
+const NewFloatingGroupedAllocationPriceCadenceSemiAnnual = shared.NewFloatingGroupedAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingGroupedAllocationPriceCadenceAnnual = shared.NewFloatingGroupedAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingGroupedAllocationPriceCadenceCustom = shared.NewFloatingGroupedAllocationPriceCadenceCustom
@@ -2757,10 +2757,7 @@ type NewFloatingGroupedTieredPackagePriceParam = shared.NewFloatingGroupedTiered
 type NewFloatingGroupedTieredPackagePriceCadence = shared.NewFloatingGroupedTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceCadenceAnnual = shared.NewFloatingGroupedTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingGroupedTieredPackagePriceCadenceSemiAnnual
+const NewFloatingGroupedTieredPackagePriceCadenceOneTime = shared.NewFloatingGroupedTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPackagePriceCadenceMonthly = shared.NewFloatingGroupedTieredPackagePriceCadenceMonthly
@@ -2769,7 +2766,10 @@ const NewFloatingGroupedTieredPackagePriceCadenceMonthly = shared.NewFloatingGro
 const NewFloatingGroupedTieredPackagePriceCadenceQuarterly = shared.NewFloatingGroupedTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceCadenceOneTime = shared.NewFloatingGroupedTieredPackagePriceCadenceOneTime
+const NewFloatingGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingGroupedTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingGroupedTieredPackagePriceCadenceAnnual = shared.NewFloatingGroupedTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPackagePriceCadenceCustom = shared.NewFloatingGroupedTieredPackagePriceCadenceCustom
@@ -2813,10 +2813,7 @@ type NewFloatingGroupedTieredPriceParam = shared.NewFloatingGroupedTieredPricePa
 type NewFloatingGroupedTieredPriceCadence = shared.NewFloatingGroupedTieredPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceCadenceAnnual = shared.NewFloatingGroupedTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceCadenceSemiAnnual = shared.NewFloatingGroupedTieredPriceCadenceSemiAnnual
+const NewFloatingGroupedTieredPriceCadenceOneTime = shared.NewFloatingGroupedTieredPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPriceCadenceMonthly = shared.NewFloatingGroupedTieredPriceCadenceMonthly
@@ -2825,7 +2822,10 @@ const NewFloatingGroupedTieredPriceCadenceMonthly = shared.NewFloatingGroupedTie
 const NewFloatingGroupedTieredPriceCadenceQuarterly = shared.NewFloatingGroupedTieredPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceCadenceOneTime = shared.NewFloatingGroupedTieredPriceCadenceOneTime
+const NewFloatingGroupedTieredPriceCadenceSemiAnnual = shared.NewFloatingGroupedTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingGroupedTieredPriceCadenceAnnual = shared.NewFloatingGroupedTieredPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPriceCadenceCustom = shared.NewFloatingGroupedTieredPriceCadenceCustom
@@ -2869,10 +2869,7 @@ type NewFloatingGroupedWithMeteredMinimumPriceParam = shared.NewFloatingGroupedW
 type NewFloatingGroupedWithMeteredMinimumPriceCadence = shared.NewFloatingGroupedWithMeteredMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+const NewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly
@@ -2881,7 +2878,10 @@ const NewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewFloati
 const NewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime
+const NewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceCustom
@@ -2930,10 +2930,7 @@ type NewFloatingGroupedWithProratedMinimumPriceParam = shared.NewFloatingGrouped
 type NewFloatingGroupedWithProratedMinimumPriceCadence = shared.NewFloatingGroupedWithProratedMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual
+const NewFloatingGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceMonthly
@@ -2942,7 +2939,10 @@ const NewFloatingGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewFloat
 const NewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceOneTime
+const NewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingGroupedWithProratedMinimumPriceCadenceCustom = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceCustom
@@ -2981,10 +2981,7 @@ type NewFloatingMatrixPriceParam = shared.NewFloatingMatrixPriceParam
 type NewFloatingMatrixPriceCadence = shared.NewFloatingMatrixPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingMatrixPriceCadenceAnnual = shared.NewFloatingMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingMatrixPriceCadenceSemiAnnual = shared.NewFloatingMatrixPriceCadenceSemiAnnual
+const NewFloatingMatrixPriceCadenceOneTime = shared.NewFloatingMatrixPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingMatrixPriceCadenceMonthly = shared.NewFloatingMatrixPriceCadenceMonthly
@@ -2993,7 +2990,10 @@ const NewFloatingMatrixPriceCadenceMonthly = shared.NewFloatingMatrixPriceCadenc
 const NewFloatingMatrixPriceCadenceQuarterly = shared.NewFloatingMatrixPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingMatrixPriceCadenceOneTime = shared.NewFloatingMatrixPriceCadenceOneTime
+const NewFloatingMatrixPriceCadenceSemiAnnual = shared.NewFloatingMatrixPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMatrixPriceCadenceAnnual = shared.NewFloatingMatrixPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingMatrixPriceCadenceCustom = shared.NewFloatingMatrixPriceCadenceCustom
@@ -3027,10 +3027,7 @@ type NewFloatingMatrixWithAllocationPriceParam = shared.NewFloatingMatrixWithAll
 type NewFloatingMatrixWithAllocationPriceCadence = shared.NewFloatingMatrixWithAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceCadenceAnnual = shared.NewFloatingMatrixWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingMatrixWithAllocationPriceCadenceSemiAnnual
+const NewFloatingMatrixWithAllocationPriceCadenceOneTime = shared.NewFloatingMatrixWithAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingMatrixWithAllocationPriceCadenceMonthly = shared.NewFloatingMatrixWithAllocationPriceCadenceMonthly
@@ -3039,7 +3036,10 @@ const NewFloatingMatrixWithAllocationPriceCadenceMonthly = shared.NewFloatingMat
 const NewFloatingMatrixWithAllocationPriceCadenceQuarterly = shared.NewFloatingMatrixWithAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceCadenceOneTime = shared.NewFloatingMatrixWithAllocationPriceCadenceOneTime
+const NewFloatingMatrixWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingMatrixWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMatrixWithAllocationPriceCadenceAnnual = shared.NewFloatingMatrixWithAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingMatrixWithAllocationPriceCadenceCustom = shared.NewFloatingMatrixWithAllocationPriceCadenceCustom
@@ -3073,10 +3073,7 @@ type NewFloatingMatrixWithDisplayNamePriceParam = shared.NewFloatingMatrixWithDi
 type NewFloatingMatrixWithDisplayNamePriceCadence = shared.NewFloatingMatrixWithDisplayNamePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceCadenceAnnual = shared.NewFloatingMatrixWithDisplayNamePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual
+const NewFloatingMatrixWithDisplayNamePriceCadenceOneTime = shared.NewFloatingMatrixWithDisplayNamePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingMatrixWithDisplayNamePriceCadenceMonthly = shared.NewFloatingMatrixWithDisplayNamePriceCadenceMonthly
@@ -3085,7 +3082,10 @@ const NewFloatingMatrixWithDisplayNamePriceCadenceMonthly = shared.NewFloatingMa
 const NewFloatingMatrixWithDisplayNamePriceCadenceQuarterly = shared.NewFloatingMatrixWithDisplayNamePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceCadenceOneTime = shared.NewFloatingMatrixWithDisplayNamePriceCadenceOneTime
+const NewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMatrixWithDisplayNamePriceCadenceAnnual = shared.NewFloatingMatrixWithDisplayNamePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingMatrixWithDisplayNamePriceCadenceCustom = shared.NewFloatingMatrixWithDisplayNamePriceCadenceCustom
@@ -3129,10 +3129,7 @@ type NewFloatingMaxGroupTieredPackagePriceParam = shared.NewFloatingMaxGroupTier
 type NewFloatingMaxGroupTieredPackagePriceCadence = shared.NewFloatingMaxGroupTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceCadenceAnnual = shared.NewFloatingMaxGroupTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual
+const NewFloatingMaxGroupTieredPackagePriceCadenceOneTime = shared.NewFloatingMaxGroupTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingMaxGroupTieredPackagePriceCadenceMonthly = shared.NewFloatingMaxGroupTieredPackagePriceCadenceMonthly
@@ -3141,7 +3138,10 @@ const NewFloatingMaxGroupTieredPackagePriceCadenceMonthly = shared.NewFloatingMa
 const NewFloatingMaxGroupTieredPackagePriceCadenceQuarterly = shared.NewFloatingMaxGroupTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceCadenceOneTime = shared.NewFloatingMaxGroupTieredPackagePriceCadenceOneTime
+const NewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMaxGroupTieredPackagePriceCadenceAnnual = shared.NewFloatingMaxGroupTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingMaxGroupTieredPackagePriceCadenceCustom = shared.NewFloatingMaxGroupTieredPackagePriceCadenceCustom
@@ -3185,10 +3185,7 @@ type NewFloatingMinimumCompositePriceParam = shared.NewFloatingMinimumCompositeP
 type NewFloatingMinimumCompositePriceCadence = shared.NewFloatingMinimumCompositePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingMinimumCompositePriceCadenceAnnual = shared.NewFloatingMinimumCompositePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingMinimumCompositePriceCadenceSemiAnnual = shared.NewFloatingMinimumCompositePriceCadenceSemiAnnual
+const NewFloatingMinimumCompositePriceCadenceOneTime = shared.NewFloatingMinimumCompositePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingMinimumCompositePriceCadenceMonthly = shared.NewFloatingMinimumCompositePriceCadenceMonthly
@@ -3197,7 +3194,10 @@ const NewFloatingMinimumCompositePriceCadenceMonthly = shared.NewFloatingMinimum
 const NewFloatingMinimumCompositePriceCadenceQuarterly = shared.NewFloatingMinimumCompositePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingMinimumCompositePriceCadenceOneTime = shared.NewFloatingMinimumCompositePriceCadenceOneTime
+const NewFloatingMinimumCompositePriceCadenceSemiAnnual = shared.NewFloatingMinimumCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceAnnual = shared.NewFloatingMinimumCompositePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingMinimumCompositePriceCadenceCustom = shared.NewFloatingMinimumCompositePriceCadenceCustom
@@ -3236,10 +3236,7 @@ type NewFloatingPackagePriceParam = shared.NewFloatingPackagePriceParam
 type NewFloatingPackagePriceCadence = shared.NewFloatingPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingPackagePriceCadenceAnnual = shared.NewFloatingPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPackagePriceCadenceSemiAnnual = shared.NewFloatingPackagePriceCadenceSemiAnnual
+const NewFloatingPackagePriceCadenceOneTime = shared.NewFloatingPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingPackagePriceCadenceMonthly = shared.NewFloatingPackagePriceCadenceMonthly
@@ -3248,7 +3245,10 @@ const NewFloatingPackagePriceCadenceMonthly = shared.NewFloatingPackagePriceCade
 const NewFloatingPackagePriceCadenceQuarterly = shared.NewFloatingPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingPackagePriceCadenceOneTime = shared.NewFloatingPackagePriceCadenceOneTime
+const NewFloatingPackagePriceCadenceSemiAnnual = shared.NewFloatingPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingPackagePriceCadenceAnnual = shared.NewFloatingPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingPackagePriceCadenceCustom = shared.NewFloatingPackagePriceCadenceCustom
@@ -3282,10 +3282,7 @@ type NewFloatingPackageWithAllocationPriceParam = shared.NewFloatingPackageWithA
 type NewFloatingPackageWithAllocationPriceCadence = shared.NewFloatingPackageWithAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceCadenceAnnual = shared.NewFloatingPackageWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingPackageWithAllocationPriceCadenceSemiAnnual
+const NewFloatingPackageWithAllocationPriceCadenceOneTime = shared.NewFloatingPackageWithAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingPackageWithAllocationPriceCadenceMonthly = shared.NewFloatingPackageWithAllocationPriceCadenceMonthly
@@ -3294,7 +3291,10 @@ const NewFloatingPackageWithAllocationPriceCadenceMonthly = shared.NewFloatingPa
 const NewFloatingPackageWithAllocationPriceCadenceQuarterly = shared.NewFloatingPackageWithAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceCadenceOneTime = shared.NewFloatingPackageWithAllocationPriceCadenceOneTime
+const NewFloatingPackageWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingPackageWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingPackageWithAllocationPriceCadenceAnnual = shared.NewFloatingPackageWithAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingPackageWithAllocationPriceCadenceCustom = shared.NewFloatingPackageWithAllocationPriceCadenceCustom
@@ -3333,10 +3333,7 @@ type NewFloatingScalableMatrixWithTieredPricingPriceParam = shared.NewFloatingSc
 type NewFloatingScalableMatrixWithTieredPricingPriceCadence = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+const NewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly
@@ -3345,7 +3342,10 @@ const NewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.New
 const NewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime
+const NewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom
@@ -3394,10 +3394,7 @@ type NewFloatingScalableMatrixWithUnitPricingPriceParam = shared.NewFloatingScal
 type NewFloatingScalableMatrixWithUnitPricingPriceCadence = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+const NewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly
@@ -3406,7 +3403,10 @@ const NewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewFl
 const NewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime
+const NewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom
@@ -3450,10 +3450,7 @@ type NewFloatingThresholdTotalAmountPriceParam = shared.NewFloatingThresholdTota
 type NewFloatingThresholdTotalAmountPriceCadence = shared.NewFloatingThresholdTotalAmountPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceCadenceAnnual = shared.NewFloatingThresholdTotalAmountPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewFloatingThresholdTotalAmountPriceCadenceSemiAnnual
+const NewFloatingThresholdTotalAmountPriceCadenceOneTime = shared.NewFloatingThresholdTotalAmountPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingThresholdTotalAmountPriceCadenceMonthly = shared.NewFloatingThresholdTotalAmountPriceCadenceMonthly
@@ -3462,7 +3459,10 @@ const NewFloatingThresholdTotalAmountPriceCadenceMonthly = shared.NewFloatingThr
 const NewFloatingThresholdTotalAmountPriceCadenceQuarterly = shared.NewFloatingThresholdTotalAmountPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceCadenceOneTime = shared.NewFloatingThresholdTotalAmountPriceCadenceOneTime
+const NewFloatingThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewFloatingThresholdTotalAmountPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingThresholdTotalAmountPriceCadenceAnnual = shared.NewFloatingThresholdTotalAmountPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingThresholdTotalAmountPriceCadenceCustom = shared.NewFloatingThresholdTotalAmountPriceCadenceCustom
@@ -3506,10 +3506,7 @@ type NewFloatingTieredPackagePriceParam = shared.NewFloatingTieredPackagePricePa
 type NewFloatingTieredPackagePriceCadence = shared.NewFloatingTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingTieredPackagePriceCadenceAnnual = shared.NewFloatingTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingTieredPackagePriceCadenceSemiAnnual
+const NewFloatingTieredPackagePriceCadenceOneTime = shared.NewFloatingTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackagePriceCadenceMonthly = shared.NewFloatingTieredPackagePriceCadenceMonthly
@@ -3518,7 +3515,10 @@ const NewFloatingTieredPackagePriceCadenceMonthly = shared.NewFloatingTieredPack
 const NewFloatingTieredPackagePriceCadenceQuarterly = shared.NewFloatingTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingTieredPackagePriceCadenceOneTime = shared.NewFloatingTieredPackagePriceCadenceOneTime
+const NewFloatingTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingTieredPackagePriceCadenceAnnual = shared.NewFloatingTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackagePriceCadenceCustom = shared.NewFloatingTieredPackagePriceCadenceCustom
@@ -3562,10 +3562,7 @@ type NewFloatingTieredPackageWithMinimumPriceParam = shared.NewFloatingTieredPac
 type NewFloatingTieredPackageWithMinimumPriceCadence = shared.NewFloatingTieredPackageWithMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceCadenceAnnual = shared.NewFloatingTieredPackageWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual
+const NewFloatingTieredPackageWithMinimumPriceCadenceOneTime = shared.NewFloatingTieredPackageWithMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackageWithMinimumPriceCadenceMonthly = shared.NewFloatingTieredPackageWithMinimumPriceCadenceMonthly
@@ -3574,7 +3571,10 @@ const NewFloatingTieredPackageWithMinimumPriceCadenceMonthly = shared.NewFloatin
 const NewFloatingTieredPackageWithMinimumPriceCadenceQuarterly = shared.NewFloatingTieredPackageWithMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceCadenceOneTime = shared.NewFloatingTieredPackageWithMinimumPriceCadenceOneTime
+const NewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingTieredPackageWithMinimumPriceCadenceAnnual = shared.NewFloatingTieredPackageWithMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackageWithMinimumPriceCadenceCustom = shared.NewFloatingTieredPackageWithMinimumPriceCadenceCustom
@@ -3618,10 +3618,7 @@ type NewFloatingTieredPriceParam = shared.NewFloatingTieredPriceParam
 type NewFloatingTieredPriceCadence = shared.NewFloatingTieredPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingTieredPriceCadenceAnnual = shared.NewFloatingTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredPriceCadenceSemiAnnual = shared.NewFloatingTieredPriceCadenceSemiAnnual
+const NewFloatingTieredPriceCadenceOneTime = shared.NewFloatingTieredPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingTieredPriceCadenceMonthly = shared.NewFloatingTieredPriceCadenceMonthly
@@ -3630,7 +3627,10 @@ const NewFloatingTieredPriceCadenceMonthly = shared.NewFloatingTieredPriceCadenc
 const NewFloatingTieredPriceCadenceQuarterly = shared.NewFloatingTieredPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingTieredPriceCadenceOneTime = shared.NewFloatingTieredPriceCadenceOneTime
+const NewFloatingTieredPriceCadenceSemiAnnual = shared.NewFloatingTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingTieredPriceCadenceAnnual = shared.NewFloatingTieredPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingTieredPriceCadenceCustom = shared.NewFloatingTieredPriceCadenceCustom
@@ -3664,10 +3664,7 @@ type NewFloatingTieredWithMinimumPriceParam = shared.NewFloatingTieredWithMinimu
 type NewFloatingTieredWithMinimumPriceCadence = shared.NewFloatingTieredWithMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceCadenceAnnual = shared.NewFloatingTieredWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingTieredWithMinimumPriceCadenceSemiAnnual
+const NewFloatingTieredWithMinimumPriceCadenceOneTime = shared.NewFloatingTieredWithMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithMinimumPriceCadenceMonthly = shared.NewFloatingTieredWithMinimumPriceCadenceMonthly
@@ -3676,7 +3673,10 @@ const NewFloatingTieredWithMinimumPriceCadenceMonthly = shared.NewFloatingTiered
 const NewFloatingTieredWithMinimumPriceCadenceQuarterly = shared.NewFloatingTieredWithMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceCadenceOneTime = shared.NewFloatingTieredWithMinimumPriceCadenceOneTime
+const NewFloatingTieredWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingTieredWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingTieredWithMinimumPriceCadenceAnnual = shared.NewFloatingTieredWithMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithMinimumPriceCadenceCustom = shared.NewFloatingTieredWithMinimumPriceCadenceCustom
@@ -3720,10 +3720,7 @@ type NewFloatingTieredWithProrationPriceParam = shared.NewFloatingTieredWithPror
 type NewFloatingTieredWithProrationPriceCadence = shared.NewFloatingTieredWithProrationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceCadenceAnnual = shared.NewFloatingTieredWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceCadenceSemiAnnual = shared.NewFloatingTieredWithProrationPriceCadenceSemiAnnual
+const NewFloatingTieredWithProrationPriceCadenceOneTime = shared.NewFloatingTieredWithProrationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithProrationPriceCadenceMonthly = shared.NewFloatingTieredWithProrationPriceCadenceMonthly
@@ -3732,7 +3729,10 @@ const NewFloatingTieredWithProrationPriceCadenceMonthly = shared.NewFloatingTier
 const NewFloatingTieredWithProrationPriceCadenceQuarterly = shared.NewFloatingTieredWithProrationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceCadenceOneTime = shared.NewFloatingTieredWithProrationPriceCadenceOneTime
+const NewFloatingTieredWithProrationPriceCadenceSemiAnnual = shared.NewFloatingTieredWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingTieredWithProrationPriceCadenceAnnual = shared.NewFloatingTieredWithProrationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithProrationPriceCadenceCustom = shared.NewFloatingTieredWithProrationPriceCadenceCustom
@@ -3776,10 +3776,7 @@ type NewFloatingUnitPriceParam = shared.NewFloatingUnitPriceParam
 type NewFloatingUnitPriceCadence = shared.NewFloatingUnitPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingUnitPriceCadenceAnnual = shared.NewFloatingUnitPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingUnitPriceCadenceSemiAnnual = shared.NewFloatingUnitPriceCadenceSemiAnnual
+const NewFloatingUnitPriceCadenceOneTime = shared.NewFloatingUnitPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingUnitPriceCadenceMonthly = shared.NewFloatingUnitPriceCadenceMonthly
@@ -3788,7 +3785,10 @@ const NewFloatingUnitPriceCadenceMonthly = shared.NewFloatingUnitPriceCadenceMon
 const NewFloatingUnitPriceCadenceQuarterly = shared.NewFloatingUnitPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingUnitPriceCadenceOneTime = shared.NewFloatingUnitPriceCadenceOneTime
+const NewFloatingUnitPriceCadenceSemiAnnual = shared.NewFloatingUnitPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingUnitPriceCadenceAnnual = shared.NewFloatingUnitPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingUnitPriceCadenceCustom = shared.NewFloatingUnitPriceCadenceCustom
@@ -3822,10 +3822,7 @@ type NewFloatingUnitWithPercentPriceParam = shared.NewFloatingUnitWithPercentPri
 type NewFloatingUnitWithPercentPriceCadence = shared.NewFloatingUnitWithPercentPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceCadenceAnnual = shared.NewFloatingUnitWithPercentPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceCadenceSemiAnnual = shared.NewFloatingUnitWithPercentPriceCadenceSemiAnnual
+const NewFloatingUnitWithPercentPriceCadenceOneTime = shared.NewFloatingUnitWithPercentPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithPercentPriceCadenceMonthly = shared.NewFloatingUnitWithPercentPriceCadenceMonthly
@@ -3834,7 +3831,10 @@ const NewFloatingUnitWithPercentPriceCadenceMonthly = shared.NewFloatingUnitWith
 const NewFloatingUnitWithPercentPriceCadenceQuarterly = shared.NewFloatingUnitWithPercentPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceCadenceOneTime = shared.NewFloatingUnitWithPercentPriceCadenceOneTime
+const NewFloatingUnitWithPercentPriceCadenceSemiAnnual = shared.NewFloatingUnitWithPercentPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingUnitWithPercentPriceCadenceAnnual = shared.NewFloatingUnitWithPercentPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithPercentPriceCadenceCustom = shared.NewFloatingUnitWithPercentPriceCadenceCustom
@@ -3873,10 +3873,7 @@ type NewFloatingUnitWithProrationPriceParam = shared.NewFloatingUnitWithProratio
 type NewFloatingUnitWithProrationPriceCadence = shared.NewFloatingUnitWithProrationPriceCadence
 
 // This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceCadenceAnnual = shared.NewFloatingUnitWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceCadenceSemiAnnual = shared.NewFloatingUnitWithProrationPriceCadenceSemiAnnual
+const NewFloatingUnitWithProrationPriceCadenceOneTime = shared.NewFloatingUnitWithProrationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithProrationPriceCadenceMonthly = shared.NewFloatingUnitWithProrationPriceCadenceMonthly
@@ -3885,7 +3882,10 @@ const NewFloatingUnitWithProrationPriceCadenceMonthly = shared.NewFloatingUnitWi
 const NewFloatingUnitWithProrationPriceCadenceQuarterly = shared.NewFloatingUnitWithProrationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceCadenceOneTime = shared.NewFloatingUnitWithProrationPriceCadenceOneTime
+const NewFloatingUnitWithProrationPriceCadenceSemiAnnual = shared.NewFloatingUnitWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingUnitWithProrationPriceCadenceAnnual = shared.NewFloatingUnitWithProrationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithProrationPriceCadenceCustom = shared.NewFloatingUnitWithProrationPriceCadenceCustom
@@ -4137,10 +4137,7 @@ type NewPlanBulkPriceParam = shared.NewPlanBulkPriceParam
 type NewPlanBulkPriceCadence = shared.NewPlanBulkPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanBulkPriceCadenceAnnual = shared.NewPlanBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanBulkPriceCadenceSemiAnnual = shared.NewPlanBulkPriceCadenceSemiAnnual
+const NewPlanBulkPriceCadenceOneTime = shared.NewPlanBulkPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanBulkPriceCadenceMonthly = shared.NewPlanBulkPriceCadenceMonthly
@@ -4149,7 +4146,10 @@ const NewPlanBulkPriceCadenceMonthly = shared.NewPlanBulkPriceCadenceMonthly
 const NewPlanBulkPriceCadenceQuarterly = shared.NewPlanBulkPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanBulkPriceCadenceOneTime = shared.NewPlanBulkPriceCadenceOneTime
+const NewPlanBulkPriceCadenceSemiAnnual = shared.NewPlanBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanBulkPriceCadenceAnnual = shared.NewPlanBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanBulkPriceCadenceCustom = shared.NewPlanBulkPriceCadenceCustom
@@ -4193,10 +4193,7 @@ type NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam = shared.NewP
 type NewPlanBulkWithProrationPriceCadence = shared.NewPlanBulkWithProrationPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceCadenceAnnual = shared.NewPlanBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceCadenceSemiAnnual = shared.NewPlanBulkWithProrationPriceCadenceSemiAnnual
+const NewPlanBulkWithProrationPriceCadenceOneTime = shared.NewPlanBulkWithProrationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanBulkWithProrationPriceCadenceMonthly = shared.NewPlanBulkWithProrationPriceCadenceMonthly
@@ -4205,7 +4202,10 @@ const NewPlanBulkWithProrationPriceCadenceMonthly = shared.NewPlanBulkWithProrat
 const NewPlanBulkWithProrationPriceCadenceQuarterly = shared.NewPlanBulkWithProrationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceCadenceOneTime = shared.NewPlanBulkWithProrationPriceCadenceOneTime
+const NewPlanBulkWithProrationPriceCadenceSemiAnnual = shared.NewPlanBulkWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanBulkWithProrationPriceCadenceAnnual = shared.NewPlanBulkWithProrationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanBulkWithProrationPriceCadenceCustom = shared.NewPlanBulkWithProrationPriceCadenceCustom
@@ -4239,10 +4239,7 @@ type NewPlanCumulativeGroupedBulkPriceParam = shared.NewPlanCumulativeGroupedBul
 type NewPlanCumulativeGroupedBulkPriceCadence = shared.NewPlanCumulativeGroupedBulkPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceCadenceAnnual = shared.NewPlanCumulativeGroupedBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual
+const NewPlanCumulativeGroupedBulkPriceCadenceOneTime = shared.NewPlanCumulativeGroupedBulkPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanCumulativeGroupedBulkPriceCadenceMonthly = shared.NewPlanCumulativeGroupedBulkPriceCadenceMonthly
@@ -4251,7 +4248,10 @@ const NewPlanCumulativeGroupedBulkPriceCadenceMonthly = shared.NewPlanCumulative
 const NewPlanCumulativeGroupedBulkPriceCadenceQuarterly = shared.NewPlanCumulativeGroupedBulkPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceCadenceOneTime = shared.NewPlanCumulativeGroupedBulkPriceCadenceOneTime
+const NewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanCumulativeGroupedBulkPriceCadenceAnnual = shared.NewPlanCumulativeGroupedBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanCumulativeGroupedBulkPriceCadenceCustom = shared.NewPlanCumulativeGroupedBulkPriceCadenceCustom
@@ -4295,10 +4295,7 @@ type NewPlanGroupedAllocationPriceParam = shared.NewPlanGroupedAllocationPricePa
 type NewPlanGroupedAllocationPriceCadence = shared.NewPlanGroupedAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceCadenceAnnual = shared.NewPlanGroupedAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceCadenceSemiAnnual = shared.NewPlanGroupedAllocationPriceCadenceSemiAnnual
+const NewPlanGroupedAllocationPriceCadenceOneTime = shared.NewPlanGroupedAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanGroupedAllocationPriceCadenceMonthly = shared.NewPlanGroupedAllocationPriceCadenceMonthly
@@ -4307,7 +4304,10 @@ const NewPlanGroupedAllocationPriceCadenceMonthly = shared.NewPlanGroupedAllocat
 const NewPlanGroupedAllocationPriceCadenceQuarterly = shared.NewPlanGroupedAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceCadenceOneTime = shared.NewPlanGroupedAllocationPriceCadenceOneTime
+const NewPlanGroupedAllocationPriceCadenceSemiAnnual = shared.NewPlanGroupedAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanGroupedAllocationPriceCadenceAnnual = shared.NewPlanGroupedAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanGroupedAllocationPriceCadenceCustom = shared.NewPlanGroupedAllocationPriceCadenceCustom
@@ -4346,10 +4346,7 @@ type NewPlanGroupedTieredPackagePriceParam = shared.NewPlanGroupedTieredPackageP
 type NewPlanGroupedTieredPackagePriceCadence = shared.NewPlanGroupedTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceCadenceAnnual = shared.NewPlanGroupedTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewPlanGroupedTieredPackagePriceCadenceSemiAnnual
+const NewPlanGroupedTieredPackagePriceCadenceOneTime = shared.NewPlanGroupedTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPackagePriceCadenceMonthly = shared.NewPlanGroupedTieredPackagePriceCadenceMonthly
@@ -4358,7 +4355,10 @@ const NewPlanGroupedTieredPackagePriceCadenceMonthly = shared.NewPlanGroupedTier
 const NewPlanGroupedTieredPackagePriceCadenceQuarterly = shared.NewPlanGroupedTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceCadenceOneTime = shared.NewPlanGroupedTieredPackagePriceCadenceOneTime
+const NewPlanGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewPlanGroupedTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanGroupedTieredPackagePriceCadenceAnnual = shared.NewPlanGroupedTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPackagePriceCadenceCustom = shared.NewPlanGroupedTieredPackagePriceCadenceCustom
@@ -4402,10 +4402,7 @@ type NewPlanGroupedTieredPriceParam = shared.NewPlanGroupedTieredPriceParam
 type NewPlanGroupedTieredPriceCadence = shared.NewPlanGroupedTieredPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanGroupedTieredPriceCadenceAnnual = shared.NewPlanGroupedTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPriceCadenceSemiAnnual = shared.NewPlanGroupedTieredPriceCadenceSemiAnnual
+const NewPlanGroupedTieredPriceCadenceOneTime = shared.NewPlanGroupedTieredPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPriceCadenceMonthly = shared.NewPlanGroupedTieredPriceCadenceMonthly
@@ -4414,7 +4411,10 @@ const NewPlanGroupedTieredPriceCadenceMonthly = shared.NewPlanGroupedTieredPrice
 const NewPlanGroupedTieredPriceCadenceQuarterly = shared.NewPlanGroupedTieredPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanGroupedTieredPriceCadenceOneTime = shared.NewPlanGroupedTieredPriceCadenceOneTime
+const NewPlanGroupedTieredPriceCadenceSemiAnnual = shared.NewPlanGroupedTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanGroupedTieredPriceCadenceAnnual = shared.NewPlanGroupedTieredPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPriceCadenceCustom = shared.NewPlanGroupedTieredPriceCadenceCustom
@@ -4458,10 +4458,7 @@ type NewPlanGroupedWithMeteredMinimumPriceParam = shared.NewPlanGroupedWithMeter
 type NewPlanGroupedWithMeteredMinimumPriceCadence = shared.NewPlanGroupedWithMeteredMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+const NewPlanGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceMonthly
@@ -4470,7 +4467,10 @@ const NewPlanGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewPlanGroupe
 const NewPlanGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceOneTime
+const NewPlanGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceCustom
@@ -4519,10 +4519,7 @@ type NewPlanGroupedWithProratedMinimumPriceParam = shared.NewPlanGroupedWithPror
 type NewPlanGroupedWithProratedMinimumPriceCadence = shared.NewPlanGroupedWithProratedMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewPlanGroupedWithProratedMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewPlanGroupedWithProratedMinimumPriceCadenceSemiAnnual
+const NewPlanGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewPlanGroupedWithProratedMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewPlanGroupedWithProratedMinimumPriceCadenceMonthly
@@ -4531,7 +4528,10 @@ const NewPlanGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewPlanGroup
 const NewPlanGroupedWithProratedMinimumPriceCadenceQuarterly = shared.NewPlanGroupedWithProratedMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewPlanGroupedWithProratedMinimumPriceCadenceOneTime
+const NewPlanGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewPlanGroupedWithProratedMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewPlanGroupedWithProratedMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanGroupedWithProratedMinimumPriceCadenceCustom = shared.NewPlanGroupedWithProratedMinimumPriceCadenceCustom
@@ -4570,10 +4570,7 @@ type NewPlanMatrixPriceParam = shared.NewPlanMatrixPriceParam
 type NewPlanMatrixPriceCadence = shared.NewPlanMatrixPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanMatrixPriceCadenceAnnual = shared.NewPlanMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanMatrixPriceCadenceSemiAnnual = shared.NewPlanMatrixPriceCadenceSemiAnnual
+const NewPlanMatrixPriceCadenceOneTime = shared.NewPlanMatrixPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanMatrixPriceCadenceMonthly = shared.NewPlanMatrixPriceCadenceMonthly
@@ -4582,7 +4579,10 @@ const NewPlanMatrixPriceCadenceMonthly = shared.NewPlanMatrixPriceCadenceMonthly
 const NewPlanMatrixPriceCadenceQuarterly = shared.NewPlanMatrixPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanMatrixPriceCadenceOneTime = shared.NewPlanMatrixPriceCadenceOneTime
+const NewPlanMatrixPriceCadenceSemiAnnual = shared.NewPlanMatrixPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMatrixPriceCadenceAnnual = shared.NewPlanMatrixPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanMatrixPriceCadenceCustom = shared.NewPlanMatrixPriceCadenceCustom
@@ -4616,10 +4616,7 @@ type NewPlanMatrixWithAllocationPriceParam = shared.NewPlanMatrixWithAllocationP
 type NewPlanMatrixWithAllocationPriceCadence = shared.NewPlanMatrixWithAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceCadenceAnnual = shared.NewPlanMatrixWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceCadenceSemiAnnual = shared.NewPlanMatrixWithAllocationPriceCadenceSemiAnnual
+const NewPlanMatrixWithAllocationPriceCadenceOneTime = shared.NewPlanMatrixWithAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanMatrixWithAllocationPriceCadenceMonthly = shared.NewPlanMatrixWithAllocationPriceCadenceMonthly
@@ -4628,7 +4625,10 @@ const NewPlanMatrixWithAllocationPriceCadenceMonthly = shared.NewPlanMatrixWithA
 const NewPlanMatrixWithAllocationPriceCadenceQuarterly = shared.NewPlanMatrixWithAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceCadenceOneTime = shared.NewPlanMatrixWithAllocationPriceCadenceOneTime
+const NewPlanMatrixWithAllocationPriceCadenceSemiAnnual = shared.NewPlanMatrixWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMatrixWithAllocationPriceCadenceAnnual = shared.NewPlanMatrixWithAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanMatrixWithAllocationPriceCadenceCustom = shared.NewPlanMatrixWithAllocationPriceCadenceCustom
@@ -4662,10 +4662,7 @@ type NewPlanMatrixWithDisplayNamePriceParam = shared.NewPlanMatrixWithDisplayNam
 type NewPlanMatrixWithDisplayNamePriceCadence = shared.NewPlanMatrixWithDisplayNamePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceCadenceAnnual = shared.NewPlanMatrixWithDisplayNamePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewPlanMatrixWithDisplayNamePriceCadenceSemiAnnual
+const NewPlanMatrixWithDisplayNamePriceCadenceOneTime = shared.NewPlanMatrixWithDisplayNamePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanMatrixWithDisplayNamePriceCadenceMonthly = shared.NewPlanMatrixWithDisplayNamePriceCadenceMonthly
@@ -4674,7 +4671,10 @@ const NewPlanMatrixWithDisplayNamePriceCadenceMonthly = shared.NewPlanMatrixWith
 const NewPlanMatrixWithDisplayNamePriceCadenceQuarterly = shared.NewPlanMatrixWithDisplayNamePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceCadenceOneTime = shared.NewPlanMatrixWithDisplayNamePriceCadenceOneTime
+const NewPlanMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewPlanMatrixWithDisplayNamePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMatrixWithDisplayNamePriceCadenceAnnual = shared.NewPlanMatrixWithDisplayNamePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanMatrixWithDisplayNamePriceCadenceCustom = shared.NewPlanMatrixWithDisplayNamePriceCadenceCustom
@@ -4718,10 +4718,7 @@ type NewPlanMaxGroupTieredPackagePriceParam = shared.NewPlanMaxGroupTieredPackag
 type NewPlanMaxGroupTieredPackagePriceCadence = shared.NewPlanMaxGroupTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceCadenceAnnual = shared.NewPlanMaxGroupTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual
+const NewPlanMaxGroupTieredPackagePriceCadenceOneTime = shared.NewPlanMaxGroupTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanMaxGroupTieredPackagePriceCadenceMonthly = shared.NewPlanMaxGroupTieredPackagePriceCadenceMonthly
@@ -4730,7 +4727,10 @@ const NewPlanMaxGroupTieredPackagePriceCadenceMonthly = shared.NewPlanMaxGroupTi
 const NewPlanMaxGroupTieredPackagePriceCadenceQuarterly = shared.NewPlanMaxGroupTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceCadenceOneTime = shared.NewPlanMaxGroupTieredPackagePriceCadenceOneTime
+const NewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMaxGroupTieredPackagePriceCadenceAnnual = shared.NewPlanMaxGroupTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanMaxGroupTieredPackagePriceCadenceCustom = shared.NewPlanMaxGroupTieredPackagePriceCadenceCustom
@@ -4774,10 +4774,7 @@ type NewPlanMinimumCompositePriceParam = shared.NewPlanMinimumCompositePricePara
 type NewPlanMinimumCompositePriceCadence = shared.NewPlanMinimumCompositePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanMinimumCompositePriceCadenceAnnual = shared.NewPlanMinimumCompositePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanMinimumCompositePriceCadenceSemiAnnual = shared.NewPlanMinimumCompositePriceCadenceSemiAnnual
+const NewPlanMinimumCompositePriceCadenceOneTime = shared.NewPlanMinimumCompositePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanMinimumCompositePriceCadenceMonthly = shared.NewPlanMinimumCompositePriceCadenceMonthly
@@ -4786,7 +4783,10 @@ const NewPlanMinimumCompositePriceCadenceMonthly = shared.NewPlanMinimumComposit
 const NewPlanMinimumCompositePriceCadenceQuarterly = shared.NewPlanMinimumCompositePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanMinimumCompositePriceCadenceOneTime = shared.NewPlanMinimumCompositePriceCadenceOneTime
+const NewPlanMinimumCompositePriceCadenceSemiAnnual = shared.NewPlanMinimumCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceAnnual = shared.NewPlanMinimumCompositePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanMinimumCompositePriceCadenceCustom = shared.NewPlanMinimumCompositePriceCadenceCustom
@@ -4825,10 +4825,7 @@ type NewPlanPackagePriceParam = shared.NewPlanPackagePriceParam
 type NewPlanPackagePriceCadence = shared.NewPlanPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanPackagePriceCadenceAnnual = shared.NewPlanPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanPackagePriceCadenceSemiAnnual = shared.NewPlanPackagePriceCadenceSemiAnnual
+const NewPlanPackagePriceCadenceOneTime = shared.NewPlanPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanPackagePriceCadenceMonthly = shared.NewPlanPackagePriceCadenceMonthly
@@ -4837,7 +4834,10 @@ const NewPlanPackagePriceCadenceMonthly = shared.NewPlanPackagePriceCadenceMonth
 const NewPlanPackagePriceCadenceQuarterly = shared.NewPlanPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanPackagePriceCadenceOneTime = shared.NewPlanPackagePriceCadenceOneTime
+const NewPlanPackagePriceCadenceSemiAnnual = shared.NewPlanPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanPackagePriceCadenceAnnual = shared.NewPlanPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanPackagePriceCadenceCustom = shared.NewPlanPackagePriceCadenceCustom
@@ -4871,10 +4871,7 @@ type NewPlanPackageWithAllocationPriceParam = shared.NewPlanPackageWithAllocatio
 type NewPlanPackageWithAllocationPriceCadence = shared.NewPlanPackageWithAllocationPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceCadenceAnnual = shared.NewPlanPackageWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceCadenceSemiAnnual = shared.NewPlanPackageWithAllocationPriceCadenceSemiAnnual
+const NewPlanPackageWithAllocationPriceCadenceOneTime = shared.NewPlanPackageWithAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanPackageWithAllocationPriceCadenceMonthly = shared.NewPlanPackageWithAllocationPriceCadenceMonthly
@@ -4883,7 +4880,10 @@ const NewPlanPackageWithAllocationPriceCadenceMonthly = shared.NewPlanPackageWit
 const NewPlanPackageWithAllocationPriceCadenceQuarterly = shared.NewPlanPackageWithAllocationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceCadenceOneTime = shared.NewPlanPackageWithAllocationPriceCadenceOneTime
+const NewPlanPackageWithAllocationPriceCadenceSemiAnnual = shared.NewPlanPackageWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanPackageWithAllocationPriceCadenceAnnual = shared.NewPlanPackageWithAllocationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanPackageWithAllocationPriceCadenceCustom = shared.NewPlanPackageWithAllocationPriceCadenceCustom
@@ -4922,10 +4922,7 @@ type NewPlanScalableMatrixWithTieredPricingPriceParam = shared.NewPlanScalableMa
 type NewPlanScalableMatrixWithTieredPricingPriceCadence = shared.NewPlanScalableMatrixWithTieredPricingPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+const NewPlanScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceMonthly
@@ -4934,7 +4931,10 @@ const NewPlanScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.NewPlan
 const NewPlanScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceOneTime
+const NewPlanScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceCustom
@@ -4983,10 +4983,7 @@ type NewPlanScalableMatrixWithUnitPricingPriceParam = shared.NewPlanScalableMatr
 type NewPlanScalableMatrixWithUnitPricingPriceCadence = shared.NewPlanScalableMatrixWithUnitPricingPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+const NewPlanScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceMonthly
@@ -4995,7 +4992,10 @@ const NewPlanScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewPlanSc
 const NewPlanScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceOneTime
+const NewPlanScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceCustom
@@ -5039,10 +5039,7 @@ type NewPlanThresholdTotalAmountPriceParam = shared.NewPlanThresholdTotalAmountP
 type NewPlanThresholdTotalAmountPriceCadence = shared.NewPlanThresholdTotalAmountPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceCadenceAnnual = shared.NewPlanThresholdTotalAmountPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewPlanThresholdTotalAmountPriceCadenceSemiAnnual
+const NewPlanThresholdTotalAmountPriceCadenceOneTime = shared.NewPlanThresholdTotalAmountPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceCadenceMonthly = shared.NewPlanThresholdTotalAmountPriceCadenceMonthly
@@ -5051,7 +5048,10 @@ const NewPlanThresholdTotalAmountPriceCadenceMonthly = shared.NewPlanThresholdTo
 const NewPlanThresholdTotalAmountPriceCadenceQuarterly = shared.NewPlanThresholdTotalAmountPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceCadenceOneTime = shared.NewPlanThresholdTotalAmountPriceCadenceOneTime
+const NewPlanThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewPlanThresholdTotalAmountPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanThresholdTotalAmountPriceCadenceAnnual = shared.NewPlanThresholdTotalAmountPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceCadenceCustom = shared.NewPlanThresholdTotalAmountPriceCadenceCustom
@@ -5095,10 +5095,7 @@ type NewPlanTieredPackagePriceParam = shared.NewPlanTieredPackagePriceParam
 type NewPlanTieredPackagePriceCadence = shared.NewPlanTieredPackagePriceCadence
 
 // This is an alias to an internal value.
-const NewPlanTieredPackagePriceCadenceAnnual = shared.NewPlanTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredPackagePriceCadenceSemiAnnual = shared.NewPlanTieredPackagePriceCadenceSemiAnnual
+const NewPlanTieredPackagePriceCadenceOneTime = shared.NewPlanTieredPackagePriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanTieredPackagePriceCadenceMonthly = shared.NewPlanTieredPackagePriceCadenceMonthly
@@ -5107,7 +5104,10 @@ const NewPlanTieredPackagePriceCadenceMonthly = shared.NewPlanTieredPackagePrice
 const NewPlanTieredPackagePriceCadenceQuarterly = shared.NewPlanTieredPackagePriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanTieredPackagePriceCadenceOneTime = shared.NewPlanTieredPackagePriceCadenceOneTime
+const NewPlanTieredPackagePriceCadenceSemiAnnual = shared.NewPlanTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanTieredPackagePriceCadenceAnnual = shared.NewPlanTieredPackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanTieredPackagePriceCadenceCustom = shared.NewPlanTieredPackagePriceCadenceCustom
@@ -5151,10 +5151,7 @@ type NewPlanTieredPackageWithMinimumPriceParam = shared.NewPlanTieredPackageWith
 type NewPlanTieredPackageWithMinimumPriceCadence = shared.NewPlanTieredPackageWithMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceCadenceAnnual = shared.NewPlanTieredPackageWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.NewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual
+const NewPlanTieredPackageWithMinimumPriceCadenceOneTime = shared.NewPlanTieredPackageWithMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanTieredPackageWithMinimumPriceCadenceMonthly = shared.NewPlanTieredPackageWithMinimumPriceCadenceMonthly
@@ -5163,7 +5160,10 @@ const NewPlanTieredPackageWithMinimumPriceCadenceMonthly = shared.NewPlanTieredP
 const NewPlanTieredPackageWithMinimumPriceCadenceQuarterly = shared.NewPlanTieredPackageWithMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceCadenceOneTime = shared.NewPlanTieredPackageWithMinimumPriceCadenceOneTime
+const NewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.NewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanTieredPackageWithMinimumPriceCadenceAnnual = shared.NewPlanTieredPackageWithMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanTieredPackageWithMinimumPriceCadenceCustom = shared.NewPlanTieredPackageWithMinimumPriceCadenceCustom
@@ -5207,10 +5207,7 @@ type NewPlanTieredPriceParam = shared.NewPlanTieredPriceParam
 type NewPlanTieredPriceCadence = shared.NewPlanTieredPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanTieredPriceCadenceAnnual = shared.NewPlanTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredPriceCadenceSemiAnnual = shared.NewPlanTieredPriceCadenceSemiAnnual
+const NewPlanTieredPriceCadenceOneTime = shared.NewPlanTieredPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanTieredPriceCadenceMonthly = shared.NewPlanTieredPriceCadenceMonthly
@@ -5219,7 +5216,10 @@ const NewPlanTieredPriceCadenceMonthly = shared.NewPlanTieredPriceCadenceMonthly
 const NewPlanTieredPriceCadenceQuarterly = shared.NewPlanTieredPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanTieredPriceCadenceOneTime = shared.NewPlanTieredPriceCadenceOneTime
+const NewPlanTieredPriceCadenceSemiAnnual = shared.NewPlanTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanTieredPriceCadenceAnnual = shared.NewPlanTieredPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanTieredPriceCadenceCustom = shared.NewPlanTieredPriceCadenceCustom
@@ -5253,10 +5253,7 @@ type NewPlanTieredWithMinimumPriceParam = shared.NewPlanTieredWithMinimumPricePa
 type NewPlanTieredWithMinimumPriceCadence = shared.NewPlanTieredWithMinimumPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceCadenceAnnual = shared.NewPlanTieredWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceCadenceSemiAnnual = shared.NewPlanTieredWithMinimumPriceCadenceSemiAnnual
+const NewPlanTieredWithMinimumPriceCadenceOneTime = shared.NewPlanTieredWithMinimumPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanTieredWithMinimumPriceCadenceMonthly = shared.NewPlanTieredWithMinimumPriceCadenceMonthly
@@ -5265,7 +5262,10 @@ const NewPlanTieredWithMinimumPriceCadenceMonthly = shared.NewPlanTieredWithMini
 const NewPlanTieredWithMinimumPriceCadenceQuarterly = shared.NewPlanTieredWithMinimumPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceCadenceOneTime = shared.NewPlanTieredWithMinimumPriceCadenceOneTime
+const NewPlanTieredWithMinimumPriceCadenceSemiAnnual = shared.NewPlanTieredWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanTieredWithMinimumPriceCadenceAnnual = shared.NewPlanTieredWithMinimumPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanTieredWithMinimumPriceCadenceCustom = shared.NewPlanTieredWithMinimumPriceCadenceCustom
@@ -5309,10 +5309,7 @@ type NewPlanUnitPriceParam = shared.NewPlanUnitPriceParam
 type NewPlanUnitPriceCadence = shared.NewPlanUnitPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanUnitPriceCadenceAnnual = shared.NewPlanUnitPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanUnitPriceCadenceSemiAnnual = shared.NewPlanUnitPriceCadenceSemiAnnual
+const NewPlanUnitPriceCadenceOneTime = shared.NewPlanUnitPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanUnitPriceCadenceMonthly = shared.NewPlanUnitPriceCadenceMonthly
@@ -5321,7 +5318,10 @@ const NewPlanUnitPriceCadenceMonthly = shared.NewPlanUnitPriceCadenceMonthly
 const NewPlanUnitPriceCadenceQuarterly = shared.NewPlanUnitPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanUnitPriceCadenceOneTime = shared.NewPlanUnitPriceCadenceOneTime
+const NewPlanUnitPriceCadenceSemiAnnual = shared.NewPlanUnitPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanUnitPriceCadenceAnnual = shared.NewPlanUnitPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanUnitPriceCadenceCustom = shared.NewPlanUnitPriceCadenceCustom
@@ -5355,10 +5355,7 @@ type NewPlanUnitWithPercentPriceParam = shared.NewPlanUnitWithPercentPriceParam
 type NewPlanUnitWithPercentPriceCadence = shared.NewPlanUnitWithPercentPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceCadenceAnnual = shared.NewPlanUnitWithPercentPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceCadenceSemiAnnual = shared.NewPlanUnitWithPercentPriceCadenceSemiAnnual
+const NewPlanUnitWithPercentPriceCadenceOneTime = shared.NewPlanUnitWithPercentPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanUnitWithPercentPriceCadenceMonthly = shared.NewPlanUnitWithPercentPriceCadenceMonthly
@@ -5367,7 +5364,10 @@ const NewPlanUnitWithPercentPriceCadenceMonthly = shared.NewPlanUnitWithPercentP
 const NewPlanUnitWithPercentPriceCadenceQuarterly = shared.NewPlanUnitWithPercentPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceCadenceOneTime = shared.NewPlanUnitWithPercentPriceCadenceOneTime
+const NewPlanUnitWithPercentPriceCadenceSemiAnnual = shared.NewPlanUnitWithPercentPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanUnitWithPercentPriceCadenceAnnual = shared.NewPlanUnitWithPercentPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanUnitWithPercentPriceCadenceCustom = shared.NewPlanUnitWithPercentPriceCadenceCustom
@@ -5406,10 +5406,7 @@ type NewPlanUnitWithProrationPriceParam = shared.NewPlanUnitWithProrationPricePa
 type NewPlanUnitWithProrationPriceCadence = shared.NewPlanUnitWithProrationPriceCadence
 
 // This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceCadenceAnnual = shared.NewPlanUnitWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceCadenceSemiAnnual = shared.NewPlanUnitWithProrationPriceCadenceSemiAnnual
+const NewPlanUnitWithProrationPriceCadenceOneTime = shared.NewPlanUnitWithProrationPriceCadenceOneTime
 
 // This is an alias to an internal value.
 const NewPlanUnitWithProrationPriceCadenceMonthly = shared.NewPlanUnitWithProrationPriceCadenceMonthly
@@ -5418,7 +5415,10 @@ const NewPlanUnitWithProrationPriceCadenceMonthly = shared.NewPlanUnitWithProrat
 const NewPlanUnitWithProrationPriceCadenceQuarterly = shared.NewPlanUnitWithProrationPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceCadenceOneTime = shared.NewPlanUnitWithProrationPriceCadenceOneTime
+const NewPlanUnitWithProrationPriceCadenceSemiAnnual = shared.NewPlanUnitWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanUnitWithProrationPriceCadenceAnnual = shared.NewPlanUnitWithProrationPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const NewPlanUnitWithProrationPriceCadenceCustom = shared.NewPlanUnitWithProrationPriceCadenceCustom

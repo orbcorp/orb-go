@@ -85,7 +85,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			MinimumAmount:  orb.F("1.23"),
 			PlanPhaseOrder: orb.F(int64(0)),
 			Price: orb.F[orb.SubscriptionNewParamsAddPricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
-				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
+				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceOneTime),
 				ItemID:    orb.F("item_id"),
 				ModelType: orb.F(orb.NewSubscriptionUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
@@ -222,7 +222,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			}),
 			MinimumAmount: orb.F("1.23"),
 			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
-				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
+				Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceOneTime),
 				ItemID:    orb.F("item_id"),
 				ModelType: orb.F(orb.NewSubscriptionUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
@@ -559,7 +559,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				}),
 				MinimumAmount: orb.F(0.000000),
 				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](shared.NewFloatingUnitPriceParam{
-					Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
+					Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceOneTime),
 					Currency:  orb.F("currency"),
 					ItemID:    orb.F("item_id"),
 					ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
@@ -762,7 +762,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				MinimumAmount:  orb.F("1.23"),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
-					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
+					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceOneTime),
 					ItemID:    orb.F("item_id"),
 					ModelType: orb.F(orb.NewSubscriptionUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
@@ -890,7 +890,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				}),
 				MinimumAmount: orb.F("1.23"),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.NewSubscriptionUnitPriceParam{
-					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceAnnual),
+					Cadence:   orb.F(orb.NewSubscriptionUnitPriceCadenceOneTime),
 					ItemID:    orb.F("item_id"),
 					ModelType: orb.F(orb.NewSubscriptionUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),

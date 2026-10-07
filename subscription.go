@@ -585,9 +585,9 @@ func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subsc
 // but do not have the key set). Currently, it is only possible to view usage
 // grouped by a single attribute at a time.
 //
-// When viewing grouped usage, Orb uses pagination to limit the response size to
-// 1000 groups by default. If there are more groups for a given subscription,
-// pagination metadata in the response can be used to fetch all of the data.
+// When viewing grouped usage, all groups are returned in a single response. For
+// metrics with a large number of groups, Orb recommends using a shorter timeframe
+// to keep response size and latency manageable.
 //
 // The following example shows usage for an "API Requests" billable metric grouped
 // by `region`. Note the extra `metric_group` dictionary in the response, which
@@ -1291,17 +1291,17 @@ func (r NewSubscriptionBulkPriceParam) implementsSubscriptionSchedulePlanChangeP
 type NewSubscriptionBulkPriceCadence string
 
 const (
-	NewSubscriptionBulkPriceCadenceAnnual     NewSubscriptionBulkPriceCadence = "annual"
-	NewSubscriptionBulkPriceCadenceSemiAnnual NewSubscriptionBulkPriceCadence = "semi_annual"
+	NewSubscriptionBulkPriceCadenceOneTime    NewSubscriptionBulkPriceCadence = "one_time"
 	NewSubscriptionBulkPriceCadenceMonthly    NewSubscriptionBulkPriceCadence = "monthly"
 	NewSubscriptionBulkPriceCadenceQuarterly  NewSubscriptionBulkPriceCadence = "quarterly"
-	NewSubscriptionBulkPriceCadenceOneTime    NewSubscriptionBulkPriceCadence = "one_time"
+	NewSubscriptionBulkPriceCadenceSemiAnnual NewSubscriptionBulkPriceCadence = "semi_annual"
+	NewSubscriptionBulkPriceCadenceAnnual     NewSubscriptionBulkPriceCadence = "annual"
 	NewSubscriptionBulkPriceCadenceCustom     NewSubscriptionBulkPriceCadence = "custom"
 )
 
 func (r NewSubscriptionBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionBulkPriceCadenceAnnual, NewSubscriptionBulkPriceCadenceSemiAnnual, NewSubscriptionBulkPriceCadenceMonthly, NewSubscriptionBulkPriceCadenceQuarterly, NewSubscriptionBulkPriceCadenceOneTime, NewSubscriptionBulkPriceCadenceCustom:
+	case NewSubscriptionBulkPriceCadenceOneTime, NewSubscriptionBulkPriceCadenceMonthly, NewSubscriptionBulkPriceCadenceQuarterly, NewSubscriptionBulkPriceCadenceSemiAnnual, NewSubscriptionBulkPriceCadenceAnnual, NewSubscriptionBulkPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1453,17 +1453,17 @@ func (r NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam) M
 type NewSubscriptionBulkWithProrationPriceCadence string
 
 const (
-	NewSubscriptionBulkWithProrationPriceCadenceAnnual     NewSubscriptionBulkWithProrationPriceCadence = "annual"
-	NewSubscriptionBulkWithProrationPriceCadenceSemiAnnual NewSubscriptionBulkWithProrationPriceCadence = "semi_annual"
+	NewSubscriptionBulkWithProrationPriceCadenceOneTime    NewSubscriptionBulkWithProrationPriceCadence = "one_time"
 	NewSubscriptionBulkWithProrationPriceCadenceMonthly    NewSubscriptionBulkWithProrationPriceCadence = "monthly"
 	NewSubscriptionBulkWithProrationPriceCadenceQuarterly  NewSubscriptionBulkWithProrationPriceCadence = "quarterly"
-	NewSubscriptionBulkWithProrationPriceCadenceOneTime    NewSubscriptionBulkWithProrationPriceCadence = "one_time"
+	NewSubscriptionBulkWithProrationPriceCadenceSemiAnnual NewSubscriptionBulkWithProrationPriceCadence = "semi_annual"
+	NewSubscriptionBulkWithProrationPriceCadenceAnnual     NewSubscriptionBulkWithProrationPriceCadence = "annual"
 	NewSubscriptionBulkWithProrationPriceCadenceCustom     NewSubscriptionBulkWithProrationPriceCadence = "custom"
 )
 
 func (r NewSubscriptionBulkWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionBulkWithProrationPriceCadenceAnnual, NewSubscriptionBulkWithProrationPriceCadenceSemiAnnual, NewSubscriptionBulkWithProrationPriceCadenceMonthly, NewSubscriptionBulkWithProrationPriceCadenceQuarterly, NewSubscriptionBulkWithProrationPriceCadenceOneTime, NewSubscriptionBulkWithProrationPriceCadenceCustom:
+	case NewSubscriptionBulkWithProrationPriceCadenceOneTime, NewSubscriptionBulkWithProrationPriceCadenceMonthly, NewSubscriptionBulkWithProrationPriceCadenceQuarterly, NewSubscriptionBulkWithProrationPriceCadenceSemiAnnual, NewSubscriptionBulkWithProrationPriceCadenceAnnual, NewSubscriptionBulkWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1593,17 +1593,17 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceParam) implementsSubscriptionSc
 type NewSubscriptionCumulativeGroupedBulkPriceCadence string
 
 const (
-	NewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual     NewSubscriptionCumulativeGroupedBulkPriceCadence = "annual"
-	NewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual NewSubscriptionCumulativeGroupedBulkPriceCadence = "semi_annual"
+	NewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime    NewSubscriptionCumulativeGroupedBulkPriceCadence = "one_time"
 	NewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly    NewSubscriptionCumulativeGroupedBulkPriceCadence = "monthly"
 	NewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly  NewSubscriptionCumulativeGroupedBulkPriceCadence = "quarterly"
-	NewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime    NewSubscriptionCumulativeGroupedBulkPriceCadence = "one_time"
+	NewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual NewSubscriptionCumulativeGroupedBulkPriceCadence = "semi_annual"
+	NewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual     NewSubscriptionCumulativeGroupedBulkPriceCadence = "annual"
 	NewSubscriptionCumulativeGroupedBulkPriceCadenceCustom     NewSubscriptionCumulativeGroupedBulkPriceCadence = "custom"
 )
 
 func (r NewSubscriptionCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual, NewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual, NewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly, NewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly, NewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime, NewSubscriptionCumulativeGroupedBulkPriceCadenceCustom:
+	case NewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime, NewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly, NewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly, NewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual, NewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual, NewSubscriptionCumulativeGroupedBulkPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1758,17 +1758,17 @@ func (r NewSubscriptionGroupedAllocationPriceParam) implementsSubscriptionSchedu
 type NewSubscriptionGroupedAllocationPriceCadence string
 
 const (
-	NewSubscriptionGroupedAllocationPriceCadenceAnnual     NewSubscriptionGroupedAllocationPriceCadence = "annual"
-	NewSubscriptionGroupedAllocationPriceCadenceSemiAnnual NewSubscriptionGroupedAllocationPriceCadence = "semi_annual"
+	NewSubscriptionGroupedAllocationPriceCadenceOneTime    NewSubscriptionGroupedAllocationPriceCadence = "one_time"
 	NewSubscriptionGroupedAllocationPriceCadenceMonthly    NewSubscriptionGroupedAllocationPriceCadence = "monthly"
 	NewSubscriptionGroupedAllocationPriceCadenceQuarterly  NewSubscriptionGroupedAllocationPriceCadence = "quarterly"
-	NewSubscriptionGroupedAllocationPriceCadenceOneTime    NewSubscriptionGroupedAllocationPriceCadence = "one_time"
+	NewSubscriptionGroupedAllocationPriceCadenceSemiAnnual NewSubscriptionGroupedAllocationPriceCadence = "semi_annual"
+	NewSubscriptionGroupedAllocationPriceCadenceAnnual     NewSubscriptionGroupedAllocationPriceCadence = "annual"
 	NewSubscriptionGroupedAllocationPriceCadenceCustom     NewSubscriptionGroupedAllocationPriceCadence = "custom"
 )
 
 func (r NewSubscriptionGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedAllocationPriceCadenceAnnual, NewSubscriptionGroupedAllocationPriceCadenceSemiAnnual, NewSubscriptionGroupedAllocationPriceCadenceMonthly, NewSubscriptionGroupedAllocationPriceCadenceQuarterly, NewSubscriptionGroupedAllocationPriceCadenceOneTime, NewSubscriptionGroupedAllocationPriceCadenceCustom:
+	case NewSubscriptionGroupedAllocationPriceCadenceOneTime, NewSubscriptionGroupedAllocationPriceCadenceMonthly, NewSubscriptionGroupedAllocationPriceCadenceQuarterly, NewSubscriptionGroupedAllocationPriceCadenceSemiAnnual, NewSubscriptionGroupedAllocationPriceCadenceAnnual, NewSubscriptionGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1912,17 +1912,17 @@ func (r NewSubscriptionGroupedTieredPackagePriceParam) implementsSubscriptionSch
 type NewSubscriptionGroupedTieredPackagePriceCadence string
 
 const (
-	NewSubscriptionGroupedTieredPackagePriceCadenceAnnual     NewSubscriptionGroupedTieredPackagePriceCadence = "annual"
-	NewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual NewSubscriptionGroupedTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionGroupedTieredPackagePriceCadenceOneTime    NewSubscriptionGroupedTieredPackagePriceCadence = "one_time"
 	NewSubscriptionGroupedTieredPackagePriceCadenceMonthly    NewSubscriptionGroupedTieredPackagePriceCadence = "monthly"
 	NewSubscriptionGroupedTieredPackagePriceCadenceQuarterly  NewSubscriptionGroupedTieredPackagePriceCadence = "quarterly"
-	NewSubscriptionGroupedTieredPackagePriceCadenceOneTime    NewSubscriptionGroupedTieredPackagePriceCadence = "one_time"
+	NewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual NewSubscriptionGroupedTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionGroupedTieredPackagePriceCadenceAnnual     NewSubscriptionGroupedTieredPackagePriceCadence = "annual"
 	NewSubscriptionGroupedTieredPackagePriceCadenceCustom     NewSubscriptionGroupedTieredPackagePriceCadence = "custom"
 )
 
 func (r NewSubscriptionGroupedTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedTieredPackagePriceCadenceAnnual, NewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual, NewSubscriptionGroupedTieredPackagePriceCadenceMonthly, NewSubscriptionGroupedTieredPackagePriceCadenceQuarterly, NewSubscriptionGroupedTieredPackagePriceCadenceOneTime, NewSubscriptionGroupedTieredPackagePriceCadenceCustom:
+	case NewSubscriptionGroupedTieredPackagePriceCadenceOneTime, NewSubscriptionGroupedTieredPackagePriceCadenceMonthly, NewSubscriptionGroupedTieredPackagePriceCadenceQuarterly, NewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual, NewSubscriptionGroupedTieredPackagePriceCadenceAnnual, NewSubscriptionGroupedTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2077,17 +2077,17 @@ func (r NewSubscriptionGroupedTieredPriceParam) implementsSubscriptionSchedulePl
 type NewSubscriptionGroupedTieredPriceCadence string
 
 const (
-	NewSubscriptionGroupedTieredPriceCadenceAnnual     NewSubscriptionGroupedTieredPriceCadence = "annual"
-	NewSubscriptionGroupedTieredPriceCadenceSemiAnnual NewSubscriptionGroupedTieredPriceCadence = "semi_annual"
+	NewSubscriptionGroupedTieredPriceCadenceOneTime    NewSubscriptionGroupedTieredPriceCadence = "one_time"
 	NewSubscriptionGroupedTieredPriceCadenceMonthly    NewSubscriptionGroupedTieredPriceCadence = "monthly"
 	NewSubscriptionGroupedTieredPriceCadenceQuarterly  NewSubscriptionGroupedTieredPriceCadence = "quarterly"
-	NewSubscriptionGroupedTieredPriceCadenceOneTime    NewSubscriptionGroupedTieredPriceCadence = "one_time"
+	NewSubscriptionGroupedTieredPriceCadenceSemiAnnual NewSubscriptionGroupedTieredPriceCadence = "semi_annual"
+	NewSubscriptionGroupedTieredPriceCadenceAnnual     NewSubscriptionGroupedTieredPriceCadence = "annual"
 	NewSubscriptionGroupedTieredPriceCadenceCustom     NewSubscriptionGroupedTieredPriceCadence = "custom"
 )
 
 func (r NewSubscriptionGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedTieredPriceCadenceAnnual, NewSubscriptionGroupedTieredPriceCadenceSemiAnnual, NewSubscriptionGroupedTieredPriceCadenceMonthly, NewSubscriptionGroupedTieredPriceCadenceQuarterly, NewSubscriptionGroupedTieredPriceCadenceOneTime, NewSubscriptionGroupedTieredPriceCadenceCustom:
+	case NewSubscriptionGroupedTieredPriceCadenceOneTime, NewSubscriptionGroupedTieredPriceCadenceMonthly, NewSubscriptionGroupedTieredPriceCadenceQuarterly, NewSubscriptionGroupedTieredPriceCadenceSemiAnnual, NewSubscriptionGroupedTieredPriceCadenceAnnual, NewSubscriptionGroupedTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2241,17 +2241,17 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceParam) implementsSubscripti
 type NewSubscriptionGroupedWithMeteredMinimumPriceCadence string
 
 const (
-	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual     NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "annual"
-	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime    NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "one_time"
 	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly    NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "monthly"
 	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly  NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "quarterly"
-	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime    NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "one_time"
+	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual     NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "annual"
 	NewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom     NewSubscriptionGroupedWithMeteredMinimumPriceCadence = "custom"
 )
 
 func (r NewSubscriptionGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom:
+	case NewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual, NewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2424,17 +2424,17 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceParam) implementsSubscript
 type NewSubscriptionGroupedWithProratedMinimumPriceCadence string
 
 const (
-	NewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual     NewSubscriptionGroupedWithProratedMinimumPriceCadence = "annual"
-	NewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual NewSubscriptionGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	NewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime    NewSubscriptionGroupedWithProratedMinimumPriceCadence = "one_time"
 	NewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly    NewSubscriptionGroupedWithProratedMinimumPriceCadence = "monthly"
 	NewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly  NewSubscriptionGroupedWithProratedMinimumPriceCadence = "quarterly"
-	NewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime    NewSubscriptionGroupedWithProratedMinimumPriceCadence = "one_time"
+	NewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual NewSubscriptionGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	NewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual     NewSubscriptionGroupedWithProratedMinimumPriceCadence = "annual"
 	NewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom     NewSubscriptionGroupedWithProratedMinimumPriceCadence = "custom"
 )
 
 func (r NewSubscriptionGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual, NewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual, NewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly, NewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly, NewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime, NewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom:
+	case NewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime, NewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly, NewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly, NewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual, NewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual, NewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2576,17 +2576,17 @@ func (r NewSubscriptionMatrixPriceParam) implementsSubscriptionSchedulePlanChang
 type NewSubscriptionMatrixPriceCadence string
 
 const (
-	NewSubscriptionMatrixPriceCadenceAnnual     NewSubscriptionMatrixPriceCadence = "annual"
-	NewSubscriptionMatrixPriceCadenceSemiAnnual NewSubscriptionMatrixPriceCadence = "semi_annual"
+	NewSubscriptionMatrixPriceCadenceOneTime    NewSubscriptionMatrixPriceCadence = "one_time"
 	NewSubscriptionMatrixPriceCadenceMonthly    NewSubscriptionMatrixPriceCadence = "monthly"
 	NewSubscriptionMatrixPriceCadenceQuarterly  NewSubscriptionMatrixPriceCadence = "quarterly"
-	NewSubscriptionMatrixPriceCadenceOneTime    NewSubscriptionMatrixPriceCadence = "one_time"
+	NewSubscriptionMatrixPriceCadenceSemiAnnual NewSubscriptionMatrixPriceCadence = "semi_annual"
+	NewSubscriptionMatrixPriceCadenceAnnual     NewSubscriptionMatrixPriceCadence = "annual"
 	NewSubscriptionMatrixPriceCadenceCustom     NewSubscriptionMatrixPriceCadence = "custom"
 )
 
 func (r NewSubscriptionMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixPriceCadenceAnnual, NewSubscriptionMatrixPriceCadenceSemiAnnual, NewSubscriptionMatrixPriceCadenceMonthly, NewSubscriptionMatrixPriceCadenceQuarterly, NewSubscriptionMatrixPriceCadenceOneTime, NewSubscriptionMatrixPriceCadenceCustom:
+	case NewSubscriptionMatrixPriceCadenceOneTime, NewSubscriptionMatrixPriceCadenceMonthly, NewSubscriptionMatrixPriceCadenceQuarterly, NewSubscriptionMatrixPriceCadenceSemiAnnual, NewSubscriptionMatrixPriceCadenceAnnual, NewSubscriptionMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2716,17 +2716,17 @@ func (r NewSubscriptionMatrixWithAllocationPriceParam) implementsSubscriptionSch
 type NewSubscriptionMatrixWithAllocationPriceCadence string
 
 const (
-	NewSubscriptionMatrixWithAllocationPriceCadenceAnnual     NewSubscriptionMatrixWithAllocationPriceCadence = "annual"
-	NewSubscriptionMatrixWithAllocationPriceCadenceSemiAnnual NewSubscriptionMatrixWithAllocationPriceCadence = "semi_annual"
+	NewSubscriptionMatrixWithAllocationPriceCadenceOneTime    NewSubscriptionMatrixWithAllocationPriceCadence = "one_time"
 	NewSubscriptionMatrixWithAllocationPriceCadenceMonthly    NewSubscriptionMatrixWithAllocationPriceCadence = "monthly"
 	NewSubscriptionMatrixWithAllocationPriceCadenceQuarterly  NewSubscriptionMatrixWithAllocationPriceCadence = "quarterly"
-	NewSubscriptionMatrixWithAllocationPriceCadenceOneTime    NewSubscriptionMatrixWithAllocationPriceCadence = "one_time"
+	NewSubscriptionMatrixWithAllocationPriceCadenceSemiAnnual NewSubscriptionMatrixWithAllocationPriceCadence = "semi_annual"
+	NewSubscriptionMatrixWithAllocationPriceCadenceAnnual     NewSubscriptionMatrixWithAllocationPriceCadence = "annual"
 	NewSubscriptionMatrixWithAllocationPriceCadenceCustom     NewSubscriptionMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r NewSubscriptionMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixWithAllocationPriceCadenceAnnual, NewSubscriptionMatrixWithAllocationPriceCadenceSemiAnnual, NewSubscriptionMatrixWithAllocationPriceCadenceMonthly, NewSubscriptionMatrixWithAllocationPriceCadenceQuarterly, NewSubscriptionMatrixWithAllocationPriceCadenceOneTime, NewSubscriptionMatrixWithAllocationPriceCadenceCustom:
+	case NewSubscriptionMatrixWithAllocationPriceCadenceOneTime, NewSubscriptionMatrixWithAllocationPriceCadenceMonthly, NewSubscriptionMatrixWithAllocationPriceCadenceQuarterly, NewSubscriptionMatrixWithAllocationPriceCadenceSemiAnnual, NewSubscriptionMatrixWithAllocationPriceCadenceAnnual, NewSubscriptionMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2856,17 +2856,17 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceParam) implementsSubscriptionSc
 type NewSubscriptionMatrixWithDisplayNamePriceCadence string
 
 const (
-	NewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual     NewSubscriptionMatrixWithDisplayNamePriceCadence = "annual"
-	NewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual NewSubscriptionMatrixWithDisplayNamePriceCadence = "semi_annual"
+	NewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime    NewSubscriptionMatrixWithDisplayNamePriceCadence = "one_time"
 	NewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly    NewSubscriptionMatrixWithDisplayNamePriceCadence = "monthly"
 	NewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly  NewSubscriptionMatrixWithDisplayNamePriceCadence = "quarterly"
-	NewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime    NewSubscriptionMatrixWithDisplayNamePriceCadence = "one_time"
+	NewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual NewSubscriptionMatrixWithDisplayNamePriceCadence = "semi_annual"
+	NewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual     NewSubscriptionMatrixWithDisplayNamePriceCadence = "annual"
 	NewSubscriptionMatrixWithDisplayNamePriceCadenceCustom     NewSubscriptionMatrixWithDisplayNamePriceCadence = "custom"
 )
 
 func (r NewSubscriptionMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual, NewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual, NewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly, NewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly, NewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime, NewSubscriptionMatrixWithDisplayNamePriceCadenceCustom:
+	case NewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime, NewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly, NewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly, NewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual, NewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual, NewSubscriptionMatrixWithDisplayNamePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3022,17 +3022,17 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceParam) implementsSubscriptionSc
 type NewSubscriptionMaxGroupTieredPackagePriceCadence string
 
 const (
-	NewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual     NewSubscriptionMaxGroupTieredPackagePriceCadence = "annual"
-	NewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual NewSubscriptionMaxGroupTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime    NewSubscriptionMaxGroupTieredPackagePriceCadence = "one_time"
 	NewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly    NewSubscriptionMaxGroupTieredPackagePriceCadence = "monthly"
 	NewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly  NewSubscriptionMaxGroupTieredPackagePriceCadence = "quarterly"
-	NewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime    NewSubscriptionMaxGroupTieredPackagePriceCadence = "one_time"
+	NewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual NewSubscriptionMaxGroupTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual     NewSubscriptionMaxGroupTieredPackagePriceCadence = "annual"
 	NewSubscriptionMaxGroupTieredPackagePriceCadenceCustom     NewSubscriptionMaxGroupTieredPackagePriceCadence = "custom"
 )
 
 func (r NewSubscriptionMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual, NewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual, NewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly, NewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly, NewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime, NewSubscriptionMaxGroupTieredPackagePriceCadenceCustom:
+	case NewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime, NewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly, NewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly, NewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual, NewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual, NewSubscriptionMaxGroupTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3186,17 +3186,17 @@ func (r NewSubscriptionMinimumCompositePriceParam) implementsSubscriptionSchedul
 type NewSubscriptionMinimumCompositePriceCadence string
 
 const (
-	NewSubscriptionMinimumCompositePriceCadenceAnnual     NewSubscriptionMinimumCompositePriceCadence = "annual"
-	NewSubscriptionMinimumCompositePriceCadenceSemiAnnual NewSubscriptionMinimumCompositePriceCadence = "semi_annual"
+	NewSubscriptionMinimumCompositePriceCadenceOneTime    NewSubscriptionMinimumCompositePriceCadence = "one_time"
 	NewSubscriptionMinimumCompositePriceCadenceMonthly    NewSubscriptionMinimumCompositePriceCadence = "monthly"
 	NewSubscriptionMinimumCompositePriceCadenceQuarterly  NewSubscriptionMinimumCompositePriceCadence = "quarterly"
-	NewSubscriptionMinimumCompositePriceCadenceOneTime    NewSubscriptionMinimumCompositePriceCadence = "one_time"
+	NewSubscriptionMinimumCompositePriceCadenceSemiAnnual NewSubscriptionMinimumCompositePriceCadence = "semi_annual"
+	NewSubscriptionMinimumCompositePriceCadenceAnnual     NewSubscriptionMinimumCompositePriceCadence = "annual"
 	NewSubscriptionMinimumCompositePriceCadenceCustom     NewSubscriptionMinimumCompositePriceCadence = "custom"
 )
 
 func (r NewSubscriptionMinimumCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMinimumCompositePriceCadenceAnnual, NewSubscriptionMinimumCompositePriceCadenceSemiAnnual, NewSubscriptionMinimumCompositePriceCadenceMonthly, NewSubscriptionMinimumCompositePriceCadenceQuarterly, NewSubscriptionMinimumCompositePriceCadenceOneTime, NewSubscriptionMinimumCompositePriceCadenceCustom:
+	case NewSubscriptionMinimumCompositePriceCadenceOneTime, NewSubscriptionMinimumCompositePriceCadenceMonthly, NewSubscriptionMinimumCompositePriceCadenceQuarterly, NewSubscriptionMinimumCompositePriceCadenceSemiAnnual, NewSubscriptionMinimumCompositePriceCadenceAnnual, NewSubscriptionMinimumCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3336,17 +3336,17 @@ func (r NewSubscriptionPackagePriceParam) implementsSubscriptionSchedulePlanChan
 type NewSubscriptionPackagePriceCadence string
 
 const (
-	NewSubscriptionPackagePriceCadenceAnnual     NewSubscriptionPackagePriceCadence = "annual"
-	NewSubscriptionPackagePriceCadenceSemiAnnual NewSubscriptionPackagePriceCadence = "semi_annual"
+	NewSubscriptionPackagePriceCadenceOneTime    NewSubscriptionPackagePriceCadence = "one_time"
 	NewSubscriptionPackagePriceCadenceMonthly    NewSubscriptionPackagePriceCadence = "monthly"
 	NewSubscriptionPackagePriceCadenceQuarterly  NewSubscriptionPackagePriceCadence = "quarterly"
-	NewSubscriptionPackagePriceCadenceOneTime    NewSubscriptionPackagePriceCadence = "one_time"
+	NewSubscriptionPackagePriceCadenceSemiAnnual NewSubscriptionPackagePriceCadence = "semi_annual"
+	NewSubscriptionPackagePriceCadenceAnnual     NewSubscriptionPackagePriceCadence = "annual"
 	NewSubscriptionPackagePriceCadenceCustom     NewSubscriptionPackagePriceCadence = "custom"
 )
 
 func (r NewSubscriptionPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionPackagePriceCadenceAnnual, NewSubscriptionPackagePriceCadenceSemiAnnual, NewSubscriptionPackagePriceCadenceMonthly, NewSubscriptionPackagePriceCadenceQuarterly, NewSubscriptionPackagePriceCadenceOneTime, NewSubscriptionPackagePriceCadenceCustom:
+	case NewSubscriptionPackagePriceCadenceOneTime, NewSubscriptionPackagePriceCadenceMonthly, NewSubscriptionPackagePriceCadenceQuarterly, NewSubscriptionPackagePriceCadenceSemiAnnual, NewSubscriptionPackagePriceCadenceAnnual, NewSubscriptionPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3476,17 +3476,17 @@ func (r NewSubscriptionPackageWithAllocationPriceParam) implementsSubscriptionSc
 type NewSubscriptionPackageWithAllocationPriceCadence string
 
 const (
-	NewSubscriptionPackageWithAllocationPriceCadenceAnnual     NewSubscriptionPackageWithAllocationPriceCadence = "annual"
-	NewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual NewSubscriptionPackageWithAllocationPriceCadence = "semi_annual"
+	NewSubscriptionPackageWithAllocationPriceCadenceOneTime    NewSubscriptionPackageWithAllocationPriceCadence = "one_time"
 	NewSubscriptionPackageWithAllocationPriceCadenceMonthly    NewSubscriptionPackageWithAllocationPriceCadence = "monthly"
 	NewSubscriptionPackageWithAllocationPriceCadenceQuarterly  NewSubscriptionPackageWithAllocationPriceCadence = "quarterly"
-	NewSubscriptionPackageWithAllocationPriceCadenceOneTime    NewSubscriptionPackageWithAllocationPriceCadence = "one_time"
+	NewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual NewSubscriptionPackageWithAllocationPriceCadence = "semi_annual"
+	NewSubscriptionPackageWithAllocationPriceCadenceAnnual     NewSubscriptionPackageWithAllocationPriceCadence = "annual"
 	NewSubscriptionPackageWithAllocationPriceCadenceCustom     NewSubscriptionPackageWithAllocationPriceCadence = "custom"
 )
 
 func (r NewSubscriptionPackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionPackageWithAllocationPriceCadenceAnnual, NewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual, NewSubscriptionPackageWithAllocationPriceCadenceMonthly, NewSubscriptionPackageWithAllocationPriceCadenceQuarterly, NewSubscriptionPackageWithAllocationPriceCadenceOneTime, NewSubscriptionPackageWithAllocationPriceCadenceCustom:
+	case NewSubscriptionPackageWithAllocationPriceCadenceOneTime, NewSubscriptionPackageWithAllocationPriceCadenceMonthly, NewSubscriptionPackageWithAllocationPriceCadenceQuarterly, NewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual, NewSubscriptionPackageWithAllocationPriceCadenceAnnual, NewSubscriptionPackageWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3627,17 +3627,17 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceParam) implementsSubs
 type NewSubscriptionScalableMatrixWithTieredPricingPriceCadence string
 
 const (
-	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual     NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "annual"
-	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
+	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime    NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "one_time"
 	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly    NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "monthly"
 	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly  NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "quarterly"
-	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime    NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "one_time"
+	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
+	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual     NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "annual"
 	NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom     NewSubscriptionScalableMatrixWithTieredPricingPriceCadence = "custom"
 )
 
 func (r NewSubscriptionScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom:
+	case NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual, NewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3803,17 +3803,17 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceParam) implementsSubscr
 type NewSubscriptionScalableMatrixWithUnitPricingPriceCadence string
 
 const (
-	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual     NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "annual"
-	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
+	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime    NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "one_time"
 	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly    NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "monthly"
 	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly  NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "quarterly"
-	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime    NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "one_time"
+	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
+	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual     NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "annual"
 	NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom     NewSubscriptionScalableMatrixWithUnitPricingPriceCadence = "custom"
 )
 
 func (r NewSubscriptionScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom:
+	case NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual, NewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3974,17 +3974,17 @@ func (r NewSubscriptionThresholdTotalAmountPriceParam) implementsSubscriptionSch
 type NewSubscriptionThresholdTotalAmountPriceCadence string
 
 const (
-	NewSubscriptionThresholdTotalAmountPriceCadenceAnnual     NewSubscriptionThresholdTotalAmountPriceCadence = "annual"
-	NewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual NewSubscriptionThresholdTotalAmountPriceCadence = "semi_annual"
+	NewSubscriptionThresholdTotalAmountPriceCadenceOneTime    NewSubscriptionThresholdTotalAmountPriceCadence = "one_time"
 	NewSubscriptionThresholdTotalAmountPriceCadenceMonthly    NewSubscriptionThresholdTotalAmountPriceCadence = "monthly"
 	NewSubscriptionThresholdTotalAmountPriceCadenceQuarterly  NewSubscriptionThresholdTotalAmountPriceCadence = "quarterly"
-	NewSubscriptionThresholdTotalAmountPriceCadenceOneTime    NewSubscriptionThresholdTotalAmountPriceCadence = "one_time"
+	NewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual NewSubscriptionThresholdTotalAmountPriceCadence = "semi_annual"
+	NewSubscriptionThresholdTotalAmountPriceCadenceAnnual     NewSubscriptionThresholdTotalAmountPriceCadence = "annual"
 	NewSubscriptionThresholdTotalAmountPriceCadenceCustom     NewSubscriptionThresholdTotalAmountPriceCadence = "custom"
 )
 
 func (r NewSubscriptionThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionThresholdTotalAmountPriceCadenceAnnual, NewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual, NewSubscriptionThresholdTotalAmountPriceCadenceMonthly, NewSubscriptionThresholdTotalAmountPriceCadenceQuarterly, NewSubscriptionThresholdTotalAmountPriceCadenceOneTime, NewSubscriptionThresholdTotalAmountPriceCadenceCustom:
+	case NewSubscriptionThresholdTotalAmountPriceCadenceOneTime, NewSubscriptionThresholdTotalAmountPriceCadenceMonthly, NewSubscriptionThresholdTotalAmountPriceCadenceQuarterly, NewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual, NewSubscriptionThresholdTotalAmountPriceCadenceAnnual, NewSubscriptionThresholdTotalAmountPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4138,17 +4138,17 @@ func (r NewSubscriptionTieredPackagePriceParam) implementsSubscriptionSchedulePl
 type NewSubscriptionTieredPackagePriceCadence string
 
 const (
-	NewSubscriptionTieredPackagePriceCadenceAnnual     NewSubscriptionTieredPackagePriceCadence = "annual"
-	NewSubscriptionTieredPackagePriceCadenceSemiAnnual NewSubscriptionTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionTieredPackagePriceCadenceOneTime    NewSubscriptionTieredPackagePriceCadence = "one_time"
 	NewSubscriptionTieredPackagePriceCadenceMonthly    NewSubscriptionTieredPackagePriceCadence = "monthly"
 	NewSubscriptionTieredPackagePriceCadenceQuarterly  NewSubscriptionTieredPackagePriceCadence = "quarterly"
-	NewSubscriptionTieredPackagePriceCadenceOneTime    NewSubscriptionTieredPackagePriceCadence = "one_time"
+	NewSubscriptionTieredPackagePriceCadenceSemiAnnual NewSubscriptionTieredPackagePriceCadence = "semi_annual"
+	NewSubscriptionTieredPackagePriceCadenceAnnual     NewSubscriptionTieredPackagePriceCadence = "annual"
 	NewSubscriptionTieredPackagePriceCadenceCustom     NewSubscriptionTieredPackagePriceCadence = "custom"
 )
 
 func (r NewSubscriptionTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPackagePriceCadenceAnnual, NewSubscriptionTieredPackagePriceCadenceSemiAnnual, NewSubscriptionTieredPackagePriceCadenceMonthly, NewSubscriptionTieredPackagePriceCadenceQuarterly, NewSubscriptionTieredPackagePriceCadenceOneTime, NewSubscriptionTieredPackagePriceCadenceCustom:
+	case NewSubscriptionTieredPackagePriceCadenceOneTime, NewSubscriptionTieredPackagePriceCadenceMonthly, NewSubscriptionTieredPackagePriceCadenceQuarterly, NewSubscriptionTieredPackagePriceCadenceSemiAnnual, NewSubscriptionTieredPackagePriceCadenceAnnual, NewSubscriptionTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4303,17 +4303,17 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceParam) implementsSubscriptio
 type NewSubscriptionTieredPackageWithMinimumPriceCadence string
 
 const (
-	NewSubscriptionTieredPackageWithMinimumPriceCadenceAnnual     NewSubscriptionTieredPackageWithMinimumPriceCadence = "annual"
-	NewSubscriptionTieredPackageWithMinimumPriceCadenceSemiAnnual NewSubscriptionTieredPackageWithMinimumPriceCadence = "semi_annual"
+	NewSubscriptionTieredPackageWithMinimumPriceCadenceOneTime    NewSubscriptionTieredPackageWithMinimumPriceCadence = "one_time"
 	NewSubscriptionTieredPackageWithMinimumPriceCadenceMonthly    NewSubscriptionTieredPackageWithMinimumPriceCadence = "monthly"
 	NewSubscriptionTieredPackageWithMinimumPriceCadenceQuarterly  NewSubscriptionTieredPackageWithMinimumPriceCadence = "quarterly"
-	NewSubscriptionTieredPackageWithMinimumPriceCadenceOneTime    NewSubscriptionTieredPackageWithMinimumPriceCadence = "one_time"
+	NewSubscriptionTieredPackageWithMinimumPriceCadenceSemiAnnual NewSubscriptionTieredPackageWithMinimumPriceCadence = "semi_annual"
+	NewSubscriptionTieredPackageWithMinimumPriceCadenceAnnual     NewSubscriptionTieredPackageWithMinimumPriceCadence = "annual"
 	NewSubscriptionTieredPackageWithMinimumPriceCadenceCustom     NewSubscriptionTieredPackageWithMinimumPriceCadence = "custom"
 )
 
 func (r NewSubscriptionTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPackageWithMinimumPriceCadenceAnnual, NewSubscriptionTieredPackageWithMinimumPriceCadenceSemiAnnual, NewSubscriptionTieredPackageWithMinimumPriceCadenceMonthly, NewSubscriptionTieredPackageWithMinimumPriceCadenceQuarterly, NewSubscriptionTieredPackageWithMinimumPriceCadenceOneTime, NewSubscriptionTieredPackageWithMinimumPriceCadenceCustom:
+	case NewSubscriptionTieredPackageWithMinimumPriceCadenceOneTime, NewSubscriptionTieredPackageWithMinimumPriceCadenceMonthly, NewSubscriptionTieredPackageWithMinimumPriceCadenceQuarterly, NewSubscriptionTieredPackageWithMinimumPriceCadenceSemiAnnual, NewSubscriptionTieredPackageWithMinimumPriceCadenceAnnual, NewSubscriptionTieredPackageWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4464,17 +4464,17 @@ func (r NewSubscriptionTieredPriceParam) implementsSubscriptionSchedulePlanChang
 type NewSubscriptionTieredPriceCadence string
 
 const (
-	NewSubscriptionTieredPriceCadenceAnnual     NewSubscriptionTieredPriceCadence = "annual"
-	NewSubscriptionTieredPriceCadenceSemiAnnual NewSubscriptionTieredPriceCadence = "semi_annual"
+	NewSubscriptionTieredPriceCadenceOneTime    NewSubscriptionTieredPriceCadence = "one_time"
 	NewSubscriptionTieredPriceCadenceMonthly    NewSubscriptionTieredPriceCadence = "monthly"
 	NewSubscriptionTieredPriceCadenceQuarterly  NewSubscriptionTieredPriceCadence = "quarterly"
-	NewSubscriptionTieredPriceCadenceOneTime    NewSubscriptionTieredPriceCadence = "one_time"
+	NewSubscriptionTieredPriceCadenceSemiAnnual NewSubscriptionTieredPriceCadence = "semi_annual"
+	NewSubscriptionTieredPriceCadenceAnnual     NewSubscriptionTieredPriceCadence = "annual"
 	NewSubscriptionTieredPriceCadenceCustom     NewSubscriptionTieredPriceCadence = "custom"
 )
 
 func (r NewSubscriptionTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPriceCadenceAnnual, NewSubscriptionTieredPriceCadenceSemiAnnual, NewSubscriptionTieredPriceCadenceMonthly, NewSubscriptionTieredPriceCadenceQuarterly, NewSubscriptionTieredPriceCadenceOneTime, NewSubscriptionTieredPriceCadenceCustom:
+	case NewSubscriptionTieredPriceCadenceOneTime, NewSubscriptionTieredPriceCadenceMonthly, NewSubscriptionTieredPriceCadenceQuarterly, NewSubscriptionTieredPriceCadenceSemiAnnual, NewSubscriptionTieredPriceCadenceAnnual, NewSubscriptionTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4604,17 +4604,17 @@ func (r NewSubscriptionTieredWithMinimumPriceParam) implementsSubscriptionSchedu
 type NewSubscriptionTieredWithMinimumPriceCadence string
 
 const (
-	NewSubscriptionTieredWithMinimumPriceCadenceAnnual     NewSubscriptionTieredWithMinimumPriceCadence = "annual"
-	NewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual NewSubscriptionTieredWithMinimumPriceCadence = "semi_annual"
+	NewSubscriptionTieredWithMinimumPriceCadenceOneTime    NewSubscriptionTieredWithMinimumPriceCadence = "one_time"
 	NewSubscriptionTieredWithMinimumPriceCadenceMonthly    NewSubscriptionTieredWithMinimumPriceCadence = "monthly"
 	NewSubscriptionTieredWithMinimumPriceCadenceQuarterly  NewSubscriptionTieredWithMinimumPriceCadence = "quarterly"
-	NewSubscriptionTieredWithMinimumPriceCadenceOneTime    NewSubscriptionTieredWithMinimumPriceCadence = "one_time"
+	NewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual NewSubscriptionTieredWithMinimumPriceCadence = "semi_annual"
+	NewSubscriptionTieredWithMinimumPriceCadenceAnnual     NewSubscriptionTieredWithMinimumPriceCadence = "annual"
 	NewSubscriptionTieredWithMinimumPriceCadenceCustom     NewSubscriptionTieredWithMinimumPriceCadence = "custom"
 )
 
 func (r NewSubscriptionTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredWithMinimumPriceCadenceAnnual, NewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual, NewSubscriptionTieredWithMinimumPriceCadenceMonthly, NewSubscriptionTieredWithMinimumPriceCadenceQuarterly, NewSubscriptionTieredWithMinimumPriceCadenceOneTime, NewSubscriptionTieredWithMinimumPriceCadenceCustom:
+	case NewSubscriptionTieredWithMinimumPriceCadenceOneTime, NewSubscriptionTieredWithMinimumPriceCadenceMonthly, NewSubscriptionTieredWithMinimumPriceCadenceQuarterly, NewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual, NewSubscriptionTieredWithMinimumPriceCadenceAnnual, NewSubscriptionTieredWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4769,17 +4769,17 @@ func (r NewSubscriptionUnitPriceParam) implementsSubscriptionSchedulePlanChangeP
 type NewSubscriptionUnitPriceCadence string
 
 const (
-	NewSubscriptionUnitPriceCadenceAnnual     NewSubscriptionUnitPriceCadence = "annual"
-	NewSubscriptionUnitPriceCadenceSemiAnnual NewSubscriptionUnitPriceCadence = "semi_annual"
+	NewSubscriptionUnitPriceCadenceOneTime    NewSubscriptionUnitPriceCadence = "one_time"
 	NewSubscriptionUnitPriceCadenceMonthly    NewSubscriptionUnitPriceCadence = "monthly"
 	NewSubscriptionUnitPriceCadenceQuarterly  NewSubscriptionUnitPriceCadence = "quarterly"
-	NewSubscriptionUnitPriceCadenceOneTime    NewSubscriptionUnitPriceCadence = "one_time"
+	NewSubscriptionUnitPriceCadenceSemiAnnual NewSubscriptionUnitPriceCadence = "semi_annual"
+	NewSubscriptionUnitPriceCadenceAnnual     NewSubscriptionUnitPriceCadence = "annual"
 	NewSubscriptionUnitPriceCadenceCustom     NewSubscriptionUnitPriceCadence = "custom"
 )
 
 func (r NewSubscriptionUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitPriceCadenceAnnual, NewSubscriptionUnitPriceCadenceSemiAnnual, NewSubscriptionUnitPriceCadenceMonthly, NewSubscriptionUnitPriceCadenceQuarterly, NewSubscriptionUnitPriceCadenceOneTime, NewSubscriptionUnitPriceCadenceCustom:
+	case NewSubscriptionUnitPriceCadenceOneTime, NewSubscriptionUnitPriceCadenceMonthly, NewSubscriptionUnitPriceCadenceQuarterly, NewSubscriptionUnitPriceCadenceSemiAnnual, NewSubscriptionUnitPriceCadenceAnnual, NewSubscriptionUnitPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4909,17 +4909,17 @@ func (r NewSubscriptionUnitWithPercentPriceParam) implementsSubscriptionSchedule
 type NewSubscriptionUnitWithPercentPriceCadence string
 
 const (
-	NewSubscriptionUnitWithPercentPriceCadenceAnnual     NewSubscriptionUnitWithPercentPriceCadence = "annual"
-	NewSubscriptionUnitWithPercentPriceCadenceSemiAnnual NewSubscriptionUnitWithPercentPriceCadence = "semi_annual"
+	NewSubscriptionUnitWithPercentPriceCadenceOneTime    NewSubscriptionUnitWithPercentPriceCadence = "one_time"
 	NewSubscriptionUnitWithPercentPriceCadenceMonthly    NewSubscriptionUnitWithPercentPriceCadence = "monthly"
 	NewSubscriptionUnitWithPercentPriceCadenceQuarterly  NewSubscriptionUnitWithPercentPriceCadence = "quarterly"
-	NewSubscriptionUnitWithPercentPriceCadenceOneTime    NewSubscriptionUnitWithPercentPriceCadence = "one_time"
+	NewSubscriptionUnitWithPercentPriceCadenceSemiAnnual NewSubscriptionUnitWithPercentPriceCadence = "semi_annual"
+	NewSubscriptionUnitWithPercentPriceCadenceAnnual     NewSubscriptionUnitWithPercentPriceCadence = "annual"
 	NewSubscriptionUnitWithPercentPriceCadenceCustom     NewSubscriptionUnitWithPercentPriceCadence = "custom"
 )
 
 func (r NewSubscriptionUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitWithPercentPriceCadenceAnnual, NewSubscriptionUnitWithPercentPriceCadenceSemiAnnual, NewSubscriptionUnitWithPercentPriceCadenceMonthly, NewSubscriptionUnitWithPercentPriceCadenceQuarterly, NewSubscriptionUnitWithPercentPriceCadenceOneTime, NewSubscriptionUnitWithPercentPriceCadenceCustom:
+	case NewSubscriptionUnitWithPercentPriceCadenceOneTime, NewSubscriptionUnitWithPercentPriceCadenceMonthly, NewSubscriptionUnitWithPercentPriceCadenceQuarterly, NewSubscriptionUnitWithPercentPriceCadenceSemiAnnual, NewSubscriptionUnitWithPercentPriceCadenceAnnual, NewSubscriptionUnitWithPercentPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5061,17 +5061,17 @@ func (r NewSubscriptionUnitWithProrationPriceParam) implementsSubscriptionSchedu
 type NewSubscriptionUnitWithProrationPriceCadence string
 
 const (
-	NewSubscriptionUnitWithProrationPriceCadenceAnnual     NewSubscriptionUnitWithProrationPriceCadence = "annual"
-	NewSubscriptionUnitWithProrationPriceCadenceSemiAnnual NewSubscriptionUnitWithProrationPriceCadence = "semi_annual"
+	NewSubscriptionUnitWithProrationPriceCadenceOneTime    NewSubscriptionUnitWithProrationPriceCadence = "one_time"
 	NewSubscriptionUnitWithProrationPriceCadenceMonthly    NewSubscriptionUnitWithProrationPriceCadence = "monthly"
 	NewSubscriptionUnitWithProrationPriceCadenceQuarterly  NewSubscriptionUnitWithProrationPriceCadence = "quarterly"
-	NewSubscriptionUnitWithProrationPriceCadenceOneTime    NewSubscriptionUnitWithProrationPriceCadence = "one_time"
+	NewSubscriptionUnitWithProrationPriceCadenceSemiAnnual NewSubscriptionUnitWithProrationPriceCadence = "semi_annual"
+	NewSubscriptionUnitWithProrationPriceCadenceAnnual     NewSubscriptionUnitWithProrationPriceCadence = "annual"
 	NewSubscriptionUnitWithProrationPriceCadenceCustom     NewSubscriptionUnitWithProrationPriceCadence = "custom"
 )
 
 func (r NewSubscriptionUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitWithProrationPriceCadenceAnnual, NewSubscriptionUnitWithProrationPriceCadenceSemiAnnual, NewSubscriptionUnitWithProrationPriceCadenceMonthly, NewSubscriptionUnitWithProrationPriceCadenceQuarterly, NewSubscriptionUnitWithProrationPriceCadenceOneTime, NewSubscriptionUnitWithProrationPriceCadenceCustom:
+	case NewSubscriptionUnitWithProrationPriceCadenceOneTime, NewSubscriptionUnitWithProrationPriceCadenceMonthly, NewSubscriptionUnitWithProrationPriceCadenceQuarterly, NewSubscriptionUnitWithProrationPriceCadenceSemiAnnual, NewSubscriptionUnitWithProrationPriceCadenceAnnual, NewSubscriptionUnitWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6645,17 +6645,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceBu
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6776,17 +6776,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPri
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6935,17 +6935,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAlloca
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7098,17 +7098,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDis
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7274,17 +7274,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPri
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7428,17 +7428,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7575,17 +7575,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAlloc
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7722,17 +7722,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePr
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7887,17 +7887,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePrice)
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -8043,17 +8043,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePrice)
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -8192,17 +8192,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPrice) impl
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -8279,17 +8279,17 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConver
 type SubscriptionNewParamsAddPricesPriceCadence string
 
 const (
-	SubscriptionNewParamsAddPricesPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceCadence = "annual"
-	SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceCadence = "one_time"
 	SubscriptionNewParamsAddPricesPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceCadence = "monthly"
 	SubscriptionNewParamsAddPricesPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceCadence = "quarterly"
-	SubscriptionNewParamsAddPricesPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceCadence = "annual"
 	SubscriptionNewParamsAddPricesPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceCadenceCustom:
+	case SubscriptionNewParamsAddPricesPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -8901,17 +8901,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPri
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9032,17 +9032,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatri
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9191,17 +9191,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAl
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9354,17 +9354,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThreshol
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9530,17 +9530,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProratio
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9684,17 +9684,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9831,17 +9831,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedA
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -9978,17 +9978,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowan
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -10143,17 +10143,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePr
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -10299,17 +10299,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePr
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -10448,17 +10448,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPrice) 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -10535,17 +10535,17 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCo
 type SubscriptionNewParamsReplacePricesPriceCadence string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceCadence = "annual"
-	SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceCadence = "one_time"
 	SubscriptionNewParamsReplacePricesPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceCadence = "monthly"
 	SubscriptionNewParamsReplacePricesPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceCadence = "quarterly"
-	SubscriptionNewParamsReplacePricesPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceCadence = "annual"
 	SubscriptionNewParamsReplacePricesPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceCadence = "custom"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceCadenceCustom:
+	case SubscriptionNewParamsReplacePricesPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -11295,17 +11295,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceB
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithFiltersPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -11422,17 +11422,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPr
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -11577,17 +11577,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAlloc
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -11736,17 +11736,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDi
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithThresholdDiscountsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -11908,17 +11908,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12051,17 +12051,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllo
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12194,17 +12194,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowanceP
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingDailyCreditAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12355,17 +12355,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePrice
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMeteredAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12507,17 +12507,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePrice
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12652,17 +12652,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPrice) Imp
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -12739,17 +12739,17 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConve
 type SubscriptionPriceIntervalsParamsAddPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceCadence = "one_time"
 	SubscriptionPriceIntervalsParamsAddPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceCadence = "monthly"
 	SubscriptionPriceIntervalsParamsAddPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceCadence = "annual"
 	SubscriptionPriceIntervalsParamsAddPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceCadence = "custom"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceCadenceCustom:
+	case SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -13858,17 +13858,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWit
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -13989,17 +13989,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14148,17 +14148,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredM
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14311,17 +14311,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixW
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14487,17 +14487,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14641,17 +14641,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14788,17 +14788,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulat
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -14935,17 +14935,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCr
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -15100,17 +15100,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMetered
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -15256,17 +15256,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercent
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -15405,17 +15405,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOu
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -15492,17 +15492,17 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOu
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16117,17 +16117,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithFiltersPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16248,17 +16248,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedTieredMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16407,17 +16407,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16570,17 +16570,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMat
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixWithThresholdDiscountsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16746,17 +16746,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -16900,17 +16900,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17047,17 +17047,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCum
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionCumulativeGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17194,17 +17194,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDai
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionDailyCreditAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17359,17 +17359,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMet
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMeteredAllowancePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17515,17 +17515,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPer
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17664,17 +17664,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEve
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -17751,17 +17751,17 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEve
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "annual"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "one_time"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "monthly"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "quarterly"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "annual"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence = "custom"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceCustom:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadenceCustom:
 		return true
 	}
 	return false

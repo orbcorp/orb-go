@@ -72,7 +72,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				LicenseAllocationPrice: orb.F(orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPrice{
-					Cadence: orb.F(orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceAnnual),
+					Cadence: orb.F(orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceCadenceOneTime),
 					ItemID:  orb.F("item_id"),
 					LicenseAllocations: orb.F([]orb.BetaNewPlanVersionParamsAddPricesLicenseAllocationPriceLicenseAllocation{{
 						Amount:          orb.F("amount"),
@@ -120,7 +120,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaNewPlanVersionParamsAddPricesPriceUnion](shared.NewPlanUnitPriceParam{
-					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
+					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceOneTime),
 					ItemID:    orb.F("item_id"),
 					ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
@@ -213,7 +213,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				LicenseAllocationPrice: orb.F(orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPrice{
-					Cadence: orb.F(orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceAnnual),
+					Cadence: orb.F(orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceCadenceOneTime),
 					ItemID:  orb.F("item_id"),
 					LicenseAllocations: orb.F([]orb.BetaNewPlanVersionParamsReplacePricesLicenseAllocationPriceLicenseAllocation{{
 						Amount:          orb.F("amount"),
@@ -261,7 +261,7 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaNewPlanVersionParamsReplacePricesPriceUnion](shared.NewPlanUnitPriceParam{
-					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
+					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceOneTime),
 					ItemID:    orb.F("item_id"),
 					ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
