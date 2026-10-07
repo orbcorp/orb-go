@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.124.0](https://github.com/orbcorp/orb-go/compare/v1.123.0...v1.124.0) (2026-10-07)
+
+
+### Features
+
+* **api:** add billable_metric_id filter, price_count, and prices list endpoint for dimensional price groups ([acf46c0](https://github.com/orbcorp/orb-go/commit/acf46c08f3ed5177ca6cf1c42eca0a6fa40f107f))
+
 ## [1.123.0](https://github.com/orbcorp/orb-go/compare/v1.122.0...v1.123.0) (2026-10-01)
 
 
