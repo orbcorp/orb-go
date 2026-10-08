@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.125.0](https://github.com/orbcorp/orb-go/compare/v1.124.0...v1.125.0) (2026-10-08)
+
+
+### Features
+
+* **api:** add endpoint to bulk create dimensional price group prices ([2050171](https://github.com/orbcorp/orb-go/commit/20501719cbc67166499e452c59770445dcfbe2dc))
+
+
+### Bug Fixes
+
+* **api:** clarify grouped subscription usage returns all groups in one response, no pagination ([2050171](https://github.com/orbcorp/orb-go/commit/20501719cbc67166499e452c59770445dcfbe2dc))
+
 ## [1.124.0](https://github.com/orbcorp/orb-go/compare/v1.123.0...v1.124.0) (2026-10-07)
 
 
