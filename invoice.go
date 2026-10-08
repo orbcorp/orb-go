@@ -2862,7 +2862,7 @@ func (r InvoiceMarkPaidParams) MarshalJSON() (data []byte, err error) {
 
 type InvoicePayParams struct {
 	// The ID of a shared payment token granted by an agent to use for this payment.
-	SharedPaymentTokenID param.Field[string] `json:"shared_payment_token_id" api:"required"`
+	SharedPaymentTokenID param.Field[string] `json:"shared_payment_token_id"`
 }
 
 func (r InvoicePayParams) MarshalJSON() (data []byte, err error) {
