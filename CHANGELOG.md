@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.126.0](https://github.com/orbcorp/orb-go/compare/v1.125.0...v1.126.0) (2026-10-09)
+
+
+### Features
+
+* **api:** api update ([f249061](https://github.com/orbcorp/orb-go/commit/f249061c0c40cc37e6c01f01d80e1f20f1052d7d))
+* **api:** support listing pricebook prices and filtering by product_id in GET /v1/prices ([f249061](https://github.com/orbcorp/orb-go/commit/f249061c0c40cc37e6c01f01d80e1f20f1052d7d))
+
+
+### Bug Fixes
+
+* **api:** make shared_payment_token_id optional when paying an invoice ([f249061](https://github.com/orbcorp/orb-go/commit/f249061c0c40cc37e6c01f01d80e1f20f1052d7d))
+
 ## [1.125.0](https://github.com/orbcorp/orb-go/compare/v1.124.0...v1.125.0) (2026-10-08)
 
 
