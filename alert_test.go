@@ -197,6 +197,46 @@ func TestAlertNewForExternalCustomerWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestAlertNewForPlanWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Alerts.NewForPlan(
+		context.TODO(),
+		"plan_id",
+		orb.AlertNewForPlanParams{
+			Thresholds: orb.F([]orb.ThresholdParam{{
+				Value: orb.F(0.000000),
+			}}),
+			Type:         orb.F(orb.AlertNewForPlanParamsTypeUsageExceeded),
+			Currency:     orb.F("currency"),
+			GroupingKeys: orb.F([]string{"string"}),
+			MetricID:     orb.F("metric_id"),
+			PlanVersion:  orb.F(int64(0)),
+			PriceFilters: orb.F([]orb.AlertNewForPlanParamsPriceFilter{{
+				Field:    orb.F(orb.AlertNewForPlanParamsPriceFiltersFieldPriceID),
+				Operator: orb.F(orb.AlertNewForPlanParamsPriceFiltersOperatorIncludes),
+				Values:   orb.F([]string{"string"}),
+			}}),
+		},
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {

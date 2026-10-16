@@ -28,6 +28,7 @@ import (
 type DimensionalPriceGroupService struct {
 	Options                         []option.RequestOption
 	ExternalDimensionalPriceGroupID *DimensionalPriceGroupExternalDimensionalPriceGroupIDService
+	Prices                          *DimensionalPriceGroupPriceService
 }
 
 // NewDimensionalPriceGroupService generates a new service that applies the given
@@ -37,6 +38,7 @@ func NewDimensionalPriceGroupService(opts ...option.RequestOption) (r *Dimension
 	r = &DimensionalPriceGroupService{}
 	r.Options = opts
 	r.ExternalDimensionalPriceGroupID = NewDimensionalPriceGroupExternalDimensionalPriceGroupIDService(opts...)
+	r.Prices = NewDimensionalPriceGroupPriceService(opts...)
 	return
 }
 

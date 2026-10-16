@@ -72,6 +72,9 @@ type Client struct {
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
 	Items *ItemService
+	// A webhook endpoint is an HTTPS URL that Orb sends
+	// [webhook events](/integrations-and-exports/webhooks) to.
+	WebhookEndpoints *WebhookEndpointService
 	// The Metric resource represents a calculation of a quantity based on events.
 	// Metrics are defined by the query that transforms raw usage events into
 	// meaningful values for your customers.
@@ -155,6 +158,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.InvoiceLineItems = NewInvoiceLineItemService(opts...)
 	r.Invoices = NewInvoiceService(opts...)
 	r.Items = NewItemService(opts...)
+	r.WebhookEndpoints = NewWebhookEndpointService(opts...)
 	r.Metrics = NewMetricService(opts...)
 	r.Plans = NewPlanService(opts...)
 	r.Prices = NewPriceService(opts...)
