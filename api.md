@@ -210,7 +210,9 @@ Response Types:
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MetricEventsDroppedByWatermarkWebhookEvent">MetricEventsDroppedByWatermarkWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PaymentMethodCreatedWebhookEvent">PaymentMethodCreatedWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PaymentMethodDeletedWebhookEvent">PaymentMethodDeletedWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanCreatedWebhookEvent">PlanCreatedWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanDefaultVersionSetWebhookEvent">PlanDefaultVersionSetWebhookEvent</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanEditedWebhookEvent">PlanEditedWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanVersionCreatedWebhookEvent">PlanVersionCreatedWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEditedWebhookEvent">PriceEditedWebhookEvent</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#ResourceEventTestWebhookEvent">ResourceEventTestWebhookEvent</a>

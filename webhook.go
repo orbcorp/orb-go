@@ -8562,6 +8562,84 @@ func (r PaymentMethodDeletedWebhookEventType) IsKnown() bool {
 	return false
 }
 
+// Issued when a plan is created, or when a draft plan is published.
+type PlanCreatedWebhookEvent struct {
+	// The ID of this webhook event.
+	ID string `json:"id" api:"required"`
+	// The time at which this event was created, to the second.
+	CreatedAt  time.Time                   `json:"created_at" api:"required" format:"date-time"`
+	Plan       PlanCreatedWebhookEventPlan `json:"plan" api:"required"`
+	Properties interface{}                 `json:"properties" api:"required"`
+	// The event this payload describes.
+	Type PlanCreatedWebhookEventType `json:"type" api:"required"`
+	JSON planCreatedWebhookEventJSON `json:"-"`
+}
+
+// planCreatedWebhookEventJSON contains the JSON metadata for the struct
+// [PlanCreatedWebhookEvent]
+type planCreatedWebhookEventJSON struct {
+	ID          apijson.Field
+	CreatedAt   apijson.Field
+	Plan        apijson.Field
+	Properties  apijson.Field
+	Type        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planCreatedWebhookEventJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+type PlanCreatedWebhookEventPlan struct {
+	ID string `json:"id" api:"required,nullable"`
+	// An optional user-defined ID for this plan resource, used throughout the system
+	// as an alias for this Plan. Use this field to identify a plan by an existing
+	// identifier in your system.
+	ExternalPlanID string                          `json:"external_plan_id" api:"required,nullable"`
+	Name           string                          `json:"name" api:"required,nullable"`
+	JSON           planCreatedWebhookEventPlanJSON `json:"-"`
+}
+
+// planCreatedWebhookEventPlanJSON contains the JSON metadata for the struct
+// [PlanCreatedWebhookEventPlan]
+type planCreatedWebhookEventPlanJSON struct {
+	ID             apijson.Field
+	ExternalPlanID apijson.Field
+	Name           apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *PlanCreatedWebhookEventPlan) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planCreatedWebhookEventPlanJSON) RawJSON() string {
+	return r.raw
+}
+
+// The event this payload describes.
+type PlanCreatedWebhookEventType string
+
+const (
+	PlanCreatedWebhookEventTypePlanCreated PlanCreatedWebhookEventType = "plan.created"
+)
+
+func (r PlanCreatedWebhookEventType) IsKnown() bool {
+	switch r {
+	case PlanCreatedWebhookEventTypePlanCreated:
+		return true
+	}
+	return false
+}
+
 // Issued when a plan's default version is set.
 type PlanDefaultVersionSetWebhookEvent struct {
 	// The ID of this webhook event.
@@ -8658,6 +8736,129 @@ const (
 func (r PlanDefaultVersionSetWebhookEventType) IsKnown() bool {
 	switch r {
 	case PlanDefaultVersionSetWebhookEventTypePlanDefaultVersionSet:
+		return true
+	}
+	return false
+}
+
+// Issued when a plan's name, description, external plan ID, metadata or status is
+// edited.
+type PlanEditedWebhookEvent struct {
+	// The ID of this webhook event.
+	ID string `json:"id" api:"required"`
+	// The time at which this event was created, to the second.
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan       Plan                             `json:"plan" api:"required"`
+	Properties PlanEditedWebhookEventProperties `json:"properties" api:"required"`
+	// The event this payload describes.
+	Type PlanEditedWebhookEventType `json:"type" api:"required"`
+	JSON planEditedWebhookEventJSON `json:"-"`
+}
+
+// planEditedWebhookEventJSON contains the JSON metadata for the struct
+// [PlanEditedWebhookEvent]
+type planEditedWebhookEventJSON struct {
+	ID          apijson.Field
+	CreatedAt   apijson.Field
+	Plan        apijson.Field
+	Properties  apijson.Field
+	Type        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanEditedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planEditedWebhookEventJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+type PlanEditedWebhookEventProperties struct {
+	// metadata values are non-null on the wire, as on the price event.
+	PreviousAttributes PlanEditedWebhookEventPropertiesPreviousAttributes `json:"previous_attributes" api:"required"`
+	JSON               planEditedWebhookEventPropertiesJSON               `json:"-"`
+}
+
+// planEditedWebhookEventPropertiesJSON contains the JSON metadata for the struct
+// [PlanEditedWebhookEventProperties]
+type planEditedWebhookEventPropertiesJSON struct {
+	PreviousAttributes apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *PlanEditedWebhookEventProperties) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planEditedWebhookEventPropertiesJSON) RawJSON() string {
+	return r.raw
+}
+
+// metadata values are non-null on the wire, as on the price event.
+type PlanEditedWebhookEventPropertiesPreviousAttributes struct {
+	Description    string                                                   `json:"description" api:"nullable"`
+	ExternalPlanID string                                                   `json:"external_plan_id" api:"nullable"`
+	Metadata       map[string]string                                        `json:"metadata" api:"nullable"`
+	Name           string                                                   `json:"name" api:"nullable"`
+	Status         PlanEditedWebhookEventPropertiesPreviousAttributesStatus `json:"status" api:"nullable"`
+	JSON           planEditedWebhookEventPropertiesPreviousAttributesJSON   `json:"-"`
+}
+
+// planEditedWebhookEventPropertiesPreviousAttributesJSON contains the JSON
+// metadata for the struct [PlanEditedWebhookEventPropertiesPreviousAttributes]
+type planEditedWebhookEventPropertiesPreviousAttributesJSON struct {
+	Description    apijson.Field
+	ExternalPlanID apijson.Field
+	Metadata       apijson.Field
+	Name           apijson.Field
+	Status         apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *PlanEditedWebhookEventPropertiesPreviousAttributes) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planEditedWebhookEventPropertiesPreviousAttributesJSON) RawJSON() string {
+	return r.raw
+}
+
+type PlanEditedWebhookEventPropertiesPreviousAttributesStatus string
+
+const (
+	PlanEditedWebhookEventPropertiesPreviousAttributesStatusActive   PlanEditedWebhookEventPropertiesPreviousAttributesStatus = "active"
+	PlanEditedWebhookEventPropertiesPreviousAttributesStatusArchived PlanEditedWebhookEventPropertiesPreviousAttributesStatus = "archived"
+	PlanEditedWebhookEventPropertiesPreviousAttributesStatusDraft    PlanEditedWebhookEventPropertiesPreviousAttributesStatus = "draft"
+)
+
+func (r PlanEditedWebhookEventPropertiesPreviousAttributesStatus) IsKnown() bool {
+	switch r {
+	case PlanEditedWebhookEventPropertiesPreviousAttributesStatusActive, PlanEditedWebhookEventPropertiesPreviousAttributesStatusArchived, PlanEditedWebhookEventPropertiesPreviousAttributesStatusDraft:
+		return true
+	}
+	return false
+}
+
+// The event this payload describes.
+type PlanEditedWebhookEventType string
+
+const (
+	PlanEditedWebhookEventTypePlanEdited PlanEditedWebhookEventType = "plan.edited"
+)
+
+func (r PlanEditedWebhookEventType) IsKnown() bool {
+	switch r {
+	case PlanEditedWebhookEventTypePlanEdited:
 		return true
 	}
 	return false
@@ -14377,8 +14578,8 @@ type UnwrapWebhookEvent struct {
 	// [InvoiceDueDateRecalculationStartedWebhookEventProperties],
 	// [MetricEventsDroppedByWatermarkWebhookEventProperties],
 	// [PlanDefaultVersionSetWebhookEventProperties],
-	// [PlanVersionCreatedWebhookEventProperties], [PriceEditedWebhookEventProperties],
-	// [ResourceEventTestWebhookEventProperties],
+	// [PlanEditedWebhookEventProperties], [PlanVersionCreatedWebhookEventProperties],
+	// [PriceEditedWebhookEventProperties], [ResourceEventTestWebhookEventProperties],
 	// [SalesOrderAccountingSyncFailedWebhookEventProperties],
 	// [SalesOrderAccountingSyncSucceededWebhookEventProperties],
 	// [SubscriptionAccountingSyncFailedWebhookEventProperties],
@@ -14462,7 +14663,8 @@ type UnwrapWebhookEvent struct {
 	// [PaymentMethodCreatedWebhookEventPaymentMethod],
 	// [PaymentMethodDeletedWebhookEventPaymentMethod].
 	PaymentMethod interface{} `json:"payment_method"`
-	// This field can have the runtime type of [PlanDefaultVersionSetWebhookEventPlan],
+	// This field can have the runtime type of [PlanCreatedWebhookEventPlan],
+	// [PlanDefaultVersionSetWebhookEventPlan], [Plan],
 	// [PlanVersionCreatedWebhookEventPlan].
 	Plan interface{} `json:"plan"`
 	// The Price resource represents a price that can be billed on a subscription,
@@ -14567,7 +14769,8 @@ func (r *UnwrapWebhookEvent) UnmarshalJSON(data []byte) (err error) {
 // [InvoiceDueDateRecalculationStartedWebhookEvent],
 // [MetricEventsDroppedByWatermarkWebhookEvent],
 // [PaymentMethodCreatedWebhookEvent], [PaymentMethodDeletedWebhookEvent],
-// [PlanDefaultVersionSetWebhookEvent], [PlanVersionCreatedWebhookEvent],
+// [PlanCreatedWebhookEvent], [PlanDefaultVersionSetWebhookEvent],
+// [PlanEditedWebhookEvent], [PlanVersionCreatedWebhookEvent],
 // [PriceEditedWebhookEvent], [ResourceEventTestWebhookEvent],
 // [SalesOrderAccountingSyncFailedWebhookEvent],
 // [SalesOrderAccountingSyncSucceededWebhookEvent],
@@ -14634,7 +14837,8 @@ func (r UnwrapWebhookEvent) AsUnion() UnwrapWebhookEventUnion {
 // [InvoiceDueDateRecalculationStartedWebhookEvent],
 // [MetricEventsDroppedByWatermarkWebhookEvent],
 // [PaymentMethodCreatedWebhookEvent], [PaymentMethodDeletedWebhookEvent],
-// [PlanDefaultVersionSetWebhookEvent], [PlanVersionCreatedWebhookEvent],
+// [PlanCreatedWebhookEvent], [PlanDefaultVersionSetWebhookEvent],
+// [PlanEditedWebhookEvent], [PlanVersionCreatedWebhookEvent],
 // [PriceEditedWebhookEvent], [ResourceEventTestWebhookEvent],
 // [SalesOrderAccountingSyncFailedWebhookEvent],
 // [SalesOrderAccountingSyncSucceededWebhookEvent],
@@ -14864,7 +15068,15 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter: gjson.JSON,
+			Type:       reflect.TypeOf(PlanCreatedWebhookEvent{}),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.JSON,
 			Type:       reflect.TypeOf(PlanDefaultVersionSetWebhookEvent{}),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.JSON,
+			Type:       reflect.TypeOf(PlanEditedWebhookEvent{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter: gjson.JSON,
@@ -15038,7 +15250,9 @@ const (
 	UnwrapWebhookEventTypeMetricEventsDroppedByWatermark             UnwrapWebhookEventType = "metric.events_dropped_by_watermark"
 	UnwrapWebhookEventTypePaymentMethodCreated                       UnwrapWebhookEventType = "payment_method.created"
 	UnwrapWebhookEventTypePaymentMethodDeleted                       UnwrapWebhookEventType = "payment_method.deleted"
+	UnwrapWebhookEventTypePlanCreated                                UnwrapWebhookEventType = "plan.created"
 	UnwrapWebhookEventTypePlanDefaultVersionSet                      UnwrapWebhookEventType = "plan.default_version_set"
+	UnwrapWebhookEventTypePlanEdited                                 UnwrapWebhookEventType = "plan.edited"
 	UnwrapWebhookEventTypePlanVersionCreated                         UnwrapWebhookEventType = "plan.version_created"
 	UnwrapWebhookEventTypePriceEdited                                UnwrapWebhookEventType = "price.edited"
 	UnwrapWebhookEventTypeResourceEventTest                          UnwrapWebhookEventType = "resource_event.test"
@@ -15072,7 +15286,7 @@ const (
 
 func (r UnwrapWebhookEventType) IsKnown() bool {
 	switch r {
-	case UnwrapWebhookEventTypeBackfillReflected, UnwrapWebhookEventTypeBackfillReverted, UnwrapWebhookEventTypeBillableMetricEdited, UnwrapWebhookEventTypeCreditBlockAccountingSyncFailed, UnwrapWebhookEventTypeCreditBlockAccountingSyncSucceeded, UnwrapWebhookEventTypeCreditNoteAccountingSyncFailed, UnwrapWebhookEventTypeCreditNoteAccountingSyncSucceeded, UnwrapWebhookEventTypeCreditNoteIssued, UnwrapWebhookEventTypeCreditNoteMarkedAsVoid, UnwrapWebhookEventTypeCustomerAccountingSyncFailed, UnwrapWebhookEventTypeCustomerAccountingSyncSucceeded, UnwrapWebhookEventTypeCustomerBalanceTransactionCreated, UnwrapWebhookEventTypeCustomerCreated, UnwrapWebhookEventTypeCustomerCreditBalanceDepleted, UnwrapWebhookEventTypeCustomerCreditBalanceDropped, UnwrapWebhookEventTypeCustomerCreditBalanceRecovered, UnwrapWebhookEventTypeCustomerCreditLedgerIncremented, UnwrapWebhookEventTypeCustomerEdited, UnwrapWebhookEventTypeDataExportsTransferError, UnwrapWebhookEventTypeDataExportsTransferSuccess, UnwrapWebhookEventTypeEventUnmatchedEvent, UnwrapWebhookEventTypeIngestionUnmatchedCustomerIDs, UnwrapWebhookEventTypeInvoiceAccountingSyncFailed, UnwrapWebhookEventTypeInvoiceAccountingSyncSucceeded, UnwrapWebhookEventTypeInvoiceAutomationScheduleStepExecuted, UnwrapWebhookEventTypeInvoiceCostDataExported, UnwrapWebhookEventTypeInvoiceDunningScheduleCreated, UnwrapWebhookEventTypeInvoiceDunningScheduleEnded, UnwrapWebhookEventTypeInvoiceDunningScheduleReset, UnwrapWebhookEventTypeInvoiceDunningScheduleStepExecuted, UnwrapWebhookEventTypeInvoiceEdited, UnwrapWebhookEventTypeInvoiceInvoiceDateElapsed, UnwrapWebhookEventTypeInvoiceIssueFailed, UnwrapWebhookEventTypeInvoiceIssued, UnwrapWebhookEventTypeInvoiceIssuedSummary, UnwrapWebhookEventTypeInvoiceManuallyMarkedAsPaid, UnwrapWebhookEventTypeInvoiceManuallyMarkedAsVoid, UnwrapWebhookEventTypeInvoicePaymentFailed, UnwrapWebhookEventTypeInvoicePaymentProcessing, UnwrapWebhookEventTypeInvoicePaymentSucceeded, UnwrapWebhookEventTypeInvoiceSyncFailed, UnwrapWebhookEventTypeInvoiceSyncSucceeded, UnwrapWebhookEventTypeInvoiceUndoMarkAsPaid, UnwrapWebhookEventTypeInvoiceDueDateRecalculationCanceled, UnwrapWebhookEventTypeInvoiceDueDateRecalculationCompleted, UnwrapWebhookEventTypeInvoiceDueDateRecalculationStarted, UnwrapWebhookEventTypeMetricEventsDroppedByWatermark, UnwrapWebhookEventTypePaymentMethodCreated, UnwrapWebhookEventTypePaymentMethodDeleted, UnwrapWebhookEventTypePlanDefaultVersionSet, UnwrapWebhookEventTypePlanVersionCreated, UnwrapWebhookEventTypePriceEdited, UnwrapWebhookEventTypeResourceEventTest, UnwrapWebhookEventTypeSalesOrderAccountingSyncFailed, UnwrapWebhookEventTypeSalesOrderAccountingSyncSucceeded, UnwrapWebhookEventTypeSubscriptionAccountingSyncFailed, UnwrapWebhookEventTypeSubscriptionAccountingSyncSucceeded, UnwrapWebhookEventTypeSubscriptionAlertDisabled, UnwrapWebhookEventTypeSubscriptionCancellationScheduled, UnwrapWebhookEventTypeSubscriptionCancellationUnscheduled, UnwrapWebhookEventTypeSubscriptionCostExceeded, UnwrapWebhookEventTypeSubscriptionCreated, UnwrapWebhookEventTypeSubscriptionEdited, UnwrapWebhookEventTypeSubscriptionEnded, UnwrapWebhookEventTypeSubscriptionFixedFeeQuantityUpdated, UnwrapWebhookEventTypeSubscriptionGroupedCostExceeded, UnwrapWebhookEventTypeSubscriptionInvoicingThresholdExceeded, UnwrapWebhookEventTypeSubscriptionLicenseAllocationReset, UnwrapWebhookEventTypeSubscriptionLicenseBalanceThresholdReached, UnwrapWebhookEventTypeSubscriptionPlanChangeScheduled, UnwrapWebhookEventTypeSubscriptionPlanChanged, UnwrapWebhookEventTypeSubscriptionPlanVersionChangeScheduled, UnwrapWebhookEventTypeSubscriptionPlanVersionChanged, UnwrapWebhookEventTypeSubscriptionSpendExceeded, UnwrapWebhookEventTypeSubscriptionStarted, UnwrapWebhookEventTypeSubscriptionTrialEnded, UnwrapWebhookEventTypeSubscriptionUsageExceeded, UnwrapWebhookEventTypeTransactionAccountingSyncFailed, UnwrapWebhookEventTypeTransactionAccountingSyncSucceeded:
+	case UnwrapWebhookEventTypeBackfillReflected, UnwrapWebhookEventTypeBackfillReverted, UnwrapWebhookEventTypeBillableMetricEdited, UnwrapWebhookEventTypeCreditBlockAccountingSyncFailed, UnwrapWebhookEventTypeCreditBlockAccountingSyncSucceeded, UnwrapWebhookEventTypeCreditNoteAccountingSyncFailed, UnwrapWebhookEventTypeCreditNoteAccountingSyncSucceeded, UnwrapWebhookEventTypeCreditNoteIssued, UnwrapWebhookEventTypeCreditNoteMarkedAsVoid, UnwrapWebhookEventTypeCustomerAccountingSyncFailed, UnwrapWebhookEventTypeCustomerAccountingSyncSucceeded, UnwrapWebhookEventTypeCustomerBalanceTransactionCreated, UnwrapWebhookEventTypeCustomerCreated, UnwrapWebhookEventTypeCustomerCreditBalanceDepleted, UnwrapWebhookEventTypeCustomerCreditBalanceDropped, UnwrapWebhookEventTypeCustomerCreditBalanceRecovered, UnwrapWebhookEventTypeCustomerCreditLedgerIncremented, UnwrapWebhookEventTypeCustomerEdited, UnwrapWebhookEventTypeDataExportsTransferError, UnwrapWebhookEventTypeDataExportsTransferSuccess, UnwrapWebhookEventTypeEventUnmatchedEvent, UnwrapWebhookEventTypeIngestionUnmatchedCustomerIDs, UnwrapWebhookEventTypeInvoiceAccountingSyncFailed, UnwrapWebhookEventTypeInvoiceAccountingSyncSucceeded, UnwrapWebhookEventTypeInvoiceAutomationScheduleStepExecuted, UnwrapWebhookEventTypeInvoiceCostDataExported, UnwrapWebhookEventTypeInvoiceDunningScheduleCreated, UnwrapWebhookEventTypeInvoiceDunningScheduleEnded, UnwrapWebhookEventTypeInvoiceDunningScheduleReset, UnwrapWebhookEventTypeInvoiceDunningScheduleStepExecuted, UnwrapWebhookEventTypeInvoiceEdited, UnwrapWebhookEventTypeInvoiceInvoiceDateElapsed, UnwrapWebhookEventTypeInvoiceIssueFailed, UnwrapWebhookEventTypeInvoiceIssued, UnwrapWebhookEventTypeInvoiceIssuedSummary, UnwrapWebhookEventTypeInvoiceManuallyMarkedAsPaid, UnwrapWebhookEventTypeInvoiceManuallyMarkedAsVoid, UnwrapWebhookEventTypeInvoicePaymentFailed, UnwrapWebhookEventTypeInvoicePaymentProcessing, UnwrapWebhookEventTypeInvoicePaymentSucceeded, UnwrapWebhookEventTypeInvoiceSyncFailed, UnwrapWebhookEventTypeInvoiceSyncSucceeded, UnwrapWebhookEventTypeInvoiceUndoMarkAsPaid, UnwrapWebhookEventTypeInvoiceDueDateRecalculationCanceled, UnwrapWebhookEventTypeInvoiceDueDateRecalculationCompleted, UnwrapWebhookEventTypeInvoiceDueDateRecalculationStarted, UnwrapWebhookEventTypeMetricEventsDroppedByWatermark, UnwrapWebhookEventTypePaymentMethodCreated, UnwrapWebhookEventTypePaymentMethodDeleted, UnwrapWebhookEventTypePlanCreated, UnwrapWebhookEventTypePlanDefaultVersionSet, UnwrapWebhookEventTypePlanEdited, UnwrapWebhookEventTypePlanVersionCreated, UnwrapWebhookEventTypePriceEdited, UnwrapWebhookEventTypeResourceEventTest, UnwrapWebhookEventTypeSalesOrderAccountingSyncFailed, UnwrapWebhookEventTypeSalesOrderAccountingSyncSucceeded, UnwrapWebhookEventTypeSubscriptionAccountingSyncFailed, UnwrapWebhookEventTypeSubscriptionAccountingSyncSucceeded, UnwrapWebhookEventTypeSubscriptionAlertDisabled, UnwrapWebhookEventTypeSubscriptionCancellationScheduled, UnwrapWebhookEventTypeSubscriptionCancellationUnscheduled, UnwrapWebhookEventTypeSubscriptionCostExceeded, UnwrapWebhookEventTypeSubscriptionCreated, UnwrapWebhookEventTypeSubscriptionEdited, UnwrapWebhookEventTypeSubscriptionEnded, UnwrapWebhookEventTypeSubscriptionFixedFeeQuantityUpdated, UnwrapWebhookEventTypeSubscriptionGroupedCostExceeded, UnwrapWebhookEventTypeSubscriptionInvoicingThresholdExceeded, UnwrapWebhookEventTypeSubscriptionLicenseAllocationReset, UnwrapWebhookEventTypeSubscriptionLicenseBalanceThresholdReached, UnwrapWebhookEventTypeSubscriptionPlanChangeScheduled, UnwrapWebhookEventTypeSubscriptionPlanChanged, UnwrapWebhookEventTypeSubscriptionPlanVersionChangeScheduled, UnwrapWebhookEventTypeSubscriptionPlanVersionChanged, UnwrapWebhookEventTypeSubscriptionSpendExceeded, UnwrapWebhookEventTypeSubscriptionStarted, UnwrapWebhookEventTypeSubscriptionTrialEnded, UnwrapWebhookEventTypeSubscriptionUsageExceeded, UnwrapWebhookEventTypeTransactionAccountingSyncFailed, UnwrapWebhookEventTypeTransactionAccountingSyncSucceeded:
 		return true
 	}
 	return false
