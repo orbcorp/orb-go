@@ -30750,8 +30750,11 @@ type TaxAmount struct {
 	// The human-readable description of the applied tax rate.
 	TaxRateDescription string `json:"tax_rate_description" api:"required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string        `json:"tax_rate_percentage" api:"required,nullable"`
-	JSON              taxAmountJSON `json:"-"`
+	TaxRatePercentage string `json:"tax_rate_percentage" api:"required,nullable"`
+	// Why this tax was or was not charged, such as reverse_charge or customer_exempt.
+	// Null on tax calculated before reasons were recorded.
+	TaxReason TaxAmountTaxReason `json:"tax_reason" api:"nullable"`
+	JSON      taxAmountJSON      `json:"-"`
 }
 
 // taxAmountJSON contains the JSON metadata for the struct [TaxAmount]
@@ -30759,6 +30762,7 @@ type taxAmountJSON struct {
 	Amount             apijson.Field
 	TaxRateDescription apijson.Field
 	TaxRatePercentage  apijson.Field
+	TaxReason          apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -30769,6 +30773,28 @@ func (r *TaxAmount) UnmarshalJSON(data []byte) (err error) {
 
 func (r taxAmountJSON) RawJSON() string {
 	return r.raw
+}
+
+// Why this tax was or was not charged, such as reverse_charge or customer_exempt.
+// Null on tax calculated before reasons were recorded.
+type TaxAmountTaxReason string
+
+const (
+	TaxAmountTaxReasonTaxed          TaxAmountTaxReason = "taxed"
+	TaxAmountTaxReasonReverseCharge  TaxAmountTaxReason = "reverse_charge"
+	TaxAmountTaxReasonCustomerExempt TaxAmountTaxReason = "customer_exempt"
+	TaxAmountTaxReasonProductExempt  TaxAmountTaxReason = "product_exempt"
+	TaxAmountTaxReasonNotRegistered  TaxAmountTaxReason = "not_registered"
+	TaxAmountTaxReasonZeroRated      TaxAmountTaxReason = "zero_rated"
+	TaxAmountTaxReasonNotTaxedOther  TaxAmountTaxReason = "not_taxed_other"
+)
+
+func (r TaxAmountTaxReason) IsKnown() bool {
+	switch r {
+	case TaxAmountTaxReasonTaxed, TaxAmountTaxReasonReverseCharge, TaxAmountTaxReasonCustomerExempt, TaxAmountTaxReasonProductExempt, TaxAmountTaxReasonNotRegistered, TaxAmountTaxReasonZeroRated, TaxAmountTaxReasonNotTaxedOther:
+		return true
+	}
+	return false
 }
 
 // Configuration for a single tier

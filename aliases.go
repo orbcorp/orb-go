@@ -10122,6 +10122,33 @@ type SubscriptionTrialInfo = shared.SubscriptionTrialInfo
 // This is an alias to an internal type.
 type TaxAmount = shared.TaxAmount
 
+// Why this tax was or was not charged, such as reverse_charge or customer_exempt.
+// Null on tax calculated before reasons were recorded.
+//
+// This is an alias to an internal type.
+type TaxAmountTaxReason = shared.TaxAmountTaxReason
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonTaxed = shared.TaxAmountTaxReasonTaxed
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonReverseCharge = shared.TaxAmountTaxReasonReverseCharge
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonCustomerExempt = shared.TaxAmountTaxReasonCustomerExempt
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonProductExempt = shared.TaxAmountTaxReasonProductExempt
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonNotRegistered = shared.TaxAmountTaxReasonNotRegistered
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonZeroRated = shared.TaxAmountTaxReasonZeroRated
+
+// This is an alias to an internal value.
+const TaxAmountTaxReasonNotTaxedOther = shared.TaxAmountTaxReasonNotTaxedOther
+
 // Configuration for a single tier
 //
 // This is an alias to an internal type.
