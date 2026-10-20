@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.128.0](https://github.com/orbcorp/orb-go/compare/v1.127.0...v1.128.0) (2026-10-20)
+
+
+### Features
+
+* **api:** add `plan.created` and `plan.edited` webhook events ([d3c0333](https://github.com/orbcorp/orb-go/commit/d3c03339492f71698bca946d46b5d46bd7c5ee3a))
+* **api:** add `tax_reason` field to tax amount entries ([87df7b4](https://github.com/orbcorp/orb-go/commit/87df7b4698ad646ac6cef105e753a573a452cb04))
+
 ## [1.127.0](https://github.com/orbcorp/orb-go/compare/v1.126.0...v1.127.0) (2026-10-16)
 
 
