@@ -5,7 +5,7 @@
 
 ### Features
 
-* **api:** api update ([116f804](https://github.com/orbcorp/orb-go/commit/116f8045f8a0fdee3e22f810ee7eb8eae699467a))
+* **api:** add `payload_style` to webhook payloads, and publish standard payload types and the `UnwrapWebhookEventStandard` union ([116f804](https://github.com/orbcorp/orb-go/commit/116f8045f8a0fdee3e22f810ee7eb8eae699467a))
 
 ## [1.128.0](https://github.com/orbcorp/orb-go/compare/v1.127.0...v1.128.0) (2026-10-20)
 
