@@ -73,8 +73,11 @@ type BackfillReflectedWebhookEvent struct {
 	// events in a timeframe.
 	Backfill BackfillReflectedWebhookEventBackfill `json:"backfill" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle BackfillReflectedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                               `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type BackfillReflectedWebhookEventType `json:"type" api:"required"`
 	JSON backfillReflectedWebhookEventJSON `json:"-"`
@@ -83,13 +86,14 @@ type BackfillReflectedWebhookEvent struct {
 // backfillReflectedWebhookEventJSON contains the JSON metadata for the struct
 // [BackfillReflectedWebhookEvent]
 type backfillReflectedWebhookEventJSON struct {
-	ID          apijson.Field
-	Backfill    apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	Backfill     apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *BackfillReflectedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -176,6 +180,23 @@ func (r BackfillReflectedWebhookEventBackfillStatus) IsKnown() bool {
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type BackfillReflectedWebhookEventPayloadStyle string
+
+const (
+	BackfillReflectedWebhookEventPayloadStyleExpanded BackfillReflectedWebhookEventPayloadStyle = "expanded"
+	BackfillReflectedWebhookEventPayloadStyleStandard BackfillReflectedWebhookEventPayloadStyle = "standard"
+)
+
+func (r BackfillReflectedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case BackfillReflectedWebhookEventPayloadStyleExpanded, BackfillReflectedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 // The event this payload describes.
 type BackfillReflectedWebhookEventType string
 
@@ -199,8 +220,11 @@ type BackfillRevertedWebhookEvent struct {
 	// events in a timeframe.
 	Backfill BackfillRevertedWebhookEventBackfill `json:"backfill" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle BackfillRevertedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                              `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type BackfillRevertedWebhookEventType `json:"type" api:"required"`
 	JSON backfillRevertedWebhookEventJSON `json:"-"`
@@ -209,13 +233,14 @@ type BackfillRevertedWebhookEvent struct {
 // backfillRevertedWebhookEventJSON contains the JSON metadata for the struct
 // [BackfillRevertedWebhookEvent]
 type backfillRevertedWebhookEventJSON struct {
-	ID          apijson.Field
-	Backfill    apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	Backfill     apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *BackfillRevertedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -302,6 +327,23 @@ func (r BackfillRevertedWebhookEventBackfillStatus) IsKnown() bool {
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type BackfillRevertedWebhookEventPayloadStyle string
+
+const (
+	BackfillRevertedWebhookEventPayloadStyleExpanded BackfillRevertedWebhookEventPayloadStyle = "expanded"
+	BackfillRevertedWebhookEventPayloadStyleStandard BackfillRevertedWebhookEventPayloadStyle = "standard"
+)
+
+func (r BackfillRevertedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case BackfillRevertedWebhookEventPayloadStyleExpanded, BackfillRevertedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 // The event this payload describes.
 type BackfillRevertedWebhookEventType string
 
@@ -326,8 +368,11 @@ type BillableMetricEditedWebhookEvent struct {
 	// meaningful values for your customers.
 	BillableMetric BillableMetric `json:"billable_metric" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                  `json:"created_at" api:"required" format:"date-time"`
-	Properties BillableMetricEditedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle BillableMetricEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   BillableMetricEditedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type BillableMetricEditedWebhookEventType `json:"type" api:"required"`
 	JSON billableMetricEditedWebhookEventJSON `json:"-"`
@@ -339,6 +384,7 @@ type billableMetricEditedWebhookEventJSON struct {
 	ID             apijson.Field
 	BillableMetric apijson.Field
 	CreatedAt      apijson.Field
+	PayloadStyle   apijson.Field
 	Properties     apijson.Field
 	Type           apijson.Field
 	raw            string
@@ -354,6 +400,23 @@ func (r billableMetricEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r BillableMetricEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type BillableMetricEditedWebhookEventPayloadStyle string
+
+const (
+	BillableMetricEditedWebhookEventPayloadStyleExpanded BillableMetricEditedWebhookEventPayloadStyle = "expanded"
+	BillableMetricEditedWebhookEventPayloadStyleStandard BillableMetricEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r BillableMetricEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case BillableMetricEditedWebhookEventPayloadStyleExpanded, BillableMetricEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type BillableMetricEditedWebhookEventProperties struct {
 	// metadata values are non-null on the wire, as on the price event.
@@ -427,8 +490,11 @@ type CreditBlockAccountingSyncFailedWebhookEvent struct {
 	// The Credit Block resource models prepaid credits within Orb.
 	Block CreditBlockAccountingSyncFailedWebhookEventBlock `json:"block" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                             `json:"created_at" api:"required" format:"date-time"`
-	Properties CreditBlockAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditBlockAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CreditBlockAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditBlockAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON creditBlockAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -441,6 +507,7 @@ type creditBlockAccountingSyncFailedWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	Block                apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -801,6 +868,23 @@ func (r creditBlockAccountingSyncFailedWebhookEventBlockCreditCommitmentJSON) Ra
 	return r.raw
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditBlockAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	CreditBlockAccountingSyncFailedWebhookEventPayloadStyleExpanded CreditBlockAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	CreditBlockAccountingSyncFailedWebhookEventPayloadStyleStandard CreditBlockAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditBlockAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditBlockAccountingSyncFailedWebhookEventPayloadStyleExpanded, CreditBlockAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CreditBlockAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                    `json:"connection_type" api:"required"`
 	FailureReason  string                                                    `json:"failure_reason" api:"required"`
@@ -847,8 +931,11 @@ type CreditBlockAccountingSyncSucceededWebhookEvent struct {
 	// The Credit Block resource models prepaid credits within Orb.
 	Block CreditBlockAccountingSyncSucceededWebhookEventBlock `json:"block" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                `json:"created_at" api:"required" format:"date-time"`
-	Properties CreditBlockAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditBlockAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CreditBlockAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditBlockAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON creditBlockAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -861,6 +948,7 @@ type creditBlockAccountingSyncSucceededWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	Block                apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -1222,6 +1310,23 @@ func (r creditBlockAccountingSyncSucceededWebhookEventBlockCreditCommitmentJSON)
 	return r.raw
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditBlockAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	CreditBlockAccountingSyncSucceededWebhookEventPayloadStyleExpanded CreditBlockAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	CreditBlockAccountingSyncSucceededWebhookEventPayloadStyleStandard CreditBlockAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditBlockAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditBlockAccountingSyncSucceededWebhookEventPayloadStyleExpanded, CreditBlockAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CreditBlockAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                       `json:"connection_type" api:"required"`
 	JSON           creditBlockAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -1268,8 +1373,11 @@ type CreditNoteAccountingSyncFailedWebhookEvent struct {
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
 	// been applied to a particular invoice.
-	CreditNote shared.CreditNote                                    `json:"credit_note" api:"required"`
-	Properties CreditNoteAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	CreditNote shared.CreditNote `json:"credit_note" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditNoteAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CreditNoteAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditNoteAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON creditNoteAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -1282,6 +1390,7 @@ type creditNoteAccountingSyncFailedWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	CreditNote           apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -1355,6 +1464,23 @@ func (r CreditNoteAccountingSyncFailedWebhookEventAccountingSyncRecordRecordType
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditNoteAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	CreditNoteAccountingSyncFailedWebhookEventPayloadStyleExpanded CreditNoteAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	CreditNoteAccountingSyncFailedWebhookEventPayloadStyleStandard CreditNoteAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditNoteAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditNoteAccountingSyncFailedWebhookEventPayloadStyleExpanded, CreditNoteAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CreditNoteAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                   `json:"connection_type" api:"required"`
 	FailureReason  string                                                   `json:"failure_reason" api:"required"`
@@ -1402,8 +1528,11 @@ type CreditNoteAccountingSyncSucceededWebhookEvent struct {
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
 	// been applied to a particular invoice.
-	CreditNote shared.CreditNote                                       `json:"credit_note" api:"required"`
-	Properties CreditNoteAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	CreditNote shared.CreditNote `json:"credit_note" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditNoteAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CreditNoteAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditNoteAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON creditNoteAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -1416,6 +1545,7 @@ type creditNoteAccountingSyncSucceededWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	CreditNote           apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -1489,6 +1619,23 @@ func (r CreditNoteAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordT
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditNoteAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	CreditNoteAccountingSyncSucceededWebhookEventPayloadStyleExpanded CreditNoteAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	CreditNoteAccountingSyncSucceededWebhookEventPayloadStyleStandard CreditNoteAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditNoteAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditNoteAccountingSyncSucceededWebhookEventPayloadStyleExpanded, CreditNoteAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CreditNoteAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                      `json:"connection_type" api:"required"`
 	JSON           creditNoteAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -1535,7 +1682,10 @@ type CreditNoteIssuedWebhookEvent struct {
 	// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
 	// been applied to a particular invoice.
 	CreditNote shared.CreditNote `json:"credit_note" api:"required"`
-	Properties interface{}       `json:"properties" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditNoteIssuedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                              `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditNoteIssuedWebhookEventType `json:"type" api:"required"`
 	JSON creditNoteIssuedWebhookEventJSON `json:"-"`
@@ -1544,13 +1694,14 @@ type CreditNoteIssuedWebhookEvent struct {
 // creditNoteIssuedWebhookEventJSON contains the JSON metadata for the struct
 // [CreditNoteIssuedWebhookEvent]
 type creditNoteIssuedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	CreditNote  apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	CreditNote   apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CreditNoteIssuedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -1562,6 +1713,23 @@ func (r creditNoteIssuedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CreditNoteIssuedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditNoteIssuedWebhookEventPayloadStyle string
+
+const (
+	CreditNoteIssuedWebhookEventPayloadStyleExpanded CreditNoteIssuedWebhookEventPayloadStyle = "expanded"
+	CreditNoteIssuedWebhookEventPayloadStyleStandard CreditNoteIssuedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditNoteIssuedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditNoteIssuedWebhookEventPayloadStyleExpanded, CreditNoteIssuedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type CreditNoteIssuedWebhookEventType string
@@ -1587,7 +1755,10 @@ type CreditNoteMarkedAsVoidWebhookEvent struct {
 	// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
 	// been applied to a particular invoice.
 	CreditNote shared.CreditNote `json:"credit_note" api:"required"`
-	Properties interface{}       `json:"properties" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CreditNoteMarkedAsVoidWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                    `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CreditNoteMarkedAsVoidWebhookEventType `json:"type" api:"required"`
 	JSON creditNoteMarkedAsVoidWebhookEventJSON `json:"-"`
@@ -1596,13 +1767,14 @@ type CreditNoteMarkedAsVoidWebhookEvent struct {
 // creditNoteMarkedAsVoidWebhookEventJSON contains the JSON metadata for the struct
 // [CreditNoteMarkedAsVoidWebhookEvent]
 type creditNoteMarkedAsVoidWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	CreditNote  apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	CreditNote   apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CreditNoteMarkedAsVoidWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -1614,6 +1786,23 @@ func (r creditNoteMarkedAsVoidWebhookEventJSON) RawJSON() string {
 }
 
 func (r CreditNoteMarkedAsVoidWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CreditNoteMarkedAsVoidWebhookEventPayloadStyle string
+
+const (
+	CreditNoteMarkedAsVoidWebhookEventPayloadStyleExpanded CreditNoteMarkedAsVoidWebhookEventPayloadStyle = "expanded"
+	CreditNoteMarkedAsVoidWebhookEventPayloadStyleStandard CreditNoteMarkedAsVoidWebhookEventPayloadStyle = "standard"
+)
+
+func (r CreditNoteMarkedAsVoidWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CreditNoteMarkedAsVoidWebhookEventPayloadStyleExpanded, CreditNoteMarkedAsVoidWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type CreditNoteMarkedAsVoidWebhookEventType string
@@ -1655,8 +1844,11 @@ type CustomerAccountingSyncFailedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                           `json:"customer" api:"required"`
-	Properties CustomerAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON customerAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -1669,6 +1861,7 @@ type customerAccountingSyncFailedWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Customer             apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -1740,6 +1933,23 @@ func (r CustomerAccountingSyncFailedWebhookEventAccountingSyncRecordRecordType) 
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	CustomerAccountingSyncFailedWebhookEventPayloadStyleExpanded CustomerAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	CustomerAccountingSyncFailedWebhookEventPayloadStyleStandard CustomerAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerAccountingSyncFailedWebhookEventPayloadStyleExpanded, CustomerAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CustomerAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                 `json:"connection_type" api:"required"`
 	FailureReason  string                                                 `json:"failure_reason" api:"required"`
@@ -1803,8 +2013,11 @@ type CustomerAccountingSyncSucceededWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                              `json:"customer" api:"required"`
-	Properties CustomerAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON customerAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -1817,6 +2030,7 @@ type customerAccountingSyncSucceededWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Customer             apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -1888,6 +2102,23 @@ func (r CustomerAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTyp
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	CustomerAccountingSyncSucceededWebhookEventPayloadStyleExpanded CustomerAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	CustomerAccountingSyncSucceededWebhookEventPayloadStyleStandard CustomerAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerAccountingSyncSucceededWebhookEventPayloadStyleExpanded, CustomerAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type CustomerAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                    `json:"connection_type" api:"required"`
 	JSON           customerAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -1948,8 +2179,11 @@ type CustomerBalanceTransactionCreatedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                                `json:"customer" api:"required"`
-	Properties CustomerBalanceTransactionCreatedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerBalanceTransactionCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerBalanceTransactionCreatedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerBalanceTransactionCreatedWebhookEventType `json:"type" api:"required"`
 	JSON customerBalanceTransactionCreatedWebhookEventJSON `json:"-"`
@@ -1958,13 +2192,14 @@ type CustomerBalanceTransactionCreatedWebhookEvent struct {
 // customerBalanceTransactionCreatedWebhookEventJSON contains the JSON metadata for
 // the struct [CustomerBalanceTransactionCreatedWebhookEvent]
 type customerBalanceTransactionCreatedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerBalanceTransactionCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -1976,6 +2211,23 @@ func (r customerBalanceTransactionCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerBalanceTransactionCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerBalanceTransactionCreatedWebhookEventPayloadStyle string
+
+const (
+	CustomerBalanceTransactionCreatedWebhookEventPayloadStyleExpanded CustomerBalanceTransactionCreatedWebhookEventPayloadStyle = "expanded"
+	CustomerBalanceTransactionCreatedWebhookEventPayloadStyleStandard CustomerBalanceTransactionCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerBalanceTransactionCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionCreatedWebhookEventPayloadStyleExpanded, CustomerBalanceTransactionCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerBalanceTransactionCreatedWebhookEventProperties struct {
 	BalanceTransaction CustomerBalanceTransactionCreatedWebhookEventPropertiesBalanceTransaction `json:"balance_transaction" api:"required"`
@@ -2125,8 +2377,11 @@ type CustomerCreatedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer    `json:"customer" api:"required"`
-	Properties interface{} `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                             `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerCreatedWebhookEventType `json:"type" api:"required"`
 	JSON customerCreatedWebhookEventJSON `json:"-"`
@@ -2135,13 +2390,14 @@ type CustomerCreatedWebhookEvent struct {
 // customerCreatedWebhookEventJSON contains the JSON metadata for the struct
 // [CustomerCreatedWebhookEvent]
 type customerCreatedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -2153,6 +2409,23 @@ func (r customerCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerCreatedWebhookEventPayloadStyle string
+
+const (
+	CustomerCreatedWebhookEventPayloadStyleExpanded CustomerCreatedWebhookEventPayloadStyle = "expanded"
+	CustomerCreatedWebhookEventPayloadStyleStandard CustomerCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerCreatedWebhookEventPayloadStyleExpanded, CustomerCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type CustomerCreatedWebhookEventType string
@@ -2193,8 +2466,11 @@ type CustomerCreditBalanceDepletedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                            `json:"customer" api:"required"`
-	Properties CustomerCreditBalanceDepletedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerCreditBalanceDepletedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerCreditBalanceDepletedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerCreditBalanceDepletedWebhookEventType `json:"type" api:"required"`
 	JSON customerCreditBalanceDepletedWebhookEventJSON `json:"-"`
@@ -2203,13 +2479,14 @@ type CustomerCreditBalanceDepletedWebhookEvent struct {
 // customerCreditBalanceDepletedWebhookEventJSON contains the JSON metadata for the
 // struct [CustomerCreditBalanceDepletedWebhookEvent]
 type customerCreditBalanceDepletedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceDepletedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -2221,6 +2498,23 @@ func (r customerCreditBalanceDepletedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerCreditBalanceDepletedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerCreditBalanceDepletedWebhookEventPayloadStyle string
+
+const (
+	CustomerCreditBalanceDepletedWebhookEventPayloadStyleExpanded CustomerCreditBalanceDepletedWebhookEventPayloadStyle = "expanded"
+	CustomerCreditBalanceDepletedWebhookEventPayloadStyleStandard CustomerCreditBalanceDepletedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerCreditBalanceDepletedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerCreditBalanceDepletedWebhookEventPayloadStyleExpanded, CustomerCreditBalanceDepletedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditBalanceDepletedWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -2676,8 +2970,11 @@ type CustomerCreditBalanceDroppedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                           `json:"customer" api:"required"`
-	Properties CustomerCreditBalanceDroppedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerCreditBalanceDroppedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerCreditBalanceDroppedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerCreditBalanceDroppedWebhookEventType `json:"type" api:"required"`
 	JSON customerCreditBalanceDroppedWebhookEventJSON `json:"-"`
@@ -2686,13 +2983,14 @@ type CustomerCreditBalanceDroppedWebhookEvent struct {
 // customerCreditBalanceDroppedWebhookEventJSON contains the JSON metadata for the
 // struct [CustomerCreditBalanceDroppedWebhookEvent]
 type customerCreditBalanceDroppedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceDroppedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -2704,6 +3002,23 @@ func (r customerCreditBalanceDroppedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerCreditBalanceDroppedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerCreditBalanceDroppedWebhookEventPayloadStyle string
+
+const (
+	CustomerCreditBalanceDroppedWebhookEventPayloadStyleExpanded CustomerCreditBalanceDroppedWebhookEventPayloadStyle = "expanded"
+	CustomerCreditBalanceDroppedWebhookEventPayloadStyleStandard CustomerCreditBalanceDroppedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerCreditBalanceDroppedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerCreditBalanceDroppedWebhookEventPayloadStyleExpanded, CustomerCreditBalanceDroppedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditBalanceDroppedWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -3160,8 +3475,11 @@ type CustomerCreditBalanceRecoveredWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                             `json:"customer" api:"required"`
-	Properties CustomerCreditBalanceRecoveredWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerCreditBalanceRecoveredWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerCreditBalanceRecoveredWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerCreditBalanceRecoveredWebhookEventType `json:"type" api:"required"`
 	JSON customerCreditBalanceRecoveredWebhookEventJSON `json:"-"`
@@ -3170,13 +3488,14 @@ type CustomerCreditBalanceRecoveredWebhookEvent struct {
 // customerCreditBalanceRecoveredWebhookEventJSON contains the JSON metadata for
 // the struct [CustomerCreditBalanceRecoveredWebhookEvent]
 type customerCreditBalanceRecoveredWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceRecoveredWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -3188,6 +3507,23 @@ func (r customerCreditBalanceRecoveredWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerCreditBalanceRecoveredWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerCreditBalanceRecoveredWebhookEventPayloadStyle string
+
+const (
+	CustomerCreditBalanceRecoveredWebhookEventPayloadStyleExpanded CustomerCreditBalanceRecoveredWebhookEventPayloadStyle = "expanded"
+	CustomerCreditBalanceRecoveredWebhookEventPayloadStyleStandard CustomerCreditBalanceRecoveredWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerCreditBalanceRecoveredWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerCreditBalanceRecoveredWebhookEventPayloadStyleExpanded, CustomerCreditBalanceRecoveredWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditBalanceRecoveredWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -3642,8 +3978,11 @@ type CustomerCreditLedgerIncrementedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                                              `json:"customer" api:"required"`
-	Properties CustomerCreditLedgerIncrementedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerCreditLedgerIncrementedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerCreditLedgerIncrementedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerCreditLedgerIncrementedWebhookEventType `json:"type" api:"required"`
 	JSON customerCreditLedgerIncrementedWebhookEventJSON `json:"-"`
@@ -3652,13 +3991,14 @@ type CustomerCreditLedgerIncrementedWebhookEvent struct {
 // customerCreditLedgerIncrementedWebhookEventJSON contains the JSON metadata for
 // the struct [CustomerCreditLedgerIncrementedWebhookEvent]
 type customerCreditLedgerIncrementedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerCreditLedgerIncrementedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -3670,6 +4010,23 @@ func (r customerCreditLedgerIncrementedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerCreditLedgerIncrementedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerCreditLedgerIncrementedWebhookEventPayloadStyle string
+
+const (
+	CustomerCreditLedgerIncrementedWebhookEventPayloadStyleExpanded CustomerCreditLedgerIncrementedWebhookEventPayloadStyle = "expanded"
+	CustomerCreditLedgerIncrementedWebhookEventPayloadStyleStandard CustomerCreditLedgerIncrementedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerCreditLedgerIncrementedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerIncrementedWebhookEventPayloadStyleExpanded, CustomerCreditLedgerIncrementedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerIncrementedWebhookEventProperties struct {
 	// The Credit Block resource models prepaid credits within Orb.
@@ -4051,8 +4408,11 @@ type CustomerEditedWebhookEvent struct {
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
 	// your account's timezone. See [Timezone localization](/essentials/timezones) for
 	// information on what this timezone parameter influences within Orb.
-	Customer   Customer                             `json:"customer" api:"required"`
-	Properties CustomerEditedWebhookEventProperties `json:"properties" api:"required"`
+	Customer Customer `json:"customer" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle CustomerEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   CustomerEditedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type CustomerEditedWebhookEventType `json:"type" api:"required"`
 	JSON customerEditedWebhookEventJSON `json:"-"`
@@ -4061,13 +4421,14 @@ type CustomerEditedWebhookEvent struct {
 // customerEditedWebhookEventJSON contains the JSON metadata for the struct
 // [CustomerEditedWebhookEvent]
 type customerEditedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Customer    apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Customer     apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *CustomerEditedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -4079,6 +4440,23 @@ func (r customerEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r CustomerEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type CustomerEditedWebhookEventPayloadStyle string
+
+const (
+	CustomerEditedWebhookEventPayloadStyleExpanded CustomerEditedWebhookEventPayloadStyle = "expanded"
+	CustomerEditedWebhookEventPayloadStyleStandard CustomerEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r CustomerEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case CustomerEditedWebhookEventPayloadStyleExpanded, CustomerEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type CustomerEditedWebhookEventProperties struct {
 	// metadata values are non-null on the wire (deleting a key removes it from
@@ -4320,8 +4698,11 @@ type DataExportsTransferErrorWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                      `json:"created_at" api:"required" format:"date-time"`
-	Properties DataExportsTransferErrorWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle DataExportsTransferErrorWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   DataExportsTransferErrorWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type DataExportsTransferErrorWebhookEventType `json:"type" api:"required"`
 	JSON dataExportsTransferErrorWebhookEventJSON `json:"-"`
@@ -4330,12 +4711,13 @@ type DataExportsTransferErrorWebhookEvent struct {
 // dataExportsTransferErrorWebhookEventJSON contains the JSON metadata for the
 // struct [DataExportsTransferErrorWebhookEvent]
 type dataExportsTransferErrorWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *DataExportsTransferErrorWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -4347,6 +4729,23 @@ func (r dataExportsTransferErrorWebhookEventJSON) RawJSON() string {
 }
 
 func (r DataExportsTransferErrorWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type DataExportsTransferErrorWebhookEventPayloadStyle string
+
+const (
+	DataExportsTransferErrorWebhookEventPayloadStyleExpanded DataExportsTransferErrorWebhookEventPayloadStyle = "expanded"
+	DataExportsTransferErrorWebhookEventPayloadStyleStandard DataExportsTransferErrorWebhookEventPayloadStyle = "standard"
+)
+
+func (r DataExportsTransferErrorWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case DataExportsTransferErrorWebhookEventPayloadStyleExpanded, DataExportsTransferErrorWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type DataExportsTransferErrorWebhookEventProperties struct {
 	Description         string                                             `json:"description" api:"required"`
@@ -4401,8 +4800,11 @@ type DataExportsTransferSuccessWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                        `json:"created_at" api:"required" format:"date-time"`
-	Properties DataExportsTransferSuccessWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle DataExportsTransferSuccessWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   DataExportsTransferSuccessWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type DataExportsTransferSuccessWebhookEventType `json:"type" api:"required"`
 	JSON dataExportsTransferSuccessWebhookEventJSON `json:"-"`
@@ -4411,12 +4813,13 @@ type DataExportsTransferSuccessWebhookEvent struct {
 // dataExportsTransferSuccessWebhookEventJSON contains the JSON metadata for the
 // struct [DataExportsTransferSuccessWebhookEvent]
 type dataExportsTransferSuccessWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *DataExportsTransferSuccessWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -4428,6 +4831,23 @@ func (r dataExportsTransferSuccessWebhookEventJSON) RawJSON() string {
 }
 
 func (r DataExportsTransferSuccessWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type DataExportsTransferSuccessWebhookEventPayloadStyle string
+
+const (
+	DataExportsTransferSuccessWebhookEventPayloadStyleExpanded DataExportsTransferSuccessWebhookEventPayloadStyle = "expanded"
+	DataExportsTransferSuccessWebhookEventPayloadStyleStandard DataExportsTransferSuccessWebhookEventPayloadStyle = "standard"
+)
+
+func (r DataExportsTransferSuccessWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case DataExportsTransferSuccessWebhookEventPayloadStyleExpanded, DataExportsTransferSuccessWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type DataExportsTransferSuccessWebhookEventProperties struct {
 	Description       string                                               `json:"description" api:"required"`
@@ -4480,8 +4900,11 @@ type EventUnmatchedEventWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties EventUnmatchedEventWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle EventUnmatchedEventWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   EventUnmatchedEventWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type EventUnmatchedEventWebhookEventType `json:"type" api:"required"`
 	JSON eventUnmatchedEventWebhookEventJSON `json:"-"`
@@ -4490,12 +4913,13 @@ type EventUnmatchedEventWebhookEvent struct {
 // eventUnmatchedEventWebhookEventJSON contains the JSON metadata for the struct
 // [EventUnmatchedEventWebhookEvent]
 type eventUnmatchedEventWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *EventUnmatchedEventWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -4507,6 +4931,23 @@ func (r eventUnmatchedEventWebhookEventJSON) RawJSON() string {
 }
 
 func (r EventUnmatchedEventWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type EventUnmatchedEventWebhookEventPayloadStyle string
+
+const (
+	EventUnmatchedEventWebhookEventPayloadStyleExpanded EventUnmatchedEventWebhookEventPayloadStyle = "expanded"
+	EventUnmatchedEventWebhookEventPayloadStyleStandard EventUnmatchedEventWebhookEventPayloadStyle = "standard"
+)
+
+func (r EventUnmatchedEventWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case EventUnmatchedEventWebhookEventPayloadStyleExpanded, EventUnmatchedEventWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type EventUnmatchedEventWebhookEventProperties struct {
 	Event EventUnmatchedEventWebhookEventPropertiesEvent `json:"event" api:"required"`
@@ -4580,8 +5021,11 @@ type IngestionUnmatchedCustomerIDsWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                           `json:"created_at" api:"required" format:"date-time"`
-	Properties IngestionUnmatchedCustomerIDsWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle IngestionUnmatchedCustomerIDsWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   IngestionUnmatchedCustomerIDsWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type IngestionUnmatchedCustomerIDsWebhookEventType `json:"type" api:"required"`
 	JSON ingestionUnmatchedCustomerIDsWebhookEventJSON `json:"-"`
@@ -4590,12 +5034,13 @@ type IngestionUnmatchedCustomerIDsWebhookEvent struct {
 // ingestionUnmatchedCustomerIDsWebhookEventJSON contains the JSON metadata for the
 // struct [IngestionUnmatchedCustomerIDsWebhookEvent]
 type ingestionUnmatchedCustomerIDsWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *IngestionUnmatchedCustomerIDsWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -4607,6 +5052,23 @@ func (r ingestionUnmatchedCustomerIDsWebhookEventJSON) RawJSON() string {
 }
 
 func (r IngestionUnmatchedCustomerIDsWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type IngestionUnmatchedCustomerIDsWebhookEventPayloadStyle string
+
+const (
+	IngestionUnmatchedCustomerIDsWebhookEventPayloadStyleExpanded IngestionUnmatchedCustomerIDsWebhookEventPayloadStyle = "expanded"
+	IngestionUnmatchedCustomerIDsWebhookEventPayloadStyleStandard IngestionUnmatchedCustomerIDsWebhookEventPayloadStyle = "standard"
+)
+
+func (r IngestionUnmatchedCustomerIDsWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case IngestionUnmatchedCustomerIDsWebhookEventPayloadStyleExpanded, IngestionUnmatchedCustomerIDsWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type IngestionUnmatchedCustomerIDsWebhookEventProperties struct {
 	ExternalCustomerIDs []string                                                `json:"external_customer_ids" api:"required"`
@@ -4656,8 +5118,11 @@ type InvoiceAccountingSyncFailedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                    `json:"invoice" api:"required"`
-	Properties InvoiceAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -4670,6 +5135,7 @@ type invoiceAccountingSyncFailedWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Invoice              apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -4743,6 +5209,23 @@ func (r InvoiceAccountingSyncFailedWebhookEventAccountingSyncRecordRecordType) I
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	InvoiceAccountingSyncFailedWebhookEventPayloadStyleExpanded InvoiceAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	InvoiceAccountingSyncFailedWebhookEventPayloadStyleStandard InvoiceAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceAccountingSyncFailedWebhookEventPayloadStyleExpanded, InvoiceAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type InvoiceAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                `json:"connection_type" api:"required"`
 	FailureReason  string                                                `json:"failure_reason" api:"required"`
@@ -4793,8 +5276,11 @@ type InvoiceAccountingSyncSucceededWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                       `json:"invoice" api:"required"`
-	Properties InvoiceAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON invoiceAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -4807,6 +5293,7 @@ type invoiceAccountingSyncSucceededWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Invoice              apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -4880,6 +5367,23 @@ func (r InvoiceAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordType
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	InvoiceAccountingSyncSucceededWebhookEventPayloadStyleExpanded InvoiceAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	InvoiceAccountingSyncSucceededWebhookEventPayloadStyleStandard InvoiceAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceAccountingSyncSucceededWebhookEventPayloadStyleExpanded, InvoiceAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type InvoiceAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                   `json:"connection_type" api:"required"`
 	JSON           invoiceAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -4925,8 +5429,11 @@ type InvoiceAutomationScheduleStepExecutedWebhookEvent struct {
 	// The invoice fields a consumer needs to run their own notification flows without
 	// a follow-up API call, mirroring the variables Orb's own automation emails render
 	// against.
-	Invoice    InvoiceAutomationScheduleStepExecutedWebhookEventInvoice    `json:"invoice" api:"required"`
-	Properties InvoiceAutomationScheduleStepExecutedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice InvoiceAutomationScheduleStepExecutedWebhookEventInvoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceAutomationScheduleStepExecutedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceAutomationScheduleStepExecutedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceAutomationScheduleStepExecutedWebhookEventJSON `json:"-"`
@@ -4935,13 +5442,14 @@ type InvoiceAutomationScheduleStepExecutedWebhookEvent struct {
 // invoiceAutomationScheduleStepExecutedWebhookEventJSON contains the JSON metadata
 // for the struct [InvoiceAutomationScheduleStepExecutedWebhookEvent]
 type invoiceAutomationScheduleStepExecutedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceAutomationScheduleStepExecutedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5005,6 +5513,23 @@ func (r *InvoiceAutomationScheduleStepExecutedWebhookEventInvoice) UnmarshalJSON
 
 func (r invoiceAutomationScheduleStepExecutedWebhookEventInvoiceJSON) RawJSON() string {
 	return r.raw
+}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyle string
+
+const (
+	InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyleExpanded InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyle = "expanded"
+	InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyleStandard InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyleExpanded, InvoiceAutomationScheduleStepExecutedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
 }
 
 type InvoiceAutomationScheduleStepExecutedWebhookEventProperties struct {
@@ -5286,9 +5811,12 @@ type InvoiceCostDataExportedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                     `json:"created_at" api:"required" format:"date-time"`
-	Invoice    string                                        `json:"invoice" api:"required"`
-	Properties InvoiceCostDataExportedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	Invoice   string    `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceCostDataExportedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceCostDataExportedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceCostDataExportedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceCostDataExportedWebhookEventJSON `json:"-"`
@@ -5297,13 +5825,14 @@ type InvoiceCostDataExportedWebhookEvent struct {
 // invoiceCostDataExportedWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceCostDataExportedWebhookEvent]
 type invoiceCostDataExportedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceCostDataExportedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5315,6 +5844,23 @@ func (r invoiceCostDataExportedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceCostDataExportedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceCostDataExportedWebhookEventPayloadStyle string
+
+const (
+	InvoiceCostDataExportedWebhookEventPayloadStyleExpanded InvoiceCostDataExportedWebhookEventPayloadStyle = "expanded"
+	InvoiceCostDataExportedWebhookEventPayloadStyleStandard InvoiceCostDataExportedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceCostDataExportedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceCostDataExportedWebhookEventPayloadStyleExpanded, InvoiceCostDataExportedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceCostDataExportedWebhookEventProperties struct {
 	ExportedDate time.Time                                         `json:"exported_date" api:"required" format:"date-time"`
@@ -5367,8 +5913,11 @@ type InvoiceDunningScheduleCreatedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                      `json:"invoice" api:"required"`
-	Properties InvoiceDunningScheduleCreatedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDunningScheduleCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDunningScheduleCreatedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDunningScheduleCreatedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDunningScheduleCreatedWebhookEventJSON `json:"-"`
@@ -5377,13 +5926,14 @@ type InvoiceDunningScheduleCreatedWebhookEvent struct {
 // invoiceDunningScheduleCreatedWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceDunningScheduleCreatedWebhookEvent]
 type invoiceDunningScheduleCreatedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDunningScheduleCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5395,6 +5945,23 @@ func (r invoiceDunningScheduleCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDunningScheduleCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDunningScheduleCreatedWebhookEventPayloadStyle string
+
+const (
+	InvoiceDunningScheduleCreatedWebhookEventPayloadStyleExpanded InvoiceDunningScheduleCreatedWebhookEventPayloadStyle = "expanded"
+	InvoiceDunningScheduleCreatedWebhookEventPayloadStyleStandard InvoiceDunningScheduleCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDunningScheduleCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDunningScheduleCreatedWebhookEventPayloadStyleExpanded, InvoiceDunningScheduleCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDunningScheduleCreatedWebhookEventProperties struct {
 	DunningSchedule InvoiceDunningScheduleCreatedWebhookEventPropertiesDunningSchedule `json:"dunning_schedule" api:"required"`
@@ -5515,8 +6082,11 @@ type InvoiceDunningScheduleEndedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                    `json:"invoice" api:"required"`
-	Properties InvoiceDunningScheduleEndedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDunningScheduleEndedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDunningScheduleEndedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDunningScheduleEndedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDunningScheduleEndedWebhookEventJSON `json:"-"`
@@ -5525,13 +6095,14 @@ type InvoiceDunningScheduleEndedWebhookEvent struct {
 // invoiceDunningScheduleEndedWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceDunningScheduleEndedWebhookEvent]
 type invoiceDunningScheduleEndedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDunningScheduleEndedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5543,6 +6114,23 @@ func (r invoiceDunningScheduleEndedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDunningScheduleEndedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDunningScheduleEndedWebhookEventPayloadStyle string
+
+const (
+	InvoiceDunningScheduleEndedWebhookEventPayloadStyleExpanded InvoiceDunningScheduleEndedWebhookEventPayloadStyle = "expanded"
+	InvoiceDunningScheduleEndedWebhookEventPayloadStyleStandard InvoiceDunningScheduleEndedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDunningScheduleEndedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDunningScheduleEndedWebhookEventPayloadStyleExpanded, InvoiceDunningScheduleEndedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDunningScheduleEndedWebhookEventProperties struct {
 	DunningSchedule InvoiceDunningScheduleEndedWebhookEventPropertiesDunningSchedule `json:"dunning_schedule" api:"required"`
@@ -5661,8 +6249,11 @@ type InvoiceDunningScheduleResetWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                    `json:"invoice" api:"required"`
-	Properties InvoiceDunningScheduleResetWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDunningScheduleResetWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDunningScheduleResetWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDunningScheduleResetWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDunningScheduleResetWebhookEventJSON `json:"-"`
@@ -5671,13 +6262,14 @@ type InvoiceDunningScheduleResetWebhookEvent struct {
 // invoiceDunningScheduleResetWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceDunningScheduleResetWebhookEvent]
 type invoiceDunningScheduleResetWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDunningScheduleResetWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5689,6 +6281,23 @@ func (r invoiceDunningScheduleResetWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDunningScheduleResetWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDunningScheduleResetWebhookEventPayloadStyle string
+
+const (
+	InvoiceDunningScheduleResetWebhookEventPayloadStyleExpanded InvoiceDunningScheduleResetWebhookEventPayloadStyle = "expanded"
+	InvoiceDunningScheduleResetWebhookEventPayloadStyleStandard InvoiceDunningScheduleResetWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDunningScheduleResetWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDunningScheduleResetWebhookEventPayloadStyleExpanded, InvoiceDunningScheduleResetWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDunningScheduleResetWebhookEventProperties struct {
 	// The schedule shape `DunningScheduleV2.external_serialization()` produces, which
@@ -5811,8 +6420,11 @@ type InvoiceDunningScheduleStepExecutedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                           `json:"invoice" api:"required"`
-	Properties InvoiceDunningScheduleStepExecutedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDunningScheduleStepExecutedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDunningScheduleStepExecutedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDunningScheduleStepExecutedWebhookEventJSON `json:"-"`
@@ -5821,13 +6433,14 @@ type InvoiceDunningScheduleStepExecutedWebhookEvent struct {
 // invoiceDunningScheduleStepExecutedWebhookEventJSON contains the JSON metadata
 // for the struct [InvoiceDunningScheduleStepExecutedWebhookEvent]
 type invoiceDunningScheduleStepExecutedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDunningScheduleStepExecutedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5839,6 +6452,23 @@ func (r invoiceDunningScheduleStepExecutedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDunningScheduleStepExecutedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyle string
+
+const (
+	InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyleExpanded InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyle = "expanded"
+	InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyleStandard InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyleExpanded, InvoiceDunningScheduleStepExecutedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDunningScheduleStepExecutedWebhookEventProperties struct {
 	DunningStep InvoiceDunningScheduleStepExecutedWebhookEventPropertiesDunningStep `json:"dunning_step" api:"required"`
@@ -5924,8 +6554,11 @@ type InvoiceEditedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                      `json:"invoice" api:"required"`
-	Properties InvoiceEditedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceEditedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceEditedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceEditedWebhookEventJSON `json:"-"`
@@ -5934,13 +6567,14 @@ type InvoiceEditedWebhookEvent struct {
 // invoiceEditedWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceEditedWebhookEvent]
 type invoiceEditedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceEditedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -5952,6 +6586,23 @@ func (r invoiceEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceEditedWebhookEventPayloadStyle string
+
+const (
+	InvoiceEditedWebhookEventPayloadStyleExpanded InvoiceEditedWebhookEventPayloadStyle = "expanded"
+	InvoiceEditedWebhookEventPayloadStyleStandard InvoiceEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceEditedWebhookEventPayloadStyleExpanded, InvoiceEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceEditedWebhookEventProperties struct {
 	// `due_date` is an ISO-8601 string rather than a datetime: the untyped message
@@ -6555,9 +7206,12 @@ type InvoiceInvoiceDateElapsedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                       `json:"created_at" api:"required" format:"date-time"`
-	Invoice    InvoiceInvoiceDateElapsedWebhookEventInvoice    `json:"invoice" api:"required"`
-	Properties InvoiceInvoiceDateElapsedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time                                    `json:"created_at" api:"required" format:"date-time"`
+	Invoice   InvoiceInvoiceDateElapsedWebhookEventInvoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceInvoiceDateElapsedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceInvoiceDateElapsedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceInvoiceDateElapsedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceInvoiceDateElapsedWebhookEventJSON `json:"-"`
@@ -6566,13 +7220,14 @@ type InvoiceInvoiceDateElapsedWebhookEvent struct {
 // invoiceInvoiceDateElapsedWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceInvoiceDateElapsedWebhookEvent]
 type invoiceInvoiceDateElapsedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceInvoiceDateElapsedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -6632,6 +7287,23 @@ func (r InvoiceInvoiceDateElapsedWebhookEventInvoiceStatus) IsKnown() bool {
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceInvoiceDateElapsedWebhookEventPayloadStyle string
+
+const (
+	InvoiceInvoiceDateElapsedWebhookEventPayloadStyleExpanded InvoiceInvoiceDateElapsedWebhookEventPayloadStyle = "expanded"
+	InvoiceInvoiceDateElapsedWebhookEventPayloadStyleStandard InvoiceInvoiceDateElapsedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceInvoiceDateElapsedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceInvoiceDateElapsedWebhookEventPayloadStyleExpanded, InvoiceInvoiceDateElapsedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type InvoiceInvoiceDateElapsedWebhookEventProperties struct {
 	InvoiceDate time.Time                                           `json:"invoice_date" api:"required" format:"date-time"`
 	JSON        invoiceInvoiceDateElapsedWebhookEventPropertiesJSON `json:"-"`
@@ -6679,8 +7351,11 @@ type InvoiceIssueFailedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                           `json:"invoice" api:"required"`
-	Properties InvoiceIssueFailedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceIssueFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceIssueFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceIssueFailedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceIssueFailedWebhookEventJSON `json:"-"`
@@ -6689,13 +7364,14 @@ type InvoiceIssueFailedWebhookEvent struct {
 // invoiceIssueFailedWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceIssueFailedWebhookEvent]
 type invoiceIssueFailedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceIssueFailedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -6707,6 +7383,23 @@ func (r invoiceIssueFailedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceIssueFailedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceIssueFailedWebhookEventPayloadStyle string
+
+const (
+	InvoiceIssueFailedWebhookEventPayloadStyleExpanded InvoiceIssueFailedWebhookEventPayloadStyle = "expanded"
+	InvoiceIssueFailedWebhookEventPayloadStyleStandard InvoiceIssueFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceIssueFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceIssueFailedWebhookEventPayloadStyleExpanded, InvoiceIssueFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceIssueFailedWebhookEventProperties struct {
 	Reason string                                       `json:"reason" api:"required,nullable"`
@@ -6755,8 +7448,11 @@ type InvoiceIssuedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                      `json:"invoice" api:"required"`
-	Properties InvoiceIssuedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceIssuedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceIssuedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceIssuedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceIssuedWebhookEventJSON `json:"-"`
@@ -6765,13 +7461,14 @@ type InvoiceIssuedWebhookEvent struct {
 // invoiceIssuedWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceIssuedWebhookEvent]
 type invoiceIssuedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceIssuedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -6783,6 +7480,23 @@ func (r invoiceIssuedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceIssuedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceIssuedWebhookEventPayloadStyle string
+
+const (
+	InvoiceIssuedWebhookEventPayloadStyleExpanded InvoiceIssuedWebhookEventPayloadStyle = "expanded"
+	InvoiceIssuedWebhookEventPayloadStyleStandard InvoiceIssuedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceIssuedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceIssuedWebhookEventPayloadStyleExpanded, InvoiceIssuedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceIssuedWebhookEventProperties struct {
 	AutomaticallyMarkedAsPaid bool                                    `json:"automatically_marked_as_paid" api:"required"`
@@ -6828,8 +7542,11 @@ type InvoiceIssuedSummaryWebhookEvent struct {
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// #InvoiceApiResourceWithoutLineItems
-	Invoice    InvoiceIssuedSummaryWebhookEventInvoice    `json:"invoice" api:"required"`
-	Properties InvoiceIssuedSummaryWebhookEventProperties `json:"properties" api:"required"`
+	Invoice InvoiceIssuedSummaryWebhookEventInvoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceIssuedSummaryWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceIssuedSummaryWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceIssuedSummaryWebhookEventType `json:"type" api:"required"`
 	JSON invoiceIssuedSummaryWebhookEventJSON `json:"-"`
@@ -6838,13 +7555,14 @@ type InvoiceIssuedSummaryWebhookEvent struct {
 // invoiceIssuedSummaryWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceIssuedSummaryWebhookEvent]
 type invoiceIssuedSummaryWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceIssuedSummaryWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7397,6 +8115,23 @@ func (r InvoiceIssuedSummaryWebhookEventInvoiceStatus) IsKnown() bool {
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceIssuedSummaryWebhookEventPayloadStyle string
+
+const (
+	InvoiceIssuedSummaryWebhookEventPayloadStyleExpanded InvoiceIssuedSummaryWebhookEventPayloadStyle = "expanded"
+	InvoiceIssuedSummaryWebhookEventPayloadStyleStandard InvoiceIssuedSummaryWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceIssuedSummaryWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceIssuedSummaryWebhookEventPayloadStyleExpanded, InvoiceIssuedSummaryWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type InvoiceIssuedSummaryWebhookEventProperties struct {
 	AutomaticallyMarkedAsPaid bool                                           `json:"automatically_marked_as_paid" api:"required"`
 	JSON                      invoiceIssuedSummaryWebhookEventPropertiesJSON `json:"-"`
@@ -7444,8 +8179,11 @@ type InvoiceManuallyMarkedAsPaidWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                    `json:"invoice" api:"required"`
-	Properties InvoiceManuallyMarkedAsPaidWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceManuallyMarkedAsPaidWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceManuallyMarkedAsPaidWebhookEventType `json:"type" api:"required"`
 	JSON invoiceManuallyMarkedAsPaidWebhookEventJSON `json:"-"`
@@ -7454,13 +8192,14 @@ type InvoiceManuallyMarkedAsPaidWebhookEvent struct {
 // invoiceManuallyMarkedAsPaidWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceManuallyMarkedAsPaidWebhookEvent]
 type invoiceManuallyMarkedAsPaidWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceManuallyMarkedAsPaidWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7472,6 +8211,23 @@ func (r invoiceManuallyMarkedAsPaidWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceManuallyMarkedAsPaidWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyle string
+
+const (
+	InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyleExpanded InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyle = "expanded"
+	InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyleStandard InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyleExpanded, InvoiceManuallyMarkedAsPaidWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceManuallyMarkedAsPaidWebhookEventProperties struct {
 	ExternalID          string                                                `json:"external_id" api:"required,nullable"`
@@ -7524,8 +8280,11 @@ type InvoiceManuallyMarkedAsVoidWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice `json:"invoice" api:"required"`
-	Properties interface{}    `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                         `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceManuallyMarkedAsVoidWebhookEventType `json:"type" api:"required"`
 	JSON invoiceManuallyMarkedAsVoidWebhookEventJSON `json:"-"`
@@ -7534,13 +8293,14 @@ type InvoiceManuallyMarkedAsVoidWebhookEvent struct {
 // invoiceManuallyMarkedAsVoidWebhookEventJSON contains the JSON metadata for the
 // struct [InvoiceManuallyMarkedAsVoidWebhookEvent]
 type invoiceManuallyMarkedAsVoidWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceManuallyMarkedAsVoidWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7552,6 +8312,23 @@ func (r invoiceManuallyMarkedAsVoidWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceManuallyMarkedAsVoidWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyle string
+
+const (
+	InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyleExpanded InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyle = "expanded"
+	InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyleStandard InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyleExpanded, InvoiceManuallyMarkedAsVoidWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type InvoiceManuallyMarkedAsVoidWebhookEventType string
@@ -7580,8 +8357,11 @@ type InvoicePaymentFailedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                             `json:"invoice" api:"required"`
-	Properties InvoicePaymentFailedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoicePaymentFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoicePaymentFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoicePaymentFailedWebhookEventType `json:"type" api:"required"`
 	JSON invoicePaymentFailedWebhookEventJSON `json:"-"`
@@ -7590,13 +8370,14 @@ type InvoicePaymentFailedWebhookEvent struct {
 // invoicePaymentFailedWebhookEventJSON contains the JSON metadata for the struct
 // [InvoicePaymentFailedWebhookEvent]
 type invoicePaymentFailedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoicePaymentFailedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7608,6 +8389,23 @@ func (r invoicePaymentFailedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoicePaymentFailedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoicePaymentFailedWebhookEventPayloadStyle string
+
+const (
+	InvoicePaymentFailedWebhookEventPayloadStyleExpanded InvoicePaymentFailedWebhookEventPayloadStyle = "expanded"
+	InvoicePaymentFailedWebhookEventPayloadStyleStandard InvoicePaymentFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoicePaymentFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoicePaymentFailedWebhookEventPayloadStyleExpanded, InvoicePaymentFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoicePaymentFailedWebhookEventProperties struct {
 	PaymentProvider              string                                         `json:"payment_provider" api:"required,nullable"`
@@ -7660,8 +8458,11 @@ type InvoicePaymentProcessingWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                 `json:"invoice" api:"required"`
-	Properties InvoicePaymentProcessingWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoicePaymentProcessingWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoicePaymentProcessingWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoicePaymentProcessingWebhookEventType `json:"type" api:"required"`
 	JSON invoicePaymentProcessingWebhookEventJSON `json:"-"`
@@ -7670,13 +8471,14 @@ type InvoicePaymentProcessingWebhookEvent struct {
 // invoicePaymentProcessingWebhookEventJSON contains the JSON metadata for the
 // struct [InvoicePaymentProcessingWebhookEvent]
 type invoicePaymentProcessingWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoicePaymentProcessingWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7688,6 +8490,23 @@ func (r invoicePaymentProcessingWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoicePaymentProcessingWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoicePaymentProcessingWebhookEventPayloadStyle string
+
+const (
+	InvoicePaymentProcessingWebhookEventPayloadStyleExpanded InvoicePaymentProcessingWebhookEventPayloadStyle = "expanded"
+	InvoicePaymentProcessingWebhookEventPayloadStyleStandard InvoicePaymentProcessingWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoicePaymentProcessingWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoicePaymentProcessingWebhookEventPayloadStyleExpanded, InvoicePaymentProcessingWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoicePaymentProcessingWebhookEventProperties struct {
 	PaymentProviderID string                                             `json:"payment_provider_id" api:"required,nullable"`
@@ -7740,6 +8559,9 @@ type InvoicePaymentSucceededWebhookEvent struct {
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
 	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoicePaymentSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// `shared_payment_token_id` is only on the wire when the payment used one.
 	Properties InvoicePaymentSucceededWebhookEventProperties `json:"properties" api:"required"`
 	// The event this payload describes.
@@ -7750,13 +8572,14 @@ type InvoicePaymentSucceededWebhookEvent struct {
 // invoicePaymentSucceededWebhookEventJSON contains the JSON metadata for the
 // struct [InvoicePaymentSucceededWebhookEvent]
 type invoicePaymentSucceededWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoicePaymentSucceededWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7768,6 +8591,23 @@ func (r invoicePaymentSucceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoicePaymentSucceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoicePaymentSucceededWebhookEventPayloadStyle string
+
+const (
+	InvoicePaymentSucceededWebhookEventPayloadStyleExpanded InvoicePaymentSucceededWebhookEventPayloadStyle = "expanded"
+	InvoicePaymentSucceededWebhookEventPayloadStyleStandard InvoicePaymentSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoicePaymentSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoicePaymentSucceededWebhookEventPayloadStyleExpanded, InvoicePaymentSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // `shared_payment_token_id` is only on the wire when the payment used one.
 type InvoicePaymentSucceededWebhookEventProperties struct {
@@ -7823,8 +8663,11 @@ type InvoiceSyncFailedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                          `json:"invoice" api:"required"`
-	Properties InvoiceSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceSyncFailedWebhookEventJSON `json:"-"`
@@ -7833,13 +8676,14 @@ type InvoiceSyncFailedWebhookEvent struct {
 // invoiceSyncFailedWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceSyncFailedWebhookEvent]
 type invoiceSyncFailedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceSyncFailedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7851,6 +8695,23 @@ func (r invoiceSyncFailedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceSyncFailedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceSyncFailedWebhookEventPayloadStyle string
+
+const (
+	InvoiceSyncFailedWebhookEventPayloadStyleExpanded InvoiceSyncFailedWebhookEventPayloadStyle = "expanded"
+	InvoiceSyncFailedWebhookEventPayloadStyleStandard InvoiceSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceSyncFailedWebhookEventPayloadStyleExpanded, InvoiceSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceSyncFailedWebhookEventProperties struct {
 	PaymentProvider   string                                      `json:"payment_provider" api:"required,nullable"`
@@ -7901,8 +8762,11 @@ type InvoiceSyncSucceededWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                             `json:"invoice" api:"required"`
-	Properties InvoiceSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON invoiceSyncSucceededWebhookEventJSON `json:"-"`
@@ -7911,13 +8775,14 @@ type InvoiceSyncSucceededWebhookEvent struct {
 // invoiceSyncSucceededWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceSyncSucceededWebhookEvent]
 type invoiceSyncSucceededWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceSyncSucceededWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -7929,6 +8794,23 @@ func (r invoiceSyncSucceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceSyncSucceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	InvoiceSyncSucceededWebhookEventPayloadStyleExpanded InvoiceSyncSucceededWebhookEventPayloadStyle = "expanded"
+	InvoiceSyncSucceededWebhookEventPayloadStyleStandard InvoiceSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceSyncSucceededWebhookEventPayloadStyleExpanded, InvoiceSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceSyncSucceededWebhookEventProperties struct {
 	PaymentProvider   string                                         `json:"payment_provider" api:"required,nullable"`
@@ -7979,8 +8861,11 @@ type InvoiceUndoMarkAsPaidWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice `json:"invoice" api:"required"`
-	Properties interface{}    `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceUndoMarkAsPaidWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceUndoMarkAsPaidWebhookEventType `json:"type" api:"required"`
 	JSON invoiceUndoMarkAsPaidWebhookEventJSON `json:"-"`
@@ -7989,13 +8874,14 @@ type InvoiceUndoMarkAsPaidWebhookEvent struct {
 // invoiceUndoMarkAsPaidWebhookEventJSON contains the JSON metadata for the struct
 // [InvoiceUndoMarkAsPaidWebhookEvent]
 type invoiceUndoMarkAsPaidWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Invoice     apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	Invoice      apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceUndoMarkAsPaidWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8007,6 +8893,23 @@ func (r invoiceUndoMarkAsPaidWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceUndoMarkAsPaidWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceUndoMarkAsPaidWebhookEventPayloadStyle string
+
+const (
+	InvoiceUndoMarkAsPaidWebhookEventPayloadStyleExpanded InvoiceUndoMarkAsPaidWebhookEventPayloadStyle = "expanded"
+	InvoiceUndoMarkAsPaidWebhookEventPayloadStyleStandard InvoiceUndoMarkAsPaidWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceUndoMarkAsPaidWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceUndoMarkAsPaidWebhookEventPayloadStyleExpanded, InvoiceUndoMarkAsPaidWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type InvoiceUndoMarkAsPaidWebhookEventType string
@@ -8028,8 +8931,11 @@ type InvoiceDueDateRecalculationCanceledWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties InvoiceDueDateRecalculationCanceledWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDueDateRecalculationCanceledWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDueDateRecalculationCanceledWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDueDateRecalculationCanceledWebhookEventJSON `json:"-"`
@@ -8038,12 +8944,13 @@ type InvoiceDueDateRecalculationCanceledWebhookEvent struct {
 // invoiceDueDateRecalculationCanceledWebhookEventJSON contains the JSON metadata
 // for the struct [InvoiceDueDateRecalculationCanceledWebhookEvent]
 type invoiceDueDateRecalculationCanceledWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDueDateRecalculationCanceledWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8055,6 +8962,23 @@ func (r invoiceDueDateRecalculationCanceledWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDueDateRecalculationCanceledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyle string
+
+const (
+	InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyleExpanded InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyle = "expanded"
+	InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyleStandard InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyleExpanded, InvoiceDueDateRecalculationCanceledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDueDateRecalculationCanceledWebhookEventProperties struct {
 	CanceledAt time.Time                                                     `json:"canceled_at" api:"required" format:"date-time"`
@@ -8100,8 +9024,11 @@ type InvoiceDueDateRecalculationCompletedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                  `json:"created_at" api:"required" format:"date-time"`
-	Properties InvoiceDueDateRecalculationCompletedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDueDateRecalculationCompletedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDueDateRecalculationCompletedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDueDateRecalculationCompletedWebhookEventJSON `json:"-"`
@@ -8110,12 +9037,13 @@ type InvoiceDueDateRecalculationCompletedWebhookEvent struct {
 // invoiceDueDateRecalculationCompletedWebhookEventJSON contains the JSON metadata
 // for the struct [InvoiceDueDateRecalculationCompletedWebhookEvent]
 type invoiceDueDateRecalculationCompletedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDueDateRecalculationCompletedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8127,6 +9055,23 @@ func (r invoiceDueDateRecalculationCompletedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDueDateRecalculationCompletedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyle string
+
+const (
+	InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyleExpanded InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyle = "expanded"
+	InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyleStandard InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyleExpanded, InvoiceDueDateRecalculationCompletedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDueDateRecalculationCompletedWebhookEventProperties struct {
 	CompletedAt time.Time                                                      `json:"completed_at" api:"required" format:"date-time"`
@@ -8172,8 +9117,11 @@ type InvoiceDueDateRecalculationStartedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                `json:"created_at" api:"required" format:"date-time"`
-	Properties InvoiceDueDateRecalculationStartedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle InvoiceDueDateRecalculationStartedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   InvoiceDueDateRecalculationStartedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type InvoiceDueDateRecalculationStartedWebhookEventType `json:"type" api:"required"`
 	JSON invoiceDueDateRecalculationStartedWebhookEventJSON `json:"-"`
@@ -8182,12 +9130,13 @@ type InvoiceDueDateRecalculationStartedWebhookEvent struct {
 // invoiceDueDateRecalculationStartedWebhookEventJSON contains the JSON metadata
 // for the struct [InvoiceDueDateRecalculationStartedWebhookEvent]
 type invoiceDueDateRecalculationStartedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *InvoiceDueDateRecalculationStartedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8199,6 +9148,23 @@ func (r invoiceDueDateRecalculationStartedWebhookEventJSON) RawJSON() string {
 }
 
 func (r InvoiceDueDateRecalculationStartedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type InvoiceDueDateRecalculationStartedWebhookEventPayloadStyle string
+
+const (
+	InvoiceDueDateRecalculationStartedWebhookEventPayloadStyleExpanded InvoiceDueDateRecalculationStartedWebhookEventPayloadStyle = "expanded"
+	InvoiceDueDateRecalculationStartedWebhookEventPayloadStyleStandard InvoiceDueDateRecalculationStartedWebhookEventPayloadStyle = "standard"
+)
+
+func (r InvoiceDueDateRecalculationStartedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case InvoiceDueDateRecalculationStartedWebhookEventPayloadStyleExpanded, InvoiceDueDateRecalculationStartedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type InvoiceDueDateRecalculationStartedWebhookEventProperties struct {
 	StartedAt time.Time                                                    `json:"started_at" api:"required" format:"date-time"`
@@ -8243,6 +9209,9 @@ type MetricEventsDroppedByWatermarkWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle MetricEventsDroppedByWatermarkWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// `window_start` and `window_end` are ISO-8601 strings rather than datetimes: the
 	// untyped message called `.isoformat()` on them, so they keep microseconds where
 	// the webhook JSON provider would have truncated them.
@@ -8255,12 +9224,13 @@ type MetricEventsDroppedByWatermarkWebhookEvent struct {
 // metricEventsDroppedByWatermarkWebhookEventJSON contains the JSON metadata for
 // the struct [MetricEventsDroppedByWatermarkWebhookEvent]
 type metricEventsDroppedByWatermarkWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *MetricEventsDroppedByWatermarkWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8272,6 +9242,23 @@ func (r metricEventsDroppedByWatermarkWebhookEventJSON) RawJSON() string {
 }
 
 func (r MetricEventsDroppedByWatermarkWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type MetricEventsDroppedByWatermarkWebhookEventPayloadStyle string
+
+const (
+	MetricEventsDroppedByWatermarkWebhookEventPayloadStyleExpanded MetricEventsDroppedByWatermarkWebhookEventPayloadStyle = "expanded"
+	MetricEventsDroppedByWatermarkWebhookEventPayloadStyleStandard MetricEventsDroppedByWatermarkWebhookEventPayloadStyle = "standard"
+)
+
+func (r MetricEventsDroppedByWatermarkWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case MetricEventsDroppedByWatermarkWebhookEventPayloadStyleExpanded, MetricEventsDroppedByWatermarkWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // `window_start` and `window_end` are ISO-8601 strings rather than datetimes: the
 // untyped message called `.isoformat()` on them, so they keep microseconds where
@@ -8326,6 +9313,9 @@ type PaymentMethodCreatedWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PaymentMethodCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// A payment method represents a customer's stored payment instrument held with an
 	// external payment provider (such as Adyen or Stripe).
 	//
@@ -8343,6 +9333,7 @@ type PaymentMethodCreatedWebhookEvent struct {
 type paymentMethodCreatedWebhookEventJSON struct {
 	ID            apijson.Field
 	CreatedAt     apijson.Field
+	PayloadStyle  apijson.Field
 	PaymentMethod apijson.Field
 	Properties    apijson.Field
 	Type          apijson.Field
@@ -8359,6 +9350,23 @@ func (r paymentMethodCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PaymentMethodCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PaymentMethodCreatedWebhookEventPayloadStyle string
+
+const (
+	PaymentMethodCreatedWebhookEventPayloadStyleExpanded PaymentMethodCreatedWebhookEventPayloadStyle = "expanded"
+	PaymentMethodCreatedWebhookEventPayloadStyleStandard PaymentMethodCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PaymentMethodCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PaymentMethodCreatedWebhookEventPayloadStyleExpanded, PaymentMethodCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // A payment method represents a customer's stored payment instrument held with an
 // external payment provider (such as Adyen or Stripe).
@@ -8447,6 +9455,9 @@ type PaymentMethodDeletedWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PaymentMethodDeletedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// A payment method represents a customer's stored payment instrument held with an
 	// external payment provider (such as Adyen or Stripe).
 	//
@@ -8464,6 +9475,7 @@ type PaymentMethodDeletedWebhookEvent struct {
 type paymentMethodDeletedWebhookEventJSON struct {
 	ID            apijson.Field
 	CreatedAt     apijson.Field
+	PayloadStyle  apijson.Field
 	PaymentMethod apijson.Field
 	Properties    apijson.Field
 	Type          apijson.Field
@@ -8480,6 +9492,23 @@ func (r paymentMethodDeletedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PaymentMethodDeletedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PaymentMethodDeletedWebhookEventPayloadStyle string
+
+const (
+	PaymentMethodDeletedWebhookEventPayloadStyleExpanded PaymentMethodDeletedWebhookEventPayloadStyle = "expanded"
+	PaymentMethodDeletedWebhookEventPayloadStyleStandard PaymentMethodDeletedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PaymentMethodDeletedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PaymentMethodDeletedWebhookEventPayloadStyleExpanded, PaymentMethodDeletedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // A payment method represents a customer's stored payment instrument held with an
 // external payment provider (such as Adyen or Stripe).
@@ -8567,9 +9596,12 @@ type PlanCreatedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                   `json:"created_at" api:"required" format:"date-time"`
-	Plan       PlanCreatedWebhookEventPlan `json:"plan" api:"required"`
-	Properties interface{}                 `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PlanCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Plan         PlanCreatedWebhookEventPlan         `json:"plan" api:"required"`
+	Properties   interface{}                         `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type PlanCreatedWebhookEventType `json:"type" api:"required"`
 	JSON planCreatedWebhookEventJSON `json:"-"`
@@ -8578,13 +9610,14 @@ type PlanCreatedWebhookEvent struct {
 // planCreatedWebhookEventJSON contains the JSON metadata for the struct
 // [PlanCreatedWebhookEvent]
 type planCreatedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Plan        apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Plan         apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PlanCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8596,6 +9629,23 @@ func (r planCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PlanCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PlanCreatedWebhookEventPayloadStyle string
+
+const (
+	PlanCreatedWebhookEventPayloadStyleExpanded PlanCreatedWebhookEventPayloadStyle = "expanded"
+	PlanCreatedWebhookEventPayloadStyleStandard PlanCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PlanCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PlanCreatedWebhookEventPayloadStyleExpanded, PlanCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type PlanCreatedWebhookEventPlan struct {
 	ID string `json:"id" api:"required,nullable"`
@@ -8645,9 +9695,12 @@ type PlanDefaultVersionSetWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                   `json:"created_at" api:"required" format:"date-time"`
-	Plan       PlanDefaultVersionSetWebhookEventPlan       `json:"plan" api:"required"`
-	Properties PlanDefaultVersionSetWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PlanDefaultVersionSetWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Plan         PlanDefaultVersionSetWebhookEventPlan         `json:"plan" api:"required"`
+	Properties   PlanDefaultVersionSetWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type PlanDefaultVersionSetWebhookEventType `json:"type" api:"required"`
 	JSON planDefaultVersionSetWebhookEventJSON `json:"-"`
@@ -8656,13 +9709,14 @@ type PlanDefaultVersionSetWebhookEvent struct {
 // planDefaultVersionSetWebhookEventJSON contains the JSON metadata for the struct
 // [PlanDefaultVersionSetWebhookEvent]
 type planDefaultVersionSetWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Plan        apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Plan         apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PlanDefaultVersionSetWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8674,6 +9728,23 @@ func (r planDefaultVersionSetWebhookEventJSON) RawJSON() string {
 }
 
 func (r PlanDefaultVersionSetWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PlanDefaultVersionSetWebhookEventPayloadStyle string
+
+const (
+	PlanDefaultVersionSetWebhookEventPayloadStyleExpanded PlanDefaultVersionSetWebhookEventPayloadStyle = "expanded"
+	PlanDefaultVersionSetWebhookEventPayloadStyleStandard PlanDefaultVersionSetWebhookEventPayloadStyle = "standard"
+)
+
+func (r PlanDefaultVersionSetWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PlanDefaultVersionSetWebhookEventPayloadStyleExpanded, PlanDefaultVersionSetWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type PlanDefaultVersionSetWebhookEventPlan struct {
 	ID string `json:"id" api:"required,nullable"`
@@ -8748,6 +9819,9 @@ type PlanEditedWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PlanEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -8762,13 +9836,14 @@ type PlanEditedWebhookEvent struct {
 // planEditedWebhookEventJSON contains the JSON metadata for the struct
 // [PlanEditedWebhookEvent]
 type planEditedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Plan        apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Plan         apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PlanEditedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8780,6 +9855,23 @@ func (r planEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PlanEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PlanEditedWebhookEventPayloadStyle string
+
+const (
+	PlanEditedWebhookEventPayloadStyleExpanded PlanEditedWebhookEventPayloadStyle = "expanded"
+	PlanEditedWebhookEventPayloadStyleStandard PlanEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PlanEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PlanEditedWebhookEventPayloadStyleExpanded, PlanEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type PlanEditedWebhookEventProperties struct {
 	// metadata values are non-null on the wire, as on the price event.
@@ -8869,9 +9961,12 @@ type PlanVersionCreatedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                `json:"created_at" api:"required" format:"date-time"`
-	Plan       PlanVersionCreatedWebhookEventPlan       `json:"plan" api:"required"`
-	Properties PlanVersionCreatedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PlanVersionCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Plan         PlanVersionCreatedWebhookEventPlan         `json:"plan" api:"required"`
+	Properties   PlanVersionCreatedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type PlanVersionCreatedWebhookEventType `json:"type" api:"required"`
 	JSON planVersionCreatedWebhookEventJSON `json:"-"`
@@ -8880,13 +9975,14 @@ type PlanVersionCreatedWebhookEvent struct {
 // planVersionCreatedWebhookEventJSON contains the JSON metadata for the struct
 // [PlanVersionCreatedWebhookEvent]
 type planVersionCreatedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Plan        apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Plan         apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PlanVersionCreatedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -8898,6 +9994,23 @@ func (r planVersionCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PlanVersionCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PlanVersionCreatedWebhookEventPayloadStyle string
+
+const (
+	PlanVersionCreatedWebhookEventPayloadStyleExpanded PlanVersionCreatedWebhookEventPayloadStyle = "expanded"
+	PlanVersionCreatedWebhookEventPayloadStyleStandard PlanVersionCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PlanVersionCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PlanVersionCreatedWebhookEventPayloadStyleExpanded, PlanVersionCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type PlanVersionCreatedWebhookEventPlan struct {
 	ID string `json:"id" api:"required,nullable"`
@@ -8971,6 +10084,9 @@ type PriceEditedWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle PriceEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -8991,13 +10107,14 @@ type PriceEditedWebhookEvent struct {
 // priceEditedWebhookEventJSON contains the JSON metadata for the struct
 // [PriceEditedWebhookEvent]
 type priceEditedWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Price       apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Price        apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PriceEditedWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -9009,6 +10126,23 @@ func (r priceEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r PriceEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type PriceEditedWebhookEventPayloadStyle string
+
+const (
+	PriceEditedWebhookEventPayloadStyleExpanded PriceEditedWebhookEventPayloadStyle = "expanded"
+	PriceEditedWebhookEventPayloadStyleStandard PriceEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r PriceEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case PriceEditedWebhookEventPayloadStyleExpanded, PriceEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type PriceEditedWebhookEventProperties struct {
 	// metadata values are non-null on the wire (deleting a key removes it from
@@ -9078,8 +10212,11 @@ type ResourceEventTestWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                               `json:"created_at" api:"required" format:"date-time"`
-	Properties ResourceEventTestWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle ResourceEventTestWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   ResourceEventTestWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type ResourceEventTestWebhookEventType `json:"type" api:"required"`
 	JSON resourceEventTestWebhookEventJSON `json:"-"`
@@ -9088,12 +10225,13 @@ type ResourceEventTestWebhookEvent struct {
 // resourceEventTestWebhookEventJSON contains the JSON metadata for the struct
 // [ResourceEventTestWebhookEvent]
 type resourceEventTestWebhookEventJSON struct {
-	ID          apijson.Field
-	CreatedAt   apijson.Field
-	Properties  apijson.Field
-	Type        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
+	Properties   apijson.Field
+	Type         apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *ResourceEventTestWebhookEvent) UnmarshalJSON(data []byte) (err error) {
@@ -9105,6 +10243,23 @@ func (r resourceEventTestWebhookEventJSON) RawJSON() string {
 }
 
 func (r ResourceEventTestWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type ResourceEventTestWebhookEventPayloadStyle string
+
+const (
+	ResourceEventTestWebhookEventPayloadStyleExpanded ResourceEventTestWebhookEventPayloadStyle = "expanded"
+	ResourceEventTestWebhookEventPayloadStyleStandard ResourceEventTestWebhookEventPayloadStyle = "standard"
+)
+
+func (r ResourceEventTestWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case ResourceEventTestWebhookEventPayloadStyleExpanded, ResourceEventTestWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type ResourceEventTestWebhookEventProperties struct {
 	Message string                                      `json:"message"`
@@ -9154,8 +10309,11 @@ type SalesOrderAccountingSyncFailedWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                       `json:"invoice" api:"required"`
-	Properties SalesOrderAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SalesOrderAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SalesOrderAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type SalesOrderAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON salesOrderAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -9168,6 +10326,7 @@ type salesOrderAccountingSyncFailedWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Invoice              apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -9241,6 +10400,23 @@ func (r SalesOrderAccountingSyncFailedWebhookEventAccountingSyncRecordRecordType
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SalesOrderAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	SalesOrderAccountingSyncFailedWebhookEventPayloadStyleExpanded SalesOrderAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	SalesOrderAccountingSyncFailedWebhookEventPayloadStyleStandard SalesOrderAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SalesOrderAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SalesOrderAccountingSyncFailedWebhookEventPayloadStyleExpanded, SalesOrderAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type SalesOrderAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                   `json:"connection_type" api:"required"`
 	FailureReason  string                                                   `json:"failure_reason" api:"required"`
@@ -9291,8 +10467,11 @@ type SalesOrderAccountingSyncSucceededWebhookEvent struct {
 	// set of line items, which correspond to prices in the subscription's plan and can
 	// represent fixed recurring fees or usage-based fees. They are generated at the
 	// end of a billing period, or as the result of an action, such as a cancellation.
-	Invoice    shared.Invoice                                          `json:"invoice" api:"required"`
-	Properties SalesOrderAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	Invoice shared.Invoice `json:"invoice" api:"required"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SalesOrderAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SalesOrderAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// The event this payload describes.
 	Type SalesOrderAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON salesOrderAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -9305,6 +10484,7 @@ type salesOrderAccountingSyncSucceededWebhookEventJSON struct {
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
 	Invoice              apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	raw                  string
@@ -9378,6 +10558,23 @@ func (r SalesOrderAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordT
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SalesOrderAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	SalesOrderAccountingSyncSucceededWebhookEventPayloadStyleExpanded SalesOrderAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	SalesOrderAccountingSyncSucceededWebhookEventPayloadStyleStandard SalesOrderAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SalesOrderAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SalesOrderAccountingSyncSucceededWebhookEventPayloadStyleExpanded, SalesOrderAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type SalesOrderAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                      `json:"connection_type" api:"required"`
 	JSON           salesOrderAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -9421,8 +10618,11 @@ type SubscriptionAccountingSyncFailedWebhookEvent struct {
 	ID                   string                                                           `json:"id" api:"required"`
 	AccountingSyncRecord SubscriptionAccountingSyncFailedWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                              `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionAccountingSyncFailedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -9454,6 +10654,7 @@ type subscriptionAccountingSyncFailedWebhookEventJSON struct {
 	ID                   apijson.Field
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Subscription         apijson.Field
 	Type                 apijson.Field
@@ -9528,6 +10729,23 @@ func (r SubscriptionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTy
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionAccountingSyncFailedWebhookEventPayloadStyleExpanded SubscriptionAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	SubscriptionAccountingSyncFailedWebhookEventPayloadStyleStandard SubscriptionAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionAccountingSyncFailedWebhookEventPayloadStyleExpanded, SubscriptionAccountingSyncFailedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type SubscriptionAccountingSyncFailedWebhookEventProperties struct {
 	ConnectionType string                                                     `json:"connection_type" api:"required"`
 	FailureReason  string                                                     `json:"failure_reason" api:"required"`
@@ -9572,8 +10790,11 @@ type SubscriptionAccountingSyncSucceededWebhookEvent struct {
 	ID                   string                                                              `json:"id" api:"required"`
 	AccountingSyncRecord SubscriptionAccountingSyncSucceededWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionAccountingSyncSucceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -9605,6 +10826,7 @@ type subscriptionAccountingSyncSucceededWebhookEventJSON struct {
 	ID                   apijson.Field
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Subscription         apijson.Field
 	Type                 apijson.Field
@@ -9679,6 +10901,23 @@ func (r SubscriptionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecor
 	return false
 }
 
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionAccountingSyncSucceededWebhookEventPayloadStyleExpanded SubscriptionAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionAccountingSyncSucceededWebhookEventPayloadStyleStandard SubscriptionAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionAccountingSyncSucceededWebhookEventPayloadStyleExpanded, SubscriptionAccountingSyncSucceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type SubscriptionAccountingSyncSucceededWebhookEventProperties struct {
 	ConnectionType string                                                        `json:"connection_type" api:"required"`
 	JSON           subscriptionAccountingSyncSucceededWebhookEventPropertiesJSON `json:"-"`
@@ -9722,6 +10961,9 @@ type SubscriptionAlertDisabledWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionAlertDisabledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// Sent when the system disables an alert on its own, currently for
 	// cardinality-limit enforcement on grouped cost alerts.
 	Properties SubscriptionAlertDisabledWebhookEventProperties `json:"properties" api:"required"`
@@ -9740,6 +10982,7 @@ type SubscriptionAlertDisabledWebhookEvent struct {
 type subscriptionAlertDisabledWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -9756,6 +10999,23 @@ func (r subscriptionAlertDisabledWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionAlertDisabledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionAlertDisabledWebhookEventPayloadStyle string
+
+const (
+	SubscriptionAlertDisabledWebhookEventPayloadStyleExpanded SubscriptionAlertDisabledWebhookEventPayloadStyle = "expanded"
+	SubscriptionAlertDisabledWebhookEventPayloadStyleStandard SubscriptionAlertDisabledWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionAlertDisabledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionAlertDisabledWebhookEventPayloadStyleExpanded, SubscriptionAlertDisabledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // Sent when the system disables an alert on its own, currently for
 // cardinality-limit enforcement on grouped cost alerts.
@@ -10261,8 +11521,11 @@ type SubscriptionCancellationScheduledWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                               `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionCancellationScheduledWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionCancellationScheduledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionCancellationScheduledWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -10293,6 +11556,7 @@ type SubscriptionCancellationScheduledWebhookEvent struct {
 type subscriptionCancellationScheduledWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -10309,6 +11573,23 @@ func (r subscriptionCancellationScheduledWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionCancellationScheduledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionCancellationScheduledWebhookEventPayloadStyle string
+
+const (
+	SubscriptionCancellationScheduledWebhookEventPayloadStyleExpanded SubscriptionCancellationScheduledWebhookEventPayloadStyle = "expanded"
+	SubscriptionCancellationScheduledWebhookEventPayloadStyleStandard SubscriptionCancellationScheduledWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionCancellationScheduledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionCancellationScheduledWebhookEventPayloadStyleExpanded, SubscriptionCancellationScheduledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionCancellationScheduledWebhookEventProperties struct {
 	CancellationDate string                                                      `json:"cancellation_date" api:"required"`
@@ -10352,8 +11633,11 @@ type SubscriptionCancellationUnscheduledWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionCancellationUnscheduledWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionCancellationUnscheduledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionCancellationUnscheduledWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -10384,6 +11668,7 @@ type SubscriptionCancellationUnscheduledWebhookEvent struct {
 type subscriptionCancellationUnscheduledWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -10400,6 +11685,23 @@ func (r subscriptionCancellationUnscheduledWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionCancellationUnscheduledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionCancellationUnscheduledWebhookEventPayloadStyle string
+
+const (
+	SubscriptionCancellationUnscheduledWebhookEventPayloadStyleExpanded SubscriptionCancellationUnscheduledWebhookEventPayloadStyle = "expanded"
+	SubscriptionCancellationUnscheduledWebhookEventPayloadStyleStandard SubscriptionCancellationUnscheduledWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionCancellationUnscheduledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionCancellationUnscheduledWebhookEventPayloadStyleExpanded, SubscriptionCancellationUnscheduledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionCancellationUnscheduledWebhookEventProperties struct {
 	OriginalCancellationDate string                                                        `json:"original_cancellation_date" api:"required"`
@@ -10443,8 +11745,11 @@ type SubscriptionCostExceededWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                      `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionCostExceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionCostExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionCostExceededWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -10475,6 +11780,7 @@ type SubscriptionCostExceededWebhookEvent struct {
 type subscriptionCostExceededWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -10491,6 +11797,23 @@ func (r subscriptionCostExceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionCostExceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionCostExceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionCostExceededWebhookEventPayloadStyleExpanded SubscriptionCostExceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionCostExceededWebhookEventPayloadStyleStandard SubscriptionCostExceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionCostExceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionCostExceededWebhookEventPayloadStyleExpanded, SubscriptionCostExceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionCostExceededWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -10902,8 +12225,11 @@ type SubscriptionCreatedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionCreatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                 `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -10934,6 +12260,7 @@ type SubscriptionCreatedWebhookEvent struct {
 type subscriptionCreatedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -10950,6 +12277,23 @@ func (r subscriptionCreatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionCreatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionCreatedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionCreatedWebhookEventPayloadStyleExpanded SubscriptionCreatedWebhookEventPayloadStyle = "expanded"
+	SubscriptionCreatedWebhookEventPayloadStyleStandard SubscriptionCreatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionCreatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionCreatedWebhookEventPayloadStyleExpanded, SubscriptionCreatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type SubscriptionCreatedWebhookEventType string
@@ -10971,8 +12315,11 @@ type SubscriptionEditedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionEditedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionEditedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionEditedWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -11003,6 +12350,7 @@ type SubscriptionEditedWebhookEvent struct {
 type subscriptionEditedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -11019,6 +12367,23 @@ func (r subscriptionEditedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionEditedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionEditedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionEditedWebhookEventPayloadStyleExpanded SubscriptionEditedWebhookEventPayloadStyle = "expanded"
+	SubscriptionEditedWebhookEventPayloadStyleStandard SubscriptionEditedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionEditedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionEditedWebhookEventPayloadStyleExpanded, SubscriptionEditedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionEditedWebhookEventProperties struct {
 	PreviousAttributes SubscriptionEditedWebhookEventPropertiesPreviousAttributes `json:"previous_attributes" api:"required"`
@@ -11093,8 +12458,11 @@ type SubscriptionEndedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionEndedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                               `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -11125,6 +12493,7 @@ type SubscriptionEndedWebhookEvent struct {
 type subscriptionEndedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -11141,6 +12510,23 @@ func (r subscriptionEndedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionEndedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionEndedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionEndedWebhookEventPayloadStyleExpanded SubscriptionEndedWebhookEventPayloadStyle = "expanded"
+	SubscriptionEndedWebhookEventPayloadStyleStandard SubscriptionEndedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionEndedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionEndedWebhookEventPayloadStyleExpanded, SubscriptionEndedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type SubscriptionEndedWebhookEventType string
@@ -11162,8 +12548,11 @@ type SubscriptionFixedFeeQuantityUpdatedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionFixedFeeQuantityUpdatedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionFixedFeeQuantityUpdatedWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -11194,6 +12583,7 @@ type SubscriptionFixedFeeQuantityUpdatedWebhookEvent struct {
 type subscriptionFixedFeeQuantityUpdatedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -11210,6 +12600,23 @@ func (r subscriptionFixedFeeQuantityUpdatedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionFixedFeeQuantityUpdatedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyleExpanded SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyle = "expanded"
+	SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyleStandard SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyleExpanded, SubscriptionFixedFeeQuantityUpdatedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionFixedFeeQuantityUpdatedWebhookEventProperties struct {
 	EffectiveDate time.Time                                                     `json:"effective_date" api:"required" format:"date-time"`
@@ -11260,6 +12667,9 @@ type SubscriptionGroupedCostExceededWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionGroupedCostExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// Every group that crossed a threshold for one alert, batched into a single
 	// message.
 	Properties SubscriptionGroupedCostExceededWebhookEventProperties `json:"properties" api:"required"`
@@ -11278,6 +12688,7 @@ type SubscriptionGroupedCostExceededWebhookEvent struct {
 type subscriptionGroupedCostExceededWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -11294,6 +12705,23 @@ func (r subscriptionGroupedCostExceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionGroupedCostExceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionGroupedCostExceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionGroupedCostExceededWebhookEventPayloadStyleExpanded SubscriptionGroupedCostExceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionGroupedCostExceededWebhookEventPayloadStyleStandard SubscriptionGroupedCostExceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionGroupedCostExceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionGroupedCostExceededWebhookEventPayloadStyleExpanded, SubscriptionGroupedCostExceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // Every group that crossed a threshold for one alert, batched into a single
 // message.
@@ -11815,8 +13243,11 @@ type SubscriptionInvoicingThresholdExceededWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                    `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionInvoicingThresholdExceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionInvoicingThresholdExceededWebhookEventProperties   `json:"properties" api:"required"`
 	// A lightweight subscription representation for webhook payloads.
 	//
 	// This avoids the expensive to_subscription_params() call required for full
@@ -11832,6 +13263,7 @@ type SubscriptionInvoicingThresholdExceededWebhookEvent struct {
 type subscriptionInvoicingThresholdExceededWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -11848,6 +13280,23 @@ func (r subscriptionInvoicingThresholdExceededWebhookEventJSON) RawJSON() string
 }
 
 func (r SubscriptionInvoicingThresholdExceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyleExpanded SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyleStandard SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyleExpanded, SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionInvoicingThresholdExceededWebhookEventProperties struct {
 	EvaluatedAmount         string                                                           `json:"evaluated_amount" api:"required"`
@@ -11979,6 +13428,9 @@ type SubscriptionLicenseAllocationResetWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionLicenseAllocationResetWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// Fires at the start of a billing period when license allocations are replenished.
 	// Allocations sharing a billing period are batched into one message.
 	Properties SubscriptionLicenseAllocationResetWebhookEventProperties `json:"properties" api:"required"`
@@ -11997,6 +13449,7 @@ type SubscriptionLicenseAllocationResetWebhookEvent struct {
 type subscriptionLicenseAllocationResetWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -12013,6 +13466,23 @@ func (r subscriptionLicenseAllocationResetWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionLicenseAllocationResetWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionLicenseAllocationResetWebhookEventPayloadStyle string
+
+const (
+	SubscriptionLicenseAllocationResetWebhookEventPayloadStyleExpanded SubscriptionLicenseAllocationResetWebhookEventPayloadStyle = "expanded"
+	SubscriptionLicenseAllocationResetWebhookEventPayloadStyleStandard SubscriptionLicenseAllocationResetWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionLicenseAllocationResetWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionLicenseAllocationResetWebhookEventPayloadStyleExpanded, SubscriptionLicenseAllocationResetWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // Fires at the start of a billing period when license allocations are replenished.
 // Allocations sharing a billing period are batched into one message.
@@ -12171,6 +13641,9 @@ type SubscriptionLicenseBalanceThresholdReachedWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// Every license that crossed a threshold for one alert, batched into a single
 	// message. For account-wide alerts the licenses may span several license types.
 	Properties SubscriptionLicenseBalanceThresholdReachedWebhookEventProperties `json:"properties" api:"required"`
@@ -12189,6 +13662,7 @@ type SubscriptionLicenseBalanceThresholdReachedWebhookEvent struct {
 type subscriptionLicenseBalanceThresholdReachedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -12205,6 +13679,23 @@ func (r subscriptionLicenseBalanceThresholdReachedWebhookEventJSON) RawJSON() st
 }
 
 func (r SubscriptionLicenseBalanceThresholdReachedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyleExpanded SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyle = "expanded"
+	SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyleStandard SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyleExpanded, SubscriptionLicenseBalanceThresholdReachedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // Every license that crossed a threshold for one alert, batched into a single
 // message. For account-wide alerts the licenses may span several license types.
@@ -12724,8 +14215,11 @@ type SubscriptionPlanChangeScheduledWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                             `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionPlanChangeScheduledWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionPlanChangeScheduledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionPlanChangeScheduledWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -12756,6 +14250,7 @@ type SubscriptionPlanChangeScheduledWebhookEvent struct {
 type subscriptionPlanChangeScheduledWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -12772,6 +14267,23 @@ func (r subscriptionPlanChangeScheduledWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionPlanChangeScheduledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionPlanChangeScheduledWebhookEventPayloadStyle string
+
+const (
+	SubscriptionPlanChangeScheduledWebhookEventPayloadStyleExpanded SubscriptionPlanChangeScheduledWebhookEventPayloadStyle = "expanded"
+	SubscriptionPlanChangeScheduledWebhookEventPayloadStyleStandard SubscriptionPlanChangeScheduledWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionPlanChangeScheduledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionPlanChangeScheduledWebhookEventPayloadStyleExpanded, SubscriptionPlanChangeScheduledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPlanChangeScheduledWebhookEventProperties struct {
 	ChangeDate     string                                                    `json:"change_date" api:"required"`
@@ -12818,8 +14330,11 @@ type SubscriptionPlanChangedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                     `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionPlanChangedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionPlanChangedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionPlanChangedWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -12850,6 +14365,7 @@ type SubscriptionPlanChangedWebhookEvent struct {
 type subscriptionPlanChangedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -12866,6 +14382,23 @@ func (r subscriptionPlanChangedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionPlanChangedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionPlanChangedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionPlanChangedWebhookEventPayloadStyleExpanded SubscriptionPlanChangedWebhookEventPayloadStyle = "expanded"
+	SubscriptionPlanChangedWebhookEventPayloadStyleStandard SubscriptionPlanChangedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionPlanChangedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionPlanChangedWebhookEventPayloadStyleExpanded, SubscriptionPlanChangedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPlanChangedWebhookEventProperties struct {
 	PreviousPlanID string                                            `json:"previous_plan_id" api:"required"`
@@ -12908,8 +14441,11 @@ type SubscriptionPlanVersionChangeScheduledWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                                    `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionPlanVersionChangeScheduledWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionPlanVersionChangeScheduledWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -12940,6 +14476,7 @@ type SubscriptionPlanVersionChangeScheduledWebhookEvent struct {
 type subscriptionPlanVersionChangeScheduledWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -12956,6 +14493,23 @@ func (r subscriptionPlanVersionChangeScheduledWebhookEventJSON) RawJSON() string
 }
 
 func (r SubscriptionPlanVersionChangeScheduledWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyle string
+
+const (
+	SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyleExpanded SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyle = "expanded"
+	SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyleStandard SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyleExpanded, SubscriptionPlanVersionChangeScheduledWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPlanVersionChangeScheduledWebhookEventProperties struct {
 	EffectiveDate             string                                                           `json:"effective_date" api:"required"`
@@ -13003,8 +14557,11 @@ type SubscriptionPlanVersionChangedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                            `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionPlanVersionChangedWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionPlanVersionChangedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionPlanVersionChangedWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -13035,6 +14592,7 @@ type SubscriptionPlanVersionChangedWebhookEvent struct {
 type subscriptionPlanVersionChangedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -13051,6 +14609,23 @@ func (r subscriptionPlanVersionChangedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionPlanVersionChangedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionPlanVersionChangedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionPlanVersionChangedWebhookEventPayloadStyleExpanded SubscriptionPlanVersionChangedWebhookEventPayloadStyle = "expanded"
+	SubscriptionPlanVersionChangedWebhookEventPayloadStyleStandard SubscriptionPlanVersionChangedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionPlanVersionChangedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionPlanVersionChangedWebhookEventPayloadStyleExpanded, SubscriptionPlanVersionChangedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPlanVersionChangedWebhookEventProperties struct {
 	EffectiveDate             string                                                   `json:"effective_date" api:"required"`
@@ -13098,8 +14673,11 @@ type SubscriptionSpendExceededWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                       `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionSpendExceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionSpendExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionSpendExceededWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -13130,6 +14708,7 @@ type SubscriptionSpendExceededWebhookEvent struct {
 type subscriptionSpendExceededWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -13146,6 +14725,23 @@ func (r subscriptionSpendExceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionSpendExceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionSpendExceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionSpendExceededWebhookEventPayloadStyleExpanded SubscriptionSpendExceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionSpendExceededWebhookEventPayloadStyleStandard SubscriptionSpendExceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionSpendExceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionSpendExceededWebhookEventPayloadStyleExpanded, SubscriptionSpendExceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSpendExceededWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -13557,8 +15153,11 @@ type SubscriptionStartedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionStartedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                 `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -13589,6 +15188,7 @@ type SubscriptionStartedWebhookEvent struct {
 type subscriptionStartedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -13605,6 +15205,23 @@ func (r subscriptionStartedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionStartedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionStartedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionStartedWebhookEventPayloadStyleExpanded SubscriptionStartedWebhookEventPayloadStyle = "expanded"
+	SubscriptionStartedWebhookEventPayloadStyleStandard SubscriptionStartedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionStartedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionStartedWebhookEventPayloadStyleExpanded, SubscriptionStartedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type SubscriptionStartedWebhookEventType string
@@ -13626,8 +15243,11 @@ type SubscriptionTrialEndedWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time   `json:"created_at" api:"required" format:"date-time"`
-	Properties interface{} `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionTrialEndedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   interface{}                                    `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -13658,6 +15278,7 @@ type SubscriptionTrialEndedWebhookEvent struct {
 type subscriptionTrialEndedWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -13674,6 +15295,23 @@ func (r subscriptionTrialEndedWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionTrialEndedWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionTrialEndedWebhookEventPayloadStyle string
+
+const (
+	SubscriptionTrialEndedWebhookEventPayloadStyleExpanded SubscriptionTrialEndedWebhookEventPayloadStyle = "expanded"
+	SubscriptionTrialEndedWebhookEventPayloadStyleStandard SubscriptionTrialEndedWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionTrialEndedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionTrialEndedWebhookEventPayloadStyleExpanded, SubscriptionTrialEndedWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 // The event this payload describes.
 type SubscriptionTrialEndedWebhookEventType string
@@ -13696,8 +15334,11 @@ type SubscriptionUsageExceededWebhookEvent struct {
 	// The ID of this webhook event.
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt  time.Time                                       `json:"created_at" api:"required" format:"date-time"`
-	Properties SubscriptionUsageExceededWebhookEventProperties `json:"properties" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle SubscriptionUsageExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   SubscriptionUsageExceededWebhookEventProperties   `json:"properties" api:"required"`
 	// A [subscription](/core-concepts#subscription) represents the purchase of a plan
 	// by a customer.
 	//
@@ -13728,6 +15369,7 @@ type SubscriptionUsageExceededWebhookEvent struct {
 type subscriptionUsageExceededWebhookEventJSON struct {
 	ID           apijson.Field
 	CreatedAt    apijson.Field
+	PayloadStyle apijson.Field
 	Properties   apijson.Field
 	Subscription apijson.Field
 	Type         apijson.Field
@@ -13744,6 +15386,23 @@ func (r subscriptionUsageExceededWebhookEventJSON) RawJSON() string {
 }
 
 func (r SubscriptionUsageExceededWebhookEvent) implementsUnwrapWebhookEvent() {}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type SubscriptionUsageExceededWebhookEventPayloadStyle string
+
+const (
+	SubscriptionUsageExceededWebhookEventPayloadStyleExpanded SubscriptionUsageExceededWebhookEventPayloadStyle = "expanded"
+	SubscriptionUsageExceededWebhookEventPayloadStyleStandard SubscriptionUsageExceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r SubscriptionUsageExceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case SubscriptionUsageExceededWebhookEventPayloadStyleExpanded, SubscriptionUsageExceededWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
+}
 
 type SubscriptionUsageExceededWebhookEventProperties struct {
 	// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
@@ -14158,9 +15817,12 @@ type TransactionAccountingSyncFailedWebhookEvent struct {
 	ID                   string                                                          `json:"id" api:"required"`
 	AccountingSyncRecord TransactionAccountingSyncFailedWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt   time.Time                                              `json:"created_at" api:"required" format:"date-time"`
-	Properties  TransactionAccountingSyncFailedWebhookEventProperties  `json:"properties" api:"required"`
-	Transaction TransactionAccountingSyncFailedWebhookEventTransaction `json:"transaction" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle TransactionAccountingSyncFailedWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   TransactionAccountingSyncFailedWebhookEventProperties   `json:"properties" api:"required"`
+	Transaction  TransactionAccountingSyncFailedWebhookEventTransaction  `json:"transaction" api:"required"`
 	// The event this payload describes.
 	Type TransactionAccountingSyncFailedWebhookEventType `json:"type" api:"required"`
 	JSON transactionAccountingSyncFailedWebhookEventJSON `json:"-"`
@@ -14172,6 +15834,7 @@ type transactionAccountingSyncFailedWebhookEventJSON struct {
 	ID                   apijson.Field
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Transaction          apijson.Field
 	Type                 apijson.Field
@@ -14241,6 +15904,23 @@ const (
 func (r TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordType) IsKnown() bool {
 	switch r {
 	case TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeCustomer, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeInvoice, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeTransaction, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeCustomerBalanceTransaction, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeCreditNote, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeSubscription, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeSalesOrder, TransactionAccountingSyncFailedWebhookEventAccountingSyncRecordRecordTypeBlock:
+		return true
+	}
+	return false
+}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type TransactionAccountingSyncFailedWebhookEventPayloadStyle string
+
+const (
+	TransactionAccountingSyncFailedWebhookEventPayloadStyleExpanded TransactionAccountingSyncFailedWebhookEventPayloadStyle = "expanded"
+	TransactionAccountingSyncFailedWebhookEventPayloadStyleStandard TransactionAccountingSyncFailedWebhookEventPayloadStyle = "standard"
+)
+
+func (r TransactionAccountingSyncFailedWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case TransactionAccountingSyncFailedWebhookEventPayloadStyleExpanded, TransactionAccountingSyncFailedWebhookEventPayloadStyleStandard:
 		return true
 	}
 	return false
@@ -14347,9 +16027,12 @@ type TransactionAccountingSyncSucceededWebhookEvent struct {
 	ID                   string                                                             `json:"id" api:"required"`
 	AccountingSyncRecord TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
-	CreatedAt   time.Time                                                 `json:"created_at" api:"required" format:"date-time"`
-	Properties  TransactionAccountingSyncSucceededWebhookEventProperties  `json:"properties" api:"required"`
-	Transaction TransactionAccountingSyncSucceededWebhookEventTransaction `json:"transaction" api:"required"`
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle TransactionAccountingSyncSucceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
+	Properties   TransactionAccountingSyncSucceededWebhookEventProperties   `json:"properties" api:"required"`
+	Transaction  TransactionAccountingSyncSucceededWebhookEventTransaction  `json:"transaction" api:"required"`
 	// The event this payload describes.
 	Type TransactionAccountingSyncSucceededWebhookEventType `json:"type" api:"required"`
 	JSON transactionAccountingSyncSucceededWebhookEventJSON `json:"-"`
@@ -14361,6 +16044,7 @@ type transactionAccountingSyncSucceededWebhookEventJSON struct {
 	ID                   apijson.Field
 	AccountingSyncRecord apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Transaction          apijson.Field
 	Type                 apijson.Field
@@ -14430,6 +16114,23 @@ const (
 func (r TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordType) IsKnown() bool {
 	switch r {
 	case TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeCustomer, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeInvoice, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeTransaction, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeCustomerBalanceTransaction, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeCreditNote, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeSubscription, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeSalesOrder, TransactionAccountingSyncSucceededWebhookEventAccountingSyncRecordRecordTypeBlock:
+		return true
+	}
+	return false
+}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type TransactionAccountingSyncSucceededWebhookEventPayloadStyle string
+
+const (
+	TransactionAccountingSyncSucceededWebhookEventPayloadStyleExpanded TransactionAccountingSyncSucceededWebhookEventPayloadStyle = "expanded"
+	TransactionAccountingSyncSucceededWebhookEventPayloadStyleStandard TransactionAccountingSyncSucceededWebhookEventPayloadStyle = "standard"
+)
+
+func (r TransactionAccountingSyncSucceededWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case TransactionAccountingSyncSucceededWebhookEventPayloadStyleExpanded, TransactionAccountingSyncSucceededWebhookEventPayloadStyleStandard:
 		return true
 	}
 	return false
@@ -14536,6 +16237,9 @@ type UnwrapWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// The serialization style this payload was rendered in, as configured on the
+	// endpoint.
+	PayloadStyle UnwrapWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	// This field can have the runtime type of [interface{}],
 	// [BillableMetricEditedWebhookEventProperties],
 	// [CreditBlockAccountingSyncFailedWebhookEventProperties],
@@ -14698,6 +16402,7 @@ type UnwrapWebhookEvent struct {
 type unwrapWebhookEventJSON struct {
 	ID                   apijson.Field
 	CreatedAt            apijson.Field
+	PayloadStyle         apijson.Field
 	Properties           apijson.Field
 	Type                 apijson.Field
 	AccountingSyncRecord apijson.Field
@@ -15195,6 +16900,23 @@ func init() {
 			Type:       reflect.TypeOf(TransactionAccountingSyncSucceededWebhookEvent{}),
 		},
 	)
+}
+
+// The serialization style this payload was rendered in, as configured on the
+// endpoint.
+type UnwrapWebhookEventPayloadStyle string
+
+const (
+	UnwrapWebhookEventPayloadStyleExpanded UnwrapWebhookEventPayloadStyle = "expanded"
+	UnwrapWebhookEventPayloadStyleStandard UnwrapWebhookEventPayloadStyle = "standard"
+)
+
+func (r UnwrapWebhookEventPayloadStyle) IsKnown() bool {
+	switch r {
+	case UnwrapWebhookEventPayloadStyleExpanded, UnwrapWebhookEventPayloadStyleStandard:
+		return true
+	}
+	return false
 }
 
 // The event this payload describes.
