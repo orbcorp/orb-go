@@ -5158,6 +5158,9 @@ func (r MatrixSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}
 func (r MatrixSubLineItem) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
 }
 
+func (r MatrixSubLineItem) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
+}
+
 func (r MatrixSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}
 
 func (r MatrixSubLineItem) ImplementsInvoiceFetchUpcomingResponseLineItemsSubLineItem() {}
@@ -5767,6 +5770,9 @@ func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment()
 func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
 }
 
+func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
+}
+
 func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
 
 func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceFetchUpcomingResponseLineItemsAdjustment() {
@@ -5904,6 +5910,9 @@ func (r MonetaryMaximumAdjustment) ImplementsChangedSubscriptionResourcesCreated
 func (r MonetaryMaximumAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 
 func (r MonetaryMaximumAdjustment) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
+}
+
+func (r MonetaryMaximumAdjustment) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
 }
 
 func (r MonetaryMaximumAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
@@ -6047,6 +6056,9 @@ func (r MonetaryMinimumAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 func (r MonetaryMinimumAdjustment) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
 }
 
+func (r MonetaryMinimumAdjustment) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
+}
+
 func (r MonetaryMinimumAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
 
 func (r MonetaryMinimumAdjustment) ImplementsInvoiceFetchUpcomingResponseLineItemsAdjustment() {}
@@ -6183,6 +6195,9 @@ func (r MonetaryPercentageDiscountAdjustment) ImplementsChangedSubscriptionResou
 func (r MonetaryPercentageDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 
 func (r MonetaryPercentageDiscountAdjustment) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
+}
+
+func (r MonetaryPercentageDiscountAdjustment) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
 }
 
 func (r MonetaryPercentageDiscountAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
@@ -6322,6 +6337,9 @@ func (r MonetaryUsageDiscountAdjustment) ImplementsChangedSubscriptionResourcesC
 func (r MonetaryUsageDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 
 func (r MonetaryUsageDiscountAdjustment) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
+}
+
+func (r MonetaryUsageDiscountAdjustment) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsAdjustment() {
 }
 
 func (r MonetaryUsageDiscountAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
@@ -15174,6 +15192,9 @@ func (r OtherSubLineItem) ImplementsChangedSubscriptionResourcesCreatedInvoicesL
 func (r OtherSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}
 
 func (r OtherSubLineItem) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
+}
+
+func (r OtherSubLineItem) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
 }
 
 func (r OtherSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}
@@ -30878,6 +30899,9 @@ func (r TierSubLineItem) ImplementsChangedSubscriptionResourcesCreatedInvoicesLi
 func (r TierSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}
 
 func (r TierSubLineItem) ImplementsInvoiceEditedWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
+}
+
+func (r TierSubLineItem) ImplementsInvoiceEditedStandardWebhookEventPropertiesPreviousAttributesLineItemsSubLineItem() {
 }
 
 func (r TierSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}

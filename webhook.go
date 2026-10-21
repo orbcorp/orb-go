@@ -29,7 +29,8 @@ const WebhookHeaderTimestampFormat = "2006-01-02T15:04:05.999999999"
 // from the environment automatically. You should not instantiate this service
 // directly, and instead use the [NewWebhookService] method instead.
 type WebhookService struct {
-	Options []option.RequestOption
+	Options  []option.RequestOption
+	Standard *WebhookStandardService
 
 	// webhookSecret is the secret defined at the client level
 	webhookSecret string
@@ -41,6 +42,7 @@ type WebhookService struct {
 func NewWebhookService(opts ...option.RequestOption) (r *WebhookService) {
 	r = &WebhookService{}
 	r.Options = opts
+	r.Standard = NewWebhookStandardService(opts...)
 
 	// This is a dummy response object. We need to build a request config to be able to check the webhook secret defined
 	// at the client level.
@@ -63,6 +65,12 @@ func (r *WebhookService) Unwrap(payload []byte, opts ...option.RequestOption) (*
 		return res, err
 	}
 	return res, nil
+}
+
+// UnwrapStandard parses a delivery to an endpoint configured for standard
+// payloads. It is the same as [WebhookStandardService.UnwrapStandard].
+func (r *WebhookService) UnwrapStandard(payload []byte, opts ...option.RequestOption) (*UnwrapStandardWebhookEvent, error) {
+	return r.Standard.UnwrapStandard(payload, opts...)
 }
 
 // Issued when a backfill is closed and its events are reflected into usage.
@@ -17014,10 +17022,6 @@ func (r UnwrapWebhookEventType) IsKnown() bool {
 	return false
 }
 
-// Validates whether or not the webhook payload was sent by Orb. Pass an empty string to use the secret defined at the
-// client level.
-//
-// An error will be raised if the webhook payload was not sent by Orb.
 func (r *WebhookService) VerifySignature(payload []byte, headers http.Header, secret string, now time.Time) (err error) {
 	return r.verifySignatureImpl(payload, headers, secret, now, 5*time.Minute)
 }

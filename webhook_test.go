@@ -135,3 +135,19 @@ func TestVerifySignature(t *testing.T) {
 		}
 	})
 }
+
+func TestUnwrapStandard(t *testing.T) {
+	client := orb.NewClient(option.WithAPIKey("My API Key"))
+	payload := []byte(`{"id": "o4mmewpfNNTnjfZc", "created_at": "2024-03-27T15:42:29+00:00", "type": "resource_event.test", "payload_style": "standard", "properties": {"message": "A test webhook from Orb. Happy testing!"}}`)
+
+	event, err := client.Webhooks.UnwrapStandard(payload)
+	if err != nil {
+		t.Fatalf("did not expect error: %s", err.Error())
+	}
+	if event.Type != orb.UnwrapStandardWebhookEventTypeResourceEventTest {
+		t.Fatalf("expected type resource_event.test, got %s", event.Type)
+	}
+	if event.PayloadStyle != orb.UnwrapStandardWebhookEventPayloadStyleStandard {
+		t.Fatalf("expected payload_style standard, got %s", event.PayloadStyle)
+	}
+}
