@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.130.0](https://github.com/orbcorp/orb-go/compare/v1.129.0...v1.130.0) (2026-10-22)
+
+
+### Features
+
+* **api:** api update ([a24109d](https://github.com/orbcorp/orb-go/commit/a24109df110a9b2f6dff4714e61b7957ff2d531b))
+
+
+### Chores
+
+* correct the payload styles changelog entry ([#1](https://github.com/orbcorp/orb-go/issues/1)) ([4ac103f](https://github.com/orbcorp/orb-go/commit/4ac103f4e3bf593cdcab8e0e041fd0e03bf300aa))
+
 ## [1.129.0](https://github.com/orbcorp/orb-go/compare/v1.128.0...v1.129.0) (2026-10-21)
 
 
