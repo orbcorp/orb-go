@@ -5,7 +5,7 @@
 
 ### Features
 
-* **api:** api update ([a24109d](https://github.com/orbcorp/orb-go/commit/a24109df110a9b2f6dff4714e61b7957ff2d531b))
+* **api:** add `Webhooks.Standard.UnwrapStandard`, aliased as `Webhooks.UnwrapStandard`, which parses standard webhook payloads ([a24109d](https://github.com/orbcorp/orb-go/commit/a24109df110a9b2f6dff4714e61b7957ff2d531b))
 
 
 ### Chores
