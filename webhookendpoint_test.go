@@ -28,6 +28,7 @@ func TestWebhookEndpointNewWithOptionalParams(t *testing.T) {
 	_, err := client.WebhookEndpoints.New(context.TODO(), orb.WebhookEndpointNewParams{
 		URL:               orb.F("url"),
 		EnabledEventTypes: orb.F([]string{"string"}),
+		PayloadStyle:      orb.F(orb.WebhookEndpointNewParamsPayloadStyleExpanded),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -77,6 +78,7 @@ func TestWebhookEndpointUpdateWithOptionalParams(t *testing.T) {
 		"webhook_endpoint_id",
 		orb.WebhookEndpointUpdateParams{
 			EnabledEventTypes: orb.F([]string{"string"}),
+			PayloadStyle:      orb.F(orb.WebhookEndpointUpdateParamsPayloadStyleExpanded),
 			URL:               orb.F("url"),
 		},
 	)

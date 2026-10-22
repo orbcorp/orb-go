@@ -7549,7 +7549,8 @@ type InvoiceIssuedSummaryWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceIssuedSummaryWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -7583,7 +7584,8 @@ func (r invoiceIssuedSummaryWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceIssuedSummaryWebhookEvent) implementsUnwrapWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceIssuedSummaryWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -10975,10 +10977,8 @@ type SubscriptionAlertDisabledWebhookEvent struct {
 	// Sent when the system disables an alert on its own, currently for
 	// cardinality-limit enforcement on grouped cost alerts.
 	Properties SubscriptionAlertDisabledWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionAlertDisabledWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionAlertDisabledWebhookEventType `json:"type" api:"required"`
@@ -11430,10 +11430,8 @@ func (r SubscriptionAlertDisabledWebhookEventPropertiesReason) IsKnown() bool {
 	return false
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionAlertDisabledWebhookEventSubscription struct {
 	ID        string                                                  `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                 `json:"customer" api:"required"`
@@ -12681,10 +12679,8 @@ type SubscriptionGroupedCostExceededWebhookEvent struct {
 	// Every group that crossed a threshold for one alert, batched into a single
 	// message.
 	Properties SubscriptionGroupedCostExceededWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionGroupedCostExceededWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionGroupedCostExceededWebhookEventType `json:"type" api:"required"`
@@ -13149,10 +13145,8 @@ func (r subscriptionGroupedCostExceededWebhookEventPropertiesGroupJSON) RawJSON(
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionGroupedCostExceededWebhookEventSubscription struct {
 	ID        string                                                        `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                       `json:"customer" api:"required"`
@@ -13256,10 +13250,8 @@ type SubscriptionInvoicingThresholdExceededWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionInvoicingThresholdExceededWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionInvoicingThresholdExceededWebhookEventProperties   `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionInvoicingThresholdExceededWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionInvoicingThresholdExceededWebhookEventType `json:"type" api:"required"`
@@ -13334,10 +13326,8 @@ func (r subscriptionInvoicingThresholdExceededWebhookEventPropertiesJSON) RawJSO
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionInvoicingThresholdExceededWebhookEventSubscription struct {
 	ID        string                                                               `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                              `json:"customer" api:"required"`
@@ -13442,10 +13432,8 @@ type SubscriptionLicenseAllocationResetWebhookEvent struct {
 	// Fires at the start of a billing period when license allocations are replenished.
 	// Allocations sharing a billing period are batched into one message.
 	Properties SubscriptionLicenseAllocationResetWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionLicenseAllocationResetWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionLicenseAllocationResetWebhookEventType `json:"type" api:"required"`
@@ -13547,10 +13535,8 @@ func (r subscriptionLicenseAllocationResetWebhookEventPropertiesResetAllocationJ
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionLicenseAllocationResetWebhookEventSubscription struct {
 	ID        string                                                           `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                          `json:"customer" api:"required"`
@@ -13655,10 +13641,8 @@ type SubscriptionLicenseBalanceThresholdReachedWebhookEvent struct {
 	// Every license that crossed a threshold for one alert, batched into a single
 	// message. For account-wide alerts the licenses may span several license types.
 	Properties SubscriptionLicenseBalanceThresholdReachedWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionLicenseBalanceThresholdReachedWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionLicenseBalanceThresholdReachedWebhookEventType `json:"type" api:"required"`
@@ -14122,10 +14106,8 @@ func (r subscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesLicenseJ
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionLicenseBalanceThresholdReachedWebhookEventSubscription struct {
 	ID        string                                                                   `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                                  `json:"customer" api:"required"`

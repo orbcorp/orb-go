@@ -152,6 +152,11 @@ type WebhookEndpoint struct {
 	// The webhook event types sent to this endpoint. If null, all event types are
 	// sent.
 	EnabledEventTypes []string `json:"enabled_event_types" api:"required,nullable"`
+	// The payload style of the webhook events sent to this endpoint. `standard`
+	// payloads include each object's own fields and references to related objects,
+	// without invoice line items or subscription price intervals. `expanded` payloads
+	// include every object fully expanded.
+	PayloadStyle WebhookEndpointPayloadStyle `json:"payload_style" api:"required"`
 	// The HTTPS URL that Orb sends webhook events to.
 	URL  string              `json:"url" api:"required"`
 	JSON webhookEndpointJSON `json:"-"`
@@ -163,6 +168,7 @@ type webhookEndpointJSON struct {
 	CreatedAt         apijson.Field
 	Enabled           apijson.Field
 	EnabledEventTypes apijson.Field
+	PayloadStyle      apijson.Field
 	URL               apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -174,6 +180,25 @@ func (r *WebhookEndpoint) UnmarshalJSON(data []byte) (err error) {
 
 func (r webhookEndpointJSON) RawJSON() string {
 	return r.raw
+}
+
+// The payload style of the webhook events sent to this endpoint. `standard`
+// payloads include each object's own fields and references to related objects,
+// without invoice line items or subscription price intervals. `expanded` payloads
+// include every object fully expanded.
+type WebhookEndpointPayloadStyle string
+
+const (
+	WebhookEndpointPayloadStyleExpanded WebhookEndpointPayloadStyle = "expanded"
+	WebhookEndpointPayloadStyleStandard WebhookEndpointPayloadStyle = "standard"
+)
+
+func (r WebhookEndpointPayloadStyle) IsKnown() bool {
+	switch r {
+	case WebhookEndpointPayloadStyleExpanded, WebhookEndpointPayloadStyleStandard:
+		return true
+	}
+	return false
 }
 
 // A newly created webhook endpoint, along with the secret used to sign its webhook
@@ -188,6 +213,11 @@ type WebhookEndpointWithSecret struct {
 	// The webhook event types sent to this endpoint. If null, all event types are
 	// sent.
 	EnabledEventTypes []string `json:"enabled_event_types" api:"required,nullable"`
+	// The payload style of the webhook events sent to this endpoint. `standard`
+	// payloads include each object's own fields and references to related objects,
+	// without invoice line items or subscription price intervals. `expanded` payloads
+	// include every object fully expanded.
+	PayloadStyle WebhookEndpointWithSecretPayloadStyle `json:"payload_style" api:"required"`
 	// The secret used to sign the webhook events sent to this endpoint. Only returned
 	// when the endpoint is created.
 	Secret string `json:"secret" api:"required"`
@@ -203,6 +233,7 @@ type webhookEndpointWithSecretJSON struct {
 	CreatedAt         apijson.Field
 	Enabled           apijson.Field
 	EnabledEventTypes apijson.Field
+	PayloadStyle      apijson.Field
 	Secret            apijson.Field
 	URL               apijson.Field
 	raw               string
@@ -217,28 +248,87 @@ func (r webhookEndpointWithSecretJSON) RawJSON() string {
 	return r.raw
 }
 
+// The payload style of the webhook events sent to this endpoint. `standard`
+// payloads include each object's own fields and references to related objects,
+// without invoice line items or subscription price intervals. `expanded` payloads
+// include every object fully expanded.
+type WebhookEndpointWithSecretPayloadStyle string
+
+const (
+	WebhookEndpointWithSecretPayloadStyleExpanded WebhookEndpointWithSecretPayloadStyle = "expanded"
+	WebhookEndpointWithSecretPayloadStyleStandard WebhookEndpointWithSecretPayloadStyle = "standard"
+)
+
+func (r WebhookEndpointWithSecretPayloadStyle) IsKnown() bool {
+	switch r {
+	case WebhookEndpointWithSecretPayloadStyleExpanded, WebhookEndpointWithSecretPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type WebhookEndpointNewParams struct {
 	// The HTTPS URL that Orb sends webhook events to.
 	URL param.Field[string] `json:"url" api:"required"`
 	// The webhook event types to send to this endpoint. If omitted or null, all event
 	// types are sent.
 	EnabledEventTypes param.Field[[]string] `json:"enabled_event_types"`
+	// The payload style of the webhook events sent to this endpoint. If omitted or
+	// null, the account's default style is used.
+	PayloadStyle param.Field[WebhookEndpointNewParamsPayloadStyle] `json:"payload_style"`
 }
 
 func (r WebhookEndpointNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+// The payload style of the webhook events sent to this endpoint. If omitted or
+// null, the account's default style is used.
+type WebhookEndpointNewParamsPayloadStyle string
+
+const (
+	WebhookEndpointNewParamsPayloadStyleExpanded WebhookEndpointNewParamsPayloadStyle = "expanded"
+	WebhookEndpointNewParamsPayloadStyleStandard WebhookEndpointNewParamsPayloadStyle = "standard"
+)
+
+func (r WebhookEndpointNewParamsPayloadStyle) IsKnown() bool {
+	switch r {
+	case WebhookEndpointNewParamsPayloadStyleExpanded, WebhookEndpointNewParamsPayloadStyleStandard:
+		return true
+	}
+	return false
+}
+
 type WebhookEndpointUpdateParams struct {
 	// The webhook event types to send to this endpoint. Null sends all event types;
 	// omit to leave them unchanged.
 	EnabledEventTypes param.Field[[]string] `json:"enabled_event_types"`
+	// The payload style of the webhook events sent to this endpoint. Applies to events
+	// created after the change; omit to leave it unchanged.
+	PayloadStyle param.Field[WebhookEndpointUpdateParamsPayloadStyle] `json:"payload_style"`
 	// The HTTPS URL that Orb sends webhook events to.
 	URL param.Field[string] `json:"url"`
 }
 
 func (r WebhookEndpointUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The payload style of the webhook events sent to this endpoint. Applies to events
+// created after the change; omit to leave it unchanged.
+type WebhookEndpointUpdateParamsPayloadStyle string
+
+const (
+	WebhookEndpointUpdateParamsPayloadStyleExpanded WebhookEndpointUpdateParamsPayloadStyle = "expanded"
+	WebhookEndpointUpdateParamsPayloadStyleStandard WebhookEndpointUpdateParamsPayloadStyle = "standard"
+)
+
+func (r WebhookEndpointUpdateParamsPayloadStyle) IsKnown() bool {
+	switch r {
+	case WebhookEndpointUpdateParamsPayloadStyleExpanded, WebhookEndpointUpdateParamsPayloadStyleStandard:
+		return true
+	}
+	return false
 }
 
 type WebhookEndpointListParams struct {

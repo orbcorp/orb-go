@@ -60,9 +60,11 @@ func TestMetricUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"metric_id",
 		orb.MetricUpdateParams{
+			Description: orb.F("Sum of bytes downloaded in fast mode"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
+			Name: orb.F("Bytes downloaded"),
 		},
 	)
 	if err != nil {
@@ -93,6 +95,7 @@ func TestMetricListWithOptionalParams(t *testing.T) {
 		CreatedAtLte: orb.F(time.Now()),
 		Cursor:       orb.F("cursor"),
 		Limit:        orb.F(int64(1)),
+		Status:       orb.F(orb.MetricListParamsStatusActive),
 	})
 	if err != nil {
 		var apierr *orb.Error

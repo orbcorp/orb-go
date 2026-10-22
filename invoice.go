@@ -1459,7 +1459,8 @@ func (r InvoiceFetchUpcomingResponseStatus) IsKnown() bool {
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceIssueSummaryResponse struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -1998,7 +1999,8 @@ func (r InvoiceIssueSummaryResponseStatus) IsKnown() bool {
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceListSummaryResponse struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the

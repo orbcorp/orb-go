@@ -52,9 +52,10 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 	return res, err
 }
 
-// This endpoint allows you to update the `metadata` property on a metric. If you
-// pass `null` for the metadata value, it will clear any existing metadata for that
-// invoice.
+// This endpoint allows you to update the `name`, `description`, and `metadata`
+// properties on a metric. Fields left out of the request are not changed, and
+// `name` cannot be empty. If you pass `null` for the metadata value, it will clear
+// any existing metadata for that metric.
 func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
@@ -68,6 +69,9 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 
 // This endpoint is used to list [metrics](/core-concepts#metric). It returns
 // information about the metrics including its name, description, and item.
+//
+// Pass `status` to only return metrics with that status, e.g. `status=active` to
+// leave out archived metrics.
 func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -87,6 +91,9 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 
 // This endpoint is used to list [metrics](/core-concepts#metric). It returns
 // information about the metrics including its name, description, and item.
+//
+// Pass `status` to only return metrics with that status, e.g. `status=active` to
+// leave out archived metrics.
 func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[BillableMetric] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
@@ -187,10 +194,14 @@ func (r MetricNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type MetricUpdateParams struct {
+	// A description of the metric.
+	Description param.Field[string] `json:"description"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// The name of the metric.
+	Name param.Field[string] `json:"name"`
 }
 
 func (r MetricUpdateParams) MarshalJSON() (data []byte, err error) {
@@ -207,6 +218,8 @@ type MetricListParams struct {
 	Cursor param.Field[string] `query:"cursor"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
+	// The metric status to filter to ('active', 'archived', or 'draft').
+	Status param.Field[MetricListParamsStatus] `query:"status"`
 }
 
 // URLQuery serializes [MetricListParams]'s query parameters as `url.Values`.
@@ -215,4 +228,21 @@ func (r MetricListParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+// The metric status to filter to ('active', 'archived', or 'draft').
+type MetricListParamsStatus string
+
+const (
+	MetricListParamsStatusActive   MetricListParamsStatus = "active"
+	MetricListParamsStatusArchived MetricListParamsStatus = "archived"
+	MetricListParamsStatusDraft    MetricListParamsStatus = "draft"
+)
+
+func (r MetricListParamsStatus) IsKnown() bool {
+	switch r {
+	case MetricListParamsStatusActive, MetricListParamsStatusArchived, MetricListParamsStatusDraft:
+		return true
+	}
+	return false
 }

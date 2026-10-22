@@ -5105,7 +5105,8 @@ type InvoiceAccountingSyncFailedStandardWebhookEvent struct {
 	AccountingSyncRecord InvoiceAccountingSyncFailedStandardWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceAccountingSyncFailedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -5197,7 +5198,8 @@ func (r InvoiceAccountingSyncFailedStandardWebhookEventAccountingSyncRecordRecor
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceAccountingSyncFailedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -5803,7 +5805,8 @@ type InvoiceAccountingSyncSucceededStandardWebhookEvent struct {
 	AccountingSyncRecord InvoiceAccountingSyncSucceededStandardWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceAccountingSyncSucceededStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -5895,7 +5898,8 @@ func (r InvoiceAccountingSyncSucceededStandardWebhookEventAccountingSyncRecordRe
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceAccountingSyncSucceededStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -6983,7 +6987,8 @@ type InvoiceDunningScheduleCreatedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceDunningScheduleCreatedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -7017,7 +7022,8 @@ func (r invoiceDunningScheduleCreatedStandardWebhookEventJSON) RawJSON() string 
 
 func (r InvoiceDunningScheduleCreatedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceDunningScheduleCreatedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -7693,7 +7699,8 @@ type InvoiceDunningScheduleEndedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceDunningScheduleEndedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -7727,7 +7734,8 @@ func (r invoiceDunningScheduleEndedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceDunningScheduleEndedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceDunningScheduleEndedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -8400,7 +8408,8 @@ type InvoiceDunningScheduleResetStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceDunningScheduleResetStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -8434,7 +8443,8 @@ func (r invoiceDunningScheduleResetStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceDunningScheduleResetStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceDunningScheduleResetStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -9111,7 +9121,8 @@ type InvoiceDunningScheduleStepExecutedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceDunningScheduleStepExecutedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -9146,7 +9157,8 @@ func (r invoiceDunningScheduleStepExecutedStandardWebhookEventJSON) RawJSON() st
 func (r InvoiceDunningScheduleStepExecutedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceDunningScheduleStepExecutedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -9786,7 +9798,8 @@ type InvoiceEditedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceEditedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -9820,7 +9833,8 @@ func (r invoiceEditedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceEditedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceEditedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -11121,7 +11135,8 @@ type InvoiceIssueFailedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceIssueFailedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -11155,7 +11170,8 @@ func (r invoiceIssueFailedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceIssueFailedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceIssueFailedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -11757,7 +11773,8 @@ type InvoiceIssuedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceIssuedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -11791,7 +11808,8 @@ func (r invoiceIssuedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceIssuedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceIssuedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -12391,7 +12409,8 @@ type InvoiceIssuedSummaryStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceIssuedSummaryStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -12425,7 +12444,8 @@ func (r invoiceIssuedSummaryStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceIssuedSummaryStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceIssuedSummaryStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -13027,7 +13047,8 @@ type InvoiceManuallyMarkedAsPaidStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceManuallyMarkedAsPaidStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -13061,7 +13082,8 @@ func (r invoiceManuallyMarkedAsPaidStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceManuallyMarkedAsPaidStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceManuallyMarkedAsPaidStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -13668,7 +13690,8 @@ type InvoiceManuallyMarkedAsVoidStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceManuallyMarkedAsVoidStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -13702,7 +13725,8 @@ func (r invoiceManuallyMarkedAsVoidStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceManuallyMarkedAsVoidStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceManuallyMarkedAsVoidStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -14284,7 +14308,8 @@ type InvoicePaymentFailedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoicePaymentFailedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -14318,7 +14343,8 @@ func (r invoicePaymentFailedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoicePaymentFailedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoicePaymentFailedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -14924,7 +14950,8 @@ type InvoicePaymentProcessingStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoicePaymentProcessingStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -14958,7 +14985,8 @@ func (r invoicePaymentProcessingStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoicePaymentProcessingStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoicePaymentProcessingStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -15563,7 +15591,8 @@ type InvoicePaymentSucceededStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoicePaymentSucceededStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -15598,7 +15627,8 @@ func (r invoicePaymentSucceededStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoicePaymentSucceededStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoicePaymentSucceededStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -16207,7 +16237,8 @@ type InvoiceSyncFailedStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceSyncFailedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -16241,7 +16272,8 @@ func (r invoiceSyncFailedStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceSyncFailedStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceSyncFailedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -16844,7 +16876,8 @@ type InvoiceSyncSucceededStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceSyncSucceededStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -16878,7 +16911,8 @@ func (r invoiceSyncSucceededStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceSyncSucceededStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceSyncSucceededStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -17482,7 +17516,8 @@ type InvoiceUndoMarkAsPaidStandardWebhookEvent struct {
 	ID string `json:"id" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice InvoiceUndoMarkAsPaidStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -17516,7 +17551,8 @@ func (r invoiceUndoMarkAsPaidStandardWebhookEventJSON) RawJSON() string {
 
 func (r InvoiceUndoMarkAsPaidStandardWebhookEvent) implementsUnwrapStandardWebhookEvent() {}
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type InvoiceUndoMarkAsPaidStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -19477,7 +19513,8 @@ type SalesOrderAccountingSyncFailedStandardWebhookEvent struct {
 	AccountingSyncRecord SalesOrderAccountingSyncFailedStandardWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice SalesOrderAccountingSyncFailedStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -19569,7 +19606,8 @@ func (r SalesOrderAccountingSyncFailedStandardWebhookEventAccountingSyncRecordRe
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type SalesOrderAccountingSyncFailedStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -20176,7 +20214,8 @@ type SalesOrderAccountingSyncSucceededStandardWebhookEvent struct {
 	AccountingSyncRecord SalesOrderAccountingSyncSucceededStandardWebhookEventAccountingSyncRecord `json:"accounting_sync_record" api:"required"`
 	// The time at which this event was created, to the second.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
-	// #InvoiceApiResourceWithoutLineItems
+	// An invoice without its line items, subtotal, discounts, minimums or maximums.
+	// Fetch the invoice for those.
 	Invoice SalesOrderAccountingSyncSucceededStandardWebhookEventInvoice `json:"invoice" api:"required"`
 	// The serialization style this payload was rendered in, as configured on the
 	// endpoint.
@@ -20269,7 +20308,8 @@ func (r SalesOrderAccountingSyncSucceededStandardWebhookEventAccountingSyncRecor
 	return false
 }
 
-// #InvoiceApiResourceWithoutLineItems
+// An invoice without its line items, subtotal, discounts, minimums or maximums.
+// Fetch the invoice for those.
 type SalesOrderAccountingSyncSucceededStandardWebhookEventInvoice struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -20878,9 +20918,9 @@ type SubscriptionAccountingSyncFailedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionAccountingSyncFailedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionAccountingSyncFailedStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionAccountingSyncFailedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionAccountingSyncFailedStandardWebhookEventType `json:"type" api:"required"`
@@ -21010,9 +21050,9 @@ func (r subscriptionAccountingSyncFailedStandardWebhookEventPropertiesJSON) RawJ
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionAccountingSyncFailedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -21129,9 +21169,9 @@ type SubscriptionAccountingSyncSucceededStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionAccountingSyncSucceededStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionAccountingSyncSucceededStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionAccountingSyncSucceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionAccountingSyncSucceededStandardWebhookEventType `json:"type" api:"required"`
@@ -21260,9 +21300,9 @@ func (r subscriptionAccountingSyncSucceededStandardWebhookEventPropertiesJSON) R
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionAccountingSyncSucceededStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -21380,10 +21420,8 @@ type SubscriptionAlertDisabledStandardWebhookEvent struct {
 	// Sent when the system disables an alert on its own, currently for
 	// cardinality-limit enforcement on grouped cost alerts.
 	Properties SubscriptionAlertDisabledStandardWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionAlertDisabledStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionAlertDisabledStandardWebhookEventType `json:"type" api:"required"`
@@ -21836,10 +21874,8 @@ func (r SubscriptionAlertDisabledStandardWebhookEventPropertiesReason) IsKnown()
 	return false
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionAlertDisabledStandardWebhookEventSubscription struct {
 	ID        string                                                          `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                         `json:"customer" api:"required"`
@@ -21942,9 +21978,9 @@ type SubscriptionCancellationScheduledStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionCancellationScheduledStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionCancellationScheduledStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionCancellationScheduledStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionCancellationScheduledStandardWebhookEventType `json:"type" api:"required"`
@@ -22014,9 +22050,9 @@ func (r subscriptionCancellationScheduledStandardWebhookEventPropertiesJSON) Raw
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionCancellationScheduledStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -22132,9 +22168,9 @@ type SubscriptionCancellationUnscheduledStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionCancellationUnscheduledStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionCancellationUnscheduledStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionCancellationUnscheduledStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionCancellationUnscheduledStandardWebhookEventType `json:"type" api:"required"`
@@ -22205,9 +22241,9 @@ func (r subscriptionCancellationUnscheduledStandardWebhookEventPropertiesJSON) R
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionCancellationUnscheduledStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -22323,9 +22359,9 @@ type SubscriptionCostExceededStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionCostExceededStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionCostExceededStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionCostExceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionCostExceededStandardWebhookEventType `json:"type" api:"required"`
@@ -22762,9 +22798,9 @@ func (r subscriptionCostExceededStandardWebhookEventPropertiesAlertConfiguration
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionCostExceededStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -22880,9 +22916,9 @@ type SubscriptionCreatedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionCreatedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   interface{}                                         `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionCreatedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionCreatedStandardWebhookEventType `json:"type" api:"required"`
@@ -22929,9 +22965,9 @@ func (r SubscriptionCreatedStandardWebhookEventPayloadStyle) IsKnown() bool {
 	return false
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionCreatedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -23046,9 +23082,9 @@ type SubscriptionEditedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionEditedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionEditedStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionEditedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionEditedStandardWebhookEventType `json:"type" api:"required"`
@@ -23148,9 +23184,9 @@ func (r subscriptionEditedStandardWebhookEventPropertiesPreviousAttributesJSON) 
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionEditedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -23264,9 +23300,9 @@ type SubscriptionEndedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionEndedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   interface{}                                       `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionEndedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionEndedStandardWebhookEventType `json:"type" api:"required"`
@@ -23313,9 +23349,9 @@ func (r SubscriptionEndedStandardWebhookEventPayloadStyle) IsKnown() bool {
 	return false
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionEndedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -23429,9 +23465,9 @@ type SubscriptionFixedFeeQuantityUpdatedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionFixedFeeQuantityUpdatedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionFixedFeeQuantityUpdatedStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionFixedFeeQuantityUpdatedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionFixedFeeQuantityUpdatedStandardWebhookEventType `json:"type" api:"required"`
@@ -23508,9 +23544,9 @@ func (r subscriptionFixedFeeQuantityUpdatedStandardWebhookEventPropertiesJSON) R
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionFixedFeeQuantityUpdatedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -23628,10 +23664,8 @@ type SubscriptionGroupedCostExceededStandardWebhookEvent struct {
 	// Every group that crossed a threshold for one alert, batched into a single
 	// message.
 	Properties SubscriptionGroupedCostExceededStandardWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionGroupedCostExceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionGroupedCostExceededStandardWebhookEventType `json:"type" api:"required"`
@@ -24097,10 +24131,8 @@ func (r subscriptionGroupedCostExceededStandardWebhookEventPropertiesGroupJSON) 
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionGroupedCostExceededStandardWebhookEventSubscription struct {
 	ID        string                                                                `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                               `json:"customer" api:"required"`
@@ -24204,10 +24236,8 @@ type SubscriptionInvoicingThresholdExceededStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionInvoicingThresholdExceededStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionInvoicingThresholdExceededStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionInvoicingThresholdExceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionInvoicingThresholdExceededStandardWebhookEventType `json:"type" api:"required"`
@@ -24284,10 +24314,8 @@ func (r subscriptionInvoicingThresholdExceededStandardWebhookEventPropertiesJSON
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionInvoicingThresholdExceededStandardWebhookEventSubscription struct {
 	ID        string                                                                       `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                                      `json:"customer" api:"required"`
@@ -24392,10 +24420,8 @@ type SubscriptionLicenseAllocationResetStandardWebhookEvent struct {
 	// Fires at the start of a billing period when license allocations are replenished.
 	// Allocations sharing a billing period are batched into one message.
 	Properties SubscriptionLicenseAllocationResetStandardWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionLicenseAllocationResetStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionLicenseAllocationResetStandardWebhookEventType `json:"type" api:"required"`
@@ -24498,10 +24524,8 @@ func (r subscriptionLicenseAllocationResetStandardWebhookEventPropertiesResetAll
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionLicenseAllocationResetStandardWebhookEventSubscription struct {
 	ID        string                                                                   `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                                  `json:"customer" api:"required"`
@@ -24606,10 +24630,8 @@ type SubscriptionLicenseBalanceThresholdReachedStandardWebhookEvent struct {
 	// Every license that crossed a threshold for one alert, batched into a single
 	// message. For account-wide alerts the licenses may span several license types.
 	Properties SubscriptionLicenseBalanceThresholdReachedStandardWebhookEventProperties `json:"properties" api:"required"`
-	// A lightweight subscription representation for webhook payloads.
-	//
-	// This avoids the expensive to_subscription_params() call required for full
-	// serialization.
+	// The subscription in a license or grouped cost webhook payload: its status,
+	// dates, plan and customer.
 	Subscription SubscriptionLicenseBalanceThresholdReachedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionLicenseBalanceThresholdReachedStandardWebhookEventType `json:"type" api:"required"`
@@ -25075,10 +25097,8 @@ func (r subscriptionLicenseBalanceThresholdReachedStandardWebhookEventProperties
 	return r.raw
 }
 
-// A lightweight subscription representation for webhook payloads.
-//
-// This avoids the expensive to_subscription_params() call required for full
-// serialization.
+// The subscription in a license or grouped cost webhook payload: its status,
+// dates, plan and customer.
 type SubscriptionLicenseBalanceThresholdReachedStandardWebhookEventSubscription struct {
 	ID        string                                                                           `json:"id" api:"required"`
 	Customer  shared.CustomerMinified                                                          `json:"customer" api:"required"`
@@ -25181,9 +25201,9 @@ type SubscriptionPlanChangeScheduledStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionPlanChangeScheduledStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionPlanChangeScheduledStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionPlanChangeScheduledStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionPlanChangeScheduledStandardWebhookEventType `json:"type" api:"required"`
@@ -25256,9 +25276,9 @@ func (r subscriptionPlanChangeScheduledStandardWebhookEventPropertiesJSON) RawJS
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionPlanChangeScheduledStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -25374,9 +25394,9 @@ type SubscriptionPlanChangedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionPlanChangedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionPlanChangedStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionPlanChangedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionPlanChangedStandardWebhookEventType `json:"type" api:"required"`
@@ -25444,9 +25464,9 @@ func (r subscriptionPlanChangedStandardWebhookEventPropertiesJSON) RawJSON() str
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionPlanChangedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -25562,9 +25582,9 @@ type SubscriptionPlanVersionChangeScheduledStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionPlanVersionChangeScheduledStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionPlanVersionChangeScheduledStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionPlanVersionChangeScheduledStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionPlanVersionChangeScheduledStandardWebhookEventType `json:"type" api:"required"`
@@ -25639,9 +25659,9 @@ func (r subscriptionPlanVersionChangeScheduledStandardWebhookEventPropertiesJSON
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionPlanVersionChangeScheduledStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -25757,9 +25777,9 @@ type SubscriptionPlanVersionChangedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionPlanVersionChangedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionPlanVersionChangedStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionPlanVersionChangedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionPlanVersionChangedStandardWebhookEventType `json:"type" api:"required"`
@@ -25832,9 +25852,9 @@ func (r subscriptionPlanVersionChangedStandardWebhookEventPropertiesJSON) RawJSO
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionPlanVersionChangedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -25951,9 +25971,9 @@ type SubscriptionSpendExceededStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionSpendExceededStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionSpendExceededStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionSpendExceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionSpendExceededStandardWebhookEventType `json:"type" api:"required"`
@@ -26391,9 +26411,9 @@ func (r subscriptionSpendExceededStandardWebhookEventPropertiesAlertConfiguratio
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionSpendExceededStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -26509,9 +26529,9 @@ type SubscriptionStartedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionStartedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   interface{}                                         `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionStartedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionStartedStandardWebhookEventType `json:"type" api:"required"`
@@ -26558,9 +26578,9 @@ func (r SubscriptionStartedStandardWebhookEventPayloadStyle) IsKnown() bool {
 	return false
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionStartedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -26675,9 +26695,9 @@ type SubscriptionTrialEndedStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionTrialEndedStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   interface{}                                            `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionTrialEndedStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionTrialEndedStandardWebhookEventType `json:"type" api:"required"`
@@ -26724,9 +26744,9 @@ func (r SubscriptionTrialEndedStandardWebhookEventPayloadStyle) IsKnown() bool {
 	return false
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionTrialEndedStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
@@ -26842,9 +26862,9 @@ type SubscriptionUsageExceededStandardWebhookEvent struct {
 	// endpoint.
 	PayloadStyle SubscriptionUsageExceededStandardWebhookEventPayloadStyle `json:"payload_style" api:"required"`
 	Properties   SubscriptionUsageExceededStandardWebhookEventProperties   `json:"properties" api:"required"`
-	// The subscription in a standard webhook payload: the fields readable without
-	// to_subscription_params(), which every interval, billing period and plan phase
-	// depends on.
+	// The subscription in a standard webhook payload: its own fields, with its plan
+	// and customer as references. Fetch the subscription for its price intervals,
+	// billing periods, plan phases and other derived fields.
 	Subscription SubscriptionUsageExceededStandardWebhookEventSubscription `json:"subscription" api:"required"`
 	// The event this payload describes.
 	Type SubscriptionUsageExceededStandardWebhookEventType `json:"type" api:"required"`
@@ -27284,9 +27304,9 @@ func (r subscriptionUsageExceededStandardWebhookEventPropertiesAlertConfiguratio
 	return r.raw
 }
 
-// The subscription in a standard webhook payload: the fields readable without
-// to_subscription_params(), which every interval, billing period and plan phase
-// depends on.
+// The subscription in a standard webhook payload: its own fields, with its plan
+// and customer as references. Fetch the subscription for its price intervals,
+// billing periods, plan phases and other derived fields.
 type SubscriptionUsageExceededStandardWebhookEventSubscription struct {
 	ID        string                  `json:"id" api:"required"`
 	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`

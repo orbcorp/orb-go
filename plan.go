@@ -66,8 +66,9 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 	return res, err
 }
 
-// This endpoint can be used to update the `external_plan_id`, `description`, and
-// `metadata` of an existing plan.
+// This endpoint can be used to update the `name`, `external_plan_id`,
+// `description`, and `metadata` of an existing plan. A plan's `name` cannot be
+// empty.
 //
 // Other fields on a plan are currently immutable.
 func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
@@ -3178,6 +3179,8 @@ type PlanUpdateParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// The name of the plan.
+	Name param.Field[string] `json:"name"`
 }
 
 func (r PlanUpdateParams) MarshalJSON() (data []byte, err error) {
