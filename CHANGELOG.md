@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.131.0](https://github.com/orbcorp/orb-go/compare/v1.130.0...v1.131.0) (2026-10-23)
+
+
+### Features
+
+* **api:** Add customer credit balance summary endpoints ([31aaa47](https://github.com/orbcorp/orb-go/commit/31aaa47eabd4da3e7857f1b129218959e0413991))
+* **api:** Add endpoint to update credit block metadata ([18c36c5](https://github.com/orbcorp/orb-go/commit/18c36c56241f96a9366b339e9fb417cd2a420a5b))
+* **api:** api update ([18c36c5](https://github.com/orbcorp/orb-go/commit/18c36c56241f96a9366b339e9fb417cd2a420a5b))
+* **api:** api update ([18c36c5](https://github.com/orbcorp/orb-go/commit/18c36c56241f96a9366b339e9fb417cd2a420a5b))
+* **api:** api update ([18c36c5](https://github.com/orbcorp/orb-go/commit/18c36c56241f96a9366b339e9fb417cd2a420a5b))
+
+
+### Chores
+
+* correct the standard webhook unwrap changelog entry ([#2](https://github.com/orbcorp/orb-go/issues/2)) ([cc98db8](https://github.com/orbcorp/orb-go/commit/cc98db8f9d0178356323f52bc1b16e2ba8ac9426))
+
 ## [1.130.0](https://github.com/orbcorp/orb-go/compare/v1.129.0...v1.130.0) (2026-10-22)
 
 
