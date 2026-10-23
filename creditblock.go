@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
+	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/shared"
@@ -47,6 +48,26 @@ func (r *CreditBlockService) Get(ctx context.Context, blockID string, opts ...op
 	}
 	path := fmt.Sprintf("credit_blocks/%s", blockID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
+// This endpoint updates the `metadata` of a credit block. Keys you pass are added
+// to the block's existing metadata or overwrite the value already stored for that
+// key, and setting a key to `null` removes it. Passing `null` for `metadata`
+// clears all of the block's metadata. The block's `increment` entry in the
+// [credits ledger](fetch-customer-credits-ledger) reports the block's metadata, so
+// it shows the update too.
+//
+// Other fields on a credit block cannot be changed through this endpoint. Deleted
+// credit blocks return a 404.
+func (r *CreditBlockService) Update(ctx context.Context, blockID string, body CreditBlockUpdateParams, opts ...option.RequestOption) (res *CreditBlockUpdateResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if blockID == "" {
+		err = errors.New("missing required block_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("credit_blocks/%s", blockID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return res, err
 }
 
@@ -384,6 +405,288 @@ func (r *CreditBlockGetResponseCreditCommitment) UnmarshalJSON(data []byte) (err
 }
 
 func (r creditBlockGetResponseCreditCommitmentJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Credit Block resource models prepaid credits within Orb.
+type CreditBlockUpdateResponse struct {
+	ID      string  `json:"id" api:"required"`
+	Balance float64 `json:"balance" api:"required"`
+	// How this credit block was created: `allocation` (a subscription's recurring
+	// credit allocation), `top_up` (an automatic balance-threshold top-up),
+	// `commitment` (a subscription commitment true-up rolled forward as credit), or
+	// `manual` (a manual credit ledger increment, including credits voided or expired
+	// off another block).
+	CreditBlockSource     CreditBlockUpdateResponseCreditBlockSource `json:"credit_block_source" api:"required"`
+	EffectiveDate         time.Time                                  `json:"effective_date" api:"required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                  `json:"expiry_date" api:"required,nullable" format:"date-time"`
+	Filters               []CreditBlockUpdateResponseFilter          `json:"filters" api:"required"`
+	MaximumInitialBalance float64                                    `json:"maximum_initial_balance" api:"required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata         map[string]string               `json:"metadata" api:"required"`
+	PerUnitCostBasis string                          `json:"per_unit_cost_basis" api:"required,nullable"`
+	Status           CreditBlockUpdateResponseStatus `json:"status" api:"required"`
+	// The credit allocation that funded a block. Extends the allocation resource
+	// serialized on prices with the catalog-item attribution of the funding price.
+	CreditAllocation CreditBlockUpdateResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
+	// The subscription commitment whose true-up rolled forward into this credit block.
+	// Present only when `credit_block_source` is `commitment`.
+	CreditCommitment CreditBlockUpdateResponseCreditCommitment `json:"credit_commitment" api:"nullable"`
+	JSON             creditBlockUpdateResponseJSON             `json:"-"`
+}
+
+// creditBlockUpdateResponseJSON contains the JSON metadata for the struct
+// [CreditBlockUpdateResponse]
+type creditBlockUpdateResponseJSON struct {
+	ID                    apijson.Field
+	Balance               apijson.Field
+	CreditBlockSource     apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	Filters               apijson.Field
+	MaximumInitialBalance apijson.Field
+	Metadata              apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	CreditAllocation      apijson.Field
+	CreditCommitment      apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CreditBlockUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockUpdateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// How this credit block was created: `allocation` (a subscription's recurring
+// credit allocation), `top_up` (an automatic balance-threshold top-up),
+// `commitment` (a subscription commitment true-up rolled forward as credit), or
+// `manual` (a manual credit ledger increment, including credits voided or expired
+// off another block).
+type CreditBlockUpdateResponseCreditBlockSource string
+
+const (
+	CreditBlockUpdateResponseCreditBlockSourceAllocation CreditBlockUpdateResponseCreditBlockSource = "allocation"
+	CreditBlockUpdateResponseCreditBlockSourceTopUp      CreditBlockUpdateResponseCreditBlockSource = "top_up"
+	CreditBlockUpdateResponseCreditBlockSourceCommitment CreditBlockUpdateResponseCreditBlockSource = "commitment"
+	CreditBlockUpdateResponseCreditBlockSourceManual     CreditBlockUpdateResponseCreditBlockSource = "manual"
+)
+
+func (r CreditBlockUpdateResponseCreditBlockSource) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseCreditBlockSourceAllocation, CreditBlockUpdateResponseCreditBlockSourceTopUp, CreditBlockUpdateResponseCreditBlockSourceCommitment, CreditBlockUpdateResponseCreditBlockSourceManual:
+		return true
+	}
+	return false
+}
+
+type CreditBlockUpdateResponseFilter struct {
+	// The property of the price to filter on.
+	Field CreditBlockUpdateResponseFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CreditBlockUpdateResponseFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                            `json:"values" api:"required"`
+	JSON   creditBlockUpdateResponseFilterJSON `json:"-"`
+}
+
+// creditBlockUpdateResponseFilterJSON contains the JSON metadata for the struct
+// [CreditBlockUpdateResponseFilter]
+type creditBlockUpdateResponseFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditBlockUpdateResponseFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockUpdateResponseFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CreditBlockUpdateResponseFiltersField string
+
+const (
+	CreditBlockUpdateResponseFiltersFieldPriceID       CreditBlockUpdateResponseFiltersField = "price_id"
+	CreditBlockUpdateResponseFiltersFieldItemID        CreditBlockUpdateResponseFiltersField = "item_id"
+	CreditBlockUpdateResponseFiltersFieldPriceType     CreditBlockUpdateResponseFiltersField = "price_type"
+	CreditBlockUpdateResponseFiltersFieldCurrency      CreditBlockUpdateResponseFiltersField = "currency"
+	CreditBlockUpdateResponseFiltersFieldPricingUnitID CreditBlockUpdateResponseFiltersField = "pricing_unit_id"
+)
+
+func (r CreditBlockUpdateResponseFiltersField) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseFiltersFieldPriceID, CreditBlockUpdateResponseFiltersFieldItemID, CreditBlockUpdateResponseFiltersFieldPriceType, CreditBlockUpdateResponseFiltersFieldCurrency, CreditBlockUpdateResponseFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CreditBlockUpdateResponseFiltersOperator string
+
+const (
+	CreditBlockUpdateResponseFiltersOperatorIncludes CreditBlockUpdateResponseFiltersOperator = "includes"
+	CreditBlockUpdateResponseFiltersOperatorExcludes CreditBlockUpdateResponseFiltersOperator = "excludes"
+)
+
+func (r CreditBlockUpdateResponseFiltersOperator) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseFiltersOperatorIncludes, CreditBlockUpdateResponseFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type CreditBlockUpdateResponseStatus string
+
+const (
+	CreditBlockUpdateResponseStatusActive         CreditBlockUpdateResponseStatus = "active"
+	CreditBlockUpdateResponseStatusPendingPayment CreditBlockUpdateResponseStatus = "pending_payment"
+)
+
+func (r CreditBlockUpdateResponseStatus) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseStatusActive, CreditBlockUpdateResponseStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
+// The credit allocation that funded a block. Extends the allocation resource
+// serialized on prices with the catalog-item attribution of the funding price.
+type CreditBlockUpdateResponseCreditAllocation struct {
+	AllowsRollover   bool                    `json:"allows_rollover" api:"required"`
+	Currency         string                  `json:"currency" api:"required"`
+	CustomExpiration shared.CustomExpiration `json:"custom_expiration" api:"required,nullable"`
+	// The ID of the catalog item this block was allocated from, derived from the
+	// allocation's price.
+	ItemID        string                                            `json:"item_id" api:"required"`
+	Filters       []CreditBlockUpdateResponseCreditAllocationFilter `json:"filters"`
+	LicenseTypeID string                                            `json:"license_type_id" api:"nullable"`
+	JSON          creditBlockUpdateResponseCreditAllocationJSON     `json:"-"`
+}
+
+// creditBlockUpdateResponseCreditAllocationJSON contains the JSON metadata for the
+// struct [CreditBlockUpdateResponseCreditAllocation]
+type creditBlockUpdateResponseCreditAllocationJSON struct {
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	ItemID           apijson.Field
+	Filters          apijson.Field
+	LicenseTypeID    apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *CreditBlockUpdateResponseCreditAllocation) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockUpdateResponseCreditAllocationJSON) RawJSON() string {
+	return r.raw
+}
+
+type CreditBlockUpdateResponseCreditAllocationFilter struct {
+	// The property of the price to filter on.
+	Field CreditBlockUpdateResponseCreditAllocationFiltersField `json:"field" api:"required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CreditBlockUpdateResponseCreditAllocationFiltersOperator `json:"operator" api:"required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values" api:"required"`
+	JSON   creditBlockUpdateResponseCreditAllocationFilterJSON `json:"-"`
+}
+
+// creditBlockUpdateResponseCreditAllocationFilterJSON contains the JSON metadata
+// for the struct [CreditBlockUpdateResponseCreditAllocationFilter]
+type creditBlockUpdateResponseCreditAllocationFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditBlockUpdateResponseCreditAllocationFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockUpdateResponseCreditAllocationFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CreditBlockUpdateResponseCreditAllocationFiltersField string
+
+const (
+	CreditBlockUpdateResponseCreditAllocationFiltersFieldPriceID       CreditBlockUpdateResponseCreditAllocationFiltersField = "price_id"
+	CreditBlockUpdateResponseCreditAllocationFiltersFieldItemID        CreditBlockUpdateResponseCreditAllocationFiltersField = "item_id"
+	CreditBlockUpdateResponseCreditAllocationFiltersFieldPriceType     CreditBlockUpdateResponseCreditAllocationFiltersField = "price_type"
+	CreditBlockUpdateResponseCreditAllocationFiltersFieldCurrency      CreditBlockUpdateResponseCreditAllocationFiltersField = "currency"
+	CreditBlockUpdateResponseCreditAllocationFiltersFieldPricingUnitID CreditBlockUpdateResponseCreditAllocationFiltersField = "pricing_unit_id"
+)
+
+func (r CreditBlockUpdateResponseCreditAllocationFiltersField) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseCreditAllocationFiltersFieldPriceID, CreditBlockUpdateResponseCreditAllocationFiltersFieldItemID, CreditBlockUpdateResponseCreditAllocationFiltersFieldPriceType, CreditBlockUpdateResponseCreditAllocationFiltersFieldCurrency, CreditBlockUpdateResponseCreditAllocationFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CreditBlockUpdateResponseCreditAllocationFiltersOperator string
+
+const (
+	CreditBlockUpdateResponseCreditAllocationFiltersOperatorIncludes CreditBlockUpdateResponseCreditAllocationFiltersOperator = "includes"
+	CreditBlockUpdateResponseCreditAllocationFiltersOperatorExcludes CreditBlockUpdateResponseCreditAllocationFiltersOperator = "excludes"
+)
+
+func (r CreditBlockUpdateResponseCreditAllocationFiltersOperator) IsKnown() bool {
+	switch r {
+	case CreditBlockUpdateResponseCreditAllocationFiltersOperatorIncludes, CreditBlockUpdateResponseCreditAllocationFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// The subscription commitment whose true-up rolled forward into this credit block.
+// Present only when `credit_block_source` is `commitment`.
+type CreditBlockUpdateResponseCreditCommitment struct {
+	// The ID of the subscription commitment this block was rolled forward from.
+	ID string `json:"id" api:"required"`
+	// The subscription the commitment belongs to.
+	SubscriptionID string                                        `json:"subscription_id" api:"nullable"`
+	JSON           creditBlockUpdateResponseCreditCommitmentJSON `json:"-"`
+}
+
+// creditBlockUpdateResponseCreditCommitmentJSON contains the JSON metadata for the
+// struct [CreditBlockUpdateResponseCreditCommitment]
+type creditBlockUpdateResponseCreditCommitmentJSON struct {
+	ID             apijson.Field
+	SubscriptionID apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *CreditBlockUpdateResponseCreditCommitment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditBlockUpdateResponseCreditCommitmentJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -739,4 +1042,15 @@ func (r CreditBlockListInvoicesResponseInvoicesStatus) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type CreditBlockUpdateParams struct {
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r CreditBlockUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }

@@ -98,6 +98,24 @@ func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListPara
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
+// This endpoint archives a [metric](/core-concepts#metric). Archived metrics are
+// left out of `GET /v1/metrics` when filtering with `status=active`, and can't be
+// chosen when creating new plans in the Orb dashboard.
+//
+// Archiving does not change existing prices, plans, or subscriptions that use the
+// metric, and usage on those prices continues to be billed. A metric that is
+// already archived cannot be archived again.
+func (r *MetricService) Archive(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if metricID == "" {
+		err = errors.New("missing required metric_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("metrics/%s/archive", metricID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
 // This endpoint is used to fetch [metric](/core-concepts#metric) details given a
 // metric identifier. It returns information about the metrics including its name,
 // description, and item.
@@ -109,6 +127,20 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 	}
 	path := fmt.Sprintf("metrics/%s", metricID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
+// This endpoint restores an archived [metric](/core-concepts#metric) to `active`,
+// so it can be chosen for new plans again. Only archived metrics can be
+// unarchived.
+func (r *MetricService) Unarchive(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if metricID == "" {
+		err = errors.New("missing required metric_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("metrics/%s/unarchive", metricID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
