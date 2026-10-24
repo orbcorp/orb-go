@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.132.0](https://github.com/orbcorp/orb-go/compare/v1.131.0...v1.132.0) (2026-10-24)
+
+
+### Features
+
+* **api:** add list endpoint for lightweight subscription summaries ([c842224](https://github.com/orbcorp/orb-go/commit/c8422241727b70ad8c067b1829ac393bcf1e4287))
+
 ## [1.131.0](https://github.com/orbcorp/orb-go/compare/v1.130.0...v1.131.0) (2026-10-23)
 
 
