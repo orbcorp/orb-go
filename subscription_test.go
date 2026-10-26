@@ -501,6 +501,40 @@ func TestSubscriptionFetchUsageWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestSubscriptionListSummaryWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Subscriptions.ListSummary(context.TODO(), orb.SubscriptionListSummaryParams{
+		CreatedAtGt:        orb.F(time.Now()),
+		CreatedAtGte:       orb.F(time.Now()),
+		CreatedAtLt:        orb.F(time.Now()),
+		CreatedAtLte:       orb.F(time.Now()),
+		Cursor:             orb.F("cursor"),
+		CustomerID:         orb.F("customer_id"),
+		ExternalCustomerID: orb.F("external_customer_id"),
+		ExternalPlanID:     orb.F("external_plan_id"),
+		Limit:              orb.F(int64(1)),
+		PlanID:             orb.F("plan_id"),
+		Status:             orb.F(orb.SubscriptionListSummaryParamsStatusActive),
+	})
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 	t.Skip("Incorrect example breaks Prism")
 	baseURL := "http://localhost:4010"

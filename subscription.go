@@ -733,6 +733,45 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 	return res, err
 }
 
+// This is a lighter-weight version of
+// [List subscriptions](/api-reference/subscription/list-subscriptions), with the
+// same filters, pagination and order. It returns each subscription's own fields,
+// with its plan and customer as references, and leaves out price intervals,
+// billing periods, plan phases and other derived fields, making it faster to
+// respond. Fetch a subscription for those.
+//
+// This is the same summary of a subscription that standard
+// [webhook payloads](/integrations-and-exports/webhook-payload-styles) carry.
+func (r *SubscriptionService) ListSummary(ctx context.Context, query SubscriptionListSummaryParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionListSummaryResponse], err error) {
+	var raw *http.Response
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "subscriptions/summary"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// This is a lighter-weight version of
+// [List subscriptions](/api-reference/subscription/list-subscriptions), with the
+// same filters, pagination and order. It returns each subscription's own fields,
+// with its plan and customer as references, and leaves out price intervals,
+// billing periods, plan phases and other derived fields, making it faster to
+// respond. Fetch a subscription for those.
+//
+// This is the same summary of a subscription that standard
+// [webhook payloads](/integrations-and-exports/webhook-payload-styles) carry.
+func (r *SubscriptionService) ListSummaryAutoPaging(ctx context.Context, query SubscriptionListSummaryParams, opts ...option.RequestOption) *pagination.PageAutoPager[SubscriptionListSummaryResponse] {
+	return pagination.NewPageAutoPager(r.ListSummary(ctx, query, opts...))
+}
+
 // This endpoint is used to add and edit subscription
 // [price intervals](/api-reference/price-interval/add-or-edit-price-intervals). By
 // making modifications to a subscription’s price intervals, you can
@@ -6013,6 +6052,98 @@ func (r subscriptionFetchScheduleResponsePlanJSON) RawJSON() string {
 	return r.raw
 }
 
+// A subscription's own fields, with its plan and customer as references, as listed
+// by List subscription summaries and carried in standard webhook payloads. Fetch
+// the subscription for its price intervals, billing periods, plan phases and other
+// derived fields.
+type SubscriptionListSummaryResponse struct {
+	ID        string                  `json:"id" api:"required"`
+	CreatedAt time.Time               `json:"created_at" api:"required" format:"date-time"`
+	Customer  shared.CustomerMinified `json:"customer" api:"required"`
+	// The date Orb stops billing for this subscription.
+	EndDate time.Time `json:"end_date" api:"required,nullable" format:"date-time"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata" api:"required"`
+	// The name of the subscription.
+	Name string                              `json:"name" api:"required"`
+	Plan SubscriptionListSummaryResponsePlan `json:"plan" api:"required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                             `json:"start_date" api:"required" format:"date-time"`
+	Status    SubscriptionListSummaryResponseStatus `json:"status" api:"required"`
+	JSON      subscriptionListSummaryResponseJSON   `json:"-"`
+}
+
+// subscriptionListSummaryResponseJSON contains the JSON metadata for the struct
+// [SubscriptionListSummaryResponse]
+type subscriptionListSummaryResponseJSON struct {
+	ID          apijson.Field
+	CreatedAt   apijson.Field
+	Customer    apijson.Field
+	EndDate     apijson.Field
+	Metadata    apijson.Field
+	Name        apijson.Field
+	Plan        apijson.Field
+	StartDate   apijson.Field
+	Status      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionListSummaryResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionListSummaryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionListSummaryResponsePlan struct {
+	ID string `json:"id" api:"required,nullable"`
+	// An optional user-defined ID for this plan resource, used throughout the system
+	// as an alias for this Plan. Use this field to identify a plan by an existing
+	// identifier in your system.
+	ExternalPlanID string                                  `json:"external_plan_id" api:"required,nullable"`
+	Name           string                                  `json:"name" api:"required,nullable"`
+	JSON           subscriptionListSummaryResponsePlanJSON `json:"-"`
+}
+
+// subscriptionListSummaryResponsePlanJSON contains the JSON metadata for the
+// struct [SubscriptionListSummaryResponsePlan]
+type subscriptionListSummaryResponsePlanJSON struct {
+	ID             apijson.Field
+	ExternalPlanID apijson.Field
+	Name           apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *SubscriptionListSummaryResponsePlan) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionListSummaryResponsePlanJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionListSummaryResponseStatus string
+
+const (
+	SubscriptionListSummaryResponseStatusActive   SubscriptionListSummaryResponseStatus = "active"
+	SubscriptionListSummaryResponseStatusEnded    SubscriptionListSummaryResponseStatus = "ended"
+	SubscriptionListSummaryResponseStatusUpcoming SubscriptionListSummaryResponseStatus = "upcoming"
+)
+
+func (r SubscriptionListSummaryResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionListSummaryResponseStatusActive, SubscriptionListSummaryResponseStatusEnded, SubscriptionListSummaryResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParams struct {
 	// Additional adjustments to be added to the subscription. (Only available for
 	// accounts that have migrated off of legacy subscription overrides)
@@ -10832,6 +10963,48 @@ const (
 func (r SubscriptionFetchUsageParamsViewMode) IsKnown() bool {
 	switch r {
 	case SubscriptionFetchUsageParamsViewModePeriodic, SubscriptionFetchUsageParamsViewModeCumulative:
+		return true
+	}
+	return false
+}
+
+type SubscriptionListSummaryParams struct {
+	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
+	// Cursor for pagination. This can be populated by the `next_cursor` value returned
+	// from the initial request.
+	Cursor             param.Field[string] `query:"cursor"`
+	CustomerID         param.Field[string] `query:"customer_id"`
+	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
+	ExternalPlanID     param.Field[string] `query:"external_plan_id"`
+	// The number of items to fetch. Defaults to 20.
+	Limit  param.Field[int64]                               `query:"limit"`
+	PlanID param.Field[string]                              `query:"plan_id"`
+	Status param.Field[SubscriptionListSummaryParamsStatus] `query:"status"`
+}
+
+// URLQuery serializes [SubscriptionListSummaryParams]'s query parameters as
+// `url.Values`.
+func (r SubscriptionListSummaryParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type SubscriptionListSummaryParamsStatus string
+
+const (
+	SubscriptionListSummaryParamsStatusActive   SubscriptionListSummaryParamsStatus = "active"
+	SubscriptionListSummaryParamsStatusEnded    SubscriptionListSummaryParamsStatus = "ended"
+	SubscriptionListSummaryParamsStatusUpcoming SubscriptionListSummaryParamsStatus = "upcoming"
+)
+
+func (r SubscriptionListSummaryParamsStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionListSummaryParamsStatusActive, SubscriptionListSummaryParamsStatusEnded, SubscriptionListSummaryParamsStatusUpcoming:
 		return true
 	}
 	return false
