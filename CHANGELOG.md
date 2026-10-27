@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.133.0](https://github.com/orbcorp/orb-go/compare/v1.132.0...v1.133.0) (2026-10-27)
+
+
+### Features
+
+* **api:** allow up to 50 spend_exceeded alerts per plan or subscription ([6a13ea5](https://github.com/orbcorp/orb-go/commit/6a13ea5d1b756fcfb558069cc0de2e46bcd0367f))
+
 ## [1.132.0](https://github.com/orbcorp/orb-go/compare/v1.131.0...v1.132.0) (2026-10-24)
 
 
