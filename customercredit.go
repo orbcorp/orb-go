@@ -99,6 +99,56 @@ func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID s
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
+// This endpoint returns a customer's credit balance in a single currency or custom
+// pricing unit: the total available balance, the balance waiting on payment, and
+// the next upcoming expiration.
+//
+// `balance` is the sum of `balance` across the customer's `active` credit blocks,
+// as listed by
+// [Fetch customer credit balance](/api-reference/credit/fetch-customer-credit-balance).
+// Expired, depleted, and voided blocks are not included. Blocks in
+// `pending_payment` status are totaled in `pending_payment_balance` instead, and
+// become available once their invoice is paid.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string. A customer with no credits in
+// that currency returns a balance of `0`.
+func (r *CustomerCreditService) FetchBalance(ctx context.Context, customerID string, query CustomerCreditFetchBalanceParams, opts ...option.RequestOption) (res *CustomerCreditFetchBalanceResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("customers/%s/credits/balance", customerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return res, err
+}
+
+// This endpoint returns a customer's credit balance in a single currency or custom
+// pricing unit: the total available balance, the balance waiting on payment, and
+// the next upcoming expiration.
+//
+// `balance` is the sum of `balance` across the customer's `active` credit blocks,
+// as listed by
+// [Fetch customer credit balance](/api-reference/credit/fetch-customer-credit-balance).
+// Expired, depleted, and voided blocks are not included. Blocks in
+// `pending_payment` status are totaled in `pending_payment_balance` instead, and
+// become available once their invoice is paid.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string. A customer with no credits in
+// that currency returns a balance of `0`.
+func (r *CustomerCreditService) FetchBalanceByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditFetchBalanceByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditFetchBalanceByExternalIDResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("customers/external_customer_id/%s/credits/balance", externalCustomerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return res, err
+}
+
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
 //
 // If `include_all_blocks` is set to `true`, all credit blocks (including expired
@@ -426,6 +476,86 @@ func (r customerCreditListResponseCreditCommitmentJSON) RawJSON() string {
 	return r.raw
 }
 
+type CustomerCreditFetchBalanceResponse struct {
+	// The customer's available credit balance: the sum of `balance` across their
+	// `active` credit blocks.
+	Balance float64 `json:"balance" api:"required"`
+	// The currency or custom pricing unit the balances are denominated in. Null when
+	// no `currency` is passed and the customer has no credit ledger, in which case
+	// every balance is `0`.
+	Currency string `json:"currency" api:"required,nullable"`
+	// The balance that expires on `next_expiry_date`. Null if `next_expiry_date` is
+	// null.
+	NextExpiryBalance float64 `json:"next_expiry_balance" api:"required,nullable"`
+	// The earliest `expiry_date` among active credit blocks. Null if none of them
+	// expire.
+	NextExpiryDate time.Time `json:"next_expiry_date" api:"required,nullable" format:"date-time"`
+	// The total balance of credit blocks in `pending_payment` status. Not included in
+	// `balance` until the invoice that funds them is paid.
+	PendingPaymentBalance float64                                `json:"pending_payment_balance" api:"required"`
+	JSON                  customerCreditFetchBalanceResponseJSON `json:"-"`
+}
+
+// customerCreditFetchBalanceResponseJSON contains the JSON metadata for the struct
+// [CustomerCreditFetchBalanceResponse]
+type customerCreditFetchBalanceResponseJSON struct {
+	Balance               apijson.Field
+	Currency              apijson.Field
+	NextExpiryBalance     apijson.Field
+	NextExpiryDate        apijson.Field
+	PendingPaymentBalance apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CustomerCreditFetchBalanceResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditFetchBalanceResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCreditFetchBalanceByExternalIDResponse struct {
+	// The customer's available credit balance: the sum of `balance` across their
+	// `active` credit blocks.
+	Balance float64 `json:"balance" api:"required"`
+	// The currency or custom pricing unit the balances are denominated in. Null when
+	// no `currency` is passed and the customer has no credit ledger, in which case
+	// every balance is `0`.
+	Currency string `json:"currency" api:"required,nullable"`
+	// The balance that expires on `next_expiry_date`. Null if `next_expiry_date` is
+	// null.
+	NextExpiryBalance float64 `json:"next_expiry_balance" api:"required,nullable"`
+	// The earliest `expiry_date` among active credit blocks. Null if none of them
+	// expire.
+	NextExpiryDate time.Time `json:"next_expiry_date" api:"required,nullable" format:"date-time"`
+	// The total balance of credit blocks in `pending_payment` status. Not included in
+	// `balance` until the invoice that funds them is paid.
+	PendingPaymentBalance float64                                            `json:"pending_payment_balance" api:"required"`
+	JSON                  customerCreditFetchBalanceByExternalIDResponseJSON `json:"-"`
+}
+
+// customerCreditFetchBalanceByExternalIDResponseJSON contains the JSON metadata
+// for the struct [CustomerCreditFetchBalanceByExternalIDResponse]
+type customerCreditFetchBalanceByExternalIDResponseJSON struct {
+	Balance               apijson.Field
+	Currency              apijson.Field
+	NextExpiryBalance     apijson.Field
+	NextExpiryDate        apijson.Field
+	PendingPaymentBalance apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CustomerCreditFetchBalanceByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditFetchBalanceByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditListByExternalIDResponse struct {
 	ID      string  `json:"id" api:"required"`
 	Balance float64 `json:"balance" api:"required"`
@@ -725,6 +855,34 @@ type CustomerCreditListParams struct {
 // URLQuery serializes [CustomerCreditListParams]'s query parameters as
 // `url.Values`.
 func (r CustomerCreditListParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type CustomerCreditFetchBalanceParams struct {
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
+}
+
+// URLQuery serializes [CustomerCreditFetchBalanceParams]'s query parameters as
+// `url.Values`.
+func (r CustomerCreditFetchBalanceParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type CustomerCreditFetchBalanceByExternalIDParams struct {
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
+}
+
+// URLQuery serializes [CustomerCreditFetchBalanceByExternalIDParams]'s query
+// parameters as `url.Values`.
+func (r CustomerCreditFetchBalanceByExternalIDParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
