@@ -7805,10 +7805,18 @@ type InvoiceIssuedSummaryWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                     `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceIssuedSummaryWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                   `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                     `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceIssuedSummaryWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                   `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -7854,6 +7862,8 @@ type invoiceIssuedSummaryWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field

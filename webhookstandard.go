@@ -5419,10 +5419,18 @@ type InvoiceAccountingSyncFailedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                    `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                               `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceAccountingSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                    `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                               `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceAccountingSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -5468,6 +5476,8 @@ type invoiceAccountingSyncFailedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -6119,10 +6129,18 @@ type InvoiceAccountingSyncSucceededStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                       `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                                  `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceAccountingSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                     `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                       `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                                  `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceAccountingSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                     `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -6169,6 +6187,8 @@ type invoiceAccountingSyncSucceededStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -7243,10 +7263,18 @@ type InvoiceDunningScheduleCreatedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                      `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                                 `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceDunningScheduleCreatedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                    `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                      `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                                 `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceDunningScheduleCreatedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                    `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -7293,6 +7321,8 @@ type invoiceDunningScheduleCreatedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -7955,10 +7985,18 @@ type InvoiceDunningScheduleEndedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                    `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                               `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceDunningScheduleEndedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                    `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                               `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceDunningScheduleEndedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -8004,6 +8042,8 @@ type invoiceDunningScheduleEndedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -8664,10 +8704,18 @@ type InvoiceDunningScheduleResetStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                    `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                               `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceDunningScheduleResetStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                    `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                               `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceDunningScheduleResetStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -8713,6 +8761,8 @@ type invoiceDunningScheduleResetStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -9378,10 +9428,18 @@ type InvoiceDunningScheduleStepExecutedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                           `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                                      `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceDunningScheduleStepExecutedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                         `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                           `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                                      `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceDunningScheduleStepExecutedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                         `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -9428,6 +9486,8 @@ type invoiceDunningScheduleStepExecutedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -10054,10 +10114,18 @@ type InvoiceEditedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                      `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                 `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceEditedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                    `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                      `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                 `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceEditedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                    `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -10103,6 +10171,8 @@ type invoiceEditedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -11391,10 +11461,18 @@ type InvoiceIssueFailedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                           `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                      `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceIssueFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                         `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                           `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                      `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceIssueFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                         `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -11440,6 +11518,8 @@ type invoiceIssueFailedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -12029,10 +12109,18 @@ type InvoiceIssuedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                      `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                 `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceIssuedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                    `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                      `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                 `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceIssuedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                    `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -12078,6 +12166,8 @@ type invoiceIssuedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -12665,10 +12755,18 @@ type InvoiceIssuedSummaryStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                             `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                        `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceIssuedSummaryStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                             `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                        `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceIssuedSummaryStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -12714,6 +12812,8 @@ type invoiceIssuedSummaryStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -13303,10 +13403,18 @@ type InvoiceManuallyMarkedAsPaidStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                    `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                               `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceManuallyMarkedAsPaidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                    `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                               `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceManuallyMarkedAsPaidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -13352,6 +13460,8 @@ type invoiceManuallyMarkedAsPaidStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -13946,10 +14056,18 @@ type InvoiceManuallyMarkedAsVoidStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                    `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                               `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceManuallyMarkedAsVoidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                    `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                               `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceManuallyMarkedAsVoidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                  `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -13995,6 +14113,8 @@ type invoiceManuallyMarkedAsVoidStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -14564,10 +14684,18 @@ type InvoicePaymentFailedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                             `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                        `json:"shipping_address" api:"required,nullable"`
-	Status           InvoicePaymentFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                             `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                        `json:"shipping_address" api:"required,nullable"`
+	Status             InvoicePaymentFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -14613,6 +14741,8 @@ type invoicePaymentFailedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -15206,10 +15336,18 @@ type InvoicePaymentProcessingStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                 `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                            `json:"shipping_address" api:"required,nullable"`
-	Status           InvoicePaymentProcessingStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                               `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                 `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                            `json:"shipping_address" api:"required,nullable"`
+	Status             InvoicePaymentProcessingStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                               `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -15255,6 +15393,8 @@ type invoicePaymentProcessingStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -15848,10 +15988,18 @@ type InvoicePaymentSucceededStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                           `json:"shipping_address" api:"required,nullable"`
-	Status           InvoicePaymentSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                              `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                           `json:"shipping_address" api:"required,nullable"`
+	Status             InvoicePaymentSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                              `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -15897,6 +16045,8 @@ type invoicePaymentSucceededStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -16493,10 +16643,18 @@ type InvoiceSyncFailedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                          `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                     `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                        `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                          `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                     `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                        `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -16542,6 +16700,8 @@ type invoiceSyncFailedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -17132,10 +17292,18 @@ type InvoiceSyncSucceededStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                             `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                        `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                             `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                        `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                           `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -17181,6 +17349,8 @@ type invoiceSyncSucceededStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -17772,10 +17942,18 @@ type InvoiceUndoMarkAsPaidStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                              `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                         `json:"shipping_address" api:"required,nullable"`
-	Status           InvoiceUndoMarkAsPaidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                            `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                              `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                         `json:"shipping_address" api:"required,nullable"`
+	Status             InvoiceUndoMarkAsPaidStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                            `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -17821,6 +17999,8 @@ type invoiceUndoMarkAsPaidStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -19827,10 +20007,18 @@ type SalesOrderAccountingSyncFailedStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                       `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                                  `json:"shipping_address" api:"required,nullable"`
-	Status           SalesOrderAccountingSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                     `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                       `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                                  `json:"shipping_address" api:"required,nullable"`
+	Status             SalesOrderAccountingSyncFailedStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                     `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -19877,6 +20065,8 @@ type salesOrderAccountingSyncFailedStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
@@ -20529,10 +20719,18 @@ type SalesOrderAccountingSyncSucceededStandardWebhookEventInvoice struct {
 	PaymentStartedAt time.Time `json:"payment_started_at" api:"required,nullable" format:"date-time"`
 	// If the invoice is in draft, this timestamp will reflect when the invoice is
 	// scheduled to be issued.
-	ScheduledIssueAt time.Time                                                          `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
-	ShippingAddress  shared.Address                                                     `json:"shipping_address" api:"required,nullable"`
-	Status           SalesOrderAccountingSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
-	Subscription     shared.SubscriptionMinified                                        `json:"subscription" api:"required,nullable"`
+	ScheduledIssueAt time.Time `json:"scheduled_issue_at" api:"required,nullable" format:"date-time"`
+	// The latest `end_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodEnd time.Time `json:"service_period_end" api:"required,nullable" format:"date-time"`
+	// The earliest `start_date` of the invoice's line items, including any line items
+	// hidden because they have zero quantity. This is `null` when the invoice has no
+	// line items.
+	ServicePeriodStart time.Time                                                          `json:"service_period_start" api:"required,nullable" format:"date-time"`
+	ShippingAddress    shared.Address                                                     `json:"shipping_address" api:"required,nullable"`
+	Status             SalesOrderAccountingSyncSucceededStandardWebhookEventInvoiceStatus `json:"status" api:"required"`
+	Subscription       shared.SubscriptionMinified                                        `json:"subscription" api:"required,nullable"`
 	// If the invoice failed to sync, this will be the last time an external invoicing
 	// provider sync was attempted. This field will always be `null` for invoices using
 	// Orb Invoicing.
@@ -20579,6 +20777,8 @@ type salesOrderAccountingSyncSucceededStandardWebhookEventInvoiceJSON struct {
 	PaymentReceivedAt           apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
+	ServicePeriodEnd            apijson.Field
+	ServicePeriodStart          apijson.Field
 	ShippingAddress             apijson.Field
 	Status                      apijson.Field
 	Subscription                apijson.Field
