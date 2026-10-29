@@ -35,7 +35,7 @@ func TestDimensionalPriceGroupPriceNewWithOptionalParams(t *testing.T) {
 			ModelType: orb.F(orb.DimensionalPriceGroupPriceNewParamsModelTypeUnit),
 			Prices: orb.F([]orb.DimensionalPriceGroupPriceNewParamsPrice{{
 				Amounts:         orb.F([]float64{0.000000}),
-				DimensionValues: orb.F([]string{"string"}),
+				DimensionValues: orb.F([]string{"x"}),
 				Name:            orb.F("name"),
 			}}),
 			Tiers: orb.F([]orb.DimensionalPriceGroupPriceNewParamsTier{{
