@@ -39,7 +39,8 @@ func NewCreditBlockService(opts ...option.RequestOption) (r *CreditBlockService)
 	return
 }
 
-// This endpoint returns a credit block identified by its block_id.
+// This endpoint returns a credit block identified by its block_id. A deleted
+// credit block is returned with a `status` of `void` and a `balance` of 0.
 func (r *CreditBlockService) Get(ctx context.Context, blockID string, opts ...option.RequestOption) (res *CreditBlockGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if blockID == "" {
@@ -144,9 +145,11 @@ type CreditBlockGetResponse struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata         map[string]string            `json:"metadata" api:"required"`
-	PerUnitCostBasis string                       `json:"per_unit_cost_basis" api:"required,nullable"`
-	Status           CreditBlockGetResponseStatus `json:"status" api:"required"`
+	Metadata         map[string]string `json:"metadata" api:"required"`
+	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
+	// `void` means the credit block was deleted. A voided block's `balance` is
+	// always 0.
+	Status CreditBlockGetResponseStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
 	// serialized on prices with the catalog-item attribution of the funding price.
 	CreditAllocation CreditBlockGetResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
@@ -268,16 +271,19 @@ func (r CreditBlockGetResponseFiltersOperator) IsKnown() bool {
 	return false
 }
 
+// `void` means the credit block was deleted. A voided block's `balance` is
+// always 0.
 type CreditBlockGetResponseStatus string
 
 const (
 	CreditBlockGetResponseStatusActive         CreditBlockGetResponseStatus = "active"
 	CreditBlockGetResponseStatusPendingPayment CreditBlockGetResponseStatus = "pending_payment"
+	CreditBlockGetResponseStatusVoid           CreditBlockGetResponseStatus = "void"
 )
 
 func (r CreditBlockGetResponseStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockGetResponseStatusActive, CreditBlockGetResponseStatusPendingPayment:
+	case CreditBlockGetResponseStatusActive, CreditBlockGetResponseStatusPendingPayment, CreditBlockGetResponseStatusVoid:
 		return true
 	}
 	return false
@@ -426,9 +432,11 @@ type CreditBlockUpdateResponse struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata         map[string]string               `json:"metadata" api:"required"`
-	PerUnitCostBasis string                          `json:"per_unit_cost_basis" api:"required,nullable"`
-	Status           CreditBlockUpdateResponseStatus `json:"status" api:"required"`
+	Metadata         map[string]string `json:"metadata" api:"required"`
+	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
+	// `void` means the credit block was deleted. A voided block's `balance` is
+	// always 0.
+	Status CreditBlockUpdateResponseStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
 	// serialized on prices with the catalog-item attribution of the funding price.
 	CreditAllocation CreditBlockUpdateResponseCreditAllocation `json:"credit_allocation" api:"nullable"`
@@ -550,16 +558,19 @@ func (r CreditBlockUpdateResponseFiltersOperator) IsKnown() bool {
 	return false
 }
 
+// `void` means the credit block was deleted. A voided block's `balance` is
+// always 0.
 type CreditBlockUpdateResponseStatus string
 
 const (
 	CreditBlockUpdateResponseStatusActive         CreditBlockUpdateResponseStatus = "active"
 	CreditBlockUpdateResponseStatusPendingPayment CreditBlockUpdateResponseStatus = "pending_payment"
+	CreditBlockUpdateResponseStatusVoid           CreditBlockUpdateResponseStatus = "void"
 )
 
 func (r CreditBlockUpdateResponseStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockUpdateResponseStatusActive, CreditBlockUpdateResponseStatusPendingPayment:
+	case CreditBlockUpdateResponseStatusActive, CreditBlockUpdateResponseStatusPendingPayment, CreditBlockUpdateResponseStatusVoid:
 		return true
 	}
 	return false
@@ -732,9 +743,11 @@ type CreditBlockListInvoicesResponseBlock struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata         map[string]string                          `json:"metadata" api:"required"`
-	PerUnitCostBasis string                                     `json:"per_unit_cost_basis" api:"required,nullable"`
-	Status           CreditBlockListInvoicesResponseBlockStatus `json:"status" api:"required"`
+	Metadata         map[string]string `json:"metadata" api:"required"`
+	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
+	// `void` means the credit block was deleted. A voided block's `balance` is
+	// always 0.
+	Status CreditBlockListInvoicesResponseBlockStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
 	// serialized on prices with the catalog-item attribution of the funding price.
 	CreditAllocation CreditBlockListInvoicesResponseBlockCreditAllocation `json:"credit_allocation" api:"nullable"`
@@ -856,16 +869,19 @@ func (r CreditBlockListInvoicesResponseBlockFiltersOperator) IsKnown() bool {
 	return false
 }
 
+// `void` means the credit block was deleted. A voided block's `balance` is
+// always 0.
 type CreditBlockListInvoicesResponseBlockStatus string
 
 const (
 	CreditBlockListInvoicesResponseBlockStatusActive         CreditBlockListInvoicesResponseBlockStatus = "active"
 	CreditBlockListInvoicesResponseBlockStatusPendingPayment CreditBlockListInvoicesResponseBlockStatus = "pending_payment"
+	CreditBlockListInvoicesResponseBlockStatusVoid           CreditBlockListInvoicesResponseBlockStatus = "void"
 )
 
 func (r CreditBlockListInvoicesResponseBlockStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockListInvoicesResponseBlockStatusActive, CreditBlockListInvoicesResponseBlockStatusPendingPayment:
+	case CreditBlockListInvoicesResponseBlockStatusActive, CreditBlockListInvoicesResponseBlockStatusPendingPayment, CreditBlockListInvoicesResponseBlockStatusVoid:
 		return true
 	}
 	return false
