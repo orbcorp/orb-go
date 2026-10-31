@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.136.0](https://github.com/orbcorp/orb-go/compare/v1.135.0...v1.136.0) (2026-10-31)
+
+
+### Features
+
+* **api:** add void status for deleted credit blocks in CreditBlock schema ([ba3ea57](https://github.com/orbcorp/orb-go/commit/ba3ea57c0196dfa1a5a967cd0d39042da22cb497))
+
 ## [1.135.0](https://github.com/orbcorp/orb-go/compare/v1.134.0...v1.135.0) (2026-10-30)
 
 
