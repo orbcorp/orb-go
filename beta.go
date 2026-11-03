@@ -460,8 +460,10 @@ type PlanVersionPhase struct {
 	DurationUnit PlanVersionPhaseDurationUnit `json:"duration_unit" api:"required,nullable"`
 	Name         string                       `json:"name" api:"required"`
 	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
-	Order int64                `json:"order" api:"required"`
-	JSON  planVersionPhaseJSON `json:"-"`
+	Order int64 `json:"order" api:"required"`
+	// The IDs of the prices active in this phase.
+	PriceIDs []string             `json:"price_ids" api:"required"`
+	JSON     planVersionPhaseJSON `json:"-"`
 }
 
 // planVersionPhaseJSON contains the JSON metadata for the struct
@@ -473,6 +475,7 @@ type planVersionPhaseJSON struct {
 	DurationUnit apijson.Field
 	Name         apijson.Field
 	Order        apijson.Field
+	PriceIDs     apijson.Field
 	raw          string
 	ExtraFields  map[string]apijson.Field
 }

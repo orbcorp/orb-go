@@ -618,8 +618,10 @@ type PlanPlanPhase struct {
 	MinimumAmount string                     `json:"minimum_amount" api:"required,nullable"`
 	Name          string                     `json:"name" api:"required"`
 	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
-	Order int64             `json:"order" api:"required"`
-	JSON  planPlanPhaseJSON `json:"-"`
+	Order int64 `json:"order" api:"required"`
+	// The IDs of the prices active in this phase.
+	PriceIDs []string          `json:"price_ids" api:"required"`
+	JSON     planPlanPhaseJSON `json:"-"`
 }
 
 // planPlanPhaseJSON contains the JSON metadata for the struct [PlanPlanPhase]
@@ -635,6 +637,7 @@ type planPlanPhaseJSON struct {
 	MinimumAmount apijson.Field
 	Name          apijson.Field
 	Order         apijson.Field
+	PriceIDs      apijson.Field
 	raw           string
 	ExtraFields   map[string]apijson.Field
 }
