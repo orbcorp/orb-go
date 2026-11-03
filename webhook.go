@@ -450,10 +450,13 @@ func (r billableMetricEditedWebhookEventPropertiesJSON) RawJSON() string {
 
 // metadata values are non-null on the wire, as on the price event.
 type BillableMetricEditedWebhookEventPropertiesPreviousAttributes struct {
-	Description string                                                           `json:"description" api:"nullable"`
-	Metadata    map[string]string                                                `json:"metadata" api:"nullable"`
-	Name        string                                                           `json:"name" api:"nullable"`
-	JSON        billableMetricEditedWebhookEventPropertiesPreviousAttributesJSON `json:"-"`
+	Description string                                                             `json:"description" api:"nullable"`
+	ItemID      string                                                             `json:"item_id" api:"nullable"`
+	Metadata    map[string]string                                                  `json:"metadata" api:"nullable"`
+	Name        string                                                             `json:"name" api:"nullable"`
+	Sql         string                                                             `json:"sql" api:"nullable"`
+	Status      BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus `json:"status" api:"nullable"`
+	JSON        billableMetricEditedWebhookEventPropertiesPreviousAttributesJSON   `json:"-"`
 }
 
 // billableMetricEditedWebhookEventPropertiesPreviousAttributesJSON contains the
@@ -461,8 +464,11 @@ type BillableMetricEditedWebhookEventPropertiesPreviousAttributes struct {
 // [BillableMetricEditedWebhookEventPropertiesPreviousAttributes]
 type billableMetricEditedWebhookEventPropertiesPreviousAttributesJSON struct {
 	Description apijson.Field
+	ItemID      apijson.Field
 	Metadata    apijson.Field
 	Name        apijson.Field
+	Sql         apijson.Field
+	Status      apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -473,6 +479,22 @@ func (r *BillableMetricEditedWebhookEventPropertiesPreviousAttributes) Unmarshal
 
 func (r billableMetricEditedWebhookEventPropertiesPreviousAttributesJSON) RawJSON() string {
 	return r.raw
+}
+
+type BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus string
+
+const (
+	BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusActive   BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus = "active"
+	BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusArchived BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus = "archived"
+	BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusDraft    BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus = "draft"
+)
+
+func (r BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatus) IsKnown() bool {
+	switch r {
+	case BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusActive, BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusArchived, BillableMetricEditedWebhookEventPropertiesPreviousAttributesStatusDraft:
+		return true
+	}
+	return false
 }
 
 // The event this payload describes.

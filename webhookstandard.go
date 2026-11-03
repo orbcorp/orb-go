@@ -417,10 +417,13 @@ func (r billableMetricEditedStandardWebhookEventPropertiesJSON) RawJSON() string
 
 // metadata values are non-null on the wire, as on the price event.
 type BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributes struct {
-	Description string                                                                   `json:"description" api:"nullable"`
-	Metadata    map[string]string                                                        `json:"metadata" api:"nullable"`
-	Name        string                                                                   `json:"name" api:"nullable"`
-	JSON        billableMetricEditedStandardWebhookEventPropertiesPreviousAttributesJSON `json:"-"`
+	Description string                                                                     `json:"description" api:"nullable"`
+	ItemID      string                                                                     `json:"item_id" api:"nullable"`
+	Metadata    map[string]string                                                          `json:"metadata" api:"nullable"`
+	Name        string                                                                     `json:"name" api:"nullable"`
+	Sql         string                                                                     `json:"sql" api:"nullable"`
+	Status      BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus `json:"status" api:"nullable"`
+	JSON        billableMetricEditedStandardWebhookEventPropertiesPreviousAttributesJSON   `json:"-"`
 }
 
 // billableMetricEditedStandardWebhookEventPropertiesPreviousAttributesJSON
@@ -428,8 +431,11 @@ type BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributes struct
 // [BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributes]
 type billableMetricEditedStandardWebhookEventPropertiesPreviousAttributesJSON struct {
 	Description apijson.Field
+	ItemID      apijson.Field
 	Metadata    apijson.Field
 	Name        apijson.Field
+	Sql         apijson.Field
+	Status      apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -440,6 +446,22 @@ func (r *BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributes) U
 
 func (r billableMetricEditedStandardWebhookEventPropertiesPreviousAttributesJSON) RawJSON() string {
 	return r.raw
+}
+
+type BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus string
+
+const (
+	BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusActive   BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus = "active"
+	BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusArchived BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus = "archived"
+	BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusDraft    BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus = "draft"
+)
+
+func (r BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatus) IsKnown() bool {
+	switch r {
+	case BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusActive, BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusArchived, BillableMetricEditedStandardWebhookEventPropertiesPreviousAttributesStatusDraft:
+		return true
+	}
+	return false
 }
 
 // The event this payload describes.

@@ -34,6 +34,7 @@ func TestMetricNewWithOptionalParams(t *testing.T) {
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
+		Status: orb.F(orb.MetricNewParamsStatusActive),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -61,10 +62,12 @@ func TestMetricUpdateWithOptionalParams(t *testing.T) {
 		"metric_id",
 		orb.MetricUpdateParams{
 			Description: orb.F("Sum of bytes downloaded in fast mode"),
+			ItemID:      orb.F("item_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
 			Name: orb.F("Bytes downloaded"),
+			Sql:  orb.F("SELECT sum(bytes_downloaded) FROM events WHERE download_speed = 'fast'"),
 		},
 	)
 	if err != nil {

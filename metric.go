@@ -56,6 +56,10 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 // properties on a metric. Fields left out of the request are not changed, and
 // `name` cannot be empty. If you pass `null` for the metadata value, it will clear
 // any existing metadata for that metric.
+//
+// While a metric is in `draft` status, its `sql` and `item_id` can also be
+// changed. Use [publish metric](/api-reference/metric/publish-metric) to make a
+// draft metric active.
 func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
@@ -219,21 +223,50 @@ type MetricNewParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// The status of the metric to create (either active or draft). If not specified,
+	// this defaults to active. A draft metric's `sql` and `item_id` can be changed
+	// until it's published.
+	Status param.Field[MetricNewParamsStatus] `json:"status"`
 }
 
 func (r MetricNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+// The status of the metric to create (either active or draft). If not specified,
+// this defaults to active. A draft metric's `sql` and `item_id` can be changed
+// until it's published.
+type MetricNewParamsStatus string
+
+const (
+	MetricNewParamsStatusActive MetricNewParamsStatus = "active"
+	MetricNewParamsStatusDraft  MetricNewParamsStatus = "draft"
+)
+
+func (r MetricNewParamsStatus) IsKnown() bool {
+	switch r {
+	case MetricNewParamsStatusActive, MetricNewParamsStatusDraft:
+		return true
+	}
+	return false
+}
+
 type MetricUpdateParams struct {
 	// A description of the metric.
 	Description param.Field[string] `json:"description"`
+	// The id of the item to associate the metric with. Can only be changed while the
+	// metric is in `draft` status.
+	ItemID param.Field[string] `json:"item_id"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The name of the metric.
 	Name param.Field[string] `json:"name"`
+	// A new sql string defining the metric. Can only be changed while the metric is in
+	// `draft` status and no price uses it. If the metric has parameters, the new sql
+	// must use the same ones.
+	Sql param.Field[string] `json:"sql"`
 }
 
 func (r MetricUpdateParams) MarshalJSON() (data []byte, err error) {
@@ -267,13 +300,13 @@ type MetricListParamsStatus string
 
 const (
 	MetricListParamsStatusActive   MetricListParamsStatus = "active"
-	MetricListParamsStatusArchived MetricListParamsStatus = "archived"
 	MetricListParamsStatusDraft    MetricListParamsStatus = "draft"
+	MetricListParamsStatusArchived MetricListParamsStatus = "archived"
 )
 
 func (r MetricListParamsStatus) IsKnown() bool {
 	switch r {
-	case MetricListParamsStatusActive, MetricListParamsStatusArchived, MetricListParamsStatusDraft:
+	case MetricListParamsStatusActive, MetricListParamsStatusDraft, MetricListParamsStatusArchived:
 		return true
 	}
 	return false
