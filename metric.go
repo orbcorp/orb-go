@@ -134,6 +134,21 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 	return res, err
 }
 
+// This endpoint publishes a [metric](/core-concepts#metric) in `draft` status,
+// making it `active`. Only draft metrics can be published, and an active metric
+// can't be moved back into `draft`, so its `sql` and `item_id` can no longer be
+// changed.
+func (r *MetricService) Publish(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if metricID == "" {
+		err = errors.New("missing required metric_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("metrics/%s/publish", metricID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
 // This endpoint restores an archived [metric](/core-concepts#metric) to `active`,
 // so it can be chosen for new plans again. Only archived metrics can be
 // unarchived.
