@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.137.0](https://github.com/orbcorp/orb-go/compare/v1.136.0...v1.137.0) (2026-11-04)
+
+
+### Features
+
+* **api:** add price_ids to plan phases in plan responses ([59816c9](https://github.com/orbcorp/orb-go/commit/59816c93812e737dacb5bd82579290155fbec3e8))
+* **api:** support draft billable metrics with SQL/item edits and publish ([3d6f2ba](https://github.com/orbcorp/orb-go/commit/3d6f2bac0562d4e27983f11d29c9ed4dd81acd8c))
+
 ## [1.136.0](https://github.com/orbcorp/orb-go/compare/v1.135.0...v1.136.0) (2026-10-31)
 
 
