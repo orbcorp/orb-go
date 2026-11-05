@@ -8504,6 +8504,8 @@ func (r SubscriptionNewParamsRemoveAdjustment) MarshalJSON() (data []byte, err e
 type SubscriptionNewParamsRemovePrice struct {
 	// The external price id of the price to remove on the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The phase to remove this price from.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// The id of the price to remove on the subscription.
 	PriceID param.Field[string] `json:"price_id"`
 }
@@ -8782,6 +8784,8 @@ type SubscriptionNewParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// The phase to replace this price in.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// New subscription price request body params.
 	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
@@ -15762,6 +15766,8 @@ func (r SubscriptionSchedulePlanChangeParamsRemoveAdjustment) MarshalJSON() (dat
 type SubscriptionSchedulePlanChangeParamsRemovePrice struct {
 	// The external price id of the price to remove on the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The phase to remove this price from.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// The id of the price to remove on the subscription.
 	PriceID param.Field[string] `json:"price_id"`
 }
@@ -16040,6 +16046,8 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// The phase to replace this price in.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
 	// New subscription price request body params.
 	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.

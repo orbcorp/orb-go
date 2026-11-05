@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"reflect"
 	"slices"
+	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
@@ -119,8 +120,14 @@ type PlanMigrationGetResponse struct {
 	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
 	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	// When the migration completed or was canceled, or null if it is still in
+	// progress.
+	EndedAt time.Time `json:"ended_at" api:"required,nullable" format:"date-time"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
+	// When Orb began migrating the plan's subscriptions. Null if the migration has not
+	// begun, or was canceled before it began.
+	StartedAt time.Time `json:"started_at" api:"required,nullable" format:"date-time"`
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationGetResponseStatus `json:"status" api:"required"`
@@ -132,7 +139,9 @@ type PlanMigrationGetResponse struct {
 type planMigrationGetResponseJSON struct {
 	ID            apijson.Field
 	EffectiveTime apijson.Field
+	EndedAt       apijson.Field
 	PlanID        apijson.Field
+	StartedAt     apijson.Field
 	Status        apijson.Field
 	raw           string
 	ExtraFields   map[string]apijson.Field
@@ -220,8 +229,14 @@ type PlanMigrationListResponse struct {
 	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
 	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	// When the migration completed or was canceled, or null if it is still in
+	// progress.
+	EndedAt time.Time `json:"ended_at" api:"required,nullable" format:"date-time"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
+	// When Orb began migrating the plan's subscriptions. Null if the migration has not
+	// begun, or was canceled before it began.
+	StartedAt time.Time `json:"started_at" api:"required,nullable" format:"date-time"`
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationListResponseStatus `json:"status" api:"required"`
@@ -233,7 +248,9 @@ type PlanMigrationListResponse struct {
 type planMigrationListResponseJSON struct {
 	ID            apijson.Field
 	EffectiveTime apijson.Field
+	EndedAt       apijson.Field
 	PlanID        apijson.Field
+	StartedAt     apijson.Field
 	Status        apijson.Field
 	raw           string
 	ExtraFields   map[string]apijson.Field
@@ -321,8 +338,14 @@ type PlanMigrationCancelResponse struct {
 	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
 	// when scheduled to be at the start of the next invoice.
 	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
+	// When the migration completed or was canceled, or null if it is still in
+	// progress.
+	EndedAt time.Time `json:"ended_at" api:"required,nullable" format:"date-time"`
 	// The ID of the plan being migrated.
 	PlanID string `json:"plan_id" api:"required"`
+	// When Orb began migrating the plan's subscriptions. Null if the migration has not
+	// begun, or was canceled before it began.
+	StartedAt time.Time `json:"started_at" api:"required,nullable" format:"date-time"`
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationCancelResponseStatus `json:"status" api:"required"`
@@ -334,7 +357,9 @@ type PlanMigrationCancelResponse struct {
 type planMigrationCancelResponseJSON struct {
 	ID            apijson.Field
 	EffectiveTime apijson.Field
+	EndedAt       apijson.Field
 	PlanID        apijson.Field
+	StartedAt     apijson.Field
 	Status        apijson.Field
 	raw           string
 	ExtraFields   map[string]apijson.Field
