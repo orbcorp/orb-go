@@ -600,7 +600,7 @@ type CreditBlockAccountingSyncFailedStandardWebhookEventBlock struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -726,19 +726,19 @@ func (r CreditBlockAccountingSyncFailedStandardWebhookEventBlockFiltersOperator)
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus string
 
 const (
 	CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusActive         CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus = "active"
 	CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusPendingPayment CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus = "pending_payment"
-	CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusVoid           CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus = "void"
+	CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusDeleted        CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus = "deleted"
 )
 
 func (r CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusActive, CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusPendingPayment, CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusVoid:
+	case CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusActive, CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusPendingPayment, CreditBlockAccountingSyncFailedStandardWebhookEventBlockStatusDeleted:
 		return true
 	}
 	return false
@@ -1050,7 +1050,7 @@ type CreditBlockAccountingSyncSucceededStandardWebhookEventBlock struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -1176,19 +1176,19 @@ func (r CreditBlockAccountingSyncSucceededStandardWebhookEventBlockFiltersOperat
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus string
 
 const (
 	CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusActive         CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus = "active"
 	CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusPendingPayment CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus = "pending_payment"
-	CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusVoid           CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus = "void"
+	CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusDeleted        CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus = "deleted"
 )
 
 func (r CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusActive, CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusPendingPayment, CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusVoid:
+	case CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusActive, CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusPendingPayment, CreditBlockAccountingSyncSucceededStandardWebhookEventBlockStatusDeleted:
 		return true
 	}
 	return false
@@ -4094,7 +4094,7 @@ type CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlock struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -4220,19 +4220,19 @@ func (r CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockFilter
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus string
 
 const (
 	CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusActive         CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus = "active"
 	CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusPendingPayment CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus = "pending_payment"
-	CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusVoid           CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus = "void"
+	CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusDeleted        CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus = "deleted"
 )
 
 func (r CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatus) IsKnown() bool {
 	switch r {
-	case CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusActive, CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusPendingPayment, CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusVoid:
+	case CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusActive, CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusPendingPayment, CustomerCreditLedgerIncrementedStandardWebhookEventPropertiesBlockStatusDeleted:
 		return true
 	}
 	return false

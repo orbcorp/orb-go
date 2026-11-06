@@ -9943,6 +9943,117 @@ const PriceEventOutputPricePriceTypeCompositePrice = shared.PriceEventOutputPric
 type PriceEventOutputPriceLicenseType = shared.PriceEventOutputPriceLicenseType
 
 // This is an alias to an internal type.
+type PriceUnitWithMultiplierPrice = shared.PriceUnitWithMultiplierPrice
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceBillingMode = shared.PriceUnitWithMultiplierPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceBillingModeInAdvance = shared.PriceUnitWithMultiplierPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceBillingModeInArrear = shared.PriceUnitWithMultiplierPriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceCadence = shared.PriceUnitWithMultiplierPriceCadence
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceOneTime = shared.PriceUnitWithMultiplierPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceMonthly = shared.PriceUnitWithMultiplierPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceQuarterly = shared.PriceUnitWithMultiplierPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceSemiAnnual = shared.PriceUnitWithMultiplierPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceAnnual = shared.PriceUnitWithMultiplierPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCadenceCustom = shared.PriceUnitWithMultiplierPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceCompositePriceFilter = shared.PriceUnitWithMultiplierPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceCompositePriceFiltersField = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPriceID = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersFieldItemID = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPriceType = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersFieldCurrency = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceCompositePriceFiltersOperator = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersOperatorIncludes = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceCompositePriceFiltersOperatorExcludes = shared.PriceUnitWithMultiplierPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceConversionRateConfig = shared.PriceUnitWithMultiplierPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceConversionRateConfigConversionRateType = shared.PriceUnitWithMultiplierPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceConversionRateConfigConversionRateTypeUnit = shared.PriceUnitWithMultiplierPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithMultiplierPriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceModelType = shared.PriceUnitWithMultiplierPriceModelType
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPriceModelTypeUnitWithMultiplier = shared.PriceUnitWithMultiplierPriceModelTypeUnitWithMultiplier
+
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPricePriceType = shared.PriceUnitWithMultiplierPricePriceType
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPricePriceTypeUsagePrice = shared.PriceUnitWithMultiplierPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPricePriceTypeFixedPrice = shared.PriceUnitWithMultiplierPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceUnitWithMultiplierPricePriceTypeCompositePrice = shared.PriceUnitWithMultiplierPricePriceTypeCompositePrice
+
+// Configuration for unit_with_multiplier pricing
+//
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceUnitWithMultiplierConfig = shared.PriceUnitWithMultiplierPriceUnitWithMultiplierConfig
+
+// The LicenseType resource represents a type of license that can be assigned to
+// users. License types are used during billing by grouping metrics on the
+// configured grouping key.
+//
+// This is an alias to an internal type.
+type PriceUnitWithMultiplierPriceLicenseType = shared.PriceUnitWithMultiplierPriceLicenseType
+
+// This is an alias to an internal type.
 type PriceBillingMode = shared.PriceBillingMode
 
 // This is an alias to an internal value.
@@ -10084,6 +10195,9 @@ const PriceModelTypePercent = shared.PriceModelTypePercent
 
 // This is an alias to an internal value.
 const PriceModelTypeEventOutput = shared.PriceModelTypeEventOutput
+
+// This is an alias to an internal value.
+const PriceModelTypeUnitWithMultiplier = shared.PriceModelTypeUnitWithMultiplier
 
 // This is an alias to an internal type.
 type PricePriceType = shared.PricePriceType

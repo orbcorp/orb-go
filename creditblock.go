@@ -40,7 +40,7 @@ func NewCreditBlockService(opts ...option.RequestOption) (r *CreditBlockService)
 }
 
 // This endpoint returns a credit block identified by its block_id. A deleted
-// credit block is returned with a `status` of `void` and a `balance` of 0.
+// credit block is returned with a `status` of `deleted` and a `balance` of 0.
 func (r *CreditBlockService) Get(ctx context.Context, blockID string, opts ...option.RequestOption) (res *CreditBlockGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if blockID == "" {
@@ -147,7 +147,7 @@ type CreditBlockGetResponse struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CreditBlockGetResponseStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -271,19 +271,19 @@ func (r CreditBlockGetResponseFiltersOperator) IsKnown() bool {
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CreditBlockGetResponseStatus string
 
 const (
 	CreditBlockGetResponseStatusActive         CreditBlockGetResponseStatus = "active"
 	CreditBlockGetResponseStatusPendingPayment CreditBlockGetResponseStatus = "pending_payment"
-	CreditBlockGetResponseStatusVoid           CreditBlockGetResponseStatus = "void"
+	CreditBlockGetResponseStatusDeleted        CreditBlockGetResponseStatus = "deleted"
 )
 
 func (r CreditBlockGetResponseStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockGetResponseStatusActive, CreditBlockGetResponseStatusPendingPayment, CreditBlockGetResponseStatusVoid:
+	case CreditBlockGetResponseStatusActive, CreditBlockGetResponseStatusPendingPayment, CreditBlockGetResponseStatusDeleted:
 		return true
 	}
 	return false
@@ -434,7 +434,7 @@ type CreditBlockUpdateResponse struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CreditBlockUpdateResponseStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -558,19 +558,19 @@ func (r CreditBlockUpdateResponseFiltersOperator) IsKnown() bool {
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CreditBlockUpdateResponseStatus string
 
 const (
 	CreditBlockUpdateResponseStatusActive         CreditBlockUpdateResponseStatus = "active"
 	CreditBlockUpdateResponseStatusPendingPayment CreditBlockUpdateResponseStatus = "pending_payment"
-	CreditBlockUpdateResponseStatusVoid           CreditBlockUpdateResponseStatus = "void"
+	CreditBlockUpdateResponseStatusDeleted        CreditBlockUpdateResponseStatus = "deleted"
 )
 
 func (r CreditBlockUpdateResponseStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockUpdateResponseStatusActive, CreditBlockUpdateResponseStatusPendingPayment, CreditBlockUpdateResponseStatusVoid:
+	case CreditBlockUpdateResponseStatusActive, CreditBlockUpdateResponseStatusPendingPayment, CreditBlockUpdateResponseStatusDeleted:
 		return true
 	}
 	return false
@@ -745,7 +745,7 @@ type CreditBlockListInvoicesResponseBlock struct {
 	// `null`.
 	Metadata         map[string]string `json:"metadata" api:"required"`
 	PerUnitCostBasis string            `json:"per_unit_cost_basis" api:"required,nullable"`
-	// `void` means the credit block was deleted. A voided block's `balance` is
+	// A deleted credit block keeps its historical fields, and its `balance` is
 	// always 0.
 	Status CreditBlockListInvoicesResponseBlockStatus `json:"status" api:"required"`
 	// The credit allocation that funded a block. Extends the allocation resource
@@ -869,19 +869,19 @@ func (r CreditBlockListInvoicesResponseBlockFiltersOperator) IsKnown() bool {
 	return false
 }
 
-// `void` means the credit block was deleted. A voided block's `balance` is
+// A deleted credit block keeps its historical fields, and its `balance` is
 // always 0.
 type CreditBlockListInvoicesResponseBlockStatus string
 
 const (
 	CreditBlockListInvoicesResponseBlockStatusActive         CreditBlockListInvoicesResponseBlockStatus = "active"
 	CreditBlockListInvoicesResponseBlockStatusPendingPayment CreditBlockListInvoicesResponseBlockStatus = "pending_payment"
-	CreditBlockListInvoicesResponseBlockStatusVoid           CreditBlockListInvoicesResponseBlockStatus = "void"
+	CreditBlockListInvoicesResponseBlockStatusDeleted        CreditBlockListInvoicesResponseBlockStatus = "deleted"
 )
 
 func (r CreditBlockListInvoicesResponseBlockStatus) IsKnown() bool {
 	switch r {
-	case CreditBlockListInvoicesResponseBlockStatusActive, CreditBlockListInvoicesResponseBlockStatusPendingPayment, CreditBlockListInvoicesResponseBlockStatusVoid:
+	case CreditBlockListInvoicesResponseBlockStatusActive, CreditBlockListInvoicesResponseBlockStatusPendingPayment, CreditBlockListInvoicesResponseBlockStatusDeleted:
 		return true
 	}
 	return false
