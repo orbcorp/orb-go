@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.139.0](https://github.com/orbcorp/orb-go/compare/v1.138.0...v1.139.0) (2026-11-07)
+
+
+### Features
+
+* **api:** api update ([435f285](https://github.com/orbcorp/orb-go/commit/435f28547eaa9cac5ab55fbda36dcbf95ab893c5))
+* **api:** credit block status `void` renamed to `deleted` for deleted blocks ([435f285](https://github.com/orbcorp/orb-go/commit/435f28547eaa9cac5ab55fbda36dcbf95ab893c5))
+
 ## [1.138.0](https://github.com/orbcorp/orb-go/compare/v1.137.0...v1.138.0) (2026-11-06)
 
 
