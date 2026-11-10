@@ -116,9 +116,10 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 type PlanMigrationGetResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-	// when scheduled to be at the start of the next invoice.
+	// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+	// 'end_of_term' when scheduled to be at the start or end of the current billing
+	// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+	// start of the current or next invoice.
 	EffectiveTime PlanMigrationGetResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// When the migration completed or was canceled, or null if it is still in
 	// progress.
@@ -131,20 +132,23 @@ type PlanMigrationGetResponse struct {
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationGetResponseStatus `json:"status" api:"required"`
-	JSON   planMigrationGetResponseJSON   `json:"-"`
+	// The plan version subscriptions are migrated to.
+	TargetPlanVersionNumber int64                        `json:"target_plan_version_number" api:"required"`
+	JSON                    planMigrationGetResponseJSON `json:"-"`
 }
 
 // planMigrationGetResponseJSON contains the JSON metadata for the struct
 // [PlanMigrationGetResponse]
 type planMigrationGetResponseJSON struct {
-	ID            apijson.Field
-	EffectiveTime apijson.Field
-	EndedAt       apijson.Field
-	PlanID        apijson.Field
-	StartedAt     apijson.Field
-	Status        apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	ID                      apijson.Field
+	EffectiveTime           apijson.Field
+	EndedAt                 apijson.Field
+	PlanID                  apijson.Field
+	StartedAt               apijson.Field
+	Status                  apijson.Field
+	TargetPlanVersionNumber apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
 }
 
 func (r *PlanMigrationGetResponse) UnmarshalJSON(data []byte) (err error) {
@@ -155,9 +159,10 @@ func (r planMigrationGetResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-// when scheduled to be at the start of the next invoice.
+// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+// 'end_of_term' when scheduled to be at the start or end of the current billing
+// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+// start of the current or next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationGetResponseEffectiveTimeString].
@@ -187,13 +192,15 @@ func init() {
 type PlanMigrationGetResponseEffectiveTimeString string
 
 const (
-	PlanMigrationGetResponseEffectiveTimeStringEndOfTerm    PlanMigrationGetResponseEffectiveTimeString = "end_of_term"
-	PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice PlanMigrationGetResponseEffectiveTimeString = "end_of_invoice"
+	PlanMigrationGetResponseEffectiveTimeStringStartOfTerm    PlanMigrationGetResponseEffectiveTimeString = "start_of_term"
+	PlanMigrationGetResponseEffectiveTimeStringEndOfTerm      PlanMigrationGetResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationGetResponseEffectiveTimeStringStartOfInvoice PlanMigrationGetResponseEffectiveTimeString = "start_of_invoice"
+	PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice   PlanMigrationGetResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationGetResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationGetResponseEffectiveTimeStringEndOfTerm, PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice:
+	case PlanMigrationGetResponseEffectiveTimeStringStartOfTerm, PlanMigrationGetResponseEffectiveTimeStringEndOfTerm, PlanMigrationGetResponseEffectiveTimeStringStartOfInvoice, PlanMigrationGetResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
@@ -225,9 +232,10 @@ func (r PlanMigrationGetResponseStatus) IsKnown() bool {
 type PlanMigrationListResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-	// when scheduled to be at the start of the next invoice.
+	// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+	// 'end_of_term' when scheduled to be at the start or end of the current billing
+	// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+	// start of the current or next invoice.
 	EffectiveTime PlanMigrationListResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// When the migration completed or was canceled, or null if it is still in
 	// progress.
@@ -240,20 +248,23 @@ type PlanMigrationListResponse struct {
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationListResponseStatus `json:"status" api:"required"`
-	JSON   planMigrationListResponseJSON   `json:"-"`
+	// The plan version subscriptions are migrated to.
+	TargetPlanVersionNumber int64                         `json:"target_plan_version_number" api:"required"`
+	JSON                    planMigrationListResponseJSON `json:"-"`
 }
 
 // planMigrationListResponseJSON contains the JSON metadata for the struct
 // [PlanMigrationListResponse]
 type planMigrationListResponseJSON struct {
-	ID            apijson.Field
-	EffectiveTime apijson.Field
-	EndedAt       apijson.Field
-	PlanID        apijson.Field
-	StartedAt     apijson.Field
-	Status        apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	ID                      apijson.Field
+	EffectiveTime           apijson.Field
+	EndedAt                 apijson.Field
+	PlanID                  apijson.Field
+	StartedAt               apijson.Field
+	Status                  apijson.Field
+	TargetPlanVersionNumber apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
 }
 
 func (r *PlanMigrationListResponse) UnmarshalJSON(data []byte) (err error) {
@@ -264,9 +275,10 @@ func (r planMigrationListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-// when scheduled to be at the start of the next invoice.
+// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+// 'end_of_term' when scheduled to be at the start or end of the current billing
+// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+// start of the current or next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationListResponseEffectiveTimeString].
@@ -296,13 +308,15 @@ func init() {
 type PlanMigrationListResponseEffectiveTimeString string
 
 const (
-	PlanMigrationListResponseEffectiveTimeStringEndOfTerm    PlanMigrationListResponseEffectiveTimeString = "end_of_term"
-	PlanMigrationListResponseEffectiveTimeStringEndOfInvoice PlanMigrationListResponseEffectiveTimeString = "end_of_invoice"
+	PlanMigrationListResponseEffectiveTimeStringStartOfTerm    PlanMigrationListResponseEffectiveTimeString = "start_of_term"
+	PlanMigrationListResponseEffectiveTimeStringEndOfTerm      PlanMigrationListResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationListResponseEffectiveTimeStringStartOfInvoice PlanMigrationListResponseEffectiveTimeString = "start_of_invoice"
+	PlanMigrationListResponseEffectiveTimeStringEndOfInvoice   PlanMigrationListResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationListResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationListResponseEffectiveTimeStringEndOfTerm, PlanMigrationListResponseEffectiveTimeStringEndOfInvoice:
+	case PlanMigrationListResponseEffectiveTimeStringStartOfTerm, PlanMigrationListResponseEffectiveTimeStringEndOfTerm, PlanMigrationListResponseEffectiveTimeStringStartOfInvoice, PlanMigrationListResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
@@ -334,9 +348,10 @@ func (r PlanMigrationListResponseStatus) IsKnown() bool {
 type PlanMigrationCancelResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
-	// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-	// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-	// when scheduled to be at the start of the next invoice.
+	// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+	// 'end_of_term' when scheduled to be at the start or end of the current billing
+	// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+	// start of the current or next invoice.
 	EffectiveTime PlanMigrationCancelResponseEffectiveTimeUnion `json:"effective_time" api:"required,nullable" format:"date"`
 	// When the migration completed or was canceled, or null if it is still in
 	// progress.
@@ -349,20 +364,23 @@ type PlanMigrationCancelResponse struct {
 	// Current status of the migration: 'not_started', 'in_progress', 'completed',
 	// 'action_needed', or 'canceled'.
 	Status PlanMigrationCancelResponseStatus `json:"status" api:"required"`
-	JSON   planMigrationCancelResponseJSON   `json:"-"`
+	// The plan version subscriptions are migrated to.
+	TargetPlanVersionNumber int64                           `json:"target_plan_version_number" api:"required"`
+	JSON                    planMigrationCancelResponseJSON `json:"-"`
 }
 
 // planMigrationCancelResponseJSON contains the JSON metadata for the struct
 // [PlanMigrationCancelResponse]
 type planMigrationCancelResponseJSON struct {
-	ID            apijson.Field
-	EffectiveTime apijson.Field
-	EndedAt       apijson.Field
-	PlanID        apijson.Field
-	StartedAt     apijson.Field
-	Status        apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	ID                      apijson.Field
+	EffectiveTime           apijson.Field
+	EndedAt                 apijson.Field
+	PlanID                  apijson.Field
+	StartedAt               apijson.Field
+	Status                  apijson.Field
+	TargetPlanVersionNumber apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
 }
 
 func (r *PlanMigrationCancelResponse) UnmarshalJSON(data []byte) (err error) {
@@ -373,9 +391,10 @@ func (r planMigrationCancelResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// When the migration takes effect. Can be a specific date/time, 'end_of_term' when
-// scheduled to be at the end of the current billing period, or 'end_of_invoice'
-// when scheduled to be at the start of the next invoice.
+// When the migration takes effect. Can be a specific date/time, 'start_of_term' or
+// 'end_of_term' when scheduled to be at the start or end of the current billing
+// period, or 'start_of_invoice' or 'end_of_invoice' when scheduled to be at the
+// start of the current or next invoice.
 //
 // Union satisfied by [shared.UnionTime], [shared.UnionTime] or
 // [PlanMigrationCancelResponseEffectiveTimeString].
@@ -405,13 +424,15 @@ func init() {
 type PlanMigrationCancelResponseEffectiveTimeString string
 
 const (
-	PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm    PlanMigrationCancelResponseEffectiveTimeString = "end_of_term"
-	PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice PlanMigrationCancelResponseEffectiveTimeString = "end_of_invoice"
+	PlanMigrationCancelResponseEffectiveTimeStringStartOfTerm    PlanMigrationCancelResponseEffectiveTimeString = "start_of_term"
+	PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm      PlanMigrationCancelResponseEffectiveTimeString = "end_of_term"
+	PlanMigrationCancelResponseEffectiveTimeStringStartOfInvoice PlanMigrationCancelResponseEffectiveTimeString = "start_of_invoice"
+	PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice   PlanMigrationCancelResponseEffectiveTimeString = "end_of_invoice"
 )
 
 func (r PlanMigrationCancelResponseEffectiveTimeString) IsKnown() bool {
 	switch r {
-	case PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm, PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice:
+	case PlanMigrationCancelResponseEffectiveTimeStringStartOfTerm, PlanMigrationCancelResponseEffectiveTimeStringEndOfTerm, PlanMigrationCancelResponseEffectiveTimeStringStartOfInvoice, PlanMigrationCancelResponseEffectiveTimeStringEndOfInvoice:
 		return true
 	}
 	return false
