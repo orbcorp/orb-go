@@ -665,6 +665,10 @@ Methods:
 - <code title="get /plans/{plan_id}/migrations">client.Plans.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanMigrationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, planID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanMigrationListParams">PlanMigrationListParams</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination#Page">Page</a>[<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanMigrationListResponse">PlanMigrationListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /plans/{plan_id}/migrations/{migration_id}/cancel">client.Plans.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanMigrationService.Cancel">Cancel</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, planID <a href="https://pkg.go.dev/builtin#string">string</a>, migrationID <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PlanMigrationCancelResponse">PlanMigrationCancelResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+# Migrations
+
+## Subscriptions
+
 # Prices
 
 Response Types:

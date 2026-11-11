@@ -83,7 +83,8 @@ type Client struct {
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
-	Plans *PlanService
+	Plans      *PlanService
+	Migrations *MigrationService
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -161,6 +162,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.WebhookEndpoints = NewWebhookEndpointService(opts...)
 	r.Metrics = NewMetricService(opts...)
 	r.Plans = NewPlanService(opts...)
+	r.Migrations = NewMigrationService(opts...)
 	r.Prices = NewPriceService(opts...)
 	r.Subscriptions = NewSubscriptionService(opts...)
 	r.Webhooks = NewWebhookService(opts...)
