@@ -11,6 +11,10 @@ type UnionTime time.Time
 func (UnionTime) ImplementsPlanMigrationGetResponseEffectiveTimeUnion()                    {}
 func (UnionTime) ImplementsPlanMigrationListResponseEffectiveTimeUnion()                   {}
 func (UnionTime) ImplementsPlanMigrationCancelResponseEffectiveTimeUnion()                 {}
+func (UnionTime) ImplementsMigrationNewResponseEffectiveTimeUnion()                        {}
+func (UnionTime) ImplementsMigrationGetResponseEffectiveTimeUnion()                        {}
+func (UnionTime) ImplementsMigrationListResponseEffectiveTimeUnion()                       {}
+func (UnionTime) ImplementsMigrationCancelResponseEffectiveTimeUnion()                     {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()             {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()               {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion()  {}

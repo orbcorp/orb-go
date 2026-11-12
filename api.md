@@ -667,7 +667,26 @@ Methods:
 
 # Migrations
 
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationSubscription">MigrationSubscription</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationNewResponse">MigrationNewResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationGetResponse">MigrationGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationListResponse">MigrationListResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationCancelResponse">MigrationCancelResponse</a>
+
+Methods:
+
+- <code title="post /migrations">client.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationNewParams">MigrationNewParams</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationNewResponse">MigrationNewResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /migrations/{migration_id}">client.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, migrationID <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationGetResponse">MigrationGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /migrations">client.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationListParams">MigrationListParams</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination#Page">Page</a>[<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationListResponse">MigrationListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /migrations/{migration_id}/cancel">client.Migrations.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationService.Cancel">Cancel</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, migrationID <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationCancelResponse">MigrationCancelResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 ## Subscriptions
+
+Methods:
+
+- <code title="get /migrations/{migration_id}/subscriptions">client.Migrations.Subscriptions.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationSubscriptionService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, migrationID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationSubscriptionListParams">MigrationSubscriptionListParams</a>) (\*<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination#Page">Page</a>[<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#MigrationSubscription">MigrationSubscription</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # Prices
 
