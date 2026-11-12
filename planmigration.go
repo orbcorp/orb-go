@@ -113,6 +113,9 @@ func (r *PlanMigrationService) Cancel(ctx context.Context, planID string, migrat
 	return res, err
 }
 
+// A migration moves a plan's subscriptions onto one of the plan's versions. Each
+// subscription is migrated asynchronously, either immediately or at a scheduled
+// time, and the migration reports its overall status as it progresses.
 type PlanMigrationGetResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
@@ -229,6 +232,9 @@ func (r PlanMigrationGetResponseStatus) IsKnown() bool {
 	return false
 }
 
+// A migration moves a plan's subscriptions onto one of the plan's versions. Each
+// subscription is migrated asynchronously, either immediately or at a scheduled
+// time, and the migration reports its overall status as it progresses.
 type PlanMigrationListResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
@@ -345,6 +351,9 @@ func (r PlanMigrationListResponseStatus) IsKnown() bool {
 	return false
 }
 
+// A migration moves a plan's subscriptions onto one of the plan's versions. Each
+// subscription is migrated asynchronously, either immediately or at a scheduled
+// time, and the migration reports its overall status as it progresses.
 type PlanMigrationCancelResponse struct {
 	// Unique identifier for this plan version change.
 	ID string `json:"id" api:"required"`
