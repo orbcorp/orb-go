@@ -176,6 +176,8 @@ type Plan struct {
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
 	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	// Whether the plan has an unpublished draft version.
+	HasDraft bool `json:"has_draft" api:"required"`
 	// An ISO 4217 currency string for which this plan is billed in. Matches `currency`
 	// unless `currency` is a custom pricing unit.
 	InvoicingCurrency string `json:"invoicing_currency" api:"required"`
@@ -222,6 +224,7 @@ type planJSON struct {
 	Description        apijson.Field
 	Discount           apijson.Field
 	ExternalPlanID     apijson.Field
+	HasDraft           apijson.Field
 	InvoicingCurrency  apijson.Field
 	Maximum            apijson.Field
 	MaximumAmount      apijson.Field
