@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.140.0](https://github.com/orbcorp/orb-go/compare/v1.139.0...v1.140.0) (2026-11-13)
+
+
+### Features
+
+* **api:** allow changing item_id on active metrics ([897911a](https://github.com/orbcorp/orb-go/commit/897911a81763f8f86147076533e3b74d27687a45))
+* **api:** api update ([74cfc19](https://github.com/orbcorp/orb-go/commit/74cfc192565f6a7679524426784e0703a100cefc))
+* **api:** api update ([475b27a](https://github.com/orbcorp/orb-go/commit/475b27ab233ad80aafdac6f0845fa960f83907e8))
+
 ## [1.139.0](https://github.com/orbcorp/orb-go/compare/v1.138.0...v1.139.0) (2026-11-07)
 
 
