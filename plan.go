@@ -44,6 +44,11 @@ type PlanService struct {
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
+	Draft *PlanDraftService
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
 	Migrations *PlanMigrationService
 }
 
@@ -54,6 +59,7 @@ func NewPlanService(opts ...option.RequestOption) (r *PlanService) {
 	r = &PlanService{}
 	r.Options = opts
 	r.ExternalPlanID = NewPlanExternalPlanIDService(opts...)
+	r.Draft = NewPlanDraftService(opts...)
 	r.Migrations = NewPlanMigrationService(opts...)
 	return
 }

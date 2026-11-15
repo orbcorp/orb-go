@@ -6580,6 +6580,16 @@ func (r NewAmountDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParams
 
 func (r NewAmountDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
 
+func (r NewAmountDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewAmountDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewAmountDiscountParam) ImplementsPlanDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewAmountDiscountParam) ImplementsPlanDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {}
+
 func (r NewAmountDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewAmountDiscountParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -10670,6 +10680,15 @@ func (r NewMaximumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplace
 
 func (r NewMaximumParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
 
+func (r NewMaximumParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewMaximumParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewMaximumParam) ImplementsPlanDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewMaximumParam) ImplementsPlanDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {}
+
 func (r NewMaximumParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewMaximumParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -10816,6 +10835,15 @@ func (r NewMinimumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplace
 
 func (r NewMinimumParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
 
+func (r NewMinimumParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewMinimumParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewMinimumParam) ImplementsPlanDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewMinimumParam) ImplementsPlanDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {}
+
 func (r NewMinimumParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewMinimumParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -10961,6 +10989,17 @@ func (r NewPercentageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionPa
 }
 
 func (r NewPercentageDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
+func (r NewPercentageDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewPercentageDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewPercentageDiscountParam) ImplementsPlanDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewPercentageDiscountParam) ImplementsPlanDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
 
 func (r NewPercentageDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
@@ -11142,6 +11181,14 @@ func (r NewPlanBulkPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsR
 
 func (r NewPlanBulkPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanBulkPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanBulkPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {}
+
+func (r NewPlanBulkPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanBulkPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanBulkPriceCadence string
 
@@ -11282,6 +11329,16 @@ func (r NewPlanBulkWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 }
 
 func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
 
 // Configuration for bulk_with_proration pricing
 type NewPlanBulkWithProrationPriceBulkWithProrationConfigParam struct {
@@ -11446,6 +11503,17 @@ func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsBetaExternalPlanIDNewP
 }
 
 func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanCumulativeGroupedBulkPriceCadence string
@@ -11613,6 +11681,16 @@ func (r NewPlanGroupedAllocationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 
 func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanGroupedAllocationPriceCadence string
 
@@ -11768,6 +11846,17 @@ func (r NewPlanGroupedTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPl
 }
 
 func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedTieredPackagePriceCadence string
@@ -11934,6 +12023,16 @@ func (r NewPlanGroupedTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersi
 
 func (r NewPlanGroupedTieredPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanGroupedTieredPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedTieredPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanGroupedTieredPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanGroupedTieredPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanGroupedTieredPriceCadence string
 
@@ -12099,6 +12198,18 @@ func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsBetaExternalPlanID
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedWithMeteredMinimumPriceCadence string
@@ -12285,6 +12396,18 @@ func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsBetaExternalPlanI
 
 func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanGroupedWithProratedMinimumPriceCadence string
 
@@ -12439,6 +12562,15 @@ func (r NewPlanMatrixPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParam
 
 func (r NewPlanMatrixPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanMatrixPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMatrixPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMatrixPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMatrixPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanMatrixPriceCadence string
 
@@ -12581,6 +12713,17 @@ func (r NewPlanMatrixWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewPl
 
 func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanMatrixWithAllocationPriceCadence string
 
@@ -12722,6 +12865,17 @@ func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsBetaExternalPlanIDNewP
 }
 
 func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanMatrixWithDisplayNamePriceCadence string
@@ -12891,6 +13045,17 @@ func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewP
 
 func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanMaxGroupTieredPackagePriceCadence string
 
@@ -13056,6 +13221,16 @@ func (r NewPlanMinimumCompositePriceParam) ImplementsBetaExternalPlanIDNewPlanVe
 
 func (r NewPlanMinimumCompositePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanMinimumCompositePriceCadence string
 
@@ -13208,6 +13383,15 @@ func (r NewPlanPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionPara
 
 func (r NewPlanPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanPackagePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanPackagePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanPackagePriceCadence string
 
@@ -13349,6 +13533,17 @@ func (r NewPlanPackageWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewP
 }
 
 func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanPackageWithAllocationPriceCadence string
@@ -13502,6 +13697,18 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsBetaExternal
 }
 
 func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
 
 // The cadence to bill for this price on.
 type NewPlanScalableMatrixWithTieredPricingPriceCadence string
@@ -13681,6 +13888,18 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsBetaExternalPl
 
 func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanScalableMatrixWithUnitPricingPriceCadence string
 
@@ -13854,6 +14073,17 @@ func (r NewPlanThresholdTotalAmountPriceParam) ImplementsBetaExternalPlanIDNewPl
 
 func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanThresholdTotalAmountPriceCadence string
 
@@ -14017,6 +14247,16 @@ func (r NewPlanTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersi
 }
 
 func (r NewPlanTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanTieredPackagePriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanTieredPackagePriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanTieredPackagePriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredPackagePriceCadence string
@@ -14185,6 +14425,18 @@ func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsBetaExternalPlanIDN
 
 func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {
+}
+
 // The cadence to bill for this price on.
 type NewPlanTieredPackageWithMinimumPriceCadence string
 
@@ -14348,6 +14600,15 @@ func (r NewPlanTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParam
 
 func (r NewPlanTieredPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanTieredPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanTieredPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanTieredPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanTieredPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanTieredPriceCadence string
 
@@ -14488,6 +14749,16 @@ func (r NewPlanTieredWithMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 }
 
 func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredWithMinimumPriceCadence string
@@ -14656,6 +14927,14 @@ func (r NewPlanUnitPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsR
 
 func (r NewPlanUnitPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanUnitPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanUnitPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {}
+
+func (r NewPlanUnitPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanUnitPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanUnitPriceCadence string
 
@@ -14796,6 +15075,16 @@ func (r NewPlanUnitWithPercentPriceParam) ImplementsBetaExternalPlanIDNewPlanVer
 }
 
 func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanUnitWithPercentPriceCadence string
@@ -14950,6 +15239,16 @@ func (r NewPlanUnitWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 
 func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanDraftSaveParamsAddPricesPriceUnion() {}
+
+func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanDraftSaveParamsReplacePricesPriceUnion() {}
+
 // The cadence to bill for this price on.
 type NewPlanUnitWithProrationPriceCadence string
 
@@ -15066,6 +15365,16 @@ func (r NewUsageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsR
 }
 
 func (r NewUsageDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
+func (r NewUsageDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewUsageDiscountParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+func (r NewUsageDiscountParam) ImplementsPlanDraftSaveParamsAddAdjustmentsAdjustmentUnion() {}
+
+func (r NewUsageDiscountParam) ImplementsPlanDraftSaveParamsReplaceAdjustmentsAdjustmentUnion() {}
 
 func (r NewUsageDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
@@ -15652,6 +15961,8 @@ func (r PlanPhaseAmountDiscountAdjustment) ImplementsPlanVersionAdjustment() {}
 
 func (r PlanPhaseAmountDiscountAdjustment) ImplementsPlanAdjustment() {}
 
+func (r PlanPhaseAmountDiscountAdjustment) ImplementsPlanVersionDraftAdjustment() {}
+
 type PlanPhaseAmountDiscountAdjustmentAdjustmentType string
 
 const (
@@ -15783,6 +16094,8 @@ func (r PlanPhaseMaximumAdjustment) ImplementsAdjustmentIntervalAdjustment() {}
 func (r PlanPhaseMaximumAdjustment) ImplementsPlanVersionAdjustment() {}
 
 func (r PlanPhaseMaximumAdjustment) ImplementsPlanAdjustment() {}
+
+func (r PlanPhaseMaximumAdjustment) ImplementsPlanVersionDraftAdjustment() {}
 
 type PlanPhaseMaximumAdjustmentAdjustmentType string
 
@@ -15919,6 +16232,8 @@ func (r PlanPhaseMinimumAdjustment) ImplementsPlanVersionAdjustment() {}
 
 func (r PlanPhaseMinimumAdjustment) ImplementsPlanAdjustment() {}
 
+func (r PlanPhaseMinimumAdjustment) ImplementsPlanVersionDraftAdjustment() {}
+
 type PlanPhaseMinimumAdjustmentAdjustmentType string
 
 const (
@@ -16051,6 +16366,8 @@ func (r PlanPhasePercentageDiscountAdjustment) ImplementsPlanVersionAdjustment()
 
 func (r PlanPhasePercentageDiscountAdjustment) ImplementsPlanAdjustment() {}
 
+func (r PlanPhasePercentageDiscountAdjustment) ImplementsPlanVersionDraftAdjustment() {}
+
 type PlanPhasePercentageDiscountAdjustmentAdjustmentType string
 
 const (
@@ -16182,6 +16499,8 @@ func (r PlanPhaseUsageDiscountAdjustment) ImplementsAdjustmentIntervalAdjustment
 func (r PlanPhaseUsageDiscountAdjustment) ImplementsPlanVersionAdjustment() {}
 
 func (r PlanPhaseUsageDiscountAdjustment) ImplementsPlanAdjustment() {}
+
+func (r PlanPhaseUsageDiscountAdjustment) ImplementsPlanVersionDraftAdjustment() {}
 
 type PlanPhaseUsageDiscountAdjustmentAdjustmentType string
 
@@ -31867,6 +32186,162 @@ func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPl
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {
 }
 
@@ -32962,6 +33437,162 @@ func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlan
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsAddPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanExternalPlanIDDraftSaveParamsReplacePricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsAddPricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesLicenseAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanBulkWithFiltersPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanGroupedTieredMatrixPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanTieredMatrixWithAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanMatrixWithThresholdDiscountsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanCumulativeGroupedAllocationPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanDailyCreditAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanMeteredAllowancePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanDraftSaveParamsReplacePricesPriceNewPlanUnitWithMultiplierPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {

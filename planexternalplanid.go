@@ -28,6 +28,11 @@ import (
 // the [NewPlanExternalPlanIDService] method instead.
 type PlanExternalPlanIDService struct {
 	Options []option.RequestOption
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Draft *PlanExternalPlanIDDraftService
 }
 
 // NewPlanExternalPlanIDService generates a new service that applies the given
@@ -36,6 +41,7 @@ type PlanExternalPlanIDService struct {
 func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternalPlanIDService) {
 	r = &PlanExternalPlanIDService{}
 	r.Options = opts
+	r.Draft = NewPlanExternalPlanIDDraftService(opts...)
 	return
 }
 
