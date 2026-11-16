@@ -39,6 +39,7 @@ func TestMigrationNewWithOptionalParams(t *testing.T) {
 		PlanID:                   orb.F("plan_id"),
 		PlanVersionNumbers:       orb.F([]int64{int64(0)}),
 		Reason:                   orb.F("reason"),
+		SkipGracePeriod:          orb.F(true),
 		Statuses:                 orb.F([]orb.MigrationNewParamsStatus{orb.MigrationNewParamsStatusActive}),
 	})
 	if err != nil {

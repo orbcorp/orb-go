@@ -686,6 +686,9 @@ type MigrationNewParams struct {
 	PlanVersionNumbers param.Field[[]int64] `json:"plan_version_numbers"`
 	// Why the migration was created.
 	Reason param.Field[string] `json:"reason"`
+	// A new migration waits 5 minutes before it changes any subscriptions, so it can
+	// be canceled. When true, it starts right away instead.
+	SkipGracePeriod param.Field[bool] `json:"skip_grace_period"`
 	// Migrate subscriptions with these statuses. Defaults to active subscriptions.
 	Statuses param.Field[[]MigrationNewParamsStatus] `json:"statuses"`
 }
