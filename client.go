@@ -19,11 +19,6 @@ import (
 type Client struct {
 	Options  []option.RequestOption
 	TopLevel *TopLevelService
-	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
-	// subscribed to by a customer. Plans define the billing behavior of the
-	// subscription. You can see more about how to configure prices in the
-	// [Price resource](/reference/price).
-	Beta *BetaService
 	// A coupon represents a reusable discount configuration that can be applied either
 	// as a fixed or percentage amount to an invoice or subscription. Coupons are
 	// activated using a redemption code, which applies the discount to a subscription
@@ -154,7 +149,6 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r = &Client{Options: opts}
 
 	r.TopLevel = NewTopLevelService(opts...)
-	r.Beta = NewBetaService(opts...)
 	r.Coupons = NewCouponService(opts...)
 	r.CreditNotes = NewCreditNoteService(opts...)
 	r.Customers = NewCustomerService(opts...)
