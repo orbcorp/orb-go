@@ -333,12 +333,12 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		CreatedAtLt:        orb.F(time.Now()),
 		CreatedAtLte:       orb.F(time.Now()),
 		Cursor:             orb.F("cursor"),
-		CustomerID:         orb.F([]string{"string"}),
-		ExternalCustomerID: orb.F([]string{"string"}),
+		CustomerID:         orb.F[orb.SubscriptionListParamsCustomerIDUnion](shared.UnionString("string")),
+		ExternalCustomerID: orb.F[orb.SubscriptionListParamsExternalCustomerIDUnion](shared.UnionString("string")),
 		ExternalPlanID:     orb.F("external_plan_id"),
 		Limit:              orb.F(int64(1)),
 		PlanID:             orb.F("plan_id"),
-		Status:             orb.F(orb.SubscriptionListParamsStatusActive),
+		Status:             orb.F[orb.SubscriptionListParamsStatusUnion](orb.SubscriptionStatusFilter(orb.SubscriptionStatusFilterActive)),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -521,12 +521,12 @@ func TestSubscriptionListSummaryWithOptionalParams(t *testing.T) {
 		CreatedAtLt:        orb.F(time.Now()),
 		CreatedAtLte:       orb.F(time.Now()),
 		Cursor:             orb.F("cursor"),
-		CustomerID:         orb.F("customer_id"),
-		ExternalCustomerID: orb.F("external_customer_id"),
+		CustomerID:         orb.F[orb.SubscriptionListSummaryParamsCustomerIDUnion](shared.UnionString("string")),
+		ExternalCustomerID: orb.F[orb.SubscriptionListSummaryParamsExternalCustomerIDUnion](shared.UnionString("string")),
 		ExternalPlanID:     orb.F("external_plan_id"),
 		Limit:              orb.F(int64(1)),
 		PlanID:             orb.F("plan_id"),
-		Status:             orb.F(orb.SubscriptionListSummaryParamsStatusActive),
+		Status:             orb.F[orb.SubscriptionListSummaryParamsStatusUnion](orb.SubscriptionStatusFilter(orb.SubscriptionStatusFilterActive)),
 	})
 	if err != nil {
 		var apierr *orb.Error

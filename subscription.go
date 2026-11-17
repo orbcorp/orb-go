@@ -5627,6 +5627,26 @@ func (r SubscriptionStatus) IsKnown() bool {
 	return false
 }
 
+type SubscriptionStatusFilter string
+
+const (
+	SubscriptionStatusFilterActive   SubscriptionStatusFilter = "active"
+	SubscriptionStatusFilterEnded    SubscriptionStatusFilter = "ended"
+	SubscriptionStatusFilterUpcoming SubscriptionStatusFilter = "upcoming"
+)
+
+func (r SubscriptionStatusFilter) IsKnown() bool {
+	switch r {
+	case SubscriptionStatusFilterActive, SubscriptionStatusFilterEnded, SubscriptionStatusFilterUpcoming:
+		return true
+	}
+	return false
+}
+
+func (r SubscriptionStatusFilter) implementsSubscriptionListParamsStatusUnion() {}
+
+func (r SubscriptionStatusFilter) implementsSubscriptionListSummaryParamsStatusUnion() {}
+
 type SubscriptionUsage struct {
 	// This field can have the runtime type of
 	// [[]SubscriptionUsageUngroupedSubscriptionUsageData],
@@ -11085,14 +11105,14 @@ type SubscriptionListParams struct {
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor             param.Field[string]   `query:"cursor"`
-	CustomerID         param.Field[[]string] `query:"customer_id"`
-	ExternalCustomerID param.Field[[]string] `query:"external_customer_id"`
-	ExternalPlanID     param.Field[string]   `query:"external_plan_id"`
+	Cursor             param.Field[string]                                        `query:"cursor"`
+	CustomerID         param.Field[SubscriptionListParamsCustomerIDUnion]         `query:"customer_id"`
+	ExternalCustomerID param.Field[SubscriptionListParamsExternalCustomerIDUnion] `query:"external_customer_id"`
+	ExternalPlanID     param.Field[string]                                        `query:"external_plan_id"`
 	// The number of items to fetch. Defaults to 20.
-	Limit  param.Field[int64]                        `query:"limit"`
-	PlanID param.Field[string]                       `query:"plan_id"`
-	Status param.Field[SubscriptionListParamsStatus] `query:"status"`
+	Limit  param.Field[int64]                             `query:"limit"`
+	PlanID param.Field[string]                            `query:"plan_id"`
+	Status param.Field[SubscriptionListParamsStatusUnion] `query:"status"`
 }
 
 // URLQuery serializes [SubscriptionListParams]'s query parameters as `url.Values`.
@@ -11103,21 +11123,34 @@ func (r SubscriptionListParams) URLQuery() (v url.Values) {
 	})
 }
 
-type SubscriptionListParamsStatus string
-
-const (
-	SubscriptionListParamsStatusActive   SubscriptionListParamsStatus = "active"
-	SubscriptionListParamsStatusEnded    SubscriptionListParamsStatus = "ended"
-	SubscriptionListParamsStatusUpcoming SubscriptionListParamsStatus = "upcoming"
-)
-
-func (r SubscriptionListParamsStatus) IsKnown() bool {
-	switch r {
-	case SubscriptionListParamsStatusActive, SubscriptionListParamsStatusEnded, SubscriptionListParamsStatusUpcoming:
-		return true
-	}
-	return false
+// Satisfied by [shared.UnionString], [SubscriptionListParamsCustomerIDArray].
+type SubscriptionListParamsCustomerIDUnion interface {
+	ImplementsSubscriptionListParamsCustomerIDUnion()
 }
+
+type SubscriptionListParamsCustomerIDArray []string
+
+func (r SubscriptionListParamsCustomerIDArray) ImplementsSubscriptionListParamsCustomerIDUnion() {}
+
+// Satisfied by [shared.UnionString],
+// [SubscriptionListParamsExternalCustomerIDArray].
+type SubscriptionListParamsExternalCustomerIDUnion interface {
+	ImplementsSubscriptionListParamsExternalCustomerIDUnion()
+}
+
+type SubscriptionListParamsExternalCustomerIDArray []string
+
+func (r SubscriptionListParamsExternalCustomerIDArray) ImplementsSubscriptionListParamsExternalCustomerIDUnion() {
+}
+
+// Satisfied by [SubscriptionStatusFilter], [SubscriptionListParamsStatusArray].
+type SubscriptionListParamsStatusUnion interface {
+	implementsSubscriptionListParamsStatusUnion()
+}
+
+type SubscriptionListParamsStatusArray []SubscriptionStatusFilter
+
+func (r SubscriptionListParamsStatusArray) implementsSubscriptionListParamsStatusUnion() {}
 
 type SubscriptionCancelParams struct {
 	// Determines the timing of subscription cancellation
@@ -11289,14 +11322,14 @@ type SubscriptionListSummaryParams struct {
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor             param.Field[string] `query:"cursor"`
-	CustomerID         param.Field[string] `query:"customer_id"`
-	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
-	ExternalPlanID     param.Field[string] `query:"external_plan_id"`
+	Cursor             param.Field[string]                                               `query:"cursor"`
+	CustomerID         param.Field[SubscriptionListSummaryParamsCustomerIDUnion]         `query:"customer_id"`
+	ExternalCustomerID param.Field[SubscriptionListSummaryParamsExternalCustomerIDUnion] `query:"external_customer_id"`
+	ExternalPlanID     param.Field[string]                                               `query:"external_plan_id"`
 	// The number of items to fetch. Defaults to 20.
-	Limit  param.Field[int64]                               `query:"limit"`
-	PlanID param.Field[string]                              `query:"plan_id"`
-	Status param.Field[SubscriptionListSummaryParamsStatus] `query:"status"`
+	Limit  param.Field[int64]                                    `query:"limit"`
+	PlanID param.Field[string]                                   `query:"plan_id"`
+	Status param.Field[SubscriptionListSummaryParamsStatusUnion] `query:"status"`
 }
 
 // URLQuery serializes [SubscriptionListSummaryParams]'s query parameters as
@@ -11308,20 +11341,37 @@ func (r SubscriptionListSummaryParams) URLQuery() (v url.Values) {
 	})
 }
 
-type SubscriptionListSummaryParamsStatus string
+// Satisfied by [shared.UnionString],
+// [SubscriptionListSummaryParamsCustomerIDArray].
+type SubscriptionListSummaryParamsCustomerIDUnion interface {
+	ImplementsSubscriptionListSummaryParamsCustomerIDUnion()
+}
 
-const (
-	SubscriptionListSummaryParamsStatusActive   SubscriptionListSummaryParamsStatus = "active"
-	SubscriptionListSummaryParamsStatusEnded    SubscriptionListSummaryParamsStatus = "ended"
-	SubscriptionListSummaryParamsStatusUpcoming SubscriptionListSummaryParamsStatus = "upcoming"
-)
+type SubscriptionListSummaryParamsCustomerIDArray []string
 
-func (r SubscriptionListSummaryParamsStatus) IsKnown() bool {
-	switch r {
-	case SubscriptionListSummaryParamsStatusActive, SubscriptionListSummaryParamsStatusEnded, SubscriptionListSummaryParamsStatusUpcoming:
-		return true
-	}
-	return false
+func (r SubscriptionListSummaryParamsCustomerIDArray) ImplementsSubscriptionListSummaryParamsCustomerIDUnion() {
+}
+
+// Satisfied by [shared.UnionString],
+// [SubscriptionListSummaryParamsExternalCustomerIDArray].
+type SubscriptionListSummaryParamsExternalCustomerIDUnion interface {
+	ImplementsSubscriptionListSummaryParamsExternalCustomerIDUnion()
+}
+
+type SubscriptionListSummaryParamsExternalCustomerIDArray []string
+
+func (r SubscriptionListSummaryParamsExternalCustomerIDArray) ImplementsSubscriptionListSummaryParamsExternalCustomerIDUnion() {
+}
+
+// Satisfied by [SubscriptionStatusFilter],
+// [SubscriptionListSummaryParamsStatusArray].
+type SubscriptionListSummaryParamsStatusUnion interface {
+	implementsSubscriptionListSummaryParamsStatusUnion()
+}
+
+type SubscriptionListSummaryParamsStatusArray []SubscriptionStatusFilter
+
+func (r SubscriptionListSummaryParamsStatusArray) implementsSubscriptionListSummaryParamsStatusUnion() {
 }
 
 type SubscriptionPriceIntervalsParams struct {

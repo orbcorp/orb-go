@@ -27,7 +27,11 @@ func (UnionTime) ImplementsSubscriptionUpdateTrialParamsTrialEndDateUnion()     
 
 type UnionString string
 
-func (UnionString) ImplementsEvaluatePriceGroupGroupingValuesUnion() {}
+func (UnionString) ImplementsEvaluatePriceGroupGroupingValuesUnion()                {}
+func (UnionString) ImplementsSubscriptionListParamsCustomerIDUnion()                {}
+func (UnionString) ImplementsSubscriptionListParamsExternalCustomerIDUnion()        {}
+func (UnionString) ImplementsSubscriptionListSummaryParamsCustomerIDUnion()         {}
+func (UnionString) ImplementsSubscriptionListSummaryParamsExternalCustomerIDUnion() {}
 
 type UnionBool bool
 

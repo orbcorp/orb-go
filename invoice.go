@@ -381,6 +381,28 @@ func (r *InvoiceService) Void(ctx context.Context, invoiceID string, opts ...opt
 	return res, err
 }
 
+type InvoiceStatusFilter string
+
+const (
+	InvoiceStatusFilterDraft  InvoiceStatusFilter = "draft"
+	InvoiceStatusFilterIssued InvoiceStatusFilter = "issued"
+	InvoiceStatusFilterPaid   InvoiceStatusFilter = "paid"
+	InvoiceStatusFilterSynced InvoiceStatusFilter = "synced"
+	InvoiceStatusFilterVoid   InvoiceStatusFilter = "void"
+)
+
+func (r InvoiceStatusFilter) IsKnown() bool {
+	switch r {
+	case InvoiceStatusFilterDraft, InvoiceStatusFilterIssued, InvoiceStatusFilterPaid, InvoiceStatusFilterSynced, InvoiceStatusFilterVoid:
+		return true
+	}
+	return false
+}
+
+func (r InvoiceStatusFilter) implementsInvoiceListParamsStatusUnion() {}
+
+func (r InvoiceStatusFilter) implementsInvoiceListSummaryParamsStatusUnion() {}
+
 type InvoiceFetchUpcomingResponse struct {
 	ID string `json:"id" api:"required"`
 	// This is the final amount required to be charged to the customer and reflects the
@@ -2704,9 +2726,9 @@ type InvoiceListParams struct {
 	InvoiceDateLte               param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
 	IsRecurring                  param.Field[bool]      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
-	Limit          param.Field[int64]                     `query:"limit"`
-	Status         param.Field[[]InvoiceListParamsStatus] `query:"status"`
-	SubscriptionID param.Field[string]                    `query:"subscription_id"`
+	Limit          param.Field[int64]                        `query:"limit"`
+	Status         param.Field[InvoiceListParamsStatusUnion] `query:"status"`
+	SubscriptionID param.Field[string]                       `query:"subscription_id"`
 }
 
 // URLQuery serializes [InvoiceListParams]'s query parameters as `url.Values`.
@@ -2732,23 +2754,14 @@ func (r InvoiceListParamsDateType) IsKnown() bool {
 	return false
 }
 
-type InvoiceListParamsStatus string
-
-const (
-	InvoiceListParamsStatusDraft  InvoiceListParamsStatus = "draft"
-	InvoiceListParamsStatusIssued InvoiceListParamsStatus = "issued"
-	InvoiceListParamsStatusPaid   InvoiceListParamsStatus = "paid"
-	InvoiceListParamsStatusSynced InvoiceListParamsStatus = "synced"
-	InvoiceListParamsStatusVoid   InvoiceListParamsStatus = "void"
-)
-
-func (r InvoiceListParamsStatus) IsKnown() bool {
-	switch r {
-	case InvoiceListParamsStatusDraft, InvoiceListParamsStatusIssued, InvoiceListParamsStatusPaid, InvoiceListParamsStatusSynced, InvoiceListParamsStatusVoid:
-		return true
-	}
-	return false
+// Satisfied by [InvoiceStatusFilter], [InvoiceListParamsStatusArray].
+type InvoiceListParamsStatusUnion interface {
+	implementsInvoiceListParamsStatusUnion()
 }
+
+type InvoiceListParamsStatusArray []InvoiceStatusFilter
+
+func (r InvoiceListParamsStatusArray) implementsInvoiceListParamsStatusUnion() {}
 
 type InvoiceFetchParams struct {
 	// Whether to return line items with a quantity of zero. When omitted, Orb returns
@@ -2832,9 +2845,9 @@ type InvoiceListSummaryParams struct {
 	InvoiceDateLte     param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
 	IsRecurring        param.Field[bool]      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
-	Limit          param.Field[int64]                          `query:"limit"`
-	Status         param.Field[InvoiceListSummaryParamsStatus] `query:"status"`
-	SubscriptionID param.Field[string]                         `query:"subscription_id"`
+	Limit          param.Field[int64]                               `query:"limit"`
+	Status         param.Field[InvoiceListSummaryParamsStatusUnion] `query:"status"`
+	SubscriptionID param.Field[string]                              `query:"subscription_id"`
 }
 
 // URLQuery serializes [InvoiceListSummaryParams]'s query parameters as
@@ -2861,23 +2874,14 @@ func (r InvoiceListSummaryParamsDateType) IsKnown() bool {
 	return false
 }
 
-type InvoiceListSummaryParamsStatus string
-
-const (
-	InvoiceListSummaryParamsStatusDraft  InvoiceListSummaryParamsStatus = "draft"
-	InvoiceListSummaryParamsStatusIssued InvoiceListSummaryParamsStatus = "issued"
-	InvoiceListSummaryParamsStatusPaid   InvoiceListSummaryParamsStatus = "paid"
-	InvoiceListSummaryParamsStatusSynced InvoiceListSummaryParamsStatus = "synced"
-	InvoiceListSummaryParamsStatusVoid   InvoiceListSummaryParamsStatus = "void"
-)
-
-func (r InvoiceListSummaryParamsStatus) IsKnown() bool {
-	switch r {
-	case InvoiceListSummaryParamsStatusDraft, InvoiceListSummaryParamsStatusIssued, InvoiceListSummaryParamsStatusPaid, InvoiceListSummaryParamsStatusSynced, InvoiceListSummaryParamsStatusVoid:
-		return true
-	}
-	return false
+// Satisfied by [InvoiceStatusFilter], [InvoiceListSummaryParamsStatusArray].
+type InvoiceListSummaryParamsStatusUnion interface {
+	implementsInvoiceListSummaryParamsStatusUnion()
 }
+
+type InvoiceListSummaryParamsStatusArray []InvoiceStatusFilter
+
+func (r InvoiceListSummaryParamsStatusArray) implementsInvoiceListSummaryParamsStatusUnion() {}
 
 type InvoiceMarkPaidParams struct {
 	// A date string to specify the date of the payment.

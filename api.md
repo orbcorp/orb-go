@@ -540,6 +540,10 @@ Methods:
 
 # Invoices
 
+Params Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceStatusFilter">InvoiceStatusFilter</a>
+
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#InvoiceFetchUpcomingResponse">InvoiceFetchUpcomingResponse</a>
@@ -753,6 +757,7 @@ Params Types:
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#NewSubscriptionUnitPriceParam">NewSubscriptionUnitPriceParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#NewSubscriptionUnitWithPercentPriceParam">NewSubscriptionUnitWithPercentPriceParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#NewSubscriptionUnitWithProrationPriceParam">NewSubscriptionUnitWithProrationPriceParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionStatusFilter">SubscriptionStatusFilter</a>
 
 Response Types:
 
