@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.142.0](https://github.com/orbcorp/orb-go/compare/v1.141.0...v1.142.0) (2026-11-17)
+
+
+### Features
+
+* **api:** add plan.migration_scheduled webhook when a plan migration is created ([fc197c3](https://github.com/orbcorp/orb-go/commit/fc197c376c653d39c8afa39cce69e1969ce8eb6a))
+* **api:** add skip_grace_period option to plan version migrations ([fc197c3](https://github.com/orbcorp/orb-go/commit/fc197c376c653d39c8afa39cce69e1969ce8eb6a))
+
 ## [1.141.0](https://github.com/orbcorp/orb-go/compare/v1.140.0...v1.141.0) (2026-11-15)
 
 
