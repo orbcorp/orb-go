@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.143.0](https://github.com/orbcorp/orb-go/compare/v1.142.0...v1.143.0) (2026-11-18)
+
+
+### Features
+
+* **api:** api update ([0ac21c8](https://github.com/orbcorp/orb-go/commit/0ac21c823f1d9d341e4515af02a069af30b3bce8))
+* **api:** document currency handling and void examples for ledger entries ([9eb91c0](https://github.com/orbcorp/orb-go/commit/9eb91c0e0b6affc1b0e7008b4dbb45dbdc1feba7))
+
 ## [1.142.0](https://github.com/orbcorp/orb-go/compare/v1.141.0...v1.142.0) (2026-11-17)
 
 
