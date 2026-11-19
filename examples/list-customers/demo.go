@@ -9,7 +9,7 @@ import (
 func main() {
 	client := orb.NewClient()
 	iter := client.Subscriptions.ListAutoPaging(context.TODO(), orb.SubscriptionListParams{
-		ExternalCustomerID: orb.F([]string{"Stainless", "OpenAI"}),
+		ExternalCustomerID: orb.F[orb.SubscriptionListParamsExternalCustomerIDUnion](orb.SubscriptionListParamsExternalCustomerIDArray{"Stainless", "OpenAI"}),
 	})
 	// Automatically fetches more pages as needed.
 	for iter.Next() {
