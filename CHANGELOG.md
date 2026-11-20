@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.143.1](https://github.com/orbcorp/orb-go/compare/v1.143.0...v1.143.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* **examples:** use ExternalCustomerID union type in list-customers demo ([#3](https://github.com/orbcorp/orb-go/issues/3)) ([2bbb6b9](https://github.com/orbcorp/orb-go/commit/2bbb6b91ded5c2f61856329bb5c6226cc3178abe))
+
 ## [1.143.0](https://github.com/orbcorp/orb-go/compare/v1.142.0...v1.143.0) (2026-11-18)
 
 
