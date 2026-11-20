@@ -60,12 +60,13 @@ func TestCreditNoteListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.CreditNotes.List(context.TODO(), orb.CreditNoteListParams{
-		CreatedAtGt:  orb.F(time.Now()),
-		CreatedAtGte: orb.F(time.Now()),
-		CreatedAtLt:  orb.F(time.Now()),
-		CreatedAtLte: orb.F(time.Now()),
-		Cursor:       orb.F("cursor"),
-		Limit:        orb.F(int64(1)),
+		BillingEntityID: orb.F("billing_entity_id"),
+		CreatedAtGt:     orb.F(time.Now()),
+		CreatedAtGte:    orb.F(time.Now()),
+		CreatedAtLt:     orb.F(time.Now()),
+		CreatedAtLte:    orb.F(time.Now()),
+		Cursor:          orb.F("cursor"),
+		Limit:           orb.F(int64(1)),
 	})
 	if err != nil {
 		var apierr *orb.Error

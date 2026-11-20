@@ -2691,22 +2691,25 @@ type CustomerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlan s
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                        `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                        `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                        `json:"plan_version" api:"required"`
-	JSON           customerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                        `json:"billing_entity_id" api:"nullable"`
+	JSON            customerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // customerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [CustomerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlan]
 type customerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceDepletedWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -3197,22 +3200,25 @@ type CustomerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlan st
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                       `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                       `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                       `json:"plan_version" api:"required"`
-	JSON           customerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                       `json:"billing_entity_id" api:"nullable"`
+	JSON            customerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // customerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [CustomerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlan]
 type customerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceDroppedWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -3700,22 +3706,25 @@ type CustomerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlan 
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                         `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                         `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                         `json:"plan_version" api:"required"`
-	JSON           customerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                         `json:"billing_entity_id" api:"nullable"`
+	JSON            customerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // customerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [CustomerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlan]
 type customerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *CustomerCreditBalanceRecoveredWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -4533,6 +4542,7 @@ func (r customerEditedWebhookEventPropertiesJSON) RawJSON() string {
 type CustomerEditedWebhookEventPropertiesPreviousAttributes struct {
 	AutoCollection         bool              `json:"auto_collection" api:"nullable"`
 	BillingAddress         shared.Address    `json:"billing_address" api:"nullable"`
+	BillingEntityID        string            `json:"billing_entity_id" api:"nullable"`
 	DefaultPaymentMethodID string            `json:"default_payment_method_id" api:"nullable"`
 	Email                  string            `json:"email" api:"nullable"`
 	EmailDelivery          bool              `json:"email_delivery" api:"nullable"`
@@ -4701,6 +4711,7 @@ type CustomerEditedWebhookEventPropertiesPreviousAttributes struct {
 type customerEditedWebhookEventPropertiesPreviousAttributesJSON struct {
 	AutoCollection         apijson.Field
 	BillingAddress         apijson.Field
+	BillingEntityID        apijson.Field
 	DefaultPaymentMethodID apijson.Field
 	Email                  apijson.Field
 	EmailDelivery          apijson.Field
@@ -7630,6 +7641,8 @@ type InvoiceIssuedSummaryWebhookEventInvoice struct {
 	AmountDue      string                                                `json:"amount_due" api:"required"`
 	AutoCollection InvoiceIssuedSummaryWebhookEventInvoiceAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress shared.Address                                        `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -7876,6 +7889,7 @@ type invoiceIssuedSummaryWebhookEventInvoiceJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
@@ -9711,19 +9725,22 @@ type PlanCreatedWebhookEventPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                          `json:"external_plan_id" api:"required,nullable"`
-	Name           string                          `json:"name" api:"required,nullable"`
-	JSON           planCreatedWebhookEventPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                          `json:"billing_entity_id" api:"nullable"`
+	JSON            planCreatedWebhookEventPlanJSON `json:"-"`
 }
 
 // planCreatedWebhookEventPlanJSON contains the JSON metadata for the struct
 // [PlanCreatedWebhookEventPlan]
 type planCreatedWebhookEventPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PlanCreatedWebhookEventPlan) UnmarshalJSON(data []byte) (err error) {
@@ -9810,19 +9827,22 @@ type PlanDefaultVersionSetWebhookEventPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                    `json:"name" api:"required,nullable"`
-	JSON           planDefaultVersionSetWebhookEventPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            planDefaultVersionSetWebhookEventPlanJSON `json:"-"`
 }
 
 // planDefaultVersionSetWebhookEventPlanJSON contains the JSON metadata for the
 // struct [PlanDefaultVersionSetWebhookEventPlan]
 type planDefaultVersionSetWebhookEventPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PlanDefaultVersionSetWebhookEventPlan) UnmarshalJSON(data []byte) (err error) {
@@ -9956,24 +9976,26 @@ func (r planEditedWebhookEventPropertiesJSON) RawJSON() string {
 
 // metadata values are non-null on the wire, as on the price event.
 type PlanEditedWebhookEventPropertiesPreviousAttributes struct {
-	Description    string                                                   `json:"description" api:"nullable"`
-	ExternalPlanID string                                                   `json:"external_plan_id" api:"nullable"`
-	Metadata       map[string]string                                        `json:"metadata" api:"nullable"`
-	Name           string                                                   `json:"name" api:"nullable"`
-	Status         PlanEditedWebhookEventPropertiesPreviousAttributesStatus `json:"status" api:"nullable"`
-	JSON           planEditedWebhookEventPropertiesPreviousAttributesJSON   `json:"-"`
+	BillingEntityID string                                                   `json:"billing_entity_id" api:"nullable"`
+	Description     string                                                   `json:"description" api:"nullable"`
+	ExternalPlanID  string                                                   `json:"external_plan_id" api:"nullable"`
+	Metadata        map[string]string                                        `json:"metadata" api:"nullable"`
+	Name            string                                                   `json:"name" api:"nullable"`
+	Status          PlanEditedWebhookEventPropertiesPreviousAttributesStatus `json:"status" api:"nullable"`
+	JSON            planEditedWebhookEventPropertiesPreviousAttributesJSON   `json:"-"`
 }
 
 // planEditedWebhookEventPropertiesPreviousAttributesJSON contains the JSON
 // metadata for the struct [PlanEditedWebhookEventPropertiesPreviousAttributes]
 type planEditedWebhookEventPropertiesPreviousAttributesJSON struct {
-	Description    apijson.Field
-	ExternalPlanID apijson.Field
-	Metadata       apijson.Field
-	Name           apijson.Field
-	Status         apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	BillingEntityID apijson.Field
+	Description     apijson.Field
+	ExternalPlanID  apijson.Field
+	Metadata        apijson.Field
+	Name            apijson.Field
+	Status          apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PlanEditedWebhookEventPropertiesPreviousAttributes) UnmarshalJSON(data []byte) (err error) {
@@ -10076,19 +10098,22 @@ type PlanVersionCreatedWebhookEventPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                 `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                 `json:"name" api:"required,nullable"`
-	JSON           planVersionCreatedWebhookEventPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                 `json:"billing_entity_id" api:"nullable"`
+	JSON            planVersionCreatedWebhookEventPlanJSON `json:"-"`
 }
 
 // planVersionCreatedWebhookEventPlanJSON contains the JSON metadata for the struct
 // [PlanVersionCreatedWebhookEventPlan]
 type planVersionCreatedWebhookEventPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PlanVersionCreatedWebhookEventPlan) UnmarshalJSON(data []byte) (err error) {
@@ -11214,22 +11239,25 @@ type SubscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlan struc
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                    `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                    `json:"plan_version" api:"required"`
-	JSON           subscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionAlertDisabledWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -11517,19 +11545,22 @@ type SubscriptionAlertDisabledWebhookEventSubscriptionPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                    `json:"name" api:"required,nullable"`
-	JSON           subscriptionAlertDisabledWebhookEventSubscriptionPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionAlertDisabledWebhookEventSubscriptionPlanJSON `json:"-"`
 }
 
 // subscriptionAlertDisabledWebhookEventSubscriptionPlanJSON contains the JSON
 // metadata for the struct [SubscriptionAlertDisabledWebhookEventSubscriptionPlan]
 type subscriptionAlertDisabledWebhookEventSubscriptionPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionAlertDisabledWebhookEventSubscriptionPlan) UnmarshalJSON(data []byte) (err error) {
@@ -12010,22 +12041,25 @@ type SubscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlan struct
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                   `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                   `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                   `json:"plan_version" api:"required"`
-	JSON           subscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                   `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionCostExceededWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -12918,22 +12952,25 @@ type SubscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlan
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                          `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                          `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                          `json:"plan_version" api:"required"`
-	JSON           subscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                          `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionGroupedCostExceededWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -13233,20 +13270,23 @@ type SubscriptionGroupedCostExceededWebhookEventSubscriptionPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                          `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                          `json:"name" api:"required,nullable"`
-	JSON           subscriptionGroupedCostExceededWebhookEventSubscriptionPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                          `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionGroupedCostExceededWebhookEventSubscriptionPlanJSON `json:"-"`
 }
 
 // subscriptionGroupedCostExceededWebhookEventSubscriptionPlanJSON contains the
 // JSON metadata for the struct
 // [SubscriptionGroupedCostExceededWebhookEventSubscriptionPlan]
 type subscriptionGroupedCostExceededWebhookEventSubscriptionPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionGroupedCostExceededWebhookEventSubscriptionPlan) UnmarshalJSON(data []byte) (err error) {
@@ -13414,20 +13454,23 @@ type SubscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                 `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                 `json:"name" api:"required,nullable"`
-	JSON           subscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                 `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlanJSON `json:"-"`
 }
 
 // subscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlanJSON contains
 // the JSON metadata for the struct
 // [SubscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlan]
 type subscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionInvoicingThresholdExceededWebhookEventSubscriptionPlan) UnmarshalJSON(data []byte) (err error) {
@@ -13623,20 +13666,23 @@ type SubscriptionLicenseAllocationResetWebhookEventSubscriptionPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                             `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                             `json:"name" api:"required,nullable"`
-	JSON           subscriptionLicenseAllocationResetWebhookEventSubscriptionPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                             `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionLicenseAllocationResetWebhookEventSubscriptionPlanJSON `json:"-"`
 }
 
 // subscriptionLicenseAllocationResetWebhookEventSubscriptionPlanJSON contains the
 // JSON metadata for the struct
 // [SubscriptionLicenseAllocationResetWebhookEventSubscriptionPlan]
 type subscriptionLicenseAllocationResetWebhookEventSubscriptionPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionLicenseAllocationResetWebhookEventSubscriptionPlan) UnmarshalJSON(data []byte) (err error) {
@@ -13879,22 +13925,25 @@ type SubscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfig
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                                     `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                                     `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                                     `json:"plan_version" api:"required"`
-	JSON           subscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                                     `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionLicenseBalanceThresholdReachedWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -14194,20 +14243,23 @@ type SubscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlan stru
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                     `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                     `json:"name" api:"required,nullable"`
-	JSON           subscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                     `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlanJSON `json:"-"`
 }
 
 // subscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlan]
 type subscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionLicenseBalanceThresholdReachedWebhookEventSubscriptionPlan) UnmarshalJSON(data []byte) (err error) {
@@ -14922,22 +14974,25 @@ type SubscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlan struc
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                    `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                    `json:"plan_version" api:"required"`
-	JSON           subscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionSpendExceededWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {
@@ -15585,22 +15640,25 @@ type SubscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlan struc
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                                                    `json:"name" api:"required,nullable"`
-	PlanVersion    string                                                                    `json:"plan_version" api:"required"`
-	JSON           subscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlanJSON `json:"-"`
 }
 
 // subscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlanJSON
 // contains the JSON metadata for the struct
 // [SubscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlan]
 type subscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionUsageExceededWebhookEventPropertiesAlertConfigurationPlan) UnmarshalJSON(data []byte) (err error) {

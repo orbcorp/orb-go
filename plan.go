@@ -206,8 +206,10 @@ type Plan struct {
 	// plan', overriding prices from the parent.
 	//
 	// Deprecated: deprecated
-	BasePlanID string    `json:"base_plan_id" api:"required,nullable"`
-	CreatedAt  time.Time `json:"created_at" api:"required" format:"date-time"`
+	BasePlanID string `json:"base_plan_id" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string    `json:"billing_entity_id" api:"required,nullable"`
+	CreatedAt       time.Time `json:"created_at" api:"required" format:"date-time"`
 	// An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's
 	// prices.
 	//
@@ -267,6 +269,7 @@ type planJSON struct {
 	Adjustments        apijson.Field
 	BasePlan           apijson.Field
 	BasePlanID         apijson.Field
+	BillingEntityID    apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
 	DefaultInvoiceMemo apijson.Field
@@ -634,18 +637,21 @@ type PlanBasePlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string           `json:"external_plan_id" api:"required,nullable"`
-	Name           string           `json:"name" api:"required,nullable"`
-	JSON           planBasePlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string           `json:"billing_entity_id" api:"nullable"`
+	JSON            planBasePlanJSON `json:"-"`
 }
 
 // planBasePlanJSON contains the JSON metadata for the struct [PlanBasePlan]
 type planBasePlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PlanBasePlan) UnmarshalJSON(data []byte) (err error) {
@@ -1223,6 +1229,8 @@ type PlanNewParams struct {
 	// Adjustments for this plan. If the plan has phases, this includes adjustments
 	// across all phases of the plan.
 	Adjustments param.Field[[]PlanNewParamsAdjustment] `json:"adjustments"`
+	// The Orb ID of the active billing entity to set as this plan's default entity.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
 	// An optional user-defined description of the plan.
@@ -3798,6 +3806,9 @@ func (r PlanNewParamsStatus) IsKnown() bool {
 }
 
 type PlanUpdateParams struct {
+	// The Orb ID of the active billing entity to set as this plan's default entity.
+	// Pass `null` to clear it.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// An optional user-defined description of the plan.
 	Description param.Field[string] `json:"description"`
 	// An optional user-defined ID for this plan resource, used throughout the system

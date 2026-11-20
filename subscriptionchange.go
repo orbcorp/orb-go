@@ -138,7 +138,9 @@ type MutatedSubscription struct {
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	BillingCycleDay int64     `json:"billing_cycle_day" api:"required"`
+	BillingCycleDay int64 `json:"billing_cycle_day" api:"required"`
+	// The id of the billing entity that issues this subscription's invoices.
+	BillingEntityID string    `json:"billing_entity_id" api:"required,nullable"`
 	CreatedAt       time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is not part of the billing period. Set to null for
@@ -234,6 +236,7 @@ type mutatedSubscriptionJSON struct {
 	AutoIssuance                    apijson.Field
 	BillingCycleAnchorConfiguration apijson.Field
 	BillingCycleDay                 apijson.Field
+	BillingEntityID                 apijson.Field
 	CreatedAt                       apijson.Field
 	CurrentBillingPeriodEndDate     apijson.Field
 	CurrentBillingPeriodStartDate   apijson.Field

@@ -131,6 +131,9 @@ func (r *PlanExternalPlanIDService) SetDefaultPlanVersion(ctx context.Context, e
 }
 
 type PlanExternalPlanIDUpdateParams struct {
+	// The Orb ID of the active billing entity to set as this plan's default entity.
+	// Pass `null` to clear it.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// An optional user-defined description of the plan.
 	Description param.Field[string] `json:"description"`
 	// An optional user-defined ID for this plan resource, used throughout the system

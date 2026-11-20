@@ -5217,7 +5217,9 @@ type Subscription struct {
 	// number of days in a month is greater than this value, the last day of the month
 	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
 	// period begins on the 30th.
-	BillingCycleDay int64     `json:"billing_cycle_day" api:"required"`
+	BillingCycleDay int64 `json:"billing_cycle_day" api:"required"`
+	// The id of the billing entity that issues this subscription's invoices.
+	BillingEntityID string    `json:"billing_entity_id" api:"required,nullable"`
 	CreatedAt       time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is not part of the billing period. Set to null for
@@ -5308,6 +5310,7 @@ type subscriptionJSON struct {
 	AutoIssuance                    apijson.Field
 	BillingCycleAnchorConfiguration apijson.Field
 	BillingCycleDay                 apijson.Field
+	BillingEntityID                 apijson.Field
 	CreatedAt                       apijson.Field
 	CurrentBillingPeriodEndDate     apijson.Field
 	CurrentBillingPeriodStartDate   apijson.Field
@@ -6051,19 +6054,22 @@ type SubscriptionFetchScheduleResponsePlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                    `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                    `json:"name" api:"required,nullable"`
-	JSON           subscriptionFetchScheduleResponsePlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                    `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionFetchScheduleResponsePlanJSON `json:"-"`
 }
 
 // subscriptionFetchScheduleResponsePlanJSON contains the JSON metadata for the
 // struct [SubscriptionFetchScheduleResponsePlan]
 type subscriptionFetchScheduleResponsePlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionFetchScheduleResponsePlan) UnmarshalJSON(data []byte) (err error) {
@@ -6127,19 +6133,22 @@ type SubscriptionListSummaryResponsePlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string                                  `json:"external_plan_id" api:"required,nullable"`
-	Name           string                                  `json:"name" api:"required,nullable"`
-	JSON           subscriptionListSummaryResponsePlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string                                  `json:"billing_entity_id" api:"nullable"`
+	JSON            subscriptionListSummaryResponsePlanJSON `json:"-"`
 }
 
 // subscriptionListSummaryResponsePlanJSON contains the JSON metadata for the
 // struct [SubscriptionListSummaryResponsePlan]
 type subscriptionListSummaryResponsePlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *SubscriptionListSummaryResponsePlan) UnmarshalJSON(data []byte) (err error) {
@@ -6185,6 +6194,10 @@ type SubscriptionNewParams struct {
 	AutoIssuance                    param.Field[bool]                                        `json:"auto_issuance"`
 	AwsRegion                       param.Field[string]                                      `json:"aws_region"`
 	BillingCycleAnchorConfiguration param.Field[shared.BillingCycleAnchorConfigurationParam] `json:"billing_cycle_anchor_configuration"`
+	// The id of the active billing entity that issues this subscription's invoices. If
+	// not specified, falls back to the customer's billing entity, then the plan's,
+	// then the account's default. This cannot be changed after creation.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
 	// by its redemption code, or cannot be redeemed, an error response will be
 	// returned and the subscription creation or plan change will not be scheduled.
@@ -6196,8 +6209,11 @@ type SubscriptionNewParams struct {
 	CustomerID param.Field[string] `json:"customer_id"`
 	// Determines the default memo on this subscription's invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
-	DefaultInvoiceMemo             param.Field[string]                                   `json:"default_invoice_memo"`
-	EndDate                        param.Field[time.Time]                                `json:"end_date" format:"date-time"`
+	DefaultInvoiceMemo param.Field[string]    `json:"default_invoice_memo"`
+	EndDate            param.Field[time.Time] `json:"end_date" format:"date-time"`
+	// The external id of the active billing entity that issues this subscription's
+	// invoices.
+	ExternalBillingEntityID        param.Field[string]                                   `json:"external_billing_entity_id"`
 	ExternalCustomerID             param.Field[string]                                   `json:"external_customer_id"`
 	ExternalMarketplace            param.Field[SubscriptionNewParamsExternalMarketplace] `json:"external_marketplace"`
 	ExternalMarketplaceReportingID param.Field[string]                                   `json:"external_marketplace_reporting_id"`
@@ -11106,10 +11122,14 @@ func (r SubscriptionUpdateParams) MarshalJSON() (data []byte, err error) {
 }
 
 type SubscriptionListParams struct {
-	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
-	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
-	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
-	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
+	// Filters to objects issued by this billing entity. Filtering on the account's
+	// default billing entity also matches objects created before the account had
+	// billing entities.
+	BillingEntityID param.Field[string]    `query:"billing_entity_id"`
+	CreatedAtGt     param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte    param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt     param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte    param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor             param.Field[string]                                        `query:"cursor"`
@@ -11323,10 +11343,14 @@ func (r SubscriptionFetchUsageParamsViewMode) IsKnown() bool {
 }
 
 type SubscriptionListSummaryParams struct {
-	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
-	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
-	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
-	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
+	// Filters to objects issued by this billing entity. Filtering on the account's
+	// default billing entity also matches objects created before the account had
+	// billing entities.
+	BillingEntityID param.Field[string]    `query:"billing_entity_id"`
+	CreatedAtGt     param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte    param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt     param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte    param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor             param.Field[string]                                               `query:"cursor"`

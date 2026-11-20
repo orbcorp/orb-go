@@ -359,20 +359,23 @@ type AlertPlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string        `json:"external_plan_id" api:"required,nullable"`
-	Name           string        `json:"name" api:"required,nullable"`
-	PlanVersion    string        `json:"plan_version" api:"required"`
-	JSON           alertPlanJSON `json:"-"`
+	ExternalPlanID string `json:"external_plan_id" api:"required,nullable"`
+	Name           string `json:"name" api:"required,nullable"`
+	PlanVersion    string `json:"plan_version" api:"required"`
+	// The id of the default billing entity of this plan.
+	BillingEntityID string        `json:"billing_entity_id" api:"nullable"`
+	JSON            alertPlanJSON `json:"-"`
 }
 
 // alertPlanJSON contains the JSON metadata for the struct [AlertPlan]
 type alertPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID              apijson.Field
+	ExternalPlanID  apijson.Field
+	Name            apijson.Field
+	PlanVersion     apijson.Field
+	BillingEntityID apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *AlertPlan) UnmarshalJSON(data []byte) (err error) {

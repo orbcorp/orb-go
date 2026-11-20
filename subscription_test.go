@@ -138,12 +138,14 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			Month: orb.F(int64(1)),
 			Year:  orb.F(int64(0)),
 		}),
+		BillingEntityID:                orb.F("billing_entity_id"),
 		CouponRedemptionCode:           orb.F("coupon_redemption_code"),
 		CreditsOverageRate:             orb.F(0.000000),
 		Currency:                       orb.F("currency"),
 		CustomerID:                     orb.F("customer_id"),
 		DefaultInvoiceMemo:             orb.F("default_invoice_memo"),
 		EndDate:                        orb.F(time.Now()),
+		ExternalBillingEntityID:        orb.F("external_billing_entity_id"),
 		ExternalCustomerID:             orb.F("external_customer_id"),
 		ExternalMarketplace:            orb.F(orb.SubscriptionNewParamsExternalMarketplaceGoogle),
 		ExternalMarketplaceReportingID: orb.F("external_marketplace_reporting_id"),
@@ -328,6 +330,7 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Subscriptions.List(context.TODO(), orb.SubscriptionListParams{
+		BillingEntityID:    orb.F("billing_entity_id"),
 		CreatedAtGt:        orb.F(time.Now()),
 		CreatedAtGte:       orb.F(time.Now()),
 		CreatedAtLt:        orb.F(time.Now()),
@@ -516,6 +519,7 @@ func TestSubscriptionListSummaryWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Subscriptions.ListSummary(context.TODO(), orb.SubscriptionListSummaryParams{
+		BillingEntityID:    orb.F("billing_entity_id"),
 		CreatedAtGt:        orb.F(time.Now()),
 		CreatedAtGte:       orb.F(time.Now()),
 		CreatedAtLt:        orb.F(time.Now()),

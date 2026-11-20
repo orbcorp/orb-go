@@ -424,6 +424,8 @@ type InvoiceFetchUpcomingResponse struct {
 	AmountDue      string                                     `json:"amount_due" api:"required"`
 	AutoCollection InvoiceFetchUpcomingResponseAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress shared.Address                             `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -690,6 +692,7 @@ type invoiceFetchUpcomingResponseJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
@@ -1514,6 +1517,8 @@ type InvoiceIssueSummaryResponse struct {
 	AmountDue      string                                    `json:"amount_due" api:"required"`
 	AutoCollection InvoiceIssueSummaryResponseAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress shared.Address                            `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -1760,6 +1765,7 @@ type invoiceIssueSummaryResponseJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
@@ -2064,6 +2070,8 @@ type InvoiceListSummaryResponse struct {
 	AmountDue      string                                   `json:"amount_due" api:"required"`
 	AutoCollection InvoiceListSummaryResponseAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress shared.Address                           `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -2310,6 +2318,7 @@ type invoiceListSummaryResponseJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
@@ -2619,6 +2628,9 @@ type InvoiceNewParams struct {
 	// payment method, if any. If not specified, the invoice inherits the customer's
 	// auto_collection setting.
 	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// The id of the active billing entity that issues this invoice. If not specified,
+	// falls back to the customer's billing entity.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// The id of the `Customer` to create this invoice for. One of `customer_id` and
 	// `external_customer_id` are required.
 	CustomerID param.Field[string] `json:"customer_id"`
@@ -2627,6 +2639,8 @@ type InvoiceNewParams struct {
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	DueDate param.Field[time.Time] `json:"due_date" format:"date-time"`
+	// The external id of the active billing entity that issues this invoice.
+	ExternalBillingEntityID param.Field[string] `json:"external_billing_entity_id"`
 	// The `external_customer_id` of the `Customer` to create this invoice for. One of
 	// `customer_id` and `external_customer_id` are required.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
@@ -2718,6 +2732,10 @@ type InvoiceListParams struct {
 	Amount   param.Field[string] `query:"amount"`
 	AmountGt param.Field[string] `query:"amount[gt]"`
 	AmountLt param.Field[string] `query:"amount[lt]"`
+	// Filters to objects issued by this billing entity. Filtering on the account's
+	// default billing entity also matches objects created before the account had
+	// billing entities.
+	BillingEntityID param.Field[string] `query:"billing_entity_id"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor     param.Field[string]                    `query:"cursor"`
@@ -2841,6 +2859,10 @@ type InvoiceListSummaryParams struct {
 	Amount   param.Field[string] `query:"amount"`
 	AmountGt param.Field[string] `query:"amount[gt]"`
 	AmountLt param.Field[string] `query:"amount[lt]"`
+	// Filters to objects issued by this billing entity. Filtering on the account's
+	// default billing entity also matches objects created before the account had
+	// billing entities.
+	BillingEntityID param.Field[string] `query:"billing_entity_id"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor     param.Field[string]                           `query:"cursor"`

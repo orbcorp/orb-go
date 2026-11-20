@@ -30,8 +30,9 @@ func TestPlanExternalPlanIDUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"external_plan_id",
 		orb.PlanExternalPlanIDUpdateParams{
-			Description:    orb.F("description"),
-			ExternalPlanID: orb.F("external_plan_id"),
+			BillingEntityID: orb.F("billing_entity_id"),
+			Description:     orb.F("description"),
+			ExternalPlanID:  orb.F("external_plan_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),

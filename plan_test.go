@@ -161,6 +161,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			}),
 			PlanPhaseOrder: orb.F(int64(0)),
 		}}),
+		BillingEntityID:    orb.F("billing_entity_id"),
 		DefaultInvoiceMemo: orb.F("default_invoice_memo"),
 		Description:        orb.F("description"),
 		ExternalPlanID:     orb.F("external_plan_id"),
@@ -201,8 +202,9 @@ func TestPlanUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"plan_id",
 		orb.PlanUpdateParams{
-			Description:    orb.F("description"),
-			ExternalPlanID: orb.F("external_plan_id"),
+			BillingEntityID: orb.F("billing_entity_id"),
+			Description:     orb.F("description"),
+			ExternalPlanID:  orb.F("external_plan_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),

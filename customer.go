@@ -570,6 +570,8 @@ type Customer struct {
 	// Whether automatic tax calculation is enabled for this customer. This field is
 	// nullable for backwards compatibility but will always return a boolean value.
 	AutomaticTaxEnabled bool `json:"automatic_tax_enabled" api:"nullable"`
+	// The id of the default billing entity of this customer.
+	BillingEntityID string `json:"billing_entity_id" api:"nullable"`
 	// A payment method represents a customer's stored payment instrument held with an
 	// external payment provider (such as Adyen or Stripe).
 	//
@@ -608,6 +610,7 @@ type customerJSON struct {
 	Timezone                    apijson.Field
 	AccountingSyncConfiguration apijson.Field
 	AutomaticTaxEnabled         apijson.Field
+	BillingEntityID             apijson.Field
 	DefaultPaymentMethod        apijson.Field
 	PaymentConfiguration        apijson.Field
 	ReportingConfiguration      apijson.Field
@@ -1101,6 +1104,9 @@ type CustomerNewParams struct {
 	// will be inherited from the account-level setting.
 	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
+	// The Orb ID of the active billing entity to set as this customer's default
+	// entity.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
 	Currency      param.Field[string] `json:"currency"`
@@ -1503,6 +1509,9 @@ type CustomerUpdateParams struct {
 	// will be inherited from the account-level setting.
 	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
+	// The Orb ID of the active billing entity to set as this customer's default
+	// entity. Pass `null` to clear it.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. This
 	// can only be set if the customer does not already have a currency configured. If
 	// not set at creation or update time, it will be set at subscription creation
@@ -1970,6 +1979,9 @@ type CustomerUpdateByExternalIDParams struct {
 	// will be inherited from the account-level setting.
 	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
+	// The Orb ID of the active billing entity to set as this customer's default
+	// entity. Pass `null` to clear it.
+	BillingEntityID param.Field[string] `json:"billing_entity_id"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. This
 	// can only be set if the customer does not already have a currency configured. If
 	// not set at creation or update time, it will be set at subscription creation

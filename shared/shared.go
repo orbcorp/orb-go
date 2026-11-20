@@ -1034,6 +1034,8 @@ type ChangedSubscriptionResourcesCreatedInvoice struct {
 	AmountDue      string                                                    `json:"amount_due" api:"required"`
 	AutoCollection ChangedSubscriptionResourcesCreatedInvoicesAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress Address                                                   `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -1302,6 +1304,7 @@ type changedSubscriptionResourcesCreatedInvoiceJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
@@ -2253,6 +2256,8 @@ func (r couponRedemptionJSON) RawJSON() string {
 type CreditNote struct {
 	// The Orb id of this credit note.
 	ID string `json:"id" api:"required"`
+	// The id of the billing entity of the credit note's invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The unique identifier for credit notes.
@@ -2286,6 +2291,7 @@ type CreditNote struct {
 // creditNoteJSON contains the JSON metadata for the struct [CreditNote]
 type creditNoteJSON struct {
 	ID                      apijson.Field
+	BillingEntityID         apijson.Field
 	CreatedAt               apijson.Field
 	CreditNoteNumber        apijson.Field
 	CreditNotePdf           apijson.Field
@@ -3700,6 +3706,8 @@ type Invoice struct {
 	AmountDue      string                `json:"amount_due" api:"required"`
 	AutoCollection InvoiceAutoCollection `json:"auto_collection" api:"required"`
 	BillingAddress Address               `json:"billing_address" api:"required,nullable"`
+	// The id of the billing entity that issues this invoice.
+	BillingEntityID string `json:"billing_entity_id" api:"required,nullable"`
 	// The creation time of the resource in Orb.
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// A list of credit notes associated with the invoice
@@ -3965,6 +3973,7 @@ type invoiceJSON struct {
 	AmountDue                   apijson.Field
 	AutoCollection              apijson.Field
 	BillingAddress              apijson.Field
+	BillingEntityID             apijson.Field
 	CreatedAt                   apijson.Field
 	CreditNotes                 apijson.Field
 	Currency                    apijson.Field
