@@ -242,11 +242,13 @@ type Plan struct {
 	// Deprecated: deprecated
 	MinimumAmount string `json:"minimum_amount" api:"required,nullable"`
 	Name          string `json:"name" api:"required"`
-	// Determines the difference between the invoice issue date and the due date. A
-	// value of "0" here signifies that invoices are due on issue, whereas a value of
-	// "30" means that the customer has a month to pay the invoice before its overdue.
-	// Note that individual subscriptions or invoices may set a different net terms
-	// configuration.
+	// The number of days until invoices are due, counting the start date set by the
+	// account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// as day 1. A value of "0" here signifies that invoices are due on issue, whereas
+	// a value of "30" means that the customer has a month to pay the invoice before
+	// its overdue. Note that individual subscriptions or invoices may set a different
+	// net terms configuration.
 	NetTerms   int64           `json:"net_terms" api:"required,nullable"`
 	PlanPhases []PlanPlanPhase `json:"plan_phases" api:"required,nullable"`
 	// Prices for this plan. If the plan has phases, this includes prices across all
@@ -1230,9 +1232,11 @@ type PlanNewParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0.
 	NetTerms param.Field[int64] `json:"net_terms"`
 	// Configuration of pre-defined phases, each with their own prices and adjustments.
 	// Leave unspecified for plans with a single phase.

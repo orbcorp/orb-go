@@ -195,9 +195,11 @@ type TopUpInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection bool `json:"auto_collection" api:"required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0.
 	NetTerms int64 `json:"net_terms" api:"required"`
 	// An optional memo to display on the invoice.
 	Memo string `json:"memo" api:"nullable"`
@@ -504,9 +506,11 @@ type CustomerCreditTopUpNewParamsInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection param.Field[bool] `json:"auto_collection" api:"required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0.
 	NetTerms param.Field[int64] `json:"net_terms" api:"required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
@@ -586,9 +590,11 @@ type CustomerCreditTopUpNewByExternalIDParamsInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection param.Field[bool] `json:"auto_collection" api:"required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0.
 	NetTerms param.Field[int64] `json:"net_terms" api:"required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`

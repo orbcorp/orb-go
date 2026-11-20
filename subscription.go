@@ -5275,10 +5275,12 @@ type Subscription struct {
 	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals" api:"required"`
 	// The name of the subscription.
 	Name string `json:"name" api:"required"`
-	// Determines the difference between the invoice issue date for subscription
-	// invoices as the date that they are due. A value of `0` here represents that the
-	// invoice is due on issue, whereas a value of `30` represents that the customer
-	// has a month to pay the invoice.
+	// The number of days until subscription invoices are due, counting the start date
+	// set by the account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// as day 1. A value of `0` here represents that the invoice is due on issue,
+	// whereas a value of `30` represents that the customer has a month to pay the
+	// invoice.
 	NetTerms int64 `json:"net_terms" api:"required"`
 	// A pending subscription change if one exists on this subscription.
 	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change" api:"required,nullable"`
@@ -6220,9 +6222,12 @@ type SubscriptionNewParams struct {
 	// The name to use for the subscription. If not specified, the plan name will be
 	// used.
 	Name param.Field[string] `json:"name"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0. If not provided, this defaults to the value specified in the plan.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0. If not provided, this
+	// defaults to the value specified in the plan.
 	NetTerms               param.Field[int64]   `json:"net_terms"`
 	PerCreditOverageAmount param.Field[float64] `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
@@ -11087,10 +11092,12 @@ type SubscriptionUpdateParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
-	// Determines the difference between the invoice issue date for subscription
-	// invoices as the date that they are due. A value of `0` here represents that the
-	// invoice is due on issue, whereas a value of `30` represents that the customer
-	// has a month to pay the invoice.
+	// The number of days until subscription invoices are due, counting the start date
+	// set by the account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// as day 1. A value of `0` here represents that the invoice is due on issue,
+	// whereas a value of `30` represents that the customer has a month to pay the
+	// invoice.
 	NetTerms param.Field[int64] `json:"net_terms"`
 }
 
@@ -13954,9 +13961,12 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// be issued for the subscription. If not specified, invoices will only be issued
 	// at the end of the billing period.
 	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0. If not provided, this defaults to the value specified in the plan.
+	// The number of days until the invoice is due, counting the start date as day 1,
+	// so net 30 from October 1 is due October 30. The account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// sets whether the start date is the invoice date or the issuance date. If you
+	// intend the invoice to be due on issue, set this to 0. If not provided, this
+	// defaults to the value specified in the plan.
 	NetTerms               param.Field[int64]   `json:"net_terms"`
 	PerCreditOverageAmount param.Field[float64] `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either

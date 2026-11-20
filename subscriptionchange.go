@@ -196,10 +196,12 @@ type MutatedSubscription struct {
 	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals" api:"required"`
 	// The name of the subscription.
 	Name string `json:"name" api:"required"`
-	// Determines the difference between the invoice issue date for subscription
-	// invoices as the date that they are due. A value of `0` here represents that the
-	// invoice is due on issue, whereas a value of `30` represents that the customer
-	// has a month to pay the invoice.
+	// The number of days until subscription invoices are due, counting the start date
+	// set by the account's
+	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
+	// as day 1. A value of `0` here represents that the invoice is due on issue,
+	// whereas a value of `30` represents that the customer has a month to pay the
+	// invoice.
 	NetTerms int64 `json:"net_terms" api:"required"`
 	// A pending subscription change if one exists on this subscription.
 	PendingSubscriptionChange shared.SubscriptionChangeMinified `json:"pending_subscription_change" api:"required,nullable"`

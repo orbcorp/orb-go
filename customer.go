@@ -742,7 +742,8 @@ type CustomerDefaultPaymentMethod struct {
 	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
 	// The ID of the Orb customer this payment method is attached to.
 	CustomerID string `json:"customer_id" api:"required"`
-	// Whether this is the customer's default payment method.
+	// Whether this is the customer's default payment method on its payment gateway
+	// connection.
 	Default bool `json:"default" api:"required"`
 	// The identifier of this payment method in the external payment provider.
 	ExternalPaymentMethodID string `json:"external_payment_method_id" api:"required"`
