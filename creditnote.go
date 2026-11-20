@@ -76,8 +76,7 @@ func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, o
 	return res, err
 }
 
-// Get a paginated list of CreditNotes. Users can also filter by customer_id,
-// subscription_id, or external_customer_id. The credit notes will be returned in
+// Get a paginated list of CreditNotes. The credit notes will be returned in
 // reverse chronological order by `creation_time`.
 func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) (res *pagination.Page[shared.CreditNote], err error) {
 	var raw *http.Response
@@ -96,8 +95,7 @@ func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams
 	return res, nil
 }
 
-// Get a paginated list of CreditNotes. Users can also filter by customer_id,
-// subscription_id, or external_customer_id. The credit notes will be returned in
+// Get a paginated list of CreditNotes. The credit notes will be returned in
 // reverse chronological order by `creation_time`.
 func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.CreditNote] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
