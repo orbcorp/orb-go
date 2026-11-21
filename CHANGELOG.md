@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.144.0](https://github.com/orbcorp/orb-go/compare/v1.143.1...v1.144.0) (2026-11-21)
+
+
+### Features
+
+* **api:** api update ([dd7b2cd](https://github.com/orbcorp/orb-go/commit/dd7b2cdefaa6a5232c9bf2f56148ad0eaf40b215))
+* **api:** api update ([03a1381](https://github.com/orbcorp/orb-go/commit/03a1381bffd165d2c0c393fe5b7df343c16154a4))
+* **api:** clarify net_terms day counting, with start date as day 1 ([03a1381](https://github.com/orbcorp/orb-go/commit/03a1381bffd165d2c0c393fe5b7df343c16154a4))
+* **api:** Remove unsupported filters from list credit notes description ([3b5c432](https://github.com/orbcorp/orb-go/commit/3b5c432a39c10ea34a7a264eaf70dea22d1ef88b))
+* **api:** Remove unsupported filters from list credit notes description ([#4](https://github.com/orbcorp/orb-go/issues/4)) ([6f71ded](https://github.com/orbcorp/orb-go/commit/6f71ded599366e058badaa4d58cb86de45574c55))
+
 ## [1.143.1](https://github.com/orbcorp/orb-go/compare/v1.143.0...v1.143.1) (2026-11-20)
 
 
