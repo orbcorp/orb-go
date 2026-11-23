@@ -56,10 +56,10 @@ func (r *AccountBillingEntityService) New(ctx context.Context, body AccountBilli
 // This endpoint updates a billing entity, including the default one. Omitted
 // fields keep their value. A change to the name, legal name, address, or tax
 // registrations writes a new version of the billing entity; invoices already
-// issued keep the version they were issued with. In `invoice_settings`, null
-// clears a field so it inherits the account's setting; the default billing entity
-// accepts only `memo` and `net_terms`. An archived billing entity cannot be
-// updated until it is unarchived. This endpoint requires an admin API key.
+// issued keep the version they were issued with. In `invoice_settings`, a null
+// `memo` clears it so the billing entity uses the account's memo. An archived
+// billing entity cannot be updated until it is unarchived. This endpoint requires
+// an admin API key.
 //
 // `payment_gateway_connections` is the full set of connections the billing entity
 // collects payments through; a connection left out is disconnected from the
@@ -190,10 +190,10 @@ func (r *AccountBillingEntityService) UnarchiveByExternalID(ctx context.Context,
 // This endpoint updates a billing entity, including the default one. Omitted
 // fields keep their value. A change to the name, legal name, address, or tax
 // registrations writes a new version of the billing entity; invoices already
-// issued keep the version they were issued with. In `invoice_settings`, null
-// clears a field so it inherits the account's setting; the default billing entity
-// accepts only `memo` and `net_terms`. An archived billing entity cannot be
-// updated until it is unarchived. This endpoint requires an admin API key.
+// issued keep the version they were issued with. In `invoice_settings`, a null
+// `memo` clears it so the billing entity uses the account's memo. An archived
+// billing entity cannot be updated until it is unarchived. This endpoint requires
+// an admin API key.
 //
 // `payment_gateway_connections` is the full set of connections the billing entity
 // collects payments through; a connection left out is disconnected from the
@@ -270,35 +270,17 @@ func (r billingEntityJSON) RawJSON() string {
 // The billing entity's own invoice settings. Each null field inherits the
 // account's setting.
 type BillingEntityInvoiceSettings struct {
-	// Whether Orb charges the customer's payment method automatically.
-	AutoCollection bool `json:"auto_collection" api:"required,nullable"`
-	// Whether Orb calculates tax through the tax provider.
-	AutomaticTaxEnabled bool `json:"automatic_tax_enabled" api:"required,nullable"`
-	// Whether Orb emails invoices to customers.
-	EmailDelivery bool `json:"email_delivery" api:"required,nullable"`
-	// Whether invoices stay in draft until issued by hand.
-	ManualIssuance bool `json:"manual_issuance" api:"required,nullable"`
 	// The memo printed on the entity's invoices.
-	Memo string `json:"memo" api:"required,nullable"`
-	// The number of days until payment is due, counting the start date as day 1, so
-	// net 30 from October 1 is due October 30. The account's
-	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
-	// sets whether the start date is the invoice date or the issuance date.
-	NetTerms int64                            `json:"net_terms" api:"required,nullable"`
-	JSON     billingEntityInvoiceSettingsJSON `json:"-"`
+	Memo string                           `json:"memo" api:"required,nullable"`
+	JSON billingEntityInvoiceSettingsJSON `json:"-"`
 }
 
 // billingEntityInvoiceSettingsJSON contains the JSON metadata for the struct
 // [BillingEntityInvoiceSettings]
 type billingEntityInvoiceSettingsJSON struct {
-	AutoCollection      apijson.Field
-	AutomaticTaxEnabled apijson.Field
-	EmailDelivery       apijson.Field
-	ManualIssuance      apijson.Field
-	Memo                apijson.Field
-	NetTerms            apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
+	Memo        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
 }
 
 func (r *BillingEntityInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
@@ -418,21 +400,8 @@ func (r AccountBillingEntityNewParams) MarshalJSON() (data []byte, err error) {
 
 // Settings that override the account's for this billing entity.
 type AccountBillingEntityNewParamsInvoiceSettings struct {
-	// Whether Orb charges the customer's payment method automatically.
-	AutoCollection param.Field[bool] `json:"auto_collection"`
-	// Whether Orb calculates tax through the tax provider.
-	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
-	// Whether Orb emails invoices to customers.
-	EmailDelivery param.Field[bool] `json:"email_delivery"`
-	// Whether invoices stay in draft until issued by hand.
-	ManualIssuance param.Field[bool] `json:"manual_issuance"`
 	// The memo printed on the entity's invoices.
 	Memo param.Field[string] `json:"memo"`
-	// The number of days until payment is due, counting the start date as day 1, so
-	// net 30 from October 1 is due October 30. The account's
-	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
-	// sets whether the start date is the invoice date or the issuance date.
-	NetTerms param.Field[int64] `json:"net_terms"`
 }
 
 func (r AccountBillingEntityNewParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
@@ -483,21 +452,8 @@ func (r AccountBillingEntityUpdateParams) MarshalJSON() (data []byte, err error)
 // The invoice settings to change. Omitted fields keep their value; null clears a
 // field so it inherits the account's setting.
 type AccountBillingEntityUpdateParamsInvoiceSettings struct {
-	// Whether Orb charges the customer's payment method automatically.
-	AutoCollection param.Field[bool] `json:"auto_collection"`
-	// Whether Orb calculates tax through the tax provider.
-	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
-	// Whether Orb emails invoices to customers.
-	EmailDelivery param.Field[bool] `json:"email_delivery"`
-	// Whether invoices stay in draft until issued by hand.
-	ManualIssuance param.Field[bool] `json:"manual_issuance"`
 	// The memo printed on the entity's invoices.
 	Memo param.Field[string] `json:"memo"`
-	// The number of days until payment is due, counting the start date as day 1, so
-	// net 30 from October 1 is due October 30. The account's
-	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
-	// sets whether the start date is the invoice date or the issuance date.
-	NetTerms param.Field[int64] `json:"net_terms"`
 }
 
 func (r AccountBillingEntityUpdateParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
@@ -610,21 +566,8 @@ func (r AccountBillingEntityUpdateByExternalIDParams) MarshalJSON() (data []byte
 // The invoice settings to change. Omitted fields keep their value; null clears a
 // field so it inherits the account's setting.
 type AccountBillingEntityUpdateByExternalIDParamsInvoiceSettings struct {
-	// Whether Orb charges the customer's payment method automatically.
-	AutoCollection param.Field[bool] `json:"auto_collection"`
-	// Whether Orb calculates tax through the tax provider.
-	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
-	// Whether Orb emails invoices to customers.
-	EmailDelivery param.Field[bool] `json:"email_delivery"`
-	// Whether invoices stay in draft until issued by hand.
-	ManualIssuance param.Field[bool] `json:"manual_issuance"`
 	// The memo printed on the entity's invoices.
 	Memo param.Field[string] `json:"memo"`
-	// The number of days until payment is due, counting the start date as day 1, so
-	// net 30 from October 1 is due October 30. The account's
-	// [due date calculation method](/invoicing/payments#configuring-net-terms-and-collection-behavior)
-	// sets whether the start date is the invoice date or the issuance date.
-	NetTerms param.Field[int64] `json:"net_terms"`
 }
 
 func (r AccountBillingEntityUpdateByExternalIDParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
