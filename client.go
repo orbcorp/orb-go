@@ -28,6 +28,7 @@ type Client struct {
 	// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
 	// been applied to a particular invoice.
 	CreditNotes *CreditNoteService
+	Account     *AccountService
 	// A customer is a buyer of your products, and the other party to the billing
 	// relationship.
 	//
@@ -151,6 +152,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.TopLevel = NewTopLevelService(opts...)
 	r.Coupons = NewCouponService(opts...)
 	r.CreditNotes = NewCreditNoteService(opts...)
+	r.Account = NewAccountService(opts...)
 	r.Customers = NewCustomerService(opts...)
 	r.Events = NewEventService(opts...)
 	r.InvoiceLineItems = NewInvoiceLineItemService(opts...)
