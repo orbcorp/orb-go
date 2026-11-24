@@ -1541,7 +1541,11 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	// A unique ID for this line item.
 	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
-	// partial invoicing.
+	// partial invoicing. Unlike `subtotal` and `amount`, this is not rounded to the
+	// currency's precision, so it matches the `adjusted_subtotal` in data exports. To
+	// find the effect of adjustments, use `adjustments` rather than the difference
+	// between `subtotal` and `adjusted_subtotal`. Each adjustment amount is rounded to
+	// the currency's precision, so a sub-cent adjustment can show as zero.
 	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
@@ -1582,7 +1586,8 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
 	SubLineItems []ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem `json:"sub_line_items" api:"required"`
-	// The line amount before any adjustments.
+	// The line amount before any adjustments, rounded to the invoicing currency's
+	// precision.
 	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
@@ -4207,7 +4212,11 @@ type InvoiceLineItem struct {
 	// A unique ID for this line item.
 	ID string `json:"id" api:"required"`
 	// The line amount after any adjustments and before overage conversion, credits and
-	// partial invoicing.
+	// partial invoicing. Unlike `subtotal` and `amount`, this is not rounded to the
+	// currency's precision, so it matches the `adjusted_subtotal` in data exports. To
+	// find the effect of adjustments, use `adjustments` rather than the difference
+	// between `subtotal` and `adjusted_subtotal`. Each adjustment amount is rounded to
+	// the currency's precision, so a sub-cent adjustment can show as zero.
 	AdjustedSubtotal string `json:"adjusted_subtotal" api:"required"`
 	// All adjustments applied to the line item in the order they were applied based on
 	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
@@ -4248,7 +4257,8 @@ type InvoiceLineItem struct {
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
 	SubLineItems []InvoiceLineItemsSubLineItem `json:"sub_line_items" api:"required"`
-	// The line amount before any adjustments.
+	// The line amount before any adjustments, rounded to the invoicing currency's
+	// precision.
 	Subtotal string `json:"subtotal" api:"required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
